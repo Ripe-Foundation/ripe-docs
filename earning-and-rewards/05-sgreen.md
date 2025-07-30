@@ -159,4 +159,4 @@ Your stablecoins have been lazy long enough.
 
 _Ready to start earning? Convert your GREEN to sGREEN through the Ripe Protocol interface._
 
-_For technical implementation details, see the_ [_SavingsGreen Technical Documentation_](../technical/tokens/SavingsGreen.md)_._
+_For technical implementation details, see the_ [_SavingsGreen Technical Documentation_](https://docs.ripe.finance/technical-docs/tokens/savingsgreen)_._

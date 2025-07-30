@@ -136,4 +136,4 @@ Are you in?
 
 ***
 
-_For technical implementation details, see the_ [_Endaoment Technical Documentation_](../technical/core/Endaoment.md)_._
+_For technical implementation details, see the_ [_Endaoment Technical Documentation_](https://docs.ripe.finance/technical-docs/treasury-and-rewards/endaoment)_._

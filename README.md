@@ -236,4 +236,4 @@ Welcome to lending that actually makes sense.
 
 ***
 
-_For technical implementation details, see the_ [_Technical Documentation_](technical/)_._
+_For technical implementation details, see the_ [_Technical Documentation_](https://docs.ripe.finance/technical-docs)_._

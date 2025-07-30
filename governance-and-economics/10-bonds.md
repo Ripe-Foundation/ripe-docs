@@ -226,4 +226,4 @@ The epochs are running. The treasury is building. What are you waiting for?
 
 _Check current epoch status and calculate your potential RIPE allocation in the Ripe Protocol interface._
 
-_For technical implementation details, see the_ [_BondRoom Technical Documentation_](../technical/core/BondRoom.md)_._
+_For technical implementation details, see the_ [_BondRoom Technical Documentation_](https://docs.ripe.finance/technical-docs/treasury-and-rewards/bondroom)_._

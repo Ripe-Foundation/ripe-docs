@@ -299,4 +299,4 @@ This isn't just another lending protocol — it's how DeFi lending should have w
 
 ***
 
-_For technical implementation details, see the_ [_Technical Documentation_](../technical/core/Teller.md)
+_For technical implementation details, see the_ [_Technical Documentation_](https://docs.ripe.finance/technical-docs/core-lending/teller)

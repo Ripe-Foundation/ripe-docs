@@ -189,9 +189,9 @@ That's not a feature. That's survival.
 
 _For technical implementation details, see:_
 
-* [_Price Desk Technical Documentation_](../technical/registries/PriceDesk.md) _- Oracle aggregation system_
-* [_Chainlink Prices_](../technical/priceSources/ChainlinkPrices.md) _- Chainlink integration_
-* [_Curve Prices_](../technical/priceSources/CurvePrices.md) _- AMM-based pricing and GREEN monitoring_
-* [_Pyth Prices_](../technical/priceSources/PythPrices.md) _- High-frequency oracle updates_
-* [_Stork Prices_](../technical/priceSources/StorkPrices.md) _- Decentralized price attestations_
-* [_Blue Chip Yield Prices_](../technical/priceSources/BlueChipYieldPrices.md) _- Yield token valuations_
+* [_Price Desk Technical Documentation_](https://docs.ripe.finance/technical-docs/pricing/pricedesk) _- Oracle aggregation system_
+* [_Chainlink Prices_](https://docs.ripe.finance/technical-docs/pricing/chainlinkprices) _- Chainlink integration_
+* [_Curve Prices_](https://docs.ripe.finance/technical-docs/pricing/curveprices) _- AMM-based pricing and GREEN monitoring_
+* [_Pyth Prices_](https://docs.ripe.finance/technical-docs/pricing/pythprices) _- High-frequency oracle updates_
+* [_Stork Prices_](https://docs.ripe.finance/technical-docs/pricing/storkprices) _- Decentralized price attestations_
+* [_Blue Chip Yield Prices_](https://docs.ripe.finance/technical-docs/pricing/bluechipyieldprices) _- Yield token valuations_

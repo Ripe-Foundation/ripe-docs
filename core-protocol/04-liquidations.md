@@ -386,4 +386,4 @@ So go ahead. Take that loan. The safety net has four layers.
 
 ***
 
-_For technical implementation details, see the_ [_AuctionHouse Technical Documentation_](../technical/core/AuctionHouse.md)_._
+_For technical implementation details, see the_ [_AuctionHouse Technical Documentation_](https://docs.ripe.finance/technical-docs/core-lending/auctionhouse)_._
