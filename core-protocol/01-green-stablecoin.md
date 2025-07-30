@@ -1,3 +1,7 @@
+---
+description: The stablecoin that works harder - mint against your entire portfolio
+---
+
 # GREEN: The Stablecoin That Works Harder
 
 Your USDC sits there doing nothing. Your DAI requires a new vault for every asset. Your LUSD only accepts ETH.
