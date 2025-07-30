@@ -12,17 +12,17 @@ Most DeFi protocols force you into one of two suboptimal models:
 
 **Isolated Markets**: Each asset creates a separate loan position
 
-- Deposit ETH → Manage one position
-- Deposit cbBTC → Manage another position
-- One liquidation doesn't help the others
-- Complex management across multiple positions
+* Deposit ETH → Manage one position
+* Deposit cbBTC → Manage another position
+* One liquidation doesn't help the others
+* Complex management across multiple positions
 
 **Pooled Lending**: Shared risk limits asset acceptance
 
-- Only blue-chip assets allowed
-- Your deposits back everyone's loans
-- Bad actors affect all depositors
-- Innovation stifled by conservative parameters
+* Only blue-chip assets allowed
+* Your deposits back everyone's loans
+* Bad actors affect all depositors
+* Innovation stifled by conservative parameters
 
 ### Ripe's Solution: Best of Both Worlds
 
@@ -58,49 +58,49 @@ Ripe's extensible architecture can support a vast and growing universe of tokeni
 
 **1. Stablecoins** - The foundation of stability
 
-- **USDC, USDT**: Major centralized stablecoins with deep liquidity
-- **USDS**: Decentralized stablecoin from Sky Protocol
-- **Yield-bearing stables**: Interest-earning stable assets
-- Typically offer 80-90% LTV ratios due to price stability
+* **USDC, USDT**: Major centralized stablecoins with deep liquidity
+* **USDS**: Decentralized stablecoin from Sky Protocol
+* **Yield-bearing stables**: Interest-earning stable assets
+* Typically offer 80-90% LTV ratios due to price stability
 
 **2. Blue-Chip Crypto** - Established digital assets
 
-- **WETH**: Wrapped Ethereum, the DeFi standard
-- **WBTC/cbBTC**: Bitcoin representations on Ethereum
-- **Major DeFi tokens**: AAVE, UNI, CRV, and other protocol tokens
-- **Layer 1 tokens**: SOL, AVAX, XRP, HYPE (when bridged)
-- Provide strong borrowing power with proven track records
+* **WETH**: Wrapped Ethereum, the DeFi standard
+* **WBTC/cbBTC**: Bitcoin representations on Ethereum
+* **Major DeFi tokens**: AAVE, UNI, CRV, and other protocol tokens
+* **Layer 1 tokens**: SOL, AVAX, XRP, HYPE (when bridged)
+* Provide strong borrowing power with proven track records
 
 **3. Yield-Bearing Assets** - Earn while you borrow
 
-- **Liquid staking**: stETH, rETH, cbETH continue earning staking rewards
-- **LP tokens**: Uniswap, Curve, Balancer positions keep earning fees
-- **Vault tokens**: Lending positions from Aave, Morpho, Euler, etc.
-- Share-based accounting preserves all accumulated yields
+* **Liquid staking**: stETH, rETH, cbETH continue earning staking rewards
+* **LP tokens**: Uniswap, Curve, Balancer positions keep earning fees
+* **Vault tokens**: Lending positions from Aave, Morpho, Euler, etc.
+* Share-based accounting preserves all accumulated yields
 
 **4. Tokenized Real-World Assets** - Bridging traditional finance
 
-- **Securities**: Tokenized stocks, bonds, ETFs
-- **Commodities**: Gold, silver, oil representations
-- **Real estate**: Property-backed tokens
-- **Carbon credits**: Environmental assets
-- Special handling for regulatory compliance
+* **Securities**: Tokenized stocks, bonds, ETFs
+* **Commodities**: Gold, silver, oil representations
+* **Real estate**: Property-backed tokens
+* **Carbon credits**: Environmental assets
+* Special handling for regulatory compliance
 
 **5. NFTs & Unique Assets** - Beyond fungible tokens
 
-- **Blue-chip collections**: Punks, Apes, Penguins as collateral
-- **Art NFTs**: Generative and 1/1 pieces
-- **Gaming items**: Weapons, land, characters
-- **Music/Media**: Royalty-bearing NFTs
-- Lower LTVs (30-50%) but still productive capital
+* **Blue-chip collections**: Punks, Apes, Penguins as collateral
+* **Art NFTs**: Generative and 1/1 pieces
+* **Gaming items**: Weapons, land, characters
+* **Music/Media**: Royalty-bearing NFTs
+* Lower LTVs (30-50%) but still productive capital
 
 **6. Emerging Digital Assets** - The new frontier
 
-- **Prediction shares**: Tokenized prediction market positions
-- **Meme coins**: PEPE, SHIB, and community tokens
-- **Social tokens**: Creator coins and DAO tokens
-- **AI tokens**: Emerging AI protocol tokens
-- Conservative parameters reflect higher volatility
+* **Prediction shares**: Tokenized prediction market positions
+* **Meme coins**: PEPE, SHIB, and community tokens
+* **Social tokens**: Creator coins and DAO tokens
+* **AI tokens**: Emerging AI protocol tokens
+* Conservative parameters reflect higher volatility
 
 ## How Deposits Work
 
@@ -110,30 +110,30 @@ Ripe automatically routes your deposits to specialized vaults:
 
 **Simple Erc20 Vaults** - Standard tokens (ETH, USDC, most assets)
 
-- Direct 1:1 balance tracking
-- Simple deposit/withdraw mechanics
-- Most common vault type
+* Direct 1:1 balance tracking
+* Simple deposit/withdraw mechanics
+* Most common vault type
 
 **Rebase Erc20 Vaults** - Yield-bearing assets (stETH, aTokens)
 
-- Share-based accounting preserves yields
-- Compound earnings while deposited
-- No opportunity cost from collateralization
+* Share-based accounting preserves yields
+* Compound earnings while deposited
+* No opportunity cost from collateralization
 
 **Special Purpose Vaults**
 
-- **[Ripe Gov Vault](09-governance.md)**: Lock RIPE tokens for governance power
-- **[Stability Pools](06-stability-pools.md)**: Earn from liquidations with sGREEN/LP tokens
-- **Future Vaults**: NFTs, RWAs, and emerging asset types
+* [**Ripe Gov Vault**](../governance-and-economics/09-governance.md): Lock RIPE tokens for governance power
+* [**Stability Pools**](../earning-and-rewards/06-stability-pools.md): Earn from liquidations with sGREEN/LP tokens
+* **Future Vaults**: NFTs, RWAs, and emerging asset types
 
 ### The Power of Extensibility
 
 Ripe's vault system is designed to be infinitely extensible. As new asset types emerge or special requirements arise, the protocol can deploy new vault implementations without disrupting existing operations:
 
-- **Custom Logic**: Each vault type can implement specific behaviors for its assets
-- **Future-Proof**: Support for assets that don't exist yet
-- **Seamless Integration**: New vaults plug into the existing ecosystem
-- **Innovation Ready**: From NFT fractionalization to real-world asset settlements
+* **Custom Logic**: Each vault type can implement specific behaviors for its assets
+* **Future-Proof**: Support for assets that don't exist yet
+* **Seamless Integration**: New vaults plug into the existing ecosystem
+* **Innovation Ready**: From NFT fractionalization to real-world asset settlements
 
 This extensibility ensures Ripe can adapt to any tokenized value the future brings — whether it's gaming assets requiring special metadata, regulated securities needing compliance hooks, or entirely new token standards we haven't imagined yet.
 
@@ -149,24 +149,24 @@ Since deposited assets serve as collateral backing GREEN loans, the protocol mus
 
 **Per-User Limits**
 
-- Maximum deposit per user per asset
-- Prevents whale dominance in specific assets
-- Ensures broad distribution of risk
-- Maintains fair access for all participants
+* Maximum deposit per user per asset
+* Prevents whale dominance in specific assets
+* Ensures broad distribution of risk
+* Maintains fair access for all participants
 
 **Global Limits**
 
-- Protocol-wide caps per asset type
-- Controls each asset's percentage of total GREEN backing
-- Gradual increases as assets prove stability and liquidity
-- Protects stablecoin integrity during market stress
+* Protocol-wide caps per asset type
+* Controls each asset's percentage of total GREEN backing
+* Gradual increases as assets prove stability and liquidity
+* Protects stablecoin integrity during market stress
 
 **Minimum Balances**
 
-- Small position requirements
-- Prevents dust accumulation
-- Ensures meaningful participation
-- Reduces computational overhead
+* Small position requirements
+* Prevents dust accumulation
+* Ensures meaningful participation
+* Reduces computational overhead
 
 These limits adapt over time through governance, balancing growth opportunities with prudent risk management. As assets demonstrate stability and liquidity deepens, limits can expand while maintaining GREEN's robust backing.
 
@@ -185,10 +185,10 @@ Withdrawals respect your overall position health:
 
 Your withdrawal capacity depends on:
 
-- **Unused collateral** not backing loans
-- **Asset-specific LTVs** determining borrowing power
-- **Current debt levels** and interest accrued
-- **Overall health factor** maintaining safety
+* **Unused collateral** not backing loans
+* **Asset-specific LTVs** determining borrowing power
+* **Current debt levels** and interest accrued
+* **Overall health factor** maintaining safety
 
 Example:
 
@@ -217,23 +217,23 @@ Time matters as much as size — smaller deposits held longer can out-earn whale
 
 **General Depositors** - All deposits earn base rewards
 
-- USD-weighted fair distribution
-- No special requirements
-- Passive income on all assets
+* USD-weighted fair distribution
+* No special requirements
+* Passive income on all assets
 
 **Vote Depositors** - Community-selected bonus rewards
 
-- Higher allocations for chosen assets
-- Governance participation benefits
-- Strategic deposit opportunities
+* Higher allocations for chosen assets
+* Governance participation benefits
+* Strategic deposit opportunities
 
 **Special Rewards** - Enhanced earnings in specific vaults
 
-- [Stability pool](06-stability-pools.md) deposits earning dual yields
-- [Governance Vault](09-governance.md) staking with multipliers
-- Future special purpose incentives
+* [Stability pool](../earning-and-rewards/06-stability-pools.md) deposits earning dual yields
+* [Governance Vault](../governance-and-economics/09-governance.md) staking with multipliers
+* Future special purpose incentives
 
-For a detailed exploration of the RIPE rewards system, including emission schedules, point calculations, and maximization strategies, see [RIPE Block Rewards](07-ripe-rewards.md).
+For a detailed exploration of the RIPE rewards system, including emission schedules, point calculations, and maximization strategies, see [RIPE Block Rewards](../earning-and-rewards/07-ripe-rewards.md).
 
 ## Advanced Features
 
@@ -241,26 +241,26 @@ For a detailed exploration of the RIPE rewards system, including emission schedu
 
 Grant specific permissions to other addresses:
 
-- **Deposit Rights**: Allow others to add collateral
-- **Withdrawal Rights**: Delegate withdrawal capabilities
-- **Full Flexibility**: Revoke permissions anytime
-- **Smart Wallet Compatible**: Works with Underscore wallets (Hightop app)
+* **Deposit Rights**: Allow others to add collateral
+* **Withdrawal Rights**: Delegate withdrawal capabilities
+* **Full Flexibility**: Revoke permissions anytime
+* **Smart Wallet Compatible**: Works with Underscore wallets (Hightop app)
 
 Use cases:
 
-- Team treasury management
-- Automated strategy execution
-- Family account structures
-- Protocol integrations
+* Team treasury management
+* Automated strategy execution
+* Family account structures
+* Protocol integrations
 
 ### Whitelisted Assets
 
 Some assets require special access:
 
-- **Tokenized Securities**: KYC/AML verification
-- **Institutional Assets**: Accredited investor status
-- **Beta Features**: Early access programs
-- **Regulated Tokens**: Compliance requirements
+* **Tokenized Securities**: KYC/AML verification
+* **Institutional Assets**: Accredited investor status
+* **Beta Features**: Early access programs
+* **Regulated Tokens**: Compliance requirements
 
 The protocol handles permissions transparently — you'll know if an asset requires approval.
 
@@ -268,24 +268,24 @@ The protocol handles permissions transparently — you'll know if an asset requi
 
 ### Immediate Benefits
 
-- **Earn RIPE rewards** on all deposits automatically
-- **No lock-ups** on general deposits (withdraw anytime)
-- **Productive collateral** - yields continue accumulating
-- **Portfolio approach** reduces liquidation risk
+* **Earn RIPE rewards** on all deposits automatically
+* **No lock-ups** on general deposits (withdraw anytime)
+* **Productive collateral** - yields continue accumulating
+* **Portfolio approach** reduces liquidation risk
 
 ### Long-term Value
 
-- **Early participant advantages** in growing protocol
-- **Governance participation** shapes the future
-- **Network effects** as more assets join
-- **Innovation pipeline** supporting new asset types
+* **Early participant advantages** in growing protocol
+* **Governance participation** shapes the future
+* **Network effects** as more assets join
+* **Innovation pipeline** supporting new asset types
 
 ### Capital Efficiency
 
-- **One position** instead of many to manage
-- **Cross-collateralization** maximizes borrowing power
-- **Lower liquidation risk** through diversification
-- **Optimized parameters** for each asset type
+* **One position** instead of many to manage
+* **Cross-collateralization** maximizes borrowing power
+* **Lower liquidation risk** through diversification
+* **Optimized parameters** for each asset type
 
 ## The Power of True Portfolio Lending
 
@@ -295,6 +295,6 @@ With Ripe, your Aave positions keep earning. Your NFTs become productive. That r
 
 This isn't just another lending protocol — it's how DeFi lending should have worked from day one.
 
----
+***
 
-_For technical implementation details, see the [Technical Documentation](../technical/core/Teller.md)_
+_For technical implementation details, see the_ [_Technical Documentation_](../technical/core/Teller.md)
