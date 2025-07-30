@@ -1,6 +1,8 @@
-# Frequently Asked Questions
+---
+description: Quick answers to what actually matters.
+---
 
-Quick answers to what actually matters.
+# Frequently Asked Questions
 
 ## Getting Started
 
