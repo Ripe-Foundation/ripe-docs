@@ -1,4 +1,8 @@
-# Stability Pools: Buy the Rip at 90 Cents on the Dollar
+---
+description: Buy the Dip at 90 Cents on the Dollar
+---
+
+# Stability Pools: Buy the Dip at 90 Cents on the Dollar
 
 Forget hunting for dips. Forget timing the market. Forget competing with MEV bots.
 

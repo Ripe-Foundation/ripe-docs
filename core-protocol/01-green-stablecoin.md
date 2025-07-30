@@ -1,5 +1,5 @@
 ---
-description: The stablecoin that works harder - mint against your entire portfolio
+description: The Stablecoin That Works Harder.
 ---
 
 # GREEN: The Stablecoin That Works Harder

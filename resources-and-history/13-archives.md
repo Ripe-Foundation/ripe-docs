@@ -1,6 +1,8 @@
-# Ripe Archives: Before We Got It Right
+---
+description: Every overnight success takes years. Here's ours.
+---
 
-Every overnight success takes years. Here's ours.
+# Ripe Archives: Every overnight success takes years. Here's ours.
 
 These archives trace Ripe's evolution from a wild idea — what if you could earn yield on anything? — through the realization that became our breakthrough: the real unlock wasn't yield on everything, it was borrowing against everything. One unified loan backed by your entire portfolio. We called it jUSD before it was GREEN. We pivoted from a neobank to pure DeFi. We discovered that capital efficiency beats yield farming every time.
 

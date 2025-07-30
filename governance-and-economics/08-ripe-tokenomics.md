@@ -1,4 +1,8 @@
-# RIPE Tokenomics: Where Early Believers Win Big
+---
+description: Where Early Believers Win
+---
+
+# RIPE Tokenomics: Where Early Believers Win
 
 Every DeFi token promises "fair distribution." Then VCs dump on retail.
 

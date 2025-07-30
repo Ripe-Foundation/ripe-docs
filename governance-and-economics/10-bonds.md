@@ -1,3 +1,7 @@
+---
+description: Trade Cash for Power
+---
+
 # Ripe Bonds: Trade Cash for Power
 
 Every protocol needs capital. Most just sell tokens and spend it.

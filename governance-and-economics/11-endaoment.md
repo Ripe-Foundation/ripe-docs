@@ -1,3 +1,7 @@
+---
+description: Your Money Working Overtime
+---
+
 # The Endaoment: Your Money Working Overtime
 
 Every protocol has a treasury. Most sit on millions doing nothing.

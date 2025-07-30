@@ -1,6 +1,8 @@
-# Collateral Assets
+---
+description: One loan. Every asset. Maximum efficiency.
+---
 
-One loan. Every asset. Maximum efficiency.
+# Collateral Assets
 
 That's Ripe Protocol. While other lending protocols make you open separate positions for each asset (exhausting) or limit you to "safe" tokens only (boring), Ripe does something radical: it treats your portfolio like a portfolio. Your ETH, your yield-bearing positions, your stablecoins, even your NFTs — they all work together to back a single GREEN loan with weighted terms. No juggling. No wasted capital. Just pure efficiency.
 

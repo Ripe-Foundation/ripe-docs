@@ -1,3 +1,7 @@
+---
+description: Get Paid to Use the Protocol
+---
+
 # RIPE Rewards: Get Paid to Use the Protocol
 
 Every block. Every transaction. Every dollar borrowed or staked.

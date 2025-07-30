@@ -1,10 +1,14 @@
+---
+description: Buy Power, or Earn It?
+---
+
 # Governance: Buy Power, or Earn It?
 
-Other protocols: "Got money? Here's your vote. Welcome to the whale show."
+Most protocols sell voting power to the highest bidder. Whale shows up, buys tokens, controls the protocol. Democracy at its finest.
 
-Ripe: "Got conviction? Lock it up. Time in the market beats timing the market."
+Ripe rewards conviction over cash. Lock your tokens. Stack governance points every block. Watch your influence compound. That small holder who locked for 3 years? They outvote the whale who arrived yesterday.
 
-No instant influence for sale here. Your power grows every block you stay locked. A small holder locked for 3 years outweighs a whale who showed up yesterday. This is governance by believers, not buyers.
+Time in the market beats timing the market. Even in governance.
 
 **The kicker**: Governance isn't live yet, but your power is already accumulating. Like mining Bitcoin in 2010.
 

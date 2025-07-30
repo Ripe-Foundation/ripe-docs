@@ -1,3 +1,7 @@
+---
+description: One Loan, Endless Possibilities.
+---
+
 # Borrowing: One Loan, Endless Possibilities
 
 Most lending protocols make you juggle multiple vaults. Different assets, different loans, different liquidation risks. Complexity for no reason.

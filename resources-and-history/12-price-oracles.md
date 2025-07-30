@@ -1,3 +1,7 @@
+---
+description: The Truth About Your Money
+---
+
 # Price Oracles: The Truth About Your Money
 
 One bad price feed can destroy a protocol. Positions liquidated on fake spikes. Exploits draining millions. Users losing everything to a malicious update.

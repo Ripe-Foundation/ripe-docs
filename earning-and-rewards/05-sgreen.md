@@ -1,3 +1,7 @@
+---
+description: Set It and Forget It Yield
+---
+
 # sGREEN: Set It and Forget It Yield
 
 Your stablecoins are lazy. Sitting there. Doing nothing. Earning nothing.

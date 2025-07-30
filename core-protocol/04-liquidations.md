@@ -1,3 +1,7 @@
+---
+description: When Leverage Goes Wrong (But Not Too Wrong)
+---
+
 # Liquidations: When Leverage Goes Wrong (But Not Too Wrong)
 
 Most protocols liquidate everything when you cross the line. Position worth $10,000? Debt at $9,001? They take it all. You get nothing.
