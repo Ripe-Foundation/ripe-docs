@@ -1,3 +1,7 @@
+---
+description: One Loan. Every Asset. Maximum Power.
+---
+
 # Ripe Protocol: One Loan. Every Asset. Maximum Power.
 
 DeFi lending is broken. Five vaults for five assets. Can't use your tokenized stocks. Yield tokens sit idle.
