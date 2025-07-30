@@ -35,9 +35,7 @@ Your Portfolio:              Traditional:           Ripe:
 
 ---
 
-## Core Components
-
-### Getting Started with Ripe
+## Core Protocol
 
 #### 🟢 [GREEN: The Stablecoin That Actually Does Something](01-green-stablecoin.md)
 
@@ -47,15 +45,7 @@ USDC sits there. DAI does nothing. GREEN? It's working.
 - **Stays at $1** through five mechanisms that actually work
 - **Burns on repayment** — no infinite supply games
 
-#### 🏦 [Collateral Assets: Everything Has Value](02-collateral-assets.md)
-
-From stablecoins to tokenized stocks, from blue-chip crypto to your favorite PFP — if it has value, it can back your loan.
-
-- **Unified positions** - All assets support one loan
-- **Weighted terms** - Each asset contributes its best LTV
-- **Extensible vaults** - Support for future asset types
-
-#### 💰 [Borrowing: Your Whole Portfolio, One Loan](03-borrowing.md)
+#### 💰 [Borrowing: Your Whole Portfolio, One Loan](02-borrowing.md)
 
 Stop juggling vaults. Stop wasting collateral. Just borrow.
 
@@ -63,35 +53,15 @@ Stop juggling vaults. Stop wasting collateral. Just borrow.
 - **Smart rates** — Emergency rates only when GREEN needs defending
 - **Partial liquidations** — Lose some, not all
 
-### Earning Opportunities
+#### 🏦 [Collateral Assets: Everything Has Value](03-collateral-assets.md)
 
-#### 💎 [sGREEN: Set It and Forget It Yield](04-sgreen.md)
+From stablecoins to tokenized stocks, from blue-chip crypto to your favorite PFP — if it has value, it can back your loan.
 
-GREEN that grows while you sleep. No strategies. No management. Just yield.
+- **Unified positions** - All assets support one loan
+- **Weighted terms** - Each asset contributes its best LTV
+- **Extensible vaults** - Support for future asset types
 
-- **All fees flow here** — Borrowing fees, liquidation fees, everything
-- **Zero lockup** — Your money, your timeline
-- **Still liquid** — Use in stability pools while earning
-
-#### 🎯 [Stability Pools: Buy the Dip Automatically](05-stability-pools.md)
-
-Forget MEV bots. Deposit, wait, profit from liquidations.
-
-- **5-15% discount** on ETH, BTC, whatever gets liquidated
-- **Triple income** — sGREEN yield + liquidation profits + RIPE rewards
-- **Zero effort** — Smart contracts do the work
-
-#### 🪙 [RIPE Token: Governance and Rewards](06-ripe-rewards.md)
-
-Earn RIPE by using the protocol. Time-weighted rewards ensure fair distribution.
-
-- **150M RIPE** distributed over 5 years
-- **Four ways to earn** - Borrow, stake, deposit, vote
-- **Auto-staking** - Compound directly to governance
-
-### Advanced Features
-
-#### 🛡️ [Liquidations: Protection Through Innovation](07-liquidations.md)
+#### 🛡️ [Liquidations: Protection Through Innovation](04-liquidations.md)
 
 Four layers of defense. Partial liquidations only. You keep most of your collateral.
 
@@ -100,15 +70,35 @@ Four layers of defense. Partial liquidations only. You keep most of your collate
 - **Stability pools** - Instant liquidity at fixed 5-15% discounts
 - **Dutch auctions** - Time-based pricing for remaining collateral
 
-#### 🏛️ [Governance: Power Through Time](08-governance.md)
+## Earning & Rewards
 
-Lock RIPE tokens to accumulate voting power and earn protocol rewards.
+#### 💎 [sGREEN: Set It and Forget It Yield](05-sgreen.md)
 
-- **Time multipliers** - Up to 3x power for 3-year locks
-- **Staker rewards** - Earn from protocol emissions
-- **Future control** - Guide protocol evolution
+GREEN that grows while you sleep. No strategies. No management. Just yield.
 
-#### 📊 [RIPE Tokenomics: Aligned Incentives](09-tokenomics.md)
+- **All fees flow here** — Borrowing fees, liquidation fees, everything
+- **Zero lockup** — Your money, your timeline
+- **Still liquid** — Use in stability pools while earning
+
+#### 🎯 [Stability Pools: Buy the Dip Automatically](06-stability-pools.md)
+
+Forget MEV bots. Deposit, wait, profit from liquidations.
+
+- **5-15% discount** on ETH, BTC, whatever gets liquidated
+- **Triple income** — sGREEN yield + liquidation profits + RIPE rewards
+- **Zero effort** — Smart contracts do the work
+
+#### 🪙 [RIPE Rewards: Earn by Using the Protocol](07-ripe-rewards.md)
+
+Earn RIPE by using the protocol. Time-weighted rewards ensure fair distribution.
+
+- **150M RIPE** distributed over 5 years
+- **Four ways to earn** - Borrow, stake, deposit, vote
+- **Auto-staking** - Compound directly to governance
+
+## Governance & Economics
+
+#### 📊 [RIPE Tokenomics: Aligned Incentives](08-ripe-tokenomics.md)
 
 Understanding the 1 billion RIPE token distribution and vesting schedules that power the protocol.
 
@@ -116,6 +106,14 @@ Understanding the 1 billion RIPE token distribution and vesting schedules that p
 - **Community first** - 25% for rewards, largest unlocking allocation
 - **Transparent vesting** - All schedules enforced onchain
 - **Strategic funding** - Bootstrapped with only $1.87M raised
+
+#### 🏛️ [Governance: Power Through Time](09-governance.md)
+
+Lock RIPE tokens to accumulate voting power and earn protocol rewards.
+
+- **Time multipliers** - Up to 3x power for 3-year locks
+- **Staker rewards** - Earn from protocol emissions
+- **Future control** - Guide protocol evolution
 
 #### 🎟️ [Bonds: Fund the Future](10-bonds.md)
 
@@ -125,8 +123,6 @@ Exchange stablecoins for discounted RIPE, supporting protocol growth.
 - **Bond Boosters** - Bonus rewards for ecosystem contributors
 - **Permanent funding** - Builds the Endaoment treasury
 
-### Protocol Infrastructure
-
 #### 🏰 [The Endaoment: Autonomous Treasury](11-endaoment.md)
 
 Self-sustaining treasury that works 24/7 defending GREEN and generating yield.
@@ -134,6 +130,8 @@ Self-sustaining treasury that works 24/7 defending GREEN and generating yield.
 - **Multi-strategy yields** - Optimized across DeFi
 - **Peg defense** - Automated market operations
 - **Partner programs** - Collaborative liquidity
+
+## Resources & History
 
 #### 🔮 [Price Oracles: Accurate Asset Valuation](12-price-oracles.md)
 
@@ -188,22 +186,22 @@ Four ways to win. All of them better than watching your assets do nothing.
 ### 🟢 **The Easy Button**: Buy sGREEN, Earn Forever
 
 Swap to sGREEN. Close laptop. Come back richer. That's it.  
-**→ [Get sGREEN Now](04-sgreen.md)**
+**→ [Get sGREEN Now](05-sgreen.md)**
 
 ### ⚡ **The Liquidation Game**: Buy ETH at 90 Cents on the Dollar
 
 Someone else overleveraged? Their loss, your gain. Stability pools turn liquidations into profit.  
-**→ [Join the Pools](05-stability-pools.md)**
+**→ [Join the Pools](06-stability-pools.md)**
 
 ### 🎯 **The Power Move**: One Loan to Rule Them All
 
 Your tokenized Tesla shares + ETH + treasury bills + that yield position = One massive loan. Finally.  
-**→ [Start Borrowing](03-borrowing.md)**
+**→ [Start Borrowing](02-borrowing.md)**
 
 ### 🏗️ **The Long Game**: Lock RIPE, Run the Protocol
 
 Governance power grows with time. Lock today, control tomorrow.  
-**→ [Lock and Lead](08-governance.md)**
+**→ [Lock and Lead](09-governance.md)**
 
 ---
 

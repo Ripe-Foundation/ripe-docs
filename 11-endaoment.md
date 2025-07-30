@@ -102,10 +102,10 @@ The Endaoment enables win-win liquidity partnerships:
 
 ## Future Yield Distribution
 
-Currently, all treasury earnings remain in the Endaoment to maximize protocol growth and compound returns. However, [governance](08-governance.md) retains the power to enable yield distribution in the future, which could direct treasury earnings to:
+Currently, all treasury earnings remain in the Endaoment to maximize protocol growth and compound returns. However, [governance](09-governance.md) retains the power to enable yield distribution in the future, which could direct treasury earnings to:
 
-- **RIPE stakers** in the [governance vault](08-governance.md) — rewarding long-term aligned participants
-- **[sGREEN](04-sgreen.md) stakers** — providing additional rewards beyond [stability pool](05-stability-pools.md) returns
+- **RIPE stakers** in the [governance vault](09-governance.md) — rewarding long-term aligned participants
+- **[sGREEN](05-sgreen.md) stakers** — providing additional rewards beyond [stability pool](06-stability-pools.md) returns
 
 When activated, these would represent real yield from treasury operations, not token inflation, creating sustainable value for committed protocol participants.
 

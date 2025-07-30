@@ -10,7 +10,7 @@ One loan backed by everything you own. While other protocols make you juggle fiv
 
 ### What makes Ripe different from other lending protocols?
 
-**One loan, many assets.** While other protocols force you to manage separate positions for each collateral type, Ripe lets you deposit multiple different assets that all work together to back a single GREEN loan. This means you can use your USDC, ETH, tokenized stocks, treasury bills, and even NFTs all in one [borrowing position](03-borrowing.md).
+**One loan, many assets.** While other protocols force you to manage separate positions for each collateral type, Ripe lets you deposit multiple different assets that all work together to back a single GREEN loan. This means you can use your USDC, ETH, tokenized stocks, treasury bills, and even NFTs all in one [borrowing position](02-borrowing.md).
 
 ### What is GREEN?
 
@@ -18,7 +18,7 @@ One loan backed by everything you own. While other protocols make you juggle fiv
 
 ### Is my money safe?
 
-Your [deposits](02-collateral-assets.md) back only your own loans — not a shared lending pool. If someone else's risky position fails, it doesn't affect you. The protocol uses multiple safety mechanisms including redemptions before [liquidations](07-liquidations.md), partial liquidations (not full), and a four-phase liquidation system designed to minimize losses.
+Your [deposits](03-collateral-assets.md) back only your own loans — not a shared lending pool. If someone else's risky position fails, it doesn't affect you. The protocol uses multiple safety mechanisms including redemptions before [liquidations](04-liquidations.md), partial liquidations (not full), and a four-phase liquidation system designed to minimize losses.
 
 ## Borrowing Basics
 
@@ -30,11 +30,11 @@ Each asset has its own Loan-to-Value (LTV) ratio:
 - **ETH/WBTC**: Up to 70-80% of value
 - **Volatile assets**: 30-50% of value
 
-Your total [borrowing power](03-borrowing.md) combines all assets weighted by their individual LTVs.
+Your total [borrowing power](02-borrowing.md) combines all assets weighted by their individual LTVs.
 
 ### How do interest rates work?
 
-You pay a single weighted-average rate based on your [collateral mix](02-collateral-assets.md). If you deposit mostly stablecoins (lower rates) with some ETH (medium rates), your rate will be closer to the stablecoin rate. Rates only change when you interact with your loan — existing borrowers aren't affected by market fluctuations unless they choose to update.
+You pay a single weighted-average rate based on your [collateral mix](03-collateral-assets.md). If you deposit mostly stablecoins (lower rates) with some ETH (medium rates), your rate will be closer to the stablecoin rate. Rates only change when you interact with your loan — existing borrowers aren't affected by market fluctuations unless they choose to update.
 
 ### What are dynamic rates?
 
@@ -48,7 +48,7 @@ Yes! There are no prepayment penalties, fixed terms, or lockups. Repay any amoun
 
 ### When do I get liquidated?
 
-[Liquidation](07-liquidations.md) happens when your collateral value drops below the required minimum for your debt. There are three key thresholds to monitor:
+[Liquidation](04-liquidations.md) happens when your collateral value drops below the required minimum for your debt. There are three key thresholds to monitor:
 
 1. **Max LTV (e.g., 70%)**: Your borrowing limit - cannot borrow more beyond this
 2. **Redemption threshold (e.g., 80%)**: Early warning - GREEN holders can redeem against your position
@@ -56,7 +56,7 @@ Yes! There are no prepayment penalties, fixed terms, or lockups. Repay any amoun
 
 **Quick Example**: With $6,000 debt and 90% liquidation threshold, you need at least $6,667 collateral ($6,000 ÷ 0.90). If collateral drops below this, liquidation starts.
 
-Monitor your position and add collateral or repay debt before reaching these zones. For a visual guide showing all risk zones, see [How Thresholds Work Together](03-borrowing.md#how-thresholds-work-together-a-visual-guide).
+Monitor your position and add collateral or repay debt before reaching these zones. For a visual guide showing all risk zones, see [How Thresholds Work Together](02-borrowing.md#how-thresholds-work-together-a-visual-guide).
 
 ### What's the difference between redemption and liquidation?
 
@@ -81,7 +81,7 @@ Ripe only liquidates the minimum amount needed to make your position healthy aga
 
 ### What is sGREEN?
 
-[sGREEN](04-sgreen.md) is yield-bearing GREEN that automatically captures protocol revenues. Your sGREEN balance stays the same while its GREEN value increases over time through:
+[sGREEN](05-sgreen.md) is yield-bearing GREEN that automatically captures protocol revenues. Your sGREEN balance stays the same while its GREEN value increases over time through:
 
 - Borrower interest payments
 - Origination fees from new loans
@@ -91,7 +91,7 @@ No staking or claiming needed — just hold and earn.
 
 ### How do stability pools work?
 
-[Stability pools](05-stability-pools.md) hold sGREEN and GREEN LP tokens that get swapped for liquidated collateral at discount. As a depositor, you:
+[Stability pools](06-stability-pools.md) hold sGREEN and GREEN LP tokens that get swapped for liquidated collateral at discount. As a depositor, you:
 
 - Continue earning sGREEN yield
 - Get liquidated collateral at 5-15% discount
@@ -102,7 +102,7 @@ It's like being a liquidator without running any bots.
 
 ### How do I earn RIPE rewards?
 
-[RIPE rewards](06-ripe-rewards.md) currently flow to two groups (90% stakers, 10% borrowers):
+[RIPE rewards](07-ripe-rewards.md) currently flow to two groups (90% stakers, 10% borrowers):
 
 1. **Stakers (90%)**: 
    - GREEN LP: 65% of staker rewards (best returns!)
@@ -175,7 +175,7 @@ Many users borrow at 5% to earn 8%+ in sGREEN.
 
 ### What is RIPE?
 
-RIPE is the protocol's [governance](08-governance.md) token. Lock it in the governance vault to:
+RIPE is the protocol's [governance](09-governance.md) token. Lock it in the governance vault to:
 
 - Accumulate voting power for future governance
 - Earn rewards from the staker allocation
@@ -194,7 +194,7 @@ Governance points are accumulating now, but on-chain voting hasn't launched yet.
 - **17.2%** Early backers ($550k seed at $0.02)
 - **15%** Distribution partner (Hightop)
 
-All vesting happens on-chain with transparent contracts. See full details in [RIPE Tokenomics](09-tokenomics.md).
+All vesting happens on-chain with transparent contracts. See full details in [RIPE Tokenomics](08-ripe-tokenomics.md).
 
 ### What are Ripe Bonds?
 
@@ -242,8 +242,8 @@ Ripe uses a [multi-oracle system](12-price-oracles.md) with automatic fallback. 
 The protocol has multiple defenses:
 
 1. Conservative collateral ratios
-2. Redemption mechanism before [liquidation](07-liquidations.md)
-3. [Stability pools](05-stability-pools.md) absorb liquidations
+2. Redemption mechanism before [liquidation](04-liquidations.md)
+3. [Stability pools](06-stability-pools.md) absorb liquidations
 4. Keeper network ensures fast execution
 5. [Endaoment](11-endaoment.md) treasury as final backstop
 

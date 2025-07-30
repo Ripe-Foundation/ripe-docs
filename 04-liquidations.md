@@ -82,7 +82,7 @@ Your Position Becomes Unhealthy
 
 ### Protecting Protocol Solvency
 
-Liquidations serve as the critical mechanism ensuring that [GREEN](01-green-stablecoin.md) remains fully backed. When [borrowing positions](03-borrowing.md) become undercollateralized due to collateral value drops or accumulated interest, the protocol must act to prevent bad debt accumulation. Without effective liquidations, GREEN could lose its peg, affecting GREEN and sGREEN holders.
+Liquidations serve as the critical mechanism ensuring that [GREEN](01-green-stablecoin.md) remains fully backed. When [borrowing positions](02-borrowing.md) become undercollateralized due to collateral value drops or accumulated interest, the protocol must act to prevent bad debt accumulation. Without effective liquidations, GREEN could lose its peg, affecting GREEN and sGREEN holders.
 
 ### The Borrower-Friendly Approach
 
@@ -160,7 +160,7 @@ $10,000                    $8,571      $7,500     $6,667      $0
 - Multi-phase liquidation activates
 - Position being actively liquidated
 
-_For a detailed explanation of how these thresholds work together, see [Understanding Three Thresholds](03-borrowing.md#how-thresholds-work-together-a-visual-guide) in the borrowing documentation._
+_For a detailed explanation of how these thresholds work together, see [Understanding Three Thresholds](02-borrowing.md#how-thresholds-work-together-a-visual-guide) in the borrowing documentation._
 
 ## The Redemption Buffer
 
@@ -185,7 +185,7 @@ The protocol first looks to your existing positions within Ripe:
 
 **Your Stability Pool Deposits**
 
-- Your own [sGREEN](04-sgreen.md) deposits in stability pools → burned to reduce debt
+- Your own [sGREEN](05-sgreen.md) deposits in stability pools → burned to reduce debt
 - Your own GREEN LP deposits in stability pools → sent to Endaoment to reduce debt
 - Direct debt reduction with no penalties or discounts
 - These are YOUR deposits being used to pay YOUR debt
@@ -199,12 +199,12 @@ The protocol first looks to your existing positions within Ripe:
 
 ### Phase 2: Stability Pool Swaps
 
-Next, the protocol engages [stability pools](05-stability-pools.md) for instant liquidity:
+Next, the protocol engages [stability pools](06-stability-pools.md) for instant liquidity:
 
 **How Pool Swaps Work**
 
 1. Your collateral (ETH, WBTC, etc.) needs liquidation
-2. [Stability pools](05-stability-pools.md) hold GREEN LP tokens and [sGREEN](04-sgreen.md)
+2. [Stability pools](06-stability-pools.md) hold GREEN LP tokens and [sGREEN](05-sgreen.md)
 3. Pool assets swap for your collateral at the liquidation discount
 4. Pool participants get discounted assets, you avoid market dumps
 
@@ -228,7 +228,7 @@ For regulated assets (tokenized securities, real estate):
 - Same swap mechanics but restricted access
 - Ensures compliance throughout liquidation process
 
-_For deeper understanding of stability pool mechanics, see [Stability Pools](05-stability-pools.md)._
+_For deeper understanding of stability pool mechanics, see [Stability Pools](06-stability-pools.md)._
 
 ### Phase 3: Dutch Auctions
 

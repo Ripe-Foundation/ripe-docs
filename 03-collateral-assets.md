@@ -122,8 +122,8 @@ Ripe automatically routes your deposits to specialized vaults:
 
 **Special Purpose Vaults**
 
-- **[Ripe Gov Vault](08-governance.md)**: Lock RIPE tokens for governance power
-- **[Stability Pools](05-stability-pools.md)**: Earn from liquidations with sGREEN/LP tokens
+- **[Ripe Gov Vault](09-governance.md)**: Lock RIPE tokens for governance power
+- **[Stability Pools](06-stability-pools.md)**: Earn from liquidations with sGREEN/LP tokens
 - **Future Vaults**: NFTs, RWAs, and emerging asset types
 
 ### The Power of Extensibility
@@ -229,11 +229,11 @@ Time matters as much as size — smaller deposits held longer can out-earn whale
 
 **Special Rewards** - Enhanced earnings in specific vaults
 
-- [Stability pool](05-stability-pools.md) deposits earning dual yields
-- [Governance Vault](08-governance.md) staking with multipliers
+- [Stability pool](06-stability-pools.md) deposits earning dual yields
+- [Governance Vault](09-governance.md) staking with multipliers
 - Future special purpose incentives
 
-For a detailed exploration of the RIPE rewards system, including emission schedules, point calculations, and maximization strategies, see [RIPE Block Rewards](06-ripe-rewards.md).
+For a detailed exploration of the RIPE rewards system, including emission schedules, point calculations, and maximization strategies, see [RIPE Block Rewards](07-ripe-rewards.md).
 
 ## Advanced Features
 

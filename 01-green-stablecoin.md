@@ -2,7 +2,7 @@
 
 Your USDC sits there doing nothing. Your DAI requires a new vault for every asset. Your LUSD only accepts ETH.
 
-GREEN? It's built different. Mint it against your entire portfolio — ETH, stablecoins, NFTs, whatever you've got. Earn yield automatically through [sGREEN](04-sgreen.md). Score liquidation profits in [stability pools](05-stability-pools.md). Watch five different mechanisms defend the peg while you sleep.
+GREEN? It's built different. Mint it against your entire portfolio — ETH, stablecoins, NFTs, whatever you've got. Earn yield automatically through [sGREEN](05-sgreen.md). Score liquidation profits in [stability pools](06-stability-pools.md). Watch five different mechanisms defend the peg while you sleep.
 
 This is what happens when you stop asking "how do we make another stablecoin?" and start asking "how should stablecoins actually work?"
 
@@ -95,10 +95,10 @@ GREEN isn't just another stablecoin. It's the cornerstone of Ripe Protocol:
 
 Every GREEN token represents real value locked in Ripe Protocol:
 
-1. **Deposit Collateral**: Lock any [supported asset](02-collateral-assets.md) (ETH, WBTC, stablecoins, etc.)
+1. **Deposit Collateral**: Lock any [supported asset](03-collateral-assets.md) (ETH, WBTC, stablecoins, etc.)
 2. **Borrow GREEN**: Mint new GREEN against your collateral
 3. **Overcollateralized Always**: Minimum 110% backing, often much higher
-4. **Pay Interest**: [Dynamic rates](03-borrowing.md#dynamic-interest-rates) that respond to market conditions
+4. **Pay Interest**: [Dynamic rates](02-borrowing.md#dynamic-interest-rates) that respond to market conditions
 5. **Origination Fee (Daowry)**: One-time fee that flows to sGREEN holders (currently 0.5%)
 
 **Example Multi-Asset Borrowing**:
@@ -137,11 +137,11 @@ The bedrock of GREEN's stability:
 - **Extreme Asset Diversity**: Unlike other stables limited to ETH/WBTC, GREEN is backed by everything from stETH earning staking yields to PEPE memes to tokenized Tesla stock
 - **Portfolio Effect**: When one asset drops, others may rise — true diversification
 - **Real-Time Monitoring**: Continuous health checks on all positions using [price oracles](12-price-oracles.md)
-- **Buffer Zones**: Multiple warning levels before [liquidation](07-liquidations.md)
+- **Buffer Zones**: Multiple warning levels before [liquidation](04-liquidations.md)
 
 ### 2. Dynamic Interest Rate Response
 
-When GREEN trades below peg, borrowing rates increase to encourage repayment. For complete details on how dynamic rates work, see [Dynamic Interest Rates](03-borrowing.md#dynamic-interest-rates) in the borrowing documentation.
+When GREEN trades below peg, borrowing rates increase to encourage repayment. For complete details on how dynamic rates work, see [Dynamic Interest Rates](02-borrowing.md#dynamic-interest-rates) in the borrowing documentation.
 
 **Normal Conditions (Balanced Pool)**:
 
@@ -171,7 +171,7 @@ When GREEN exceeds 60% in reference pools:
 
 ### 3. Direct Redemption Mechanism
 
-Redemptions create an automatic arbitrage loop that restores GREEN's peg whenever it trades below $1. For a detailed explanation of how redemptions work as a protective buffer, see [The Redemption Buffer](07-liquidations.md#the-redemption-buffer) in the liquidations documentation.
+Redemptions create an automatic arbitrage loop that restores GREEN's peg whenever it trades below $1. For a detailed explanation of how redemptions work as a protective buffer, see [The Redemption Buffer](04-liquidations.md#the-redemption-buffer) in the liquidations documentation.
 
 **The $1 Guarantee**:
 
@@ -198,7 +198,7 @@ This mechanism activates when market stress pushes positions toward liquidation,
 
 ### 4. Stability Pool Redemption Mechanism
 
-A second powerful redemption path exists through [stability pools](05-stability-pools.md) that hold liquidated collateral:
+A second powerful redemption path exists through [stability pools](06-stability-pools.md) that hold liquidated collateral:
 
 **How Pool Redemptions Work**:
 
@@ -300,7 +300,7 @@ If extreme conditions create bad debt, the protocol can sell [bonds](10-bonds.md
 
 ### Transform to sGREEN for Automatic Yield
 
-[sGREEN](04-sgreen.md) is GREEN's yield-bearing twin:
+[sGREEN](05-sgreen.md) is GREEN's yield-bearing twin:
 
 - **Set and Forget**: Deposit GREEN, receive sGREEN
 - **Auto-Compounding**: Value grows through exchange rate, not rebasing
@@ -310,7 +310,7 @@ If extreme conditions create bad debt, the protocol can sell [bonds](10-bonds.md
 
 ### Participate in Stability Pools
 
-Deploy sGREEN or GREEN LP tokens in [stability pools](05-stability-pools.md) for liquidation profits:
+Deploy sGREEN or GREEN LP tokens in [stability pools](06-stability-pools.md) for liquidation profits:
 
 - **Triple Yield**: Base sGREEN rate + liquidation profits + RIPE rewards
 - **Guaranteed Discounts**: Buy collateral 5-15% below market
@@ -327,7 +327,7 @@ When taking loans, receive GREEN flexibly:
 
 ### Earn RIPE Block Rewards
 
-Multiple ways to earn [RIPE rewards](09-ripe-rewards.md) through GREEN:
+Multiple ways to earn [RIPE rewards](07-ripe-rewards.md) through GREEN:
 
 - **Borrowing GREEN**: Larger, longer-term loans earn more rewards
 - **Stability Pool Deposits**: sGREEN and GREEN LP deposits earn additional RIPE

@@ -78,11 +78,11 @@ When your position becomes eligible for collateral redemption by GREEN holders.
   Redemption triggers when collateral < $10,000
   (Because $8,000 ÷ 0.80 = $10,000)
   ```
-- **Purpose**: Provides market-based deleveraging and early warning before [liquidation](07-liquidations.md)
+- **Purpose**: Provides market-based deleveraging and early warning before [liquidation](04-liquidations.md)
 
 **3. Liquidation Threshold: The Danger Zone**
 
-The critical point where forced [liquidation](07-liquidations.md) begins to protect the protocol.
+The critical point where forced [liquidation](04-liquidations.md) begins to protect the protocol.
 
 - **What it means**: Your position will be liquidated
 - **How it's calculated**: Liquidation when collateral < debt ÷ liquidation threshold
@@ -138,14 +138,14 @@ $10,000                    $8,571      $7,500     $6,667      $0
 
 **🟠 REDEMPTION ZONE (80%-90% LTV / Collateral $7,500 - $6,667)**
 
-- **Status**: Eligible for [redemption](07-liquidations.md#redemption-the-first-line-of-defense)
+- **Status**: Eligible for [redemption](04-liquidations.md#redemption-the-first-line-of-defense)
 - **Actions Available**: Anyone can pay your debt for collateral
 - **Risk Level**: High - active intervention needed
 - **What to do**: Urgently repay debt or add collateral
 
 **🔴 LIQUIDATION ZONE (Above 90% LTV / Collateral < $6,667)**
 
-- **Status**: Automatic [liquidation](07-liquidations.md) triggered
+- **Status**: Automatic [liquidation](04-liquidations.md) triggered
 - **Actions Available**: None - process is automatic
 - **Risk Level**: Critical - partial liquidation to restore health
 - **What to do**: Position will be partially liquidated until healthy again
@@ -284,17 +284,17 @@ When borrowing, you can choose one of three ways to receive your funds:
 - Use immediately for any purpose (swap to USDC)
 - Most flexible option
 
-**Option 2: Auto-Convert to [sGREEN](04-sgreen.md)**
+**Option 2: Auto-Convert to [sGREEN](05-sgreen.md)**
 
-- Borrowed GREEN automatically wrapped into yield-bearing [sGREEN](04-sgreen.md)
+- Borrowed GREEN automatically wrapped into yield-bearing [sGREEN](05-sgreen.md)
 - Start earning yield immediately on borrowed funds
 - Potential for positive carry (yield > borrow rate)
 - No separate conversion transaction needed
 
-**Option 3: Direct to [Stability Pool](05-stability-pools.md)**
+**Option 3: Direct to [Stability Pool](06-stability-pools.md)**
 
-- Borrowed GREEN converted to sGREEN and deposited into [Stability Pool](05-stability-pools.md) in one transaction
-- Triple rewards: sGREEN yield + stability pool rewards + [RIPE rewards](09-ripe-rewards.md)
+- Borrowed GREEN converted to sGREEN and deposited into [Stability Pool](06-stability-pools.md) in one transaction
+- Triple rewards: sGREEN yield + stability pool rewards + [RIPE rewards](07-ripe-rewards.md)
 - Participate in liquidations for discounted collateral
 - Maximum yield potential but least liquid option
 
@@ -302,7 +302,7 @@ When borrowing, you can choose one of three ways to receive your funds:
 
 A one-time 0.5% fee on new borrows that:
 
-- Flows directly to [sGREEN](04-sgreen.md) holders
+- Flows directly to [sGREEN](05-sgreen.md) holders
 - Creates immediate protocol revenue
 - Aligns borrower and saver incentives
 

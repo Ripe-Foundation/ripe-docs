@@ -65,7 +65,7 @@ Direct pricing from the largest stablecoin liquidity pools:
 - **Special Feature**: Monitors GREEN's peg in real-time
 - **Trust Model**: On-chain AMM state, manipulation-resistant
 
-**Critical for GREEN Stability**: The Curve price feed maintains the "Green Reference Pool" data that directly impacts [dynamic interest rates](03-borrowing.md#dynamic-interest-rates-emergency-mechanism-only). By taking weighted snapshots of the GREEN/USDC pool balance over time, the protocol can detect when GREEN trades below peg and automatically adjust borrowing costs to restore balance. This creates a powerful feedback loop — when GREEN weakens, higher rates incentivize borrowers to buy GREEN for repayment, strengthening the peg.
+**Critical for GREEN Stability**: The Curve price feed maintains the "Green Reference Pool" data that directly impacts [dynamic interest rates](02-borrowing.md#dynamic-interest-rates-emergency-mechanism-only). By taking weighted snapshots of the GREEN/USDC pool balance over time, the protocol can detect when GREEN trades below peg and automatically adjust borrowing costs to restore balance. This creates a powerful feedback loop — when GREEN weakens, higher rates incentivize borrowers to buy GREEN for repayment, strengthening the peg.
 
 ### 3. Pyth Network (High-Frequency)
 
