@@ -188,22 +188,22 @@ Four ways to win. All of them better than watching your assets do nothing.
 ### 🟢 **The Easy Button**: Buy sGREEN, Earn Forever
 
 Swap to sGREEN. Close laptop. Come back richer. That's it.\
-&#xNAN;**→** [**Get sGREEN Now**](earning-and-rewards/05-sgreen.md)
+**→** [**Get sGREEN Now**](earning-and-rewards/05-sgreen.md)
 
 ### ⚡ **The Liquidation Game**: Buy ETH at 90 Cents on the Dollar
 
 Someone else overleveraged? Their loss, your gain. Stability pools turn liquidations into profit.\
-&#xNAN;**→** [**Join the Pools**](earning-and-rewards/06-stability-pools.md)
+**→** [**Join the Pools**](earning-and-rewards/06-stability-pools.md)
 
 ### 🎯 **The Power Move**: One Loan to Rule Them All
 
 Your tokenized Tesla shares + ETH + treasury bills + that yield position = One massive loan. Finally.\
-&#xNAN;**→** [**Start Borrowing**](core-protocol/02-borrowing.md)
+**→** [**Start Borrowing**](core-protocol/02-borrowing.md)
 
 ### 🏗️ **The Long Game**: Lock RIPE, Run the Protocol
 
 Governance power grows with time. Lock today, control tomorrow.\
-&#xNAN;**→** [**Lock and Lead**](governance-and-economics/09-governance.md)
+**→** [**Lock and Lead**](governance-and-economics/09-governance.md)
 
 ***
 
