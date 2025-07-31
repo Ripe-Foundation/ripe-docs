@@ -4,9 +4,9 @@ description: One Loan. Every Asset. Maximum Power.
 
 # Ripe Protocol: One Loan. Every Asset. Maximum Power.
 
-DeFi lending is broken. Five vaults for five assets. Can't use your tokenized stocks. Yield tokens sit idle.
+DeFi lending works great — if you're willing to manage five different vaults. But most people aren't. Five vaults for five assets isn't how people think about their wealth. Your tokenized stocks? Worthless as collateral. Your yield-bearing tokens? Just sitting there, unused.
 
-Ripe fixes this. Your entire portfolio — crypto, RWAs, tokenized securities, everything — backs ONE loan. Finally, borrowing that understands what a portfolio actually is.
+Ripe simplifies everything. Your entire portfolio — crypto, RWAs, jpegs, everything — backs ONE loan. Finally, borrowing that understands what a portfolio actually is.
 
 ***
 
