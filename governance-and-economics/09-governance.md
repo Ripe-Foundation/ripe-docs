@@ -176,4 +176,4 @@ Governance launches eventually. Power accumulates now. The clock is ticking.
 
 _Lock RIPE. Stack points. Own the future._
 
-_For technical implementation details, see_ [_RipeGov Technical Documentation_](https://docs.ripe.finance/technical-docs/vaults/ripegov)_._
+_For technical implementation details, see_ [_RipeGov Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/vaults/ripegov)_._

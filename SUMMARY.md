@@ -27,3 +27,9 @@
 * [Price Oracles](resources-and-history/12-price-oracles.md)
 * [Ripe Archives](resources-and-history/13-archives.md)
 * [Frequently Asked Questions](resources-and-history/faq.md)
+
+## Developers
+
+* [Technical Documentation](https://ripe-finance.gitbook.io/ripe-developers)
+* [Deployed Contracts](https://ripe-finance.gitbook.io/ripe-developers/deployed-contracts)
+* [GitHub](https://github.com/Ripe-Foundation/ripe-protocol)

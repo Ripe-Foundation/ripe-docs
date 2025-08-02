@@ -333,4 +333,4 @@ This is borrowing rebuilt from first principles. One position that actually unde
 
 _Ready to experience unified borrowing? Your entire portfolio is waiting to work harder._
 
-_For technical implementation details, see the_ [_Credit Engine Technical Documentation_](https://docs.ripe.finance/technical-docs/core-lending/creditengine)_._
+_For technical implementation details, see the_ [_Credit Engine Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/creditengine)_._

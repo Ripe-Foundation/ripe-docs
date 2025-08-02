@@ -171,4 +171,4 @@ Just deposit, wait for the inevitable liquidations, and collect your discounted 
 
 _Stop watching liquidations happen. Start profiting from them._
 
-_For technical implementation details, see the_ [_StabilityPool Technical Documentation_](https://docs.ripe.finance/technical-docs/core-lending/stabilitypool)_._
+_For technical implementation details, see the_ [_StabilityPool Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/stabilitypool)_._

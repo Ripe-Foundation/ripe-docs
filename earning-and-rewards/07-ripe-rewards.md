@@ -395,4 +395,4 @@ The protocol pays those who show up. Are you showing up?
 
 ***
 
-_For technical implementation details, see_ [_Lootbox Technical Documentation_](https://docs.ripe.finance/technical-docs/treasury-and-rewards/lootbox)_._
+_For technical implementation details, see_ [_Lootbox Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/lootbox)_._

@@ -370,4 +370,4 @@ Stop settling for stablecoins designed for 2020. This is how money works in DeFi
 
 ***
 
-_For technical implementation details, see the_ [_GreenToken Technical Documentation_](https://docs.ripe.finance/technical-docs/tokens/greentoken)_._
+_For technical implementation details, see the_ [_GreenToken Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/tokens/greentoken)_._
