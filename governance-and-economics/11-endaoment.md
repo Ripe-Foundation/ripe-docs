@@ -120,7 +120,7 @@ Unlike traditional protocol treasuries that rely entirely on manual decisions, t
 1. **Generate sustainable yield** without taking excessive risks
 2. **Defend GREEN's stability** through market-based mechanisms
 3. **Grow protocol wealth** in both bull and bear markets
-4. **Operate transparently** with all actions verifiable on-chain
+4. **Operate transparently** with all actions verifiable onchain
 
 ## The Compound Effect
 

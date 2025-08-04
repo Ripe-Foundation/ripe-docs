@@ -185,7 +185,7 @@ RIPE is the protocol's [governance](../governance-and-economics/09-governance.md
 
 ### When does governance go live?
 
-Governance points are accumulating now, but on-chain voting hasn't launched yet. Governance will activate once sufficient RIPE tokens have been distributed through block rewards and the holder base has grown to ensure decentralized decision-making. Early participants who lock RIPE are building voting power that will control the protocol when governance activates.
+Governance points are accumulating now, but onchain voting hasn't launched yet. Governance will activate once sufficient RIPE tokens have been distributed through block rewards and the holder base has grown to ensure decentralized decision-making. Early participants who lock RIPE are building voting power that will control the protocol when governance activates.
 
 ### What's the RIPE token distribution?
 
@@ -197,7 +197,7 @@ Governance points are accumulating now, but on-chain voting hasn't launched yet.
 * **17.2%** Early backers ($550k seed at $0.02)
 * **15%** Distribution partner (Hightop)
 
-All vesting happens on-chain with transparent contracts. See full details in [RIPE Tokenomics](../governance-and-economics/08-ripe-tokenomics.md).
+All vesting happens onchain with transparent contracts. See full details in [RIPE Tokenomics](../governance-and-economics/08-ripe-tokenomics.md).
 
 ### What are Ripe Bonds?
 

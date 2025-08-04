@@ -137,7 +137,7 @@ RIPE governance participants benefit from three distinct reward streams:
 
 ## What You'll Control (Coming Soon)
 
-When on-chain governance activates, RIPE holders will wield comprehensive protocol control:
+When onchain governance activates, RIPE holders will wield comprehensive protocol control:
 
 ### Core Protocol Parameters
 

@@ -14,7 +14,7 @@ One small seed round at $0.02 after 2+ years of building. Just builders who bet 
 >
 > * **Fixed supply**: 1B RIPE (mint beyond cap only if RIPE Bonds are triggered to cover bad debt)
 > * **Community first**: 25% of supply goes to user incentives; this is the only bucket that begins unlocking at TGE via block rewards & bonding
-> * **All unlocks on-chain**: Immutable vesting contracts you can audit today
+> * **All unlocks onchain**: Immutable vesting contracts you can audit today
 
 For a deep dive into how RIPE powers the protocol—including [staking rewards](../earning-and-rewards/07-ripe-rewards.md), protocol fees via [sGREEN](../earning-and-rewards/05-sgreen.md), [governance participation](09-governance.md), and treasury building through [bond sales](10-bonds.md)—explore these detailed guides. Full onchain governance will launch post-TGE once the community owns sufficient supply.
 
@@ -165,7 +165,7 @@ _For deep technical details on the vesting system, see the_ [_Contributor contra
 
 RIPE isn't another VC exit scam dressed up as "community ownership."
 
-Founders self-funded for 2.5 years. Locked for another year after launch. Early backers paid real money at a fair price. Every token unlock happens on-chain where you can audit it.
+Founders self-funded for 2.5 years. Locked for another year after launch. Early backers paid real money at a fair price. Every token unlock happens onchain where you can audit it.
 
 But here's what matters: 250 million RIPE goes to users. Not eventually. Now. Through [block rewards](../earning-and-rewards/07-ripe-rewards.md) that started at TGE. Through [bonds](10-bonds.md) that let you buy at discounts. Through actual usage, not Twitter campaigns.
 
