@@ -59,7 +59,7 @@ This creates interesting dynamics:
 
 ### Token Allocation
 
-**150 million RIPE** (15% of total supply) allocated to bonding is expected to be distributed over approximately 5 years, ensuring sustainable treasury growth without overwhelming the market. This measured approach allows the protocol to build substantial reserves while maintaining healthy token economics.
+The bonding program draws from the **250 million RIPE** community incentives allocation (shared with block rewards), distributed over approximately 10 years. This measured approach ensures sustainable treasury growth without overwhelming the market while building substantial protocol reserves.
 
 ## Maximizing Your Bond Value
 

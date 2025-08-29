@@ -46,7 +46,9 @@ Seed investors who provided capital and strategic guidance during testnet develo
 
 ## Emission Schedule: Sustainable Token Release
 
-![RIPE Emission Schedule](https://miro.medium.com/v2/format:webp/1*_cx_OWu-kZAygnVZeLI5Cw.png)
+The graph below shows the RIPE Token emission schedule by category for years 1 to 10 following TGE.
+
+![RIPE Emission Schedule](https://miro.medium.com/v2/format:webp/1*HQcm7_N9ZD6hbEn3-OUp9Q.png)
 
 ### Hard Cap with Emergency Provision
 
@@ -59,7 +61,7 @@ Community Incentives stand alone as the only allocation unlocking from day one, 
 **Community Incentives (Unlocking Now)**
 
 * **First Unlock**: Immediate at TGE
-* **Release Length**: 5+ years
+* **Release Length**: 10+ years
 * **Pattern**: Dynamic distribution via block rewards, bonding discounts, and governance
 
 **Core Contributors (Locked First Year)**

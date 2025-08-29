@@ -94,7 +94,7 @@ Forget MEV bots. Deposit, wait, profit from liquidations.
 
 Earn RIPE by using the protocol. Time-weighted rewards ensure fair distribution.
 
-* **150M RIPE** distributed over 5 years
+* **250M RIPE** community incentives distributed over 10 years (shared with bonding)
 * **Four ways to earn** - Borrow, stake, deposit, vote
 * **Auto-staking** - Compound directly to governance
 

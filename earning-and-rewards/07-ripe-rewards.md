@@ -8,19 +8,9 @@ Every block. Every transaction. Every dollar borrowed or staked.
 
 Ripe Protocol is watching. And paying.
 
-150 million RIPE tokens are flowing to users who actually use the protocol. Not VCs. Not insiders. Users. Borrow GREEN? Get paid. Stake in pools? Get paid more. Lock your rewards? Get paid even more.
+250 million RIPE tokens are flowing to users who actually use the protocol (for block rewards and bonding). Not VCs. Not insiders. Users. Borrow GREEN? Get paid. Stake in pools? Get paid more. Lock your rewards? Get paid even more.
 
 The best part? Early users are sharing a tiny pool. More rewards per person until the masses arrive.
-
-> **📊 Rewards at a Glance**
->
-> * **Total RIPE for rewards**: 150M (15% of supply)
-> * **Target daily emissions**: \~4,320,000 RIPE (when fully ramped on Base)
-> * **Current emissions**: Starting at 0.0025 RIPE/block (ramping up)
-> * **Best earning strategy**: GREEN LP (65% of staker rewards)
-> * **Current split**: 90% to stakers, 10% to borrowers
-> * **Auto-stake requirement**: 75% of claimed rewards locked for 1 year
-> * **Claim anytime**: No minimum, no lockup for earning
 
 ## Quick Start: Understanding Your Rewards
 
@@ -63,24 +53,6 @@ Points = Position Size × Time Held (in blocks)
 ```
 
 This simple formula creates profound fairness — a smaller position held longer can earn more than a whale's brief deposit. It's democracy through mathematics.
-
-### Emission Schedule Ramp-Up
-
-**Important Context**: The protocol is currently in its emission ramp-up phase:
-
-* **Starting emissions**: 0.0025 RIPE per block (\~108 RIPE per day on Base)
-* **Target emissions**: \~100 RIPE per block (\~4,320,000 RIPE per day on Base)
-* **Ramp-up period**: Gradual increase to match 5-year distribution schedule
-* **Why this matters**: Current rewards are \~40,000x lower than examples shown
-
-This conservative start ensures:
-
-1. **Sustainable token distribution** over the full 5-year period
-2. **Time for liquidity to build** before major emissions
-3. **Gradual market absorption** of new RIPE tokens
-4. **Protection against early dumping** when liquidity is thin
-
-**Note**: All reward calculations in this document assume target emission rates for illustration. Multiply by current emission rate (0.0025/100 = 0.0025%) for actual current rewards.
 
 ## Current Reward Categories
 
@@ -155,7 +127,7 @@ Each supported asset has its own configuration that determines how it splits the
 Think of RIPE rewards like a waterfall with two splits:
 
 ```
-Total RIPE Emissions (100 RIPE/block)
+Total RIPE Emissions (500 RIPE/day)
             ↓
     ┌───────┴───────┐
     │ First Split  │ (by user type)
@@ -194,17 +166,15 @@ Future: General deposits and voted assets (not active yet)
 **🎯 Step 2: What's Your Asset's Share?**
 
 ```
-Within the Stakers pool (90 RIPE/block):
-- GREEN LP tokens get 65% (largest share!)
-- RIPE LP tokens get 15%
-- sGREEN gets 10%
-- RIPE tokens get 10%
+Daily emissions: 500 RIPE at $10 per token = $5,000/day
+Stakers pool gets 90%: 450 RIPE/day
+Borrowers pool gets 10%: 50 RIPE/day
 
-So stakers share 90 RIPE/block:
-- GREEN LP stakers: 90 × 65% = 58.5 RIPE
-- RIPE LP stakers: 90 × 15% = 13.5 RIPE
-- sGREEN holders: 90 × 10% = 9 RIPE
-- RIPE stakers: 90 × 10% = 9 RIPE
+Within the Stakers pool (450 RIPE/day):
+- GREEN LP tokens get 65% = 292.5 RIPE/day
+- RIPE LP tokens get 15% = 67.5 RIPE/day
+- sGREEN gets 10% = 45 RIPE/day
+- RIPE tokens get 10% = 45 RIPE/day
 ```
 
 **🎯 Step 3: What's YOUR Share of Your Asset Pool?**
@@ -222,10 +192,11 @@ Example: You stake 1,000 RIPE for 100 blocks
 **🎯 Step 4: Calculate Your Rewards**
 
 ```
-Your rewards = Your share × Asset's allocation
+Your rewards = Your share × Asset's daily allocation
 
-From above: 10% × 9 RIPE = 0.9 RIPE per block
-Over 100 blocks: 0.9 × 100 = 90 RIPE earned!
+Example: 10% share of RIPE staking pool
+10% × 45 RIPE/day = 4.5 RIPE per day
+At $10 per RIPE = $45 per day earned!
 ```
 
 ### Quick Reference Table
@@ -244,51 +215,51 @@ Over 100 blocks: 0.9 × 100 = 90 RIPE earned!
 
 **"How much will I earn?"** - Quick formulas for common scenarios:
 
-⚠️ **Note**: Examples below use TARGET emission rates (100 RIPE/block). Current emissions are 0.0025 RIPE/block, so multiply results by 0.0025% for actual current rewards.
+Assumptions: 500 RIPE daily emissions at $10 per RIPE token
 
 **For GREEN LP (Highest Rewards - 65% of stakers):**
 
 ```
-Daily Rewards ≈ (Your LP Value / Total GREEN LP) × 2,527,200
+Daily Rewards ≈ (Your LP Value / Total GREEN LP) × 292.5 RIPE
 
 Example: $100,000 in GREEN LP (1% of total)
-= 1% × 2,527,200 = ~25,272 RIPE per day
-= ~$2,527.20 per day (at $0.10 RIPE)
-= ~92.2% APR in USD terms
+= 1% × 292.5 = 2.925 RIPE per day
+= $29.25 per day
+= ~10.7% APR in USD terms
 ```
 
 **For RIPE Staking (10% of stakers):**
 
 ```
-Daily Rewards ≈ (Your RIPE / Total RIPE Staked) × 388,800 × Lock Multiplier
+Daily Rewards ≈ (Your RIPE / Total RIPE Staked) × 45 RIPE × Lock Multiplier
 
-Example: 100,000 RIPE staked (0.1% of total) with 3-year lock
-= 0.1% × 388,800 × 3.0 = ~1,166 RIPE per day
-= ~$116.60 per day (at $0.10 RIPE)
-= Your stake worth $10,000, earning $116.60/day = ~425% APR
-With compounding: ~1,000% APY
+Example: 10,000 RIPE staked (1% of total) with 3-year lock
+= 1% × 45 × 3.0 = 1.35 RIPE per day
+= $13.50 per day
+= Your stake worth $100,000, earning $13.50/day = ~4.9% APR
+With compounding: ~5.0% APY
 ```
 
 **For sGREEN Deposits (10% of stakers):**
 
 ```
-Daily Rewards ≈ (Your sGREEN Value / Total sGREEN) × 388,800
+Daily Rewards ≈ (Your sGREEN Value / Total sGREEN) × 45 RIPE
 
-Example: $100,000 in sGREEN (0.5% of total)
-= 0.5% × 388,800 = ~1,944 RIPE per day
-= ~$194.40 per day (at $0.10 RIPE)
-= ~71% APR in USD terms
+Example: $100,000 in sGREEN (2% of total)
+= 2% × 45 = 0.9 RIPE per day
+= $9.00 per day
+= ~3.3% APR in USD terms
 ```
 
 **For Borrowing GREEN (10% of emissions):**
 
 ```
-Daily Rewards ≈ (Your Debt / Total Debt) × 432,000
+Daily Rewards ≈ (Your Debt / Total Debt) × 50 RIPE
 
-Example: $500,000 borrowed (0.25% of total debt)
-= 0.25% × 432,000 = ~1,080 RIPE per day
-= ~$108.00 per day (at $0.10 RIPE)
-= ~7.9% APR in rewards (offsetting borrowing costs!)
+Example: $500,000 borrowed (5% of total debt)
+= 5% × 50 = 2.5 RIPE per day
+= $25.00 per day
+= ~1.8% APR in rewards (offsetting borrowing costs!)
 ```
 
 ## Auto-Staking Mechanism
@@ -341,17 +312,17 @@ It's like a buffet where desserts are on one table and mains on another — you 
 
 **Simple Method:**
 
-1. Find your pool's daily RIPE allocation (at target emissions):
-   * Stakers total: 3,888,000 RIPE/day (90% of emissions)
-   * Borrowers total: 432,000 RIPE/day (10% of emissions)
+1. Find your pool's daily RIPE allocation:
+   * Stakers total: 450 RIPE/day (90% of 500 RIPE)
+   * Borrowers total: 50 RIPE/day (10% of 500 RIPE)
 2. For stakers, find your asset's share:
-   * GREEN LP: 2,527,200 RIPE/day (65% of stakers)
-   * RIPE LP: 583,200 RIPE/day (15% of stakers)
-   * sGREEN: 388,800 RIPE/day (10% of stakers)
-   * RIPE: 388,800 RIPE/day (10% of stakers)
+   * GREEN LP: 292.5 RIPE/day (65% of stakers)
+   * RIPE LP: 67.5 RIPE/day (15% of stakers)
+   * sGREEN: 45 RIPE/day (10% of stakers)
+   * RIPE: 45 RIPE/day (10% of stakers)
 3. Multiply: asset allocation × your percentage = daily rewards
 
-**Example**: You have 1% of all staked RIPE → 388,800 × 1% = 3,888 RIPE per day
+**Example**: You have 1% of all staked RIPE → 45 × 1% = 0.45 RIPE per day = $4.50/day
 
 ### "What happens when I claim?"
 
