@@ -105,6 +105,17 @@ After liquidations, you can claim your proportional share of accumulated collate
 * **Auto-Deposit Option**: Claimed assets can automatically enter Ripe deposit vaults
 * **Dynamic RIPE Rewards**: Claims trigger RIPE token rewards based on USD value claimed
 
+**How to Claim:**
+
+When claiming, you specify:
+1. **Stability Pool Asset**: Which of your deposited assets to use (sGREEN or GREEN LP)
+2. **Claim Asset**: Which liquidated collateral you want to receive (ETH, WBTC, etc.)
+3. **Maximum USD Value**: Cap on how much to claim (or max for full claim)
+
+The protocol calculates your share based on your pool percentage and transfers the collateral to you (or deposits it directly into a Ripe vault if you choose auto-deposit).
+
+**Delegation**: Others can claim on your behalf if you've granted `canClaimFromStabPool` permission in your delegation settings. This enables automated claim strategies.
+
 #### Claim Incentives: Keeping Pools Healthy
 
 The protocol uses a dynamic reward system to maintain optimal pool composition. When stability pools accumulate too much liquidated collateral, the protocol can activate claim incentives:

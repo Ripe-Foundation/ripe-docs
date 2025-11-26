@@ -19,6 +19,36 @@ Traditional DeFi protocols face a critical challenge: they must choose between m
 3. **Operates autonomously** without manual treasury management
 4. **Creates sustainable revenue** that benefits all protocol participants
 
+## The Three-Contract Architecture
+
+Three contracts. One treasury system. Here's how they work together:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      ENDAOMENT SYSTEM                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌───────────────┐   ┌───────────────┐   ┌───────────────┐  │
+│  │EndaomentFunds │   │   Endaoment   │   │ EndaomentPSM  │  │
+│  │  (Treasury)   │◄──│ (Orchestrator)│──►│    (PSM)      │  │
+│  └───────────────┘   └───────────────┘   └───────────────┘  │
+│                                                             │
+│    Holds all           Swaps, LP,          GREEN/USDC       │
+│    protocol            yield, peg          conversions      │
+│    assets              stabilization       + USDC yield     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**EndaomentFunds** — The Vault
+Where the money lives. Holds all protocol-owned assets. Only Endaoment can withdraw — nobody else touches these funds.
+
+**Endaoment** — The Operator
+The brains of the operation. Swaps tokens, provides liquidity, deploys yield strategies, runs the GREEN stabilizer. This is where treasury management actually happens.
+
+**EndaomentPSM** — The Peg Defender
+Your direct line to swap GREEN ↔ USDC at $1. Rate-limited to prevent games, but always ready to defend the peg through arbitrage.
+
 ## How Value Flows Through The Endaoment
 
 ### The Treasury Flywheel
@@ -26,7 +56,7 @@ Traditional DeFi protocols face a critical challenge: they must choose between m
 ```
 Bond Sales → Treasury Growth → Yield Generation → Protocol Strength
      ↑                                                      ↓
-     └──────────── More User Confidence ←─────────────────┘
+     └──────────── More User Confidence ←───────────────────┘
 ```
 
 Every stablecoin that enters through [bond sales](10-bonds.md) becomes productive capital that:
@@ -60,9 +90,45 @@ The Endaoment acts as GREEN's guardian, maintaining its $1 peg through automated
 
 This creates a self-balancing system where GREEN maintains its peg without manual intervention.
 
-### 2. Multi-Strategy Yield Engine
+### 2. Peg Stability Module (PSM)
 
-The Endaoment leverages **Underscore Protocol** — an advanced infrastructure that provides standardized integrations (called "Legos") with DeFi protocols. This partnership enables both programmatic treasury management today and AI-driven optimization in the future.
+Want to swap GREEN for USDC at exactly $1? That's the PSM. No slippage, no DEX drama — just a clean 1:1 conversion.
+
+**What You Can Do**:
+
+* **Mint GREEN**: Deposit USDC → Receive GREEN at 1:1 (can auto-wrap to sGREEN)
+* **Redeem GREEN**: Burn GREEN → Receive USDC at 1:1 (accepts sGREEN too)
+
+**How It Defends the Peg**:
+
+```
+GREEN below $1?
+→ Arbitrageurs buy cheap GREEN
+→ Redeem via PSM for full $1 USDC
+→ Buying pressure restores peg
+
+GREEN above $1?
+→ Arbitrageurs mint GREEN for $1 USDC
+→ Sell on market for profit
+→ Selling pressure restores peg
+```
+
+**Guardrails**:
+
+* Rate limits prevent manipulation
+* Optional fees on mint/redeem
+* Allowlisting available for controlled rollouts
+* Underscore Protocol gets unlimited access (operational needs)
+
+**Idle USDC? Still Working.**
+
+The PSM doesn't let reserves sit around doing nothing. Excess USDC auto-deposits into yield vaults, pulls back when needed for redemptions. Earning returns while waiting for arbitrage opportunities.
+
+Self-sustaining peg defense. That's the idea.
+
+### 3. Multi-Strategy Yield Engine
+
+The Endaoment leverages **[Underscore Protocol](https://underscore.finance/)** — an advanced infrastructure that provides standardized integrations (called "Legos") with DeFi protocols. This partnership enables both programmatic treasury management today and AI-driven optimization in the future.
 
 **How Underscore Powers the Endaoment:**
 
@@ -86,7 +152,7 @@ The Endaoment leverages **Underscore Protocol** — an advanced infrastructure t
 
 **Future AI Integration**: While currently operating through programmatic rules, the Endaoment's architecture is built to support AI treasury managers that could dynamically rebalance across integrated protocols, finding optimal yield opportunities 24/7.
 
-### 3. Strategic Partnership Programs
+### 4. Strategic Partnership Programs
 
 The Endaoment enables win-win liquidity partnerships:
 
@@ -104,14 +170,29 @@ The Endaoment enables win-win liquidity partnerships:
 * Expand market presence
 * Generate additional revenue streams
 
-## Future Yield Distribution
+## Where Protocol Revenue Goes
 
-Currently, all treasury earnings remain in the Endaoment to maximize protocol growth and compound returns. However, [governance](09-governance.md) retains the power to enable yield distribution in the future, which could direct treasury earnings to:
+Every fee the protocol earns? It goes somewhere useful.
 
-* **RIPE stakers** in the [governance vault](09-governance.md) — rewarding long-term aligned participants
-* [**sGREEN**](../earning-and-rewards/05-sgreen.md) **stakers** — providing additional rewards beyond [stability pool](../earning-and-rewards/06-stability-pools.md) returns
+### The Revenue Split
 
-When activated, these would represent real yield from treasury operations, not token inflation, creating sustainable value for committed protocol participants.
+Borrowing fees and interest get split two ways:
+
+* **RIPE Buybacks**: A portion buys RIPE off the market (good for RIPE holders)
+* **sGREEN Yield**: The rest flows to [sGREEN](../earning-and-rewards/05-sgreen.md) holders
+
+The split ratio is adjustable by governance. More borrowing = more revenue = both tokens benefit. See [RIPE Value Accrual](08-ripe-tokenomics.md#ripe-value-accrual-real-revenue-real-buybacks) for the full breakdown.
+
+### Treasury Yields (Future)
+
+Right now, all Endaoment earnings stay in the treasury — compounding, growing the war chest.
+
+But governance can change that. Future options include directing treasury yields to:
+
+* **RIPE stakers** — reward the long-term believers
+* **sGREEN holders** — boost returns beyond stability pool earnings
+
+Real yield from real operations. Not inflation. That's the difference.
 
 ## What Sets The Endaoment Apart
 

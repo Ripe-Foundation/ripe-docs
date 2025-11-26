@@ -6,7 +6,7 @@ description: The Stablecoin That Works Harder.
 
 Your USDC sits there doing nothing. Your DAI requires a new vault for every asset. Your LUSD only accepts ETH.
 
-GREEN? It's built different. Mint it against your entire portfolio — ETH, stablecoins, NFTs, whatever you've got. Earn yield automatically through [sGREEN](../earning-and-rewards/05-sgreen.md). Score liquidation profits in [stability pools](../earning-and-rewards/06-stability-pools.md). Watch five different mechanisms defend the peg while you sleep.
+GREEN? It's built different. Mint it against your entire portfolio — ETH, stablecoins, NFTs, whatever you've got. Earn yield automatically through [sGREEN](../earning-and-rewards/05-sgreen.md). Score liquidation profits in [stability pools](../earning-and-rewards/06-stability-pools.md). Watch six different mechanisms defend the peg while you sleep.
 
 This is what happens when you stop asking "how do we make another stablecoin?" and start asking "how should stablecoins actually work?"
 
@@ -103,19 +103,19 @@ Every GREEN token represents real value locked in Ripe Protocol:
 2. **Borrow GREEN**: Mint new GREEN against your collateral
 3. **Overcollateralized Always**: Minimum 110% backing, often much higher
 4. **Pay Interest**: [Dynamic rates](02-borrowing.md#dynamic-interest-rates) that respond to market conditions
-5. **Origination Fee (Daowry)**: One-time fee that flows to sGREEN holders (currently 0.5%)
+5. **Origination Fee (Daowry)**: One-time fee that flows to sGREEN holders (currently 0.25%)
 
 **Example Multi-Asset Borrowing**:
 
 ```
 Your Unified Portfolio:
 - 5 ETH worth $10,000 (70% LTV = $7,000 borrowing power)
-- 10,000 USDC (90% LTV = $9,000 borrowing power)
-- 2 stETH worth $4,000 (85% LTV = $3,400 borrowing power)
-- 1M PEPE worth $1,000 (50% LTV = $500 borrowing power)
+- 10,000 USDC (80% LTV = $8,000 borrowing power)
+- 2 cbETH worth $4,000 (70% LTV = $2,800 borrowing power)
+- 1M DEGEN worth $1,000 (40% LTV = $400 borrowing power)
 - 1 Bored Ape worth $50,000 (40% LTV = $20,000 borrowing power)
 
-Total Borrowing Power: $39,900 GREEN
+Total Borrowing Power: $38,200 GREEN
 Single Loan, Single Interest Rate, All Assets Working Together
 ```
 
@@ -129,9 +129,9 @@ GREEN supply contracts automatically when loans are repaid:
 
 This elegant mechanism ensures GREEN supply expands and contracts with real borrowing demand.
 
-## The Five Pillars of Stability
+## The Six Pillars of Stability
 
-GREEN maintains its $1 peg through multiple interconnected mechanisms that activate automatically based on market conditions. Notably, GREEN features two distinct redemption mechanisms that create powerful arbitrage loops, ensuring the peg is defended from multiple angles:
+GREEN maintains its $1 peg through multiple interconnected mechanisms that activate automatically based on market conditions. Notably, GREEN features multiple redemption and conversion mechanisms that create powerful arbitrage loops, ensuring the peg is defended from multiple angles:
 
 ### 1. Overcollateralization Foundation
 
@@ -278,6 +278,45 @@ GREEN above peg (pool <50% GREEN)?
 * **Self-Strengthening**: Every intervention generates fees that grow the treasury
 
 The Endaoment transforms from passive treasury to active market participant, with the resources and authority to maintain GREEN's peg against any market conditions.
+
+### 6. Peg Stability Module (PSM)
+
+Forget complex arbitrage strategies. The PSM lets anyone swap GREEN ↔ USDC at exactly $1. Always.
+
+**Dead Simple**:
+
+* **Mint GREEN**: Deposit USDC, receive GREEN at 1:1 ratio (minus small fee if applicable)
+* **Redeem GREEN**: Burn GREEN, receive USDC at 1:1 ratio (minus small fee if applicable)
+* **Always Available**: Unlike redemptions that require positions in danger zones or liquidated collateral, PSM operates whenever it has USDC reserves
+
+**The Instant Arbitrage Loop**:
+
+```
+GREEN trading at $0.97?
+1. Buy 10,000 GREEN on DEX for $9,700
+2. Redeem via PSM for 10,000 USDC
+3. Instant $300 profit
+4. Your buying pressure restores the peg
+
+GREEN trading at $1.03?
+1. Mint 10,000 GREEN via PSM for 10,000 USDC
+2. Sell on DEX for $10,300
+3. Instant $300 profit
+4. Your selling pressure restores the peg
+```
+
+**Why It Works**:
+
+* **No prerequisites** — don't need positions in danger zones or liquidated collateral
+* **Predictable** — fixed 1:1 conversion, known fees
+* **Fast** — one transaction, done
+* **Self-funding** — USDC reserves earn yield while waiting
+
+**The Fine Print**:
+
+Rate limits prevent manipulation. Optional allowlisting during rollout. Underscore Protocol gets unlimited access for operational needs.
+
+Bottom line: when GREEN trades off-peg, arbitrageurs can always count on the PSM to close the gap.
 
 ## Additional GREEN Ecosystem Features
 

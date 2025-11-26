@@ -28,9 +28,9 @@ Your [deposits](../core-protocol/03-collateral-assets.md) back only your own loa
 
 Each asset has its own Loan-to-Value (LTV) ratio:
 
-* **Stablecoins**: Up to 90% of value
-* **ETH/WBTC**: Up to 70-80% of value
-* **Volatile assets**: 30-50% of value
+* **Stablecoins**: Up to 80% of value
+* **ETH/WBTC**: Up to 70% of value
+* **Volatile assets**: 40-50% of value
 
 Your total [borrowing power](../core-protocol/02-borrowing.md) combines all assets weighted by their individual LTVs.
 
@@ -107,41 +107,89 @@ It's like being a liquidator without running any bots.
 [RIPE rewards](../earning-and-rewards/07-ripe-rewards.md) currently flow to two groups (90% stakers, 10% borrowers):
 
 1. **Stakers (90%)**:
-   * GREEN LP: 65% of staker rewards (best returns!)
-   * RIPE LP: 15% of staker rewards
-   * sGREEN: 10% of staker rewards
-   * RIPE: 10% of staker rewards
+   * RIPE LP: 45% of staker rewards (best returns!)
+   * GREEN LP: 25% of staker rewards
+   * sGREEN: 15% of staker rewards
+   * RIPE: 15% of staker rewards
 2. **Borrowers (10%)**: Based on debt size and duration
 
 Future categories (not active yet): General depositors and vote-selected assets.
 
-**Important**: Current emissions are ramping up from 0.0025 RIPE/block to target 100 RIPE/block. When claiming rewards, 75% auto-stakes with a 1-year lock.
+**Important**: Current emissions are ramping up. When claiming rewards, 75% auto-stakes with a ~1-year lock.
 
 ## GREEN Stability
 
 ### How does GREEN maintain its $1 peg?
 
-Five mechanisms work together:
+Six mechanisms work together:
 
 1. **Overcollateralization**: Every GREEN backed by 110%+ collateral
 2. **Dynamic rates**: Borrowing costs increase if GREEN weakens
-3. **Direct redemption**: Arbitrageurs can always redeem GREEN for $1 of collateral
+3. **Direct redemption**: Arbitrageurs can redeem GREEN for $1 of collateral (when positions in redemption zone)
 4. **Stability pool redemption**: Additional redemption path through liquidated collateral
 5. [**Endaoment**](../governance-and-economics/11-endaoment.md) **operations**: Treasury automatically rebalances liquidity pools
+6. **Peg Stability Module (PSM)**: Direct GREEN/USDC conversion at 1:1 — the most accessible arbitrage path
 
 ### What happens if GREEN trades below $1?
 
 Arbitrageurs immediately profit by:
 
-1. Buying GREEN cheap (e.g., $0.97)
-2. Redeeming for exactly $1 of collateral
+1. Buying GREEN cheap on a DEX (e.g., $0.97)
+2. Redeeming via PSM for exactly $1 USDC (or via direct redemption for $1 of collateral)
 3. Pocketing the difference
 
-This creates instant buying pressure that pushes GREEN back to $1.
+This creates instant buying pressure that pushes GREEN back to $1. The PSM provides the most direct path — no need to wait for positions in redemption zones.
 
 ### Can GREEN lose its peg permanently?
 
 The protocol's design makes this extremely unlikely. As long as loans remain overcollateralized, arbitrage mechanisms ensure GREEN returns to $1. The worse the depeg, the bigger the profit opportunity for arbitrageurs to fix it.
+
+### What is the PSM and how do I use it?
+
+The Peg Stability Module (PSM) lets you convert between GREEN and USDC at a 1:1 ratio:
+
+* **Mint GREEN**: Send USDC to the PSM, receive GREEN (can auto-wrap to sGREEN)
+* **Redeem GREEN**: Send GREEN to the PSM, receive USDC (accepts sGREEN too)
+
+**Why use it?**
+
+* Arbitrage when GREEN trades off-peg
+* Get GREEN without borrowing (just swap USDC)
+* Exit GREEN to USDC without DEX slippage
+
+**Limitations**: The PSM may have rate limits per interval, optional fees, and requires sufficient USDC reserves for redemptions. Check the UI for current availability and terms.
+
+## Technical Details
+
+### Why did my transaction fail?
+
+The protocol limits users to **one action per block** (approximately 2 seconds on Base). If you submit multiple transactions too quickly, subsequent ones will fail. Simply wait a few seconds and retry.
+
+This rate limiting:
+* Prevents front-running attacks
+* Ensures fair ordering of operations
+* Protects protocol state consistency
+
+### What is account locking?
+
+Account locking is an emergency security feature that restricts all protocol actions for a specific wallet address. If your account is locked:
+
+* You cannot deposit, withdraw, borrow, or repay
+* This is typically activated for security reasons (suspected compromise, unusual activity)
+* Contact the team via Discord or email to resolve
+
+Account locking protects both users and the protocol from potential exploits or hacked wallets.
+
+### Can the protocol be paused?
+
+Yes. In emergency situations, individual components or the entire protocol can be paused:
+
+* **Per-contract pausing**: Specific functions (deposits, borrows, liquidations) can be paused independently
+* **Global pause**: All protocol operations can be halted
+* **Purpose**: Allows response to discovered vulnerabilities or market emergencies
+* **Controlled by**: Governance through RipeHq
+
+Pauses are temporary measures used only in genuine emergencies to protect user funds.
 
 ## Advanced Features
 
@@ -155,13 +203,29 @@ Yes! Ripe is built for the $16 trillion in real-world assets being tokenized by 
 
 ### What's the delegation system?
 
-You can grant specific permissions to other addresses:
+You can grant granular permissions to other addresses for automated position management:
 
-* **Deposit permission**: Let others add collateral for you
-* **Borrow permission**: Enable automated leverage strategies
-* **Withdraw permission**: Allow rebalancing
+**Per-Address Delegations:**
+* **canWithdraw**: Allow delegate to withdraw collateral on your behalf
+* **canBorrow**: Enable borrowing and [deleveraging](../core-protocol/05-deleverage.md) operations
+* **canClaimFromStabPool**: Allow claiming liquidated collateral from stability pools
+* **canClaimLoot**: Allow claiming RIPE rewards on your behalf
 
-Delegates can never steal funds — withdrawals always go to the original owner.
+**Global User Settings:**
+* **canAnyoneDeposit**: Let any address add collateral for you
+* **canAnyoneRepayDebt**: Allow anyone to repay your debt (useful for rescue scenarios)
+* **canAnyoneBondForUser**: Let others purchase bonds on your behalf
+
+**Security Guarantees:**
+* Delegates can never steal funds — withdrawals always go to the original owner
+* Each permission is independent — granting one doesn't grant others
+* Permissions can be revoked at any time
+
+**Use Cases:**
+* Automated yield strategies via third-party protocols
+* Team-managed treasury positions
+* Bot-assisted position management
+* Emergency rescue by trusted parties
 
 ### Can I use my borrowed GREEN to earn yield?
 
@@ -218,7 +282,7 @@ Combined with lock bonuses, top contributors can get up to 5x multipliers.
 The [Endaoment](../governance-and-economics/11-endaoment.md) is Ripe's treasury system that combines automated mechanisms with strategic oversight. It:
 
 * Manages protocol-owned liquidity from bond sales
-* Generates yield across DeFi via Underscore Protocol
+* Generates yield across DeFi via [Underscore](https://underscore.finance/)
 * Defends GREEN's peg through market operations
 * Funds operations without token inflation
 

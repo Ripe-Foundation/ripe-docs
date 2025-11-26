@@ -111,10 +111,10 @@ Each supported asset has its own configuration that determines how it splits the
 * **Staker Points Allocation**: Percentage of the total Stakers pool this asset receives
   * Only applies to staked assets (RIPE, RIPE LP in [Governance Vault](../governance-and-economics/09-governance.md); [sGREEN](05-sgreen.md), GREEN LP in [Stability Pools](06-stability-pools.md))
   * Current allocations:
-    * GREEN LP: 65% (highest rewards!)
-    * RIPE LP: 15%
-    * sGREEN: 10%
-    * RIPE: 10%
+    * RIPE LP: 45% (highest rewards!)
+    * GREEN LP: 25%
+    * sGREEN: 15%
+    * RIPE: 15%
 * **Voter Points Allocation**: Percentage of the Vote Depositors pool this asset receives
   * Only for assets selected through governance voting
   * All voter allocations across eligible assets must sum to 100%
@@ -171,10 +171,10 @@ Stakers pool gets 90%: 450 RIPE/day
 Borrowers pool gets 10%: 50 RIPE/day
 
 Within the Stakers pool (450 RIPE/day):
-- GREEN LP tokens get 65% = 292.5 RIPE/day
-- RIPE LP tokens get 15% = 67.5 RIPE/day
-- sGREEN gets 10% = 45 RIPE/day
-- RIPE tokens get 10% = 45 RIPE/day
+- RIPE LP tokens get 45% = 202.5 RIPE/day
+- GREEN LP tokens get 25% = 112.5 RIPE/day
+- sGREEN gets 15% = 67.5 RIPE/day
+- RIPE tokens get 15% = 67.5 RIPE/day
 ```
 
 **🎯 Step 3: What's YOUR Share of Your Asset Pool?**
@@ -195,18 +195,18 @@ Example: You stake 1,000 RIPE for 100 blocks
 Your rewards = Your share × Asset's daily allocation
 
 Example: 10% share of RIPE staking pool
-10% × 45 RIPE/day = 4.5 RIPE per day
-At $10 per RIPE = $45 per day earned!
+10% × 67.5 RIPE/day = 6.75 RIPE per day
+At $10 per RIPE = $67.50 per day earned!
 ```
 
 ### Quick Reference Table
 
 | Your Action              | Pool You Earn From        | How to Maximize                      |
 | ------------------------ | ------------------------- | ------------------------------------ |
-| Provide GREEN LP         | Stakers (90%) - 65% share | Larger positions earn more           |
-| Provide RIPE LP          | Stakers (90%) - 15% share | Larger positions earn more           |
-| Stake RIPE               | Stakers (90%) - 10% share | Lock for 3 years (+200% bonus)       |
-| Deposit sGREEN           | Stakers (90%) - 10% share | Combine with stability pool benefits |
+| Provide RIPE LP          | Stakers (90%) - 45% share | Larger positions earn more           |
+| Provide GREEN LP         | Stakers (90%) - 25% share | Larger positions earn more           |
+| Stake RIPE               | Stakers (90%) - 15% share | Lock for 3 years (+200% bonus)       |
+| Deposit sGREEN           | Stakers (90%) - 15% share | Combine with stability pool benefits |
 | Borrow GREEN             | Borrowers (10%)           | Larger, longer loans                 |
 | Future: General deposits | Not active yet            | TBD                                  |
 | Future: Voted assets     | Not active yet            | TBD                                  |
@@ -217,38 +217,49 @@ At $10 per RIPE = $45 per day earned!
 
 Assumptions: 500 RIPE daily emissions at $10 per RIPE token
 
-**For GREEN LP (Highest Rewards - 65% of stakers):**
+**For RIPE LP (Highest Rewards - 45% of stakers):**
 
 ```
-Daily Rewards ≈ (Your LP Value / Total GREEN LP) × 292.5 RIPE
+Daily Rewards ≈ (Your LP Value / Total RIPE LP) × 202.5 RIPE
+
+Example: $100,000 in RIPE LP (1% of total)
+= 1% × 202.5 = 2.025 RIPE per day
+= $20.25 per day
+= ~7.4% APR in USD terms
+```
+
+**For GREEN LP (25% of stakers):**
+
+```
+Daily Rewards ≈ (Your LP Value / Total GREEN LP) × 112.5 RIPE
 
 Example: $100,000 in GREEN LP (1% of total)
-= 1% × 292.5 = 2.925 RIPE per day
-= $29.25 per day
-= ~10.7% APR in USD terms
+= 1% × 112.5 = 1.125 RIPE per day
+= $11.25 per day
+= ~4.1% APR in USD terms
 ```
 
-**For RIPE Staking (10% of stakers):**
+**For RIPE Staking (15% of stakers):**
 
 ```
-Daily Rewards ≈ (Your RIPE / Total RIPE Staked) × 45 RIPE × Lock Multiplier
+Daily Rewards ≈ (Your RIPE / Total RIPE Staked) × 67.5 RIPE × Lock Multiplier
 
 Example: 10,000 RIPE staked (1% of total) with 3-year lock
-= 1% × 45 × 3.0 = 1.35 RIPE per day
-= $13.50 per day
-= Your stake worth $100,000, earning $13.50/day = ~4.9% APR
-With compounding: ~5.0% APY
+= 1% × 67.5 × 3.0 = 2.025 RIPE per day
+= $20.25 per day
+= Your stake worth $100,000, earning $20.25/day = ~7.4% APR
+With compounding: ~7.6% APY
 ```
 
-**For sGREEN Deposits (10% of stakers):**
+**For sGREEN Deposits (15% of stakers):**
 
 ```
-Daily Rewards ≈ (Your sGREEN Value / Total sGREEN) × 45 RIPE
+Daily Rewards ≈ (Your sGREEN Value / Total sGREEN) × 67.5 RIPE
 
 Example: $100,000 in sGREEN (2% of total)
-= 2% × 45 = 0.9 RIPE per day
-= $9.00 per day
-= ~3.3% APR in USD terms
+= 2% × 67.5 = 1.35 RIPE per day
+= $13.50 per day
+= ~4.9% APR in USD terms
 ```
 
 **For Borrowing GREEN (10% of emissions):**
@@ -271,8 +282,8 @@ The protocol enforces auto-staking to balance token distribution with long-term 
 * **Stake Ratio**: 75% must be auto-staked
   * Only 25% goes to your wallet as liquid RIPE
   * Prevents market flooding while building committed participants
-* **Duration Ratio**: 33% × 3-year max = 1-year lock
-  * All auto-staked rewards are locked for 1 year
+* **Duration Ratio**: 33% × 3-year max = ~1-year lock
+  * All auto-staked rewards are locked for approximately 1 year
   * Ensures reward recipients become long-term stakeholders
 
 **Why This Matters**: Rather than dumping tokens on the market, auto-staking creates a community of invested participants who earn governance power alongside their rewards. You're not just earning tokens — you're earning a voice in the protocol's future.
@@ -316,13 +327,13 @@ It's like a buffet where desserts are on one table and mains on another — you 
    * Stakers total: 450 RIPE/day (90% of 500 RIPE)
    * Borrowers total: 50 RIPE/day (10% of 500 RIPE)
 2. For stakers, find your asset's share:
-   * GREEN LP: 292.5 RIPE/day (65% of stakers)
-   * RIPE LP: 67.5 RIPE/day (15% of stakers)
-   * sGREEN: 45 RIPE/day (10% of stakers)
-   * RIPE: 45 RIPE/day (10% of stakers)
+   * RIPE LP: 202.5 RIPE/day (45% of stakers)
+   * GREEN LP: 112.5 RIPE/day (25% of stakers)
+   * sGREEN: 67.5 RIPE/day (15% of stakers)
+   * RIPE: 67.5 RIPE/day (15% of stakers)
 3. Multiply: asset allocation × your percentage = daily rewards
 
-**Example**: You have 1% of all staked RIPE → 45 × 1% = 0.45 RIPE per day = $4.50/day
+**Example**: You have 1% of all staked RIPE → 67.5 × 1% = 0.675 RIPE per day = $6.75/day
 
 ### "What happens when I claim?"
 
@@ -331,14 +342,25 @@ The protocol enforces auto-staking parameters to align incentives:
 **Current Settings (Protocol-Controlled):**
 
 * **Auto-stake percentage**: 75% must be auto-staked
-* **Lock duration**: 1 year (33% of max 3-year duration)
+* **Lock duration**: ~1 year (33% of max 3-year duration)
 * **Your choice**: Only whether to claim now or wait
+
+**The Full Claim Process:**
+
+When you claim RIPE rewards, the Lootbox contract:
+1. Iterates through ALL your vaults and assets to calculate total points
+2. Determines your share of each reward pool (stakers, borrowers, etc.)
+3. Calculates RIPE owed based on your points vs total pool points
+4. Splits rewards: 75% auto-staked with ~1-year lock, 25% liquid to your wallet
+5. Deposits the auto-staked portion into the governance vault for you
 
 **Example Claim:**
 
 * You have 1,000 RIPE rewards to claim
-* Protocol requires 75% auto-stake with 1-year lock
+* Protocol requires 75% auto-stake with ~1-year lock
 * Result: 250 RIPE to your wallet + 750 RIPE locked in governance vault
+
+**Delegation**: Others can claim on your behalf if you've granted `canClaimLoot` permission. This enables automated compounding strategies.
 
 **Why This Matters**: Auto-staking prevents market flooding and ensures reward recipients become long-term stakeholders with governance power. You're earning both tokens AND future influence!
 

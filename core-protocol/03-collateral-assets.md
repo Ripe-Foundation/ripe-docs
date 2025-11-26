@@ -77,8 +77,19 @@ Ripe's extensible architecture can support a vast and growing universe of tokeni
 
 * **Liquid staking**: stETH, rETH, cbETH continue earning staking rewards
 * **LP tokens**: Uniswap, Curve, Balancer positions keep earning fees
-* **Vault tokens**: Lending positions from Aave, Morpho, Euler, etc.
+* **Vault tokens**: Yield-generating vault positions
 * Share-based accounting preserves all accumulated yields
+
+**[Underscore](https://underscore.finance/) Vaults** - The premier yield-bearing collateral
+
+Underscore's AI-powered vaults (ERC4626) are the recommended way to earn yield while using assets as collateral:
+
+* **Always optimizing**: AI agents continuously rebalance strategies even while your vault tokens are locked as collateral on Ripe
+* **Multiple asset types**: USD, ETH, BTC, and other strategies available
+* **Continuous yield**: Vaults keep earning while serving as your collateral
+* **Preferential borrowing**: Underscore vaults receive [discounted rates](02-borrowing.md#underscore-protocol-integration) when borrowing GREEN
+
+Deposit into Underscore vaults, then use those vault tokens as collateral in Ripe — the AI keeps working to maximize your yield while you borrow against it.
 
 **4. Tokenized Real-World Assets** - Bridging traditional finance
 

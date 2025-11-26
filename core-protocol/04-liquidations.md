@@ -6,54 +6,54 @@ description: When Leverage Goes Wrong (But Not Too Wrong)
 
 Most protocols liquidate everything when you cross the line. Position worth $10,000? Debt at $9,001? They take it all. You get nothing.
 
-Ripe takes only what's needed. Your position hits the danger zone? The protocol uses your own sGREEN first, then takes just enough collateral to restore health. You keep the rest.
+Ripe takes only what's needed. Your position hits the danger zone? The protocol takes just enough collateral to restore health. You keep the rest.
 
-Four layers of protection. Partial liquidations only. Your own assets used first. This isn't charity — it's math. Keeping borrowers alive keeps the protocol healthy.
+Multiple layers of protection. Partial liquidations only. Proactive deleveraging available. This isn't charity — it's math. Keeping borrowers alive keeps the protocol healthy.
 
 ## Executive Summary
 
 **Key Points:**
 
-* 🛡️ **Four defense layers**: Redemption buffer → Your own assets → Stability pools → Dutch auctions
+* 🛡️ **Multiple defense layers**: Deleverage → Redemption → Stability pools → Dutch auctions
 * 📊 **Partial only**: Liquidates just enough to restore health, not entire position
-* 💰 **Fair pricing**: 5-15% liquidation fees
+* 💰 **Fair pricing**: 5-15% liquidation fees on volatile assets
 * ⚡ **Automated**: Keeper network ensures rapid execution
-* 🎯 **Your assets first**: Uses your stability pool deposits and stablecoins with no penalties
+* 🎯 **Proactive options**: [Deleverage](05-deleverage.md) your position before liquidation with zero penalties
 
 **Quick Visual: The Liquidation Flow**
 
 ```
 Your Position Becomes Unhealthy
             ↓
-    REDEMPTION ZONE (First)
+    DELEVERAGE (Proactive)
+    └─ Reduce debt using your GREEN,
+       sGREEN, or stablecoins (no penalty)
+       See: Deleverage documentation
+            ↓
+    REDEMPTION ZONE
     └─ GREEN holders can redeem
        at $1 (no penalty for you)
             ↓
     LIQUIDATION TRIGGERED
             ↓
-┌───────────────────────────────┐
-│   PHASE 1: Your Own Assets    │
-│   • Your sGREEN in pools      │
-│   • Your GREEN LP in pools    │
-│   • Your stablecoin deposits  │
-└────────────┬──────────────────┘
+┌─────────────────────────────────┐
+│   PHASE 1: Stability Pool Swaps │
+│   • Volatile assets (ETH, BTC)  │
+│   • Instant swaps at discount   │
+│   • 5-15% liquidation fee       │
+└────────────┬────────────────────┘
              ↓ (if needed)
 ┌───────────────────────────┐
-│   PHASE 2: Stability Pool │
-│   • Instant swaps         │
-│   • 5-15% discount only   │
-└────────────┬──────────────┘
-             ↓ (if needed)
-┌───────────────────────────┐
-│   PHASE 3: Dutch Auction  │
+│   PHASE 2: Dutch Auction  │
 │   • Public sale           │
 │   • Increasing discounts  │
+│   • 1% → 50% over time    │
 └───────────────────────────┘
 ```
 
 **What This Means For You:**
 
-* ✅ Multiple chances to avoid liquidation
+* ✅ Deleverage proactively to avoid liquidation entirely
 * ✅ Keep most of your collateral
 * ✅ Lower fees than other protocols
 * ✅ No cascade liquidations
@@ -65,19 +65,18 @@ Your Position Becomes Unhealthy
 
 * [Why Liquidations Matter](04-liquidations.md#why-liquidations-matter) - Protocol safety and borrower protection
 * [Risk Zones](04-liquidations.md#understanding-the-risk-zones) - Three thresholds and visual guide
+* [Deleverage First](05-deleverage.md) - Proactive debt reduction (separate page)
 * [Redemption Buffer](04-liquidations.md#the-redemption-buffer) - Your first line of defense
 
 **The Liquidation Process:**
 
-* [Phase 1: Own Assets](04-liquidations.md#phase-1-using-your-own-assets-first) - GREEN/sGREEN burning
-* [Phase 2: Stability Pools](04-liquidations.md#phase-2-stability-pool-swaps) - Instant liquidity
-* [Phase 3: Dutch Auctions](04-liquidations.md#phase-3-dutch-auctions) - Time-based discounts
+* [Phase 1: Stability Pools](04-liquidations.md#phase-1-stability-pool-swaps) - Instant liquidity for volatile assets
+* [Phase 2: Dutch Auctions](04-liquidations.md#phase-2-dutch-auctions) - Time-based discounts
 
 **Advanced Topics:**
 
 * [Liquidation Economics](04-liquidations.md#liquidation-economics) - Fees and calculations
 * [Keeper Network](04-liquidations.md#the-keeper-network) - Automated execution
-* [Common Scenarios](04-liquidations.md#common-scenarios) - Real-world examples
 * [Bad Debt Handling](04-liquidations.md#what-if-bad-debt-occurs) - Last resort measures
 
 ***
@@ -179,31 +178,50 @@ Before liquidation becomes possible, the redemption mechanism provides a unique 
 
 This mechanism serves dual purposes: protecting borrowers through gradual deleveraging while helping maintain GREEN's $1 peg during market stress.
 
-## The Three-Phase Liquidation Process
+**Want to take action before redemption?** Consider [deleveraging](05-deleverage.md) your position proactively. You can voluntarily reduce your debt by selling collateral — without liquidation penalties — at any time.
 
-When liquidation becomes necessary, Ripe employs a carefully orchestrated three-phase approach designed to minimize impact while ensuring debt repayment.
+## The Liquidation Process
 
-### Phase 1: Using Your Own Assets First
+When liquidation becomes necessary, Ripe employs a carefully orchestrated two-phase approach designed to minimize impact while ensuring debt repayment.
 
-The protocol first looks to your existing positions within Ripe:
+### Before Liquidation: Deleverage
 
-**Your Stability Pool Deposits**
+Before your position reaches liquidation, you have options to reduce debt with **zero penalties**:
 
-* Your own [sGREEN](../earning-and-rewards/05-sgreen.md) deposits in stability pools → burned to reduce debt
-* Your own GREEN LP deposits in stability pools → sent to Endaoment to reduce debt
-* Direct debt reduction with no penalties or discounts
-* These are YOUR deposits being used to pay YOUR debt
+* **[Deleverage](05-deleverage.md)** your position using GREEN, sGREEN, or stablecoins
+* Burns your stability pool deposits to reduce debt directly
+* Transfers stablecoins to Endaoment at 1:1 value
+* No liquidation fees, no discounts — just debt reduction
 
-**Your Stablecoin Collateral**
+This is handled by the separate [Deleverage](05-deleverage.md) system and can be triggered by you, delegated addresses, or third parties when you're in the redemption zone.
 
-* USDC, USDT, and other stablecoins you deposited as collateral
-* Transferred to [Endaoment](../governance-and-economics/11-endaoment.md) treasury at 1:1 value
-* No liquidation discount applied to stablecoins
-* Immediately reduces your debt dollar-for-dollar
+**Key Point**: GREEN, sGREEN, and stablecoins are NOT processed during liquidation itself — they're handled through deleveraging. Liquidation only deals with volatile assets.
 
-### Phase 2: Stability Pool Swaps
+### What Happens When Liquidation Starts
 
-Next, the protocol engages [stability pools](../earning-and-rewards/06-stability-pools.md) for instant liquidity:
+When your position crosses the liquidation threshold:
+
+1. **Position enters `inLiquidation` state**
+   * You are blocked from taking new borrows
+   * You can still repay debt to exit liquidation
+   * Your volatile collateral becomes eligible for processing
+
+2. **Liquidation fees are calculated**
+   * Base liquidation fee (5-15% depending on asset)
+   * Keeper reward (1% of debt)
+   * **Important**: Total fees are capped by your collateral surplus to ensure liquidation remains possible
+
+3. **Two-phase asset processing begins**
+   * Only enough collateral is taken to restore health
+   * You keep any remaining collateral
+
+4. **Exiting liquidation mode**
+   * Repay your debt to exit `inLiquidation` state
+   * Once debt health is restored, normal operations resume
+
+### Phase 1: Stability Pool Swaps
+
+The protocol engages [stability pools](../earning-and-rewards/06-stability-pools.md) for instant liquidity on your volatile assets (ETH, WBTC, etc.):
 
 **How Pool Swaps Work**
 
@@ -233,14 +251,14 @@ Next, the protocol engages [stability pools](../earning-and-rewards/06-stability
 
 _For deeper understanding of stability pool mechanics, see_ [_Stability Pools_](../earning-and-rewards/06-stability-pools.md)_._
 
-### Phase 3: Dutch Auctions
+### Phase 2: Dutch Auctions
 
 For any remaining collateral after pools are exhausted:
 
 **Time-Based Discounts**
 
-* Auctions start with small discounts (e.g., 2%)
-* Discounts increase linearly over time (up to 20%)
+* Auctions start with small discounts (1%)
+* Discounts increase linearly over time (up to 50%)
 * Anyone with GREEN can buy instantly at current discount
 * No waiting for auction to "end" - immediate settlement
 
@@ -261,7 +279,7 @@ Liquidation fees serve multiple purposes in the ecosystem:
 **Fee Structure**
 
 * Base liquidation fee: Typically 5-15% depending on asset risk
-* Keeper rewards: Small additional fee (0.1-0.5%) for liquidation executors
+* Keeper rewards: Additional fee (1%) for liquidation executors
 * Total impact: Your cost becomes others' profit opportunity
 
 **Where Fees Go**
@@ -316,7 +334,7 @@ Keepers are the protocol's decentralized guardians — independent operators who
 
 * Monitor all positions 24/7 for liquidation thresholds
 * Trigger liquidations the moment positions become unsafe
-* Earn small rewards (typically 0.1-0.5% of debt) for their service
+* Earn rewards (typically 1% of debt) for their service
 * Compete to execute liquidations quickly and efficiently
 
 **Why This Benefits You**
@@ -335,19 +353,19 @@ Anyone can be a keeper — no special permissions needed. This open system ensur
 | Feature                | Traditional DeFi       | Ripe Protocol                |
 | ---------------------- | ---------------------- | ---------------------------- |
 | **Liquidation Amount** | Entire position (100%) | Only what's needed (partial) |
-| **Warning System**     | None                   | Redemption buffer zone       |
+| **Warning System**     | None                   | Deleverage + Redemption zones |
 | **Liquidation Fee**    | 13-50% penalty         | 5-15% fixed discount         |
 | **Who Can Buy**        | MEV bots only          | Anyone (pools + auctions)    |
-| **Your Assets Used**   | No                     | Yes (GREEN/sGREEN first)     |
+| **Proactive Options**  | None                   | Deleverage with zero penalty |
 | **Market Impact**      | Large dumps            | Phased, orderly process      |
 
 ### Borrower Protection Features
 
-1. **Graduated Intervention**: Redemption buffer before liquidation
-2. **Partial Liquidations**: Only liquidate what's necessary
-3. **Internal Recovery First**: Use your own assets before external sales
+1. **Proactive Deleveraging**: Reduce debt before liquidation with zero fees
+2. **Graduated Intervention**: Redemption buffer before liquidation
+3. **Partial Liquidations**: Only liquidate what's necessary
 4. **Fixed Discounts**: No arbitrary penalties or excessive fees
-5. **Multiple Mechanisms**: Three phases provide redundancy
+5. **Multiple Mechanisms**: Two phases provide redundancy
 
 ### System Stability Benefits
 
@@ -378,11 +396,13 @@ Here's what actually matters:
 
 **When you get liquidated on Ripe**: You lose some. Position survives. Still in the game.
 
+Even better: you can [deleverage](05-deleverage.md) before liquidation even happens — using your GREEN, sGREEN, or stablecoins to pay down debt with zero penalties. That's not an option on other protocols.
+
 That $312.50 difference in our example? That's rent money. That's staying in crypto versus rage quitting. That's the difference between a setback and a catastrophe.
 
 The protocol doesn't do this to be nice. It does it because borrowers who survive keep borrowing, keep paying interest, keep the system running. Your success is the protocol's success.
 
-So go ahead. Take that loan. The safety net has four layers.
+So go ahead. Take that loan. You've got deleverage, redemption buffers, stability pools, and auctions watching your back.
 
 ***
 

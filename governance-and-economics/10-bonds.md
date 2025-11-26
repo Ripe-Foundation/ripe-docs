@@ -193,7 +193,7 @@ All stablecoins from bond sales flow directly to the [Endaoment](11-endaoment.md
 
 **Treasury Deployment Strategy:**
 
-* **Yield Farming**: Earns returns across DeFi via Underscore Protocol integrations
+* **Yield Farming**: Earns returns across DeFi via [Underscore](https://underscore.finance/) integrations
 * **GREEN Liquidity**: Provides permanent trading depth for the stablecoin
 * **Market Operations**: Defends GREEN's $1 peg during volatility
 * **Strategic Reserves**: Backstops the protocol during extreme events

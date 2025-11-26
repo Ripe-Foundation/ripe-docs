@@ -163,6 +163,40 @@ The protocol can freeze contracts in emergencies but cannot steal vested tokens.
 
 _For deep technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/contributor)_._
 
+## RIPE Value Accrual: Real Revenue, Real Buybacks
+
+Most governance tokens are worthless. Vote on stuff, hope number goes up.
+
+RIPE actually captures protocol revenue. Every loan fee, every interest payment — a portion goes straight to buying RIPE off the market.
+
+### How the Buyback Split Works
+
+```
+Protocol Revenue (Fees + Interest)
+              ↓
+    ┌─────────┴─────────┐
+    ↓                   ↓
+RIPE Buybacks     sGREEN Yield
+```
+
+Governance sets the split. More protocol usage = more revenue = more buybacks. Simple math.
+
+**What happens to bought RIPE?** Can be distributed to stakers or burned. Either way, it's value flowing to holders instead of sitting in a treasury doing nothing.
+
+### Underscore Adds More
+
+All performance fees from [Underscore](https://underscore.finance/) vaults? 100% goes to RIPE buybacks. The AI-powered yield strategies generate fees, those fees buy RIPE. More money working for token holders.
+
+### The Full Picture
+
+| Revenue Source | Where It Goes |
+|----------------|---------------|
+| Borrowing fees (Daowry) | Split: buybacks + sGREEN |
+| Interest payments | Split: buybacks + sGREEN |
+| Underscore performance fees | 100% RIPE buybacks |
+
+Three revenue streams. All flowing to token holders. That's how you build sustainable tokenomics.
+
 ## The Bottom Line: Own the Future, Not the Hype
 
 RIPE isn't another VC exit scam dressed up as "community ownership."
