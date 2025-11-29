@@ -76,12 +76,13 @@ When your position becomes eligible for collateral redemption by GREEN holders.
 
 * **What it means**: Other users can pay off your debt and take equivalent collateral
 * **How it's calculated**: Position at risk when collateral < debt ÷ redemption threshold
-*   **Example with 80% threshold**:
+* **Threshold varies by asset**: Stablecoins ~85%, ETH/BTC ~77%, volatile assets ~60%
+*   **Example with 85% threshold (stablecoins)**:
 
     ```
     Your debt: $8,000
-    Redemption triggers when collateral < $10,000
-    (Because $8,000 ÷ 0.80 = $10,000)
+    Redemption triggers when collateral < $9,412
+    (Because $8,000 ÷ 0.85 = $9,412)
     ```
 * **Purpose**: Provides market-based deleveraging and early warning before [liquidation](04-liquidations.md)
 
@@ -91,7 +92,8 @@ The critical point where forced [liquidation](04-liquidations.md) begins to prot
 
 * **What it means**: Your position will be liquidated
 * **How it's calculated**: Liquidation when collateral < debt ÷ liquidation threshold
-*   **Example with 90% threshold**:
+* **Threshold varies by asset**: Stablecoins ~90%, ETH/BTC ~80%, volatile assets ~65%
+*   **Example with 90% threshold (stablecoins)**:
 
     ```
     Your debt: $8,000
@@ -102,22 +104,22 @@ The critical point where forced [liquidation](04-liquidations.md) begins to prot
 
 ### How Thresholds Work Together: A Visual Guide
 
-Here's a unified view of how all three thresholds create different risk zones:
+Here's a unified view of how all three thresholds create different risk zones. Note that exact threshold values vary by asset class — this example uses typical ETH/BTC parameters:
 
 ```
-COLLATERAL VALUE SCALE (for $6,000 debt)
+COLLATERAL VALUE SCALE (for $6,000 debt, ETH/BTC collateral)
 ←─────────────────────────────────────────────────────────────→
-$10,000                    $8,571      $7,500     $6,667      $0
+$10,000                    $8,571      $7,792     $7,500      $0
 
 [════ SAFE ZONE ════][CAUTION][REDEMPTION][LIQUIDATION]
      ✅ Healthy        ⚠️ Warning  🚨 Danger    💀 Critical
 
 │                          │            │           │
-│                          │            │           └─ Liquidation (90%)
-│                          │            │               $6,000 ÷ 0.90 = $6,667
+│                          │            │           └─ Liquidation (80%)
+│                          │            │               $6,000 ÷ 0.80 = $7,500
 │                          │            │
-│                          │            └─ Redemption (80%)
-│                          │                $6,000 ÷ 0.80 = $7,500
+│                          │            └─ Redemption (77%)
+│                          │                $6,000 ÷ 0.77 = $7,792
 │                          │
 │                          └─ Max Borrow/LTV (70%)
 │                              $6,000 ÷ 0.70 = $8,571
@@ -128,28 +130,28 @@ $10,000                    $8,571      $7,500     $6,667      $0
 
 **Understanding Each Zone:**
 
-**🟢 SAFE ZONE (Below 70% LTV / Collateral > $8,571)**
+**🟢 SAFE ZONE (Below Max LTV / Collateral > $8,571)**
 
 * **Status**: Healthy position with borrowing capacity
-* **Actions Available**: Can borrow up to $7,000 total (70% max LTV)
+* **Actions Available**: Can borrow up to $7,000 total (70% max LTV for ETH/BTC)
 * **Risk Level**: None - full flexibility
 * **What to do**: Normal operations
 
-**🟡 CAUTION ZONE (70%-80% LTV / Collateral $8,571 - $7,500)**
+**🟡 CAUTION ZONE (Between Max LTV and Redemption / Collateral $8,571 - $7,792)**
 
 * **Status**: Over max LTV but still protected
 * **Actions Available**: Cannot borrow more; can repay/add collateral
 * **Risk Level**: Medium - approaching danger
 * **What to do**: Consider reducing debt or adding collateral
 
-**🟠 REDEMPTION ZONE (80%-90% LTV / Collateral $7,500 - $6,667)**
+**🟠 REDEMPTION ZONE (Between Redemption and Liquidation / Collateral $7,792 - $7,500)**
 
 * **Status**: Eligible for [redemption](04-liquidations.md#the-redemption-buffer) and [deleveraging](05-deleverage.md)
 * **Actions Available**: Anyone can pay your debt for collateral, or [deleverage](05-deleverage.md) your position
 * **Risk Level**: High - active intervention needed
 * **What to do**: Urgently repay debt, add collateral, or proactively [deleverage](05-deleverage.md)
 
-**🔴 LIQUIDATION ZONE (Above 90% LTV / Collateral < $6,667)**
+**🔴 LIQUIDATION ZONE (Above Liquidation Threshold / Collateral < $7,500)**
 
 * **Status**: Automatic [liquidation](04-liquidations.md) triggered
 * **Actions Available**: None - process is automatic
@@ -160,13 +162,15 @@ $10,000                    $8,571      $7,500     $6,667      $0
 
 Unlike LTV which calculates forward (debt as % of collateral), redemption and liquidation thresholds work inversely — they define the **minimum collateral required** for a given debt level.
 
-**Quick Reference - Two Ways to View the Same Thresholds:**
+**Quick Reference - Two Ways to View the Same Thresholds (ETH/BTC example):**
 
 | Threshold       | Forward View (LTV)                  | Inverse View (Min Collateral) | Example ($6,000 debt)   |
 | --------------- | ----------------------------------- | ----------------------------- | ----------------------- |
 | **Max Borrow**  | Can borrow up to 70% of collateral  | Need 143% collateral coverage | Need $8,571+ collateral |
-| **Redemption**  | Triggered at 80% debt-to-collateral | Need 125% collateral coverage | Need $7,500+ collateral |
-| **Liquidation** | Triggered at 90% debt-to-collateral | Need 111% collateral coverage | Need $6,667+ collateral |
+| **Redemption**  | Triggered at 77% debt-to-collateral | Need 130% collateral coverage | Need $7,792+ collateral |
+| **Liquidation** | Triggered at 80% debt-to-collateral | Need 125% collateral coverage | Need $7,500+ collateral |
+
+*Note: Stablecoins have higher thresholds (80% LTV, 85% redemption, 90% liquidation). Volatile assets have lower thresholds.*
 
 **What This Means:**
 
@@ -289,8 +293,8 @@ Ripe implements several limits to ensure sustainable growth:
 
 **5. Minimum Debt Requirement**
 
-* Starts at \~$10 during early protocol growth
-* Will increase gradually as protocol scales
+* Currently set to 1 GREEN during early protocol growth
+* May increase gradually as protocol scales
 * Ensures position economic viability
 * Reduces system complexity
 

@@ -113,25 +113,27 @@ Your position's safety depends on three key thresholds that work together to cre
 * Early warning system before liquidation
 * GREEN holders can redeem against your position
 * Provides market-based deleveraging opportunity
-* Example: At 80% threshold, others can swap GREEN for your collateral at par
+* Varies by asset: 77% for ETH/BTC, 85% for stablecoins, 60% for volatile assets
+* Example: At 77% threshold, others can swap GREEN for your collateral at par
 
 **3. Liquidation Threshold**
 
 * The danger zone where forced liquidation begins
 * Calculated as minimum collateral needed for your debt
-* Example: At 90% threshold with $8,000 debt, liquidation starts when collateral < $8,889
+* Varies by asset: 80% for ETH/BTC, 90% for stablecoins, 65% for volatile assets
+* Example: At 80% threshold with $8,000 debt, liquidation starts when collateral < $10,000
 
 ### How Risk Escalates: Visual Zone Map
 
-Consider a position with $10,000 initial collateral and $6,000 debt:
+Consider a position with $10,000 initial collateral and $6,000 debt (using ETH/BTC thresholds as example):
 
 ```
-POSITION HEALTH VISUALIZATION (for $6,000 debt)
+POSITION HEALTH VISUALIZATION (for $6,000 debt, ETH/BTC collateral)
 ←─────────────────────────────────────────────────────────────→
-$10,000                    $8,571      $7,500     $6,667      $0
+$10,000                    $8,571      $7,792     $7,500      $0
   YOU                        ↓           ↓           ↓
   ARE                   Max LTV     Redemption  Liquidation
-  HERE                   (70%)        (80%)        (90%)
+  HERE                   (70%)        (77%)        (80%)
 
 [════ SAFE ZONE ════][CAUTION][REDEMPTION][LIQUIDATION]
      ✅ Healthy        ⚠️ Warning  🚨 Danger    💀 Critical
@@ -145,23 +147,25 @@ $10,000                    $8,571      $7,500     $6,667      $0
 * Can still borrow more
 * No intervention possible
 
-**🟡 Zone 2: Warning** (Collateral $8,571 - $7,500)
+**🟡 Zone 2: Warning** (Collateral $8,571 - $7,792)
 
 * Exceeded max LTV, cannot borrow
 * Still safe from redemption
 * Time to add collateral or repay
 
-**🟠 Zone 3: Redemption** (Collateral $7,500 - $6,667)
+**🟠 Zone 3: Redemption** (Collateral $7,792 - $7,500)
 
-* Redemption threshold breached
+* Redemption threshold breached (77%)
 * GREEN holders can redeem your collateral
 * Acts as automatic deleveraging
 
-**🔴 Zone 4: Liquidation** (Collateral < $6,667)
+**🔴 Zone 4: Liquidation** (Collateral < $7,500)
 
-* Liquidation threshold breached
+* Liquidation threshold breached (80%)
 * Multi-phase liquidation activates
 * Position being actively liquidated
+
+*Note: Thresholds vary by asset class. Stablecoins have higher thresholds (80% LTV, 85% redemption, 90% liquidation). Volatile assets have lower thresholds.*
 
 _For a detailed explanation of how these thresholds work together, see_ [_Understanding Three Thresholds_](02-borrowing.md#how-thresholds-work-together-a-visual-guide) _in the borrowing documentation._
 
@@ -278,7 +282,12 @@ Liquidation fees serve multiple purposes in the ecosystem:
 
 **Fee Structure**
 
-* Base liquidation fee: Typically 5-15% depending on asset risk
+* Base liquidation fee: Varies by asset risk tier:
+  * Stablecoins (USDC, etc.): 5%
+  * Blue-chip assets (ETH, WBTC): 10%
+  * Medium volatility (AERO, etc.): 10%
+  * Meme coins (CBDOGE, etc.): 12%
+  * High volatility (VVV, WELL, DEGEN): 15%
 * Keeper rewards: Additional fee (1%) for liquidation executors
 * Total impact: Your cost becomes others' profit opportunity
 

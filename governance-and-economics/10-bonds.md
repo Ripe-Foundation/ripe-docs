@@ -32,9 +32,10 @@ Every bond purchase directly strengthens the protocol while rewarding participan
 Bonds operate through time-limited epochs that ensure sustainable token distribution:
 
 * **Fixed Supply Per Epoch**: Limited RIPE available prevents oversupply
-* **Time Windows**: Each epoch runs 12-24 hours typically
+* **Time Windows**: Each epoch runs approximately 8 hours
 * **Fair Access**: First-come, first-served within each epoch
 * **Auto-Renewal**: New epochs can start automatically after sell-out
+* **Availability**: Bonding may be paused during certain protocol phases and enabled by governance
 
 This system prevents whales from capturing entire allocations while ensuring consistent availability for all participants.
 
@@ -103,9 +104,10 @@ The protocol rewards specific user activities through Bond Boosters, creating ta
 **How Bond Boosters Work:**
 
 * **Automatic Application**: Bond Boosters activate automatically during bond purchases
-* **Unit-Based Limits**: Each user has a maximum number of "units" they can boost
+* **Unit-Based Limits**: Each user has a maximum number of "units" they can boost (up to 25,000 units)
+* **Minimum Lock Required**: Bond Boosters require a minimum 6-month lock duration to activate
 * **Time Windows**: Bond Boosters expire at specific block numbers
-* **Percentage Multipliers**: Bond Boosters add percentage bonuses to base bond amount
+* **Percentage Multipliers**: Bond Boosters add percentage bonuses to base bond amount (up to 200%)
 
 **Current Bond Booster Programs:**
 
@@ -220,7 +222,7 @@ But this isn't really about the discount. It's about what happens to your money.
 
 The protocol needs capital. You want tokens. Bonds make it happen.
 
-The epochs are running. The treasury is building. What are you waiting for?
+Check the protocol interface for current bonding availability — epochs may be paused at times and enabled by governance as needed.
 
 ***
 
