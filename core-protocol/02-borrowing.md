@@ -206,14 +206,17 @@ When imbalances occur, rates adjust through three mechanisms:
    * Scales continuously based on pool composition
    * Higher GREEN percentage = Higher multiplier
    * Example: 65% GREEN might trigger a 1.5x multiplier, 80% GREEN a 2.5x multiplier
-2. **Time-Based Accumulation**
-   * Additional increases for sustained imbalances
-   * Typically 0.01% per 100 blocks in danger zone (\~3.3 minutes on Base)
-   * Creates urgency for market correction
+2. **Danger Block Accumulation**
+   * The protocol tracks "danger blocks" — each block where GREEN exceeds the 60% threshold
+   * Rate increases incrementally per danger block (configurable, typically 0.01% per 100 blocks)
+   * Creates urgency for arbitrageurs to restore the peg
+   * When GREEN returns below 60%, danger block counting stops and rates begin normalizing
 3. **Maximum Rate Protection**
-   * Hard caps prevent excessive rates
-   * Protocol maximum (e.g., 50% APR)
-   * Protects borrowers from extreme borrow rates
+   * Hard caps prevent excessive rates regardless of danger block count
+   * Protocol maximum (e.g., 50% APR) ensures borrowers aren't punished beyond reason
+   * Both the per-block boost and total dynamic rate are individually capped
+
+**Rate Reset Behavior**: Dynamic adjustments are temporary. Once GREEN returns to healthy levels (below 60% in the reference pool), the danger block counter resets and your rate returns to the base weighted average from your collateral mix. The protocol doesn't "remember" past stress periods.
 
 **Real Example:**
 
@@ -221,14 +224,15 @@ When imbalances occur, rates adjust through three mechanisms:
 Your weighted base rate (from collateral mix): 5% APR
 This is what you pay under normal conditions!
 
-If pool reaches 70% GREEN for 5,000 blocks (~2.8 hours on Base):
+If pool reaches 70% GREEN for 5,000 danger blocks (~2.8 hours on Base):
 - Your base rate: 5% (unchanged)
 - Dynamic multiplier: 2.0x = 10% total
-- Time boost: 0.01% × 50 = 0.5%
+- Danger block boost: 5,000 blocks ÷ 100 = 50 increments × 0.01% = 0.5%
 - Temporary rate: 10.5% APR
 
-When pool returns to balance:
-- Dynamic adjustments deactivate
+When pool returns below 60% GREEN:
+- Danger block counting stops
+- Dynamic adjustments begin deactivating
 - You return to paying just your 5% base rate
 ```
 
@@ -320,17 +324,17 @@ When borrowing, you can choose one of three ways to receive your funds:
 * Use immediately for any purpose (swap to USDC)
 * Most flexible option
 
-**Option 2: Auto-Convert to** [**sGREEN**](../earning-and-rewards/05-sgreen.md)
+**Option 2: Auto-Convert to** [**sGREEN**](../earning-and-rewards/01-sgreen.md)
 
-* Borrowed GREEN automatically wrapped into yield-bearing [sGREEN](../earning-and-rewards/05-sgreen.md)
+* Borrowed GREEN automatically wrapped into yield-bearing [sGREEN](../earning-and-rewards/01-sgreen.md)
 * Start earning yield immediately on borrowed funds
 * Potential for positive carry (yield > borrow rate)
 * No separate conversion transaction needed
 
-**Option 3: Direct to** [**Stability Pool**](../earning-and-rewards/06-stability-pools.md)
+**Option 3: Direct to** [**Stability Pool**](../earning-and-rewards/02-stability-pools.md)
 
-* Borrowed GREEN converted to sGREEN and deposited into [Stability Pool](../earning-and-rewards/06-stability-pools.md) in one transaction
-* Triple rewards: sGREEN yield + stability pool rewards + [RIPE rewards](../earning-and-rewards/07-ripe-rewards.md)
+* Borrowed GREEN converted to sGREEN and deposited into [Stability Pool](../earning-and-rewards/02-stability-pools.md) in one transaction
+* Triple rewards: sGREEN yield + stability pool rewards + [RIPE rewards](../earning-and-rewards/03-ripe-rewards.md)
 * Participate in liquidations for discounted collateral
 * Maximum yield potential but least liquid option
 
@@ -338,7 +342,7 @@ When borrowing, you can choose one of three ways to receive your funds:
 
 A one-time 0.25% fee on new borrows that:
 
-* Flows directly to [sGREEN](../earning-and-rewards/05-sgreen.md) holders
+* Flows directly to [sGREEN](../earning-and-rewards/01-sgreen.md) holders
 * Creates immediate protocol revenue
 * Aligns borrower and saver incentives
 

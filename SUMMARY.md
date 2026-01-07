@@ -9,25 +9,25 @@
 * [Collateral Assets](core-protocol/03-collateral-assets.md)
 * [Liquidations](core-protocol/04-liquidations.md)
 * [Deleverage](core-protocol/05-deleverage.md)
+* [Price Oracles](core-protocol/06-price-oracles.md)
+* [The Endaoment](core-protocol/07-endaoment.md)
 
-## Earning & rewards
+## Earning & Rewards
 
-* [Savings Green](earning-and-rewards/05-sgreen.md)
-* [Stability Pools](earning-and-rewards/06-stability-pools.md)
-* [RIPE Rewards](earning-and-rewards/07-ripe-rewards.md)
+* [sGREEN](earning-and-rewards/01-sgreen.md)
+* [Stability Pools](earning-and-rewards/02-stability-pools.md)
+* [RIPE Rewards](earning-and-rewards/03-ripe-rewards.md)
 
 ## Governance & Economics
 
-* [RIPE Tokenomics](governance-and-economics/08-ripe-tokenomics.md)
-* [Governance](governance-and-economics/09-governance.md)
-* [Ripe Bonds](governance-and-economics/10-bonds.md)
-* [The Endaoment](governance-and-economics/11-endaoment.md)
+* [RIPE Tokenomics](governance-and-economics/01-ripe-tokenomics.md)
+* [Governance](governance-and-economics/02-governance.md)
+* [Ripe Bonds](governance-and-economics/03-bonds.md)
 
-## Resources & History
+## Resources
 
-* [Price Oracles](resources-and-history/12-price-oracles.md)
-* [Ripe Archives](resources-and-history/13-archives.md)
-* [Frequently Asked Questions](resources-and-history/faq.md)
+* [FAQ](resources/faq.md)
+* [Ripe Archives](resources/archives.md)
 
 ## Developers
 

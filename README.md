@@ -74,7 +74,7 @@ Four layers of defense. Partial liquidations only. You keep most of your collate
 
 ## Earning & Rewards
 
-#### 💎 [sGREEN: Set It and Forget It Yield](earning-and-rewards/05-sgreen.md)
+#### 💎 [sGREEN: Set It and Forget It Yield](earning-and-rewards/01-sgreen.md)
 
 GREEN that grows while you sleep. No strategies. No management. Just yield.
 
@@ -82,7 +82,7 @@ GREEN that grows while you sleep. No strategies. No management. Just yield.
 * **Zero lockup** — Your money, your timeline
 * **Still liquid** — Use in stability pools while earning
 
-#### 🎯 [Stability Pools: Buy the Dip Automatically](earning-and-rewards/06-stability-pools.md)
+#### 🎯 [Stability Pools: Buy the Dip Automatically](earning-and-rewards/02-stability-pools.md)
 
 Forget MEV bots. Deposit, wait, profit from liquidations.
 
@@ -90,7 +90,7 @@ Forget MEV bots. Deposit, wait, profit from liquidations.
 * **Triple income** — sGREEN yield + liquidation profits + RIPE rewards
 * **Zero effort** — Smart contracts do the work
 
-#### 🪙 [RIPE Rewards: Earn by Using the Protocol](earning-and-rewards/07-ripe-rewards.md)
+#### 🪙 [RIPE Rewards: Earn by Using the Protocol](earning-and-rewards/03-ripe-rewards.md)
 
 Earn RIPE by using the protocol. Time-weighted rewards ensure fair distribution.
 
@@ -100,7 +100,7 @@ Earn RIPE by using the protocol. Time-weighted rewards ensure fair distribution.
 
 ## Governance & Economics
 
-#### 📊 [RIPE Tokenomics: Aligned Incentives](governance-and-economics/08-ripe-tokenomics.md)
+#### 📊 [RIPE Tokenomics: Aligned Incentives](governance-and-economics/01-ripe-tokenomics.md)
 
 Understanding the 1 billion RIPE token distribution and vesting schedules that power the protocol.
 
@@ -109,7 +109,7 @@ Understanding the 1 billion RIPE token distribution and vesting schedules that p
 * **Transparent vesting** - All schedules enforced onchain
 * **Strategic funding** - Bootstrapped with only $1.87M raised
 
-#### 🏛️ [Governance: Power Through Time](governance-and-economics/09-governance.md)
+#### 🏛️ [Governance: Power Through Time](governance-and-economics/02-governance.md)
 
 Lock RIPE tokens to accumulate voting power and earn protocol rewards.
 
@@ -117,7 +117,7 @@ Lock RIPE tokens to accumulate voting power and earn protocol rewards.
 * **Staker rewards** - Earn from protocol emissions
 * **Future control** - Guide protocol evolution
 
-#### 🎟️ [Bonds: Fund the Future](governance-and-economics/10-bonds.md)
+#### 🎟️ [Bonds: Fund the Future](governance-and-economics/03-bonds.md)
 
 Exchange stablecoins for discounted RIPE, supporting protocol growth.
 
@@ -125,7 +125,7 @@ Exchange stablecoins for discounted RIPE, supporting protocol growth.
 * **Bond Boosters** - Bonus rewards for ecosystem contributors
 * **Permanent funding** - Builds the Endaoment treasury
 
-#### 🏰 [The Endaoment: Autonomous Treasury](governance-and-economics/11-endaoment.md)
+#### 🏰 [The Endaoment: Autonomous Treasury](core-protocol/07-endaoment.md)
 
 Self-sustaining treasury that works 24/7 defending GREEN and generating yield.
 
@@ -133,9 +133,9 @@ Self-sustaining treasury that works 24/7 defending GREEN and generating yield.
 * **Peg defense** - Automated market operations
 * **Partner programs** - Collaborative liquidity
 
-## Resources & History
+## Resources
 
-#### 🔮 [Price Oracles: Accurate Asset Valuation](resources-and-history/12-price-oracles.md)
+#### 🔮 [Price Oracles: Accurate Asset Valuation](core-protocol/06-price-oracles.md)
 
 Multi-oracle system ensuring fair and manipulation-resistant pricing.
 
@@ -143,7 +143,7 @@ Multi-oracle system ensuring fair and manipulation-resistant pricing.
 * **Automatic fallbacks** - No single point of failure
 * **Staleness protection** - Always current prices
 
-#### 📚 [Protocol Archives: The Journey to Launch](resources-and-history/13-archives.md)
+#### 📚 [Protocol Archives: The Journey to Launch](resources/archives.md)
 
 Explore Ripe's evolution from early conception through years of refinement to protocol launch.
 
@@ -168,7 +168,7 @@ Ripe: "Why not both?"
 
 ## ❓ Common Questions
 
-Have questions? Check our comprehensive [**FAQ**](resources-and-history/faq.md) for answers to:
+Have questions? Check our comprehensive [**FAQ**](resources/faq.md) for answers to:
 
 * How is GREEN different from DAI or USDC?
 * What happens during liquidations?
@@ -177,7 +177,7 @@ Have questions? Check our comprehensive [**FAQ**](resources-and-history/faq.md) 
 * How does sGREEN generate yield?
 * And much more...
 
-**→** [**Read the FAQ**](resources-and-history/faq.md)
+**→** [**Read the FAQ**](resources/faq.md)
 
 ***
 
@@ -188,12 +188,12 @@ Four ways to win. All of them better than watching your assets do nothing.
 ### 🟢 **The Easy Button**: Buy sGREEN, Earn Forever
 
 Swap to sGREEN. Close laptop. Come back richer. That's it.\
-**→** [**Get sGREEN Now**](earning-and-rewards/05-sgreen.md)
+**→** [**Get sGREEN Now**](earning-and-rewards/01-sgreen.md)
 
 ### ⚡ **The Liquidation Game**: Buy ETH at 90 Cents on the Dollar
 
 Someone else overleveraged? Their loss, your gain. Stability pools turn liquidations into profit.\
-**→** [**Join the Pools**](earning-and-rewards/06-stability-pools.md)
+**→** [**Join the Pools**](earning-and-rewards/02-stability-pools.md)
 
 ### 🎯 **The Power Move**: One Loan to Rule Them All
 
@@ -203,7 +203,7 @@ Your tokenized Tesla shares + ETH + treasury bills + that yield position = One m
 ### 🏗️ **The Long Game**: Lock RIPE, Run the Protocol
 
 Governance power grows with time. Lock today, control tomorrow.\
-**→** [**Lock and Lead**](governance-and-economics/09-governance.md)
+**→** [**Lock and Lead**](governance-and-economics/02-governance.md)
 
 ***
 
@@ -218,7 +218,7 @@ Governance power grows with time. Lock today, control tomorrow.\
 
 ### Need Help?
 
-* **FAQ**: Check our [Frequently Asked Questions](resources-and-history/faq.md) first
+* **FAQ**: Check our [Frequently Asked Questions](resources/faq.md) first
 * **Discord Support**: Ask in #help channel for quick help
 * **Documentation**: You're in the right place! Navigate using the menu above
 

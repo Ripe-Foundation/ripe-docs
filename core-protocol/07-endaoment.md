@@ -6,7 +6,7 @@ description: Your Money Working Overtime
 
 Every protocol has a treasury. Most sit on millions doing nothing.
 
-The Endaoment puts every dollar to work. Bond proceeds from [bond sales](10-bonds.md) don't collect dust—they're deployed across DeFi earning yield, providing liquidity, and defending [GREEN](../core-protocol/01-green-stablecoin.md)'s peg. It's a treasury that compounds while others sleep.
+The Endaoment puts every dollar to work. Bond proceeds from [bond sales](../governance-and-economics/03-bonds.md) don't collect dust—they're deployed across DeFi earning yield, providing liquidity, and defending [GREEN](01-green-stablecoin.md)'s peg. It's a treasury that compounds while others sleep.
 
 This is what happens when you design a treasury to grow wealth, not just hold it.
 
@@ -59,7 +59,7 @@ Bond Sales → Treasury Growth → Yield Generation → Protocol Strength
      └──────────── More User Confidence ←───────────────────┘
 ```
 
-Every stablecoin that enters through [bond sales](10-bonds.md) becomes productive capital that:
+Every stablecoin that enters through [bond sales](../governance-and-economics/03-bonds.md) becomes productive capital that:
 
 * Earns yield across multiple DeFi protocols
 * Provides liquidity for GREEN trading
@@ -179,9 +179,9 @@ Every fee the protocol earns? It goes somewhere useful.
 Borrowing fees and interest get split two ways:
 
 * **RIPE Buybacks**: A portion buys RIPE off the market (good for RIPE holders)
-* **sGREEN Yield**: The rest flows to [sGREEN](../earning-and-rewards/05-sgreen.md) holders
+* **sGREEN Yield**: The rest flows to [sGREEN](../earning-and-rewards/01-sgreen.md) holders
 
-The split ratio is adjustable by governance. More borrowing = more revenue = both tokens benefit. See [RIPE Value Accrual](08-ripe-tokenomics.md#ripe-value-accrual-real-revenue-real-buybacks) for the full breakdown.
+The split ratio is adjustable by governance. More borrowing = more revenue = both tokens benefit. See [RIPE Value Accrual](../governance-and-economics/01-ripe-tokenomics.md#ripe-value-accrual-real-revenue-real-buybacks) for the full breakdown.
 
 ### Treasury Yields (Future)
 

@@ -6,7 +6,7 @@ description: The Stablecoin That Works Harder.
 
 Your USDC sits there doing nothing. Your DAI requires a new vault for every asset. Your LUSD only accepts ETH.
 
-GREEN? It's built different. Mint it against your entire portfolio — ETH, stablecoins, NFTs, whatever you've got. Earn yield automatically through [sGREEN](../earning-and-rewards/05-sgreen.md). Score liquidation profits in [stability pools](../earning-and-rewards/06-stability-pools.md). Watch six different mechanisms defend the peg while you sleep.
+GREEN? It's built different. Mint it against your entire portfolio — ETH, stablecoins, NFTs, whatever you've got. Earn yield automatically through [sGREEN](../earning-and-rewards/01-sgreen.md). Score liquidation profits in [stability pools](../earning-and-rewards/02-stability-pools.md). Watch six different mechanisms defend the peg while you sleep.
 
 This is what happens when you stop asking "how do we make another stablecoin?" and start asking "how should stablecoins actually work?"
 
@@ -140,7 +140,7 @@ The bedrock of GREEN's stability:
 * **150%+ Average**: Most positions maintain much higher collateral ratios
 * **Extreme Asset Diversity**: Unlike other stables limited to ETH/WBTC, GREEN is backed by everything from stETH earning staking yields to PEPE memes to tokenized Tesla stock
 * **Portfolio Effect**: When one asset drops, others may rise — true diversification
-* **Real-Time Monitoring**: Continuous health checks on all positions using [price oracles](../resources-and-history/12-price-oracles.md)
+* **Real-Time Monitoring**: Continuous health checks on all positions using [price oracles](06-price-oracles.md)
 * **Buffer Zones**: Multiple warning levels before [liquidation](04-liquidations.md)
 
 ### 2. Dynamic Interest Rate Response
@@ -201,7 +201,7 @@ This mechanism activates when market stress pushes positions toward liquidation,
 
 ### 4. Stability Pool Redemption Mechanism
 
-A second powerful redemption path exists through [stability pools](../earning-and-rewards/06-stability-pools.md) that hold liquidated collateral:
+A second powerful redemption path exists through [stability pools](../earning-and-rewards/02-stability-pools.md) that hold liquidated collateral:
 
 **How Pool Redemptions Work**:
 
@@ -231,7 +231,7 @@ Both paths subject to availability
 
 ### 5. Endaoment Treasury Operations
 
-The [Endaoment](../governance-and-economics/11-endaoment.md) serves as GREEN's financial fortress — a protocol-owned treasury with vast capabilities to defend the peg:
+The [Endaoment](07-endaoment.md) serves as GREEN's financial fortress — a protocol-owned treasury with vast capabilities to defend the peg:
 
 **Capital Arsenal from Bond Sales**:
 
@@ -322,7 +322,7 @@ Bottom line: when GREEN trades off-peg, arbitrageurs can always count on the PSM
 
 ### Bad Debt Resolution
 
-If extreme conditions create bad debt, the protocol can sell [bonds](../governance-and-economics/10-bonds.md) to raise recovery funds. This mints RIPE beyond the 1B cap (e.g., becoming 1.001B), with dilution shared proportionally by all holders — ensuring GREEN always remains fully backed.
+If extreme conditions create bad debt, the protocol can sell [bonds](../governance-and-economics/03-bonds.md) to raise recovery funds. This mints RIPE beyond the 1B cap (e.g., becoming 1.001B), with dilution shared proportionally by all holders — ensuring GREEN always remains fully backed.
 
 ### Protocol-Wide Integration
 
@@ -342,7 +342,7 @@ If extreme conditions create bad debt, the protocol can sell [bonds](../governan
 
 ### Transform to sGREEN for Automatic Yield
 
-[sGREEN](../earning-and-rewards/05-sgreen.md) is GREEN's yield-bearing twin:
+[sGREEN](../earning-and-rewards/01-sgreen.md) is GREEN's yield-bearing twin:
 
 * **Set and Forget**: Deposit GREEN, receive sGREEN
 * **Auto-Compounding**: Value grows through exchange rate, not rebasing
@@ -352,7 +352,7 @@ If extreme conditions create bad debt, the protocol can sell [bonds](../governan
 
 ### Participate in Stability Pools
 
-Deploy sGREEN or GREEN LP tokens in [stability pools](../earning-and-rewards/06-stability-pools.md) for liquidation profits:
+Deploy sGREEN or GREEN LP tokens in [stability pools](../earning-and-rewards/02-stability-pools.md) for liquidation profits:
 
 * **Triple Yield**: Base sGREEN rate + liquidation profits + RIPE rewards
 * **Guaranteed Discounts**: Buy collateral 5-15% below market
@@ -369,7 +369,7 @@ When taking loans, receive GREEN flexibly:
 
 ### Earn RIPE Block Rewards
 
-Multiple ways to earn [RIPE rewards](../earning-and-rewards/07-ripe-rewards.md) through GREEN:
+Multiple ways to earn [RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) through GREEN:
 
 * **Borrowing GREEN**: Larger, longer-term loans earn more rewards
 * **Stability Pool Deposits**: sGREEN and GREEN LP deposits earn additional RIPE

@@ -27,7 +27,7 @@ Traditional governance systems treat all tokens equally, allowing whales to buy 
 
 Beyond governance power, RIPE stakers earn substantial rewards:
 
-* [**Block Rewards**](../earning-and-rewards/07-ripe-rewards.md): Governance vault participants earn rewards from the staker allocation
+* [**Block Rewards**](../earning-and-rewards/03-ripe-rewards.md): Governance vault participants earn rewards from the staker allocation
 * **Enhanced LP Rewards**: RIPE LP tokens earn 50% more points than regular RIPE
 * **Auto-Compounding**: Claim rewards directly into the vault for exponential growth
 * **No Opportunity Cost**: Earn while building governance influence
@@ -121,7 +121,7 @@ RIPE governance participants benefit from three distinct reward streams:
 * Compound through extended commitments
 * Translate directly to voting weight when governance launches
 
-### 2. [RIPE Block Rewards](../earning-and-rewards/07-ripe-rewards.md) (Staker Allocation)
+### 2. [RIPE Block Rewards](../earning-and-rewards/03-ripe-rewards.md) (Staker Allocation)
 
 * Governance vault receives rewards from the staker emission category
 * Distribution based on share of total staked RIPE/LP
@@ -148,7 +148,7 @@ When onchain governance activates, RIPE holders will wield comprehensive protoco
 
 ### Treasury Operations
 
-* [**Endaoment**](11-endaoment.md) **Strategy**: Yield deployment across DeFi protocols
+* [**Endaoment**](../core-protocol/07-endaoment.md) **Strategy**: Yield deployment across DeFi protocols
 * **Partnership Terms**: Liquidity partnerships and revenue sharing
 * **Capital Allocation**: Investment priorities and risk tolerance
 * **Emergency Response**: Crisis management and recovery procedures

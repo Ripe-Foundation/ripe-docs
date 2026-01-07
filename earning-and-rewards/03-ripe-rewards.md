@@ -62,14 +62,14 @@ The protocol currently distributes rewards to two participant groups:
 
 Staking in protocol vaults earns the lion's share of rewards:
 
-[**Governance Vault**](../governance-and-economics/09-governance.md) **(RIPE & RIPE LP)**
+[**Governance Vault**](../governance-and-economics/02-governance.md) **(RIPE & RIPE LP)**
 
 * **Base Rewards**: Size × time × asset weight
 * **Lock Multiplier**: Up to 3x boost for maximum duration locks
 * **LP Advantage**: RIPE LP tokens earn 50% more points than RIPE
 * **Compound Strategy**: Auto-stake rewards for exponential growth
 
-[**Stability Pools**](06-stability-pools.md) **(**[**sGREEN**](05-sgreen.md) **& GREEN LP)**
+[**Stability Pools**](02-stability-pools.md) **(**[**sGREEN**](01-sgreen.md) **& GREEN LP)**
 
 * **Dual Yield**: RIPE rewards plus liquidation profits
 * **No Lock Required**: Flexible liquidity with full rewards
@@ -109,7 +109,7 @@ May be activated to reward all vault deposits:
 Each supported asset has its own configuration that determines how it splits the top-level reward pools:
 
 * **Staker Points Allocation**: Percentage of the total Stakers pool this asset receives
-  * Only applies to staked assets (RIPE, RIPE LP in [Governance Vault](../governance-and-economics/09-governance.md); [sGREEN](05-sgreen.md), GREEN LP in [Stability Pools](06-stability-pools.md))
+  * Only applies to staked assets (RIPE, RIPE LP in [Governance Vault](../governance-and-economics/02-governance.md); [sGREEN](01-sgreen.md), GREEN LP in [Stability Pools](02-stability-pools.md))
   * Current allocations:
     * RIPE LP: 45% (highest rewards!)
     * GREEN LP: 25%

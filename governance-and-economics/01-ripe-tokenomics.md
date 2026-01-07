@@ -16,7 +16,7 @@ One small seed round at $0.02 after 2+ years of building. Just builders who bet 
 > * **Community first**: 25% of supply goes to user incentives; this is the only bucket that begins unlocking at TGE via block rewards & bonding
 > * **All unlocks onchain**: Immutable vesting contracts you can audit today
 
-For a deep dive into how RIPE powers the protocol—including [staking rewards](../earning-and-rewards/07-ripe-rewards.md), protocol fees via [sGREEN](../earning-and-rewards/05-sgreen.md), [governance participation](09-governance.md), and treasury building through [bond sales](10-bonds.md)—explore these detailed guides. Full onchain governance will launch post-TGE once the community owns sufficient supply.
+For a deep dive into how RIPE powers the protocol—including [staking rewards](../earning-and-rewards/03-ripe-rewards.md), protocol fees via [sGREEN](../earning-and-rewards/01-sgreen.md), [governance participation](02-governance.md), and treasury building through [bond sales](03-bonds.md)—explore these detailed guides. Full onchain governance will launch post-TGE once the community owns sufficient supply.
 
 ## Token Allocation: Community-First Distribution
 
@@ -52,7 +52,7 @@ The graph below shows the RIPE Token emission schedule by category for years 1 t
 
 ### Hard Cap with Emergency Provision
 
-The RIPE supply is strictly capped at 1 billion tokens with one carefully designed exception: if the protocol ever needs to cover bad debt that exceeds treasury reserves, it can auction [RIPE Bonds](10-bonds.md) to raise funds. These emergency tokens would be minted beyond the cap, transparently diluting all holders to socialize losses fairly.
+The RIPE supply is strictly capped at 1 billion tokens with one carefully designed exception: if the protocol ever needs to cover bad debt that exceeds treasury reserves, it can auction [RIPE Bonds](03-bonds.md) to raise funds. These emergency tokens would be minted beyond the cap, transparently diluting all holders to socialize losses fairly.
 
 ### Vesting Schedules by Category
 
@@ -141,7 +141,7 @@ Tokens vest continuously—every block brings contributors closer to their full 
 **2. Claiming Tokens**
 
 * Contributors can claim vested RIPE anytime (daily, monthly, or in bulk)
-* Claimed tokens are minted and deposited into the [Governance Vault](09-governance.md)
+* Claimed tokens are minted and deposited into the [Governance Vault](02-governance.md)
 * Tokens remain locked but gain full voting power immediately
 
 **3. Unlocking for Transfer**
@@ -203,7 +203,7 @@ RIPE isn't another VC exit scam dressed up as "community ownership."
 
 Founders self-funded for 2.5 years. Locked for another year after launch. Early backers paid real money at a fair price. Every token unlock happens onchain where you can audit it.
 
-But here's what matters: 250 million RIPE goes to users. Not eventually. Now. Through [block rewards](../earning-and-rewards/07-ripe-rewards.md) that started at TGE. Through [bonds](10-bonds.md) that let you buy at discounts. Through actual usage, not Twitter campaigns.
+But here's what matters: 250 million RIPE goes to users. Not eventually. Now. Through [block rewards](../earning-and-rewards/03-ripe-rewards.md) that started at TGE. Through [bonds](03-bonds.md) that let you buy at discounts. Through actual usage, not Twitter campaigns.
 
 The protocol that wins is the one that survives. The one that survives is the one people own.
 

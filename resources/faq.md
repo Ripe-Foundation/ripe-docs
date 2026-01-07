@@ -83,7 +83,7 @@ Ripe only liquidates the minimum amount needed to make your position healthy aga
 
 ### What is sGREEN?
 
-[sGREEN](../earning-and-rewards/05-sgreen.md) is yield-bearing GREEN that automatically captures protocol revenues. Your sGREEN balance stays the same while its GREEN value increases over time through:
+[sGREEN](../earning-and-rewards/01-sgreen.md) is yield-bearing GREEN that automatically captures protocol revenues. Your sGREEN balance stays the same while its GREEN value increases over time through:
 
 * Borrower interest payments
 * Origination fees from new loans
@@ -93,7 +93,7 @@ No staking or claiming needed — just hold and earn.
 
 ### How do stability pools work?
 
-[Stability pools](../earning-and-rewards/06-stability-pools.md) hold sGREEN and GREEN LP tokens that get swapped for liquidated collateral at discount. As a depositor, you:
+[Stability pools](../earning-and-rewards/02-stability-pools.md) hold sGREEN and GREEN LP tokens that get swapped for liquidated collateral at discount. As a depositor, you:
 
 * Continue earning sGREEN yield
 * Get liquidated collateral at 5-15% discount
@@ -104,7 +104,7 @@ It's like being a liquidator without running any bots.
 
 ### How do I earn RIPE rewards?
 
-[RIPE rewards](../earning-and-rewards/07-ripe-rewards.md) currently flow to two groups (90% stakers, 10% borrowers):
+[RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) currently flow to two groups (90% stakers, 10% borrowers):
 
 1. **Stakers (90%)**:
    * RIPE LP: 45% of staker rewards (best returns!)
@@ -127,7 +127,7 @@ Six mechanisms work together:
 2. **Dynamic rates**: Borrowing costs increase if GREEN weakens
 3. **Direct redemption**: Arbitrageurs can redeem GREEN for $1 of collateral (when positions in redemption zone)
 4. **Stability pool redemption**: Additional redemption path through liquidated collateral
-5. [**Endaoment**](../governance-and-economics/11-endaoment.md) **operations**: Treasury automatically rebalances liquidity pools
+5. [**Endaoment**](../core-protocol/07-endaoment.md) **operations**: Treasury automatically rebalances liquidity pools
 6. **Peg Stability Module (PSM)**: Direct GREEN/USDC conversion at 1:1 — the most accessible arbitrage path
 
 ### What happens if GREEN trades below $1?
@@ -241,7 +241,7 @@ Many users borrow at 5% to earn 8%+ in sGREEN.
 
 ### What is RIPE?
 
-RIPE is the protocol's [governance](../governance-and-economics/09-governance.md) token. Lock it in the governance vault to:
+RIPE is the protocol's [governance](../governance-and-economics/02-governance.md) token. Lock it in the governance vault to:
 
 * Accumulate voting power for future governance
 * Earn rewards from the staker allocation
@@ -261,11 +261,11 @@ Governance points are accumulating now, but onchain voting hasn't launched yet. 
 * **17.2%** Early backers ($550k seed at $0.02)
 * **15%** Distribution partner (Hightop)
 
-All vesting happens onchain with transparent contracts. See full details in [RIPE Tokenomics](../governance-and-economics/08-ripe-tokenomics.md).
+All vesting happens onchain with transparent contracts. See full details in [RIPE Tokenomics](../governance-and-economics/01-ripe-tokenomics.md).
 
 ### What are Ripe Bonds?
 
-[Bonds](../governance-and-economics/10-bonds.md) let you exchange stablecoins (like USDC) for RIPE tokens at dynamic prices. Lock your bonded RIPE for up to 3 years to get up to 3x more tokens. All proceeds build the [Endaoment](../governance-and-economics/11-endaoment.md) treasury that backs GREEN and generates protocol revenue.
+[Bonds](../governance-and-economics/03-bonds.md) let you exchange stablecoins (like USDC) for RIPE tokens at dynamic prices. Lock your bonded RIPE for up to 3 years to get up to 3x more tokens. All proceeds build the [Endaoment](../core-protocol/07-endaoment.md) treasury that backs GREEN and generates protocol revenue.
 
 ### What are Bond Boosters?
 
@@ -279,7 +279,7 @@ Combined with lock bonuses, top contributors can get up to 5x multipliers.
 
 ### What's the Endaoment?
 
-The [Endaoment](../governance-and-economics/11-endaoment.md) is Ripe's treasury system that combines automated mechanisms with strategic oversight. It:
+The [Endaoment](../core-protocol/07-endaoment.md) is Ripe's treasury system that combines automated mechanisms with strategic oversight. It:
 
 * Manages protocol-owned liquidity from bond sales
 * Generates yield across DeFi via [Underscore](https://underscore.finance/)
@@ -303,7 +303,7 @@ ChainSecurity reviewed the code last year, but lessons from Underscore and real-
 
 ### How does Ripe price assets accurately?
 
-Ripe uses a [multi-oracle system](12-price-oracles.md) with automatic fallback. We check Chainlink, Pyth, Stork, and Curve in priority order, taking the first valid price. If one oracle fails, we instantly switch to the next — no manual intervention needed. This prevents single points of failure that have destroyed other protocols.
+Ripe uses a [multi-oracle system](../core-protocol/06-price-oracles.md) with automatic fallback. We check Chainlink, Pyth, Stork, and Curve in priority order, taking the first valid price. If one oracle fails, we instantly switch to the next — no manual intervention needed. This prevents single points of failure that have destroyed other protocols.
 
 ### How does Ripe handle bad debt?
 
@@ -311,11 +311,11 @@ The protocol has multiple defenses:
 
 1. Conservative collateral ratios
 2. Redemption mechanism before [liquidation](../core-protocol/04-liquidations.md)
-3. [Stability pools](../earning-and-rewards/06-stability-pools.md) absorb liquidations
+3. [Stability pools](../earning-and-rewards/02-stability-pools.md) absorb liquidations
 4. Keeper network ensures fast execution
-5. [Endaoment](../governance-and-economics/11-endaoment.md) treasury as final backstop
+5. [Endaoment](../core-protocol/07-endaoment.md) treasury as final backstop
 
-If bad debt does occur, the protocol can sell [bonds](../governance-and-economics/10-bonds.md) to raise funds. This creates RIPE tokens beyond the 1 billion cap (e.g., if 1M RIPE covers bad debt, total supply becomes 1.001 billion). The extra minting dilutes all RIPE holders proportionally, distributing the cost fairly while ensuring the protocol remains solvent.
+If bad debt does occur, the protocol can sell [bonds](../governance-and-economics/03-bonds.md) to raise funds. This creates RIPE tokens beyond the 1 billion cap (e.g., if 1M RIPE covers bad debt, total supply becomes 1.001 billion). The extra minting dilutes all RIPE holders proportionally, distributing the cost fairly while ensuring the protocol remains solvent.
 
 ### What happens in a market crash?
 

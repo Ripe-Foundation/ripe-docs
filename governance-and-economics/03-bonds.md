@@ -6,7 +6,7 @@ description: Trade Cash for Power
 
 Every protocol needs capital. Most just sell tokens and spend it.
 
-Ripe bonds transform your capital into permanent treasury assets. Your USDC doesn't get spent on salaries or marketing—it becomes protocol-owned liquidity in the [Endaoment](11-endaoment.md), earning yield that backs [GREEN](../core-protocol/01-green-stablecoin.md) forever. Lock for 3 years? Triple your allocation. Have activity boosters? Multiply it again.
+Ripe bonds transform your capital into permanent treasury assets. Your USDC doesn't get spent on salaries or marketing—it becomes protocol-owned liquidity in the [Endaoment](../core-protocol/07-endaoment.md), earning yield that backs [GREEN](../core-protocol/01-green-stablecoin.md) forever. Lock for 3 years? Triple your allocation. Have activity boosters? Multiply it again.
 
 The longer everyone else waits, the more you accumulate.
 
@@ -93,7 +93,7 @@ No Lock → 0% bonus → 1x RIPE (base amount only)
 
 * Choose your lock duration when bonding (0 to 3 years)
 * Bonus calculated as percentage of base bond amount
-* Locked RIPE automatically deposits into [Ripe Governance Vault](09-governance.md)
+* Locked RIPE automatically deposits into [Ripe Governance Vault](02-governance.md)
 * Start earning governance points and staking rewards immediately
 * Maintain full voting rights throughout lock period
 
@@ -191,7 +191,7 @@ This mechanism ensures bonds function as both a treasury building tool and an em
 
 ## Bond Proceeds and Treasury Management
 
-All stablecoins from bond sales flow directly to the [Endaoment](11-endaoment.md), becoming productive protocol assets:
+All stablecoins from bond sales flow directly to the [Endaoment](../core-protocol/07-endaoment.md), becoming productive protocol assets:
 
 **Treasury Deployment Strategy:**
 

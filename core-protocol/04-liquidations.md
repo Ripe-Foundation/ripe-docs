@@ -225,12 +225,12 @@ When your position crosses the liquidation threshold:
 
 ### Phase 1: Stability Pool Swaps
 
-The protocol engages [stability pools](../earning-and-rewards/06-stability-pools.md) for instant liquidity on your volatile assets (ETH, WBTC, etc.):
+The protocol engages [stability pools](../earning-and-rewards/02-stability-pools.md) for instant liquidity on your volatile assets (ETH, WBTC, etc.):
 
 **How Pool Swaps Work**
 
 1. Your collateral (ETH, WBTC, etc.) needs liquidation
-2. [Stability pools](../earning-and-rewards/06-stability-pools.md) hold GREEN LP tokens and [sGREEN](../earning-and-rewards/05-sgreen.md)
+2. [Stability pools](../earning-and-rewards/02-stability-pools.md) hold GREEN LP tokens and [sGREEN](../earning-and-rewards/01-sgreen.md)
 3. Pool assets swap for your collateral at the liquidation discount
 4. Pool participants get discounted assets, you avoid market dumps
 
@@ -253,7 +253,7 @@ The protocol engages [stability pools](../earning-and-rewards/06-stability-pools
 * Same swap mechanics but restricted access
 * Ensures compliance throughout liquidation process
 
-_For deeper understanding of stability pool mechanics, see_ [_Stability Pools_](../earning-and-rewards/06-stability-pools.md)_._
+_For deeper understanding of stability pool mechanics, see_ [_Stability Pools_](../earning-and-rewards/02-stability-pools.md)_._
 
 ### Phase 2: Dutch Auctions
 
@@ -388,7 +388,7 @@ Anyone can be a keeper — no special permissions needed. This open system ensur
 
 Despite all protective mechanisms, extreme market conditions could potentially create bad debt (where liquidation proceeds don't fully cover the debt). The protocol has a clear resolution mechanism:
 
-**Bond Sales for Recovery**: The protocol can sell [bonds](../governance-and-economics/10-bonds.md) to raise funds that clear bad debt. This process:
+**Bond Sales for Recovery**: The protocol can sell [bonds](../governance-and-economics/03-bonds.md) to raise funds that clear bad debt. This process:
 
 * Creates RIPE tokens beyond the 1 billion supply cap
 * Distributes the dilution fairly across all RIPE holders

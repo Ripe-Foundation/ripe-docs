@@ -21,7 +21,7 @@ Every sGREEN holder benefits from multiple real protocol revenue streams:
 1. **Borrower Interest Payments**: Continuous yield from all active loans across the protocol
 2. **Origination Fees (Daowry)**: 0.25% fee on every new loan minted instantly adds value
 3. **Unrealized Yield Flush**: Even if borrowers never repay, their accrued interest is periodically "flushed" to sGREEN holders through new GREEN minting. You don't wait for loan repayments to get your yield — the protocol ensures sGREEN value grows continuously regardless of borrower behavior
-4. **Future Treasury Yields**: [Governance](../governance-and-economics/09-governance.md) can direct [Endaoment](../governance-and-economics/11-endaoment.md) profits to sGREEN holders
+4. **Future Treasury Yields**: [Governance](../governance-and-economics/02-governance.md) can direct [Endaoment](../core-protocol/07-endaoment.md) profits to sGREEN holders
 
 **Note on Revenue Split**: Not all protocol revenue goes to sGREEN. Governance can direct a portion toward RIPE buybacks instead. When that's enabled, fees get split — some to sGREEN yield, some to buying RIPE off the market. Both tokens win when the protocol grows.
 
@@ -49,13 +49,13 @@ Advanced strategy for sophisticated users:
 
 **The Math**: Borrow at 5% APR, earn 8% on sGREEN = 3% net profit on borrowed funds
 
-### Option 3: Deploy to [Stability Pools](06-stability-pools.md) (Maximum Yield)
+### Option 3: Deploy to [Stability Pools](02-stability-pools.md) (Maximum Yield)
 
 Stack multiple revenue streams by depositing sGREEN in stability pools:
 
 * **Keep earning**: sGREEN base yield continues
 * **Add liquidations**: Buy collateral at 5-15% discounts
-* **Plus rewards**: Earn [RIPE tokens](07-ripe-rewards.md) on top
+* **Plus rewards**: Earn [RIPE tokens](03-ripe-rewards.md) on top
 * **Triple stack**: All three sources compound together
 
 **Potential Returns**: Base yield + liquidation profits + RIPE rewards = significant APR
