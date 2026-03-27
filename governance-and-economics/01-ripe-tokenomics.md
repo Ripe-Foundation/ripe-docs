@@ -38,7 +38,7 @@ Compensation for 2.5 years of full-time protocol development already completed, 
 
 ### Distribution Partner - Hightop (15% - 150M RIPE)
 
-Strategic partner providing mobile on-ramps and fiat bridges to bring Ripe Protocol to mainstream users beyond crypto natives.
+Strategic distribution partner behind Hightop, a digital banking product for AI agents, made simple for humans. Hightop gives mainstream users a clean app with familiar bank and crypto funding rails, while Ripe powers the lending layer underneath.
 
 ### Early Backers (17.2% - 172M RIPE)
 

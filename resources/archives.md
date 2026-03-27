@@ -100,7 +100,7 @@ _The foundational thinking behind Ripe's economic model_
 
 ### The Hightop Transition
 
-_When we chose to focus entirely on Ripe Protocol_
+_Historical context from the period when we paused Hightop to focus entirely on Ripe Protocol infrastructure_
 
 * [Hightop Sunset, Ripe Sunrise](https://medium.com/hightop/hightop-sunset-ripe-sunrise-b2559ff9a7e4) – Why we paused our consumer app to build foundational infrastructure
 * [We're Doubling Down on DeFi](https://medium.com/hightop/were-doubling-down-on-defi-ce93fa457328) – Our conviction about decentralization's future
