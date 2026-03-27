@@ -98,7 +98,7 @@ _The foundational thinking behind Ripe's economic model_
 * [Mick Explains How Ripe Works (Whiteboard)](https://vimeo.com/794192136) – A founder-led walkthrough of Ripe's architecture
 * [How Ripe Works (Explainer Video)](https://vimeo.com/762340017) – Animated breakdown of Ripe Protocol's key mechanics
 
-### The Hightop Transition
+### The Hightop Pause
 
 _Historical context from the period when we paused Hightop to focus entirely on Ripe Protocol infrastructure_
 

@@ -236,16 +236,16 @@ When pool returns below 60% GREEN:
 - You return to paying just your 5% base rate
 ```
 
-### Underscore Protocol Integration
+### Underscore Earn Vault Integration
 
-[Underscore Protocol's](https://underscore.finance/) AI-powered vaults (ERC4626) receive special borrowing terms when using Ripe for leverage strategies. This matters most for Amplified Vaults, which actively borrow from Ripe inside the vault strategy, while Core Vault shares can also be used as collateral on Ripe:
+[Underscore Protocol's](https://underscore.finance/) Earn Vaults use two different relationships with Ripe. Core Vault shares can be posted as collateral on Ripe, while Amplified Vaults receive special borrowing terms when they use Ripe inside the vault strategy:
 
 * **50% discount** on borrowing rates (configurable param)
 * **No origination fee** (Daowry waived)
 
 **How It Works:**
 
-Underscore vaults are automated yield strategies. Core Vaults focus on AI-managed yield and can be posted as collateral on Ripe. Amplified Vaults go one step further by borrowing GREEN from Ripe inside the strategy to add a second yield layer:
+Underscore Earn Vaults are automated yield strategies. Core Vaults power the base AI-managed yield layer and can be posted as collateral on Ripe. Amplified Vaults go one step further by borrowing GREEN from Ripe inside the strategy to add a second yield layer:
 
 ```
 Standard borrowing rate: 6% APR
@@ -257,7 +257,7 @@ Origination fee: 0% (waived for Underscore)
 
 You don't interact with Ripe directly for this discount. Instead:
 
-1. Deposit funds into an Underscore vault
+1. Deposit funds into an Underscore Earn Vault
 2. Core Vaults run AI-managed yield strategies, while Amplified Vaults add Ripe borrowing inside the strategy
 3. The vault — not you — receives the discounted rates when Ripe borrowing is used
 4. You benefit from the improved strategy returns

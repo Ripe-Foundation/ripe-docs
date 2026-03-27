@@ -257,7 +257,7 @@ Grant specific permissions to other addresses:
 * **Deposit Rights**: Allow others to add collateral
 * **Withdrawal Rights**: Delegate withdrawal capabilities
 * **Full Flexibility**: Revoke permissions anytime
-* **Smart Wallet Compatible**: Works with Underscore-powered wallet infrastructure, including the wallet stack behind Hightop
+* **Smart Wallet Compatible**: Works with Underscore smart wallets, including those used by Hightop for agent-managed accounts
 
 Use cases:
 
