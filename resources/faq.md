@@ -332,7 +332,7 @@ During extreme volatility:
 ### Where can I learn more?
 
 * [**Documentation**](../): Detailed guides in our docs
-* [**Discord**](https://discord.gg/Y6PWmndNaC): Active community and team support
+* [**Discord**](https://discord.gg/hightop): Active community and team support
 * [**Twitter**](https://x.com/ripe_dao): Protocol updates and announcements
 * [**GitHub**](https://github.com/Ripe-Foundation/ripe-protocol): Open source code and development
 * [**Homepage**](https://www.ripe.finance/): Ripe Homepage

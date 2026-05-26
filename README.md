@@ -211,7 +211,7 @@ Governance power grows with time. Lock today, control tomorrow.\
 
 ### Connect & Learn
 
-* **Discord**: [Join our community](https://discord.gg/Y6PWmndNaC) — Get help, share strategies, and connect with other users
+* **Discord**: [Join our community](https://discord.gg/hightop) — Get help, share strategies, and connect with other users
 * **Twitter/X**: [@RipeProtocol](https://x.com/ripe_dao) — Latest updates and announcements
 * **Blog**: [Medium](https://medium.com/ripe-finance) — Deep dives and protocol insights
 * **GitHub**: [ripe-foundation](https://github.com/Ripe-Foundation/ripe-protocol) — Open source code and development
