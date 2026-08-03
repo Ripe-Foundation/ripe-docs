@@ -27,6 +27,7 @@
 ## Resources
 
 * [FAQ](resources/faq.md)
+* [Audits](resources/audits.md)
 * [Ripe Archives](resources/archives.md)
 
 ## Developers
