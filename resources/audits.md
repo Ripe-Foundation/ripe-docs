@@ -10,8 +10,7 @@ These published reports document independent security reviews of specific Ripe P
 
 [Read the ChainSecurity report](https://www.hightop.com/docs/resources/audits/ChainSecurity-Ripe.pdf)
 
-* **Reviewed versions:** Nine legacy Ripe Finance smart-contract revisions received from January 10, 2024 through January 17, 2025.
-* **Final reviewed revision:** `98a2099d6a732e9fd7cd52e03ff25de9cfdbaacc`
+* **Reviewed versions:** Nine legacy Ripe Finance smart-contract revisions received from January 10, 2024 through January 17, 2025
 * **Scope:** Smart contracts under `contracts/`. Mock and configuration files and economic modeling were excluded.
 
 ## Anatomist

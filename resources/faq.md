@@ -299,7 +299,7 @@ All bond proceeds become permanent productive capital working 24/7.
 
 ### Is Ripe audited?
 
-Ripe Protocol has undergone independent security reviews by ChainSecurity and Anatomist. Each review covers only the specific code revision and scope identified in its report; later changes may not be covered. See [Audits](audits.md) for the published reports and scope details.
+ChainSecurity reviewed an earlier Ripe Finance smart-contract architecture, and Anatomist reviewed a later Ripe Protocol revision. Each review covers only the specific code revisions and scope identified in its report; later changes and deployments may not be covered. See [Audits](audits.md) for the published reports and scope details.
 
 ### How does Ripe price assets accurately?
 
