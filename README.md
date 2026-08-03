@@ -143,6 +143,14 @@ Multi-oracle system ensuring fair and manipulation-resistant pricing.
 * **Automatic fallbacks** - No single point of failure
 * **Staleness protection** - Always current prices
 
+#### 🛡️ [Security Audits: Published Assessments](resources/audits.md)
+
+Independent security reviews of Ripe Protocol by ChainSecurity and Anatomist.
+
+* **Independent reviews** - ChainSecurity and Anatomist
+* **Full reports** - Both reports published in full
+* **Dates and scope** - Reviewed code revisions and scope limits
+
 #### 📚 [Protocol Archives: The Journey to Launch](resources/archives.md)
 
 Explore Ripe's evolution from early conception through years of refinement to protocol launch.

@@ -299,7 +299,7 @@ All bond proceeds become permanent productive capital working 24/7.
 
 ### Is Ripe audited?
 
-ChainSecurity reviewed the code last year, but lessons from Underscore and live usage inside Hightop pushed us to refactor. We removed onchain governance, Juice Score, NFTs, GREEN bonds, and complex DeFi adapters. The slimmer v1 launching today has not yet been re-audited — please keep this in mind when deciding position sizes.
+Ripe Protocol has undergone independent security reviews by ChainSecurity and Anatomist. Each review covers only the specific code revision and scope identified in its report; later changes may not be covered. See [Audits](audits.md) for the published reports and scope details.
 
 ### How does Ripe price assets accurately?
 
