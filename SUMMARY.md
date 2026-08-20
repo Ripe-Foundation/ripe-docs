@@ -2,6 +2,16 @@
 
 * [Ripe Protocol](README.md)
 
+## User Guide
+
+* [Getting Set Up](user-guide/01-getting-set-up.md)
+* [Deposit Collateral](user-guide/02-deposit-collateral.md)
+* [Borrow GREEN](user-guide/03-borrow-green.md)
+* [Pay Back and Withdraw](user-guide/04-pay-back-and-withdraw.md)
+* [Get GREEN and Provide Liquidity](user-guide/05-provide-liquidity.md)
+* [Get RIPE and Lock It](user-guide/06-get-and-lock-ripe.md)
+* [What You Can Deposit on Earn](user-guide/07-what-you-can-deposit-on-earn.md)
+
 ## Core Protocol
 
 * [GREEN Stablecoin](core-protocol/01-green-stablecoin.md)
