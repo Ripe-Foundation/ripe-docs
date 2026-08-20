@@ -4,7 +4,7 @@ description: Get GREEN and earn RIPE by providing liquidity
 
 # Get GREEN and Provide Liquidity
 
-Liquidity providers in the [GREEN/USDG Stability Pool](../earning-and-rewards/02-stability-pools.md) earn [RIPE rewards](../earning-and-rewards/03-ripe-rewards.md). Inside Ripe this pool is labelled the **Stability Pool**, so the two names refer to the same thing.
+Liquidity providers in the [GREEN/USDG pool](../earning-and-rewards/02-stability-pools.md) earn [RIPE rewards](../earning-and-rewards/03-ripe-rewards.md). Inside Ripe this pool is labelled the **Stability Pool**, so the two names refer to the same thing.
 
 **Step 1.** Get GREEN. Two ways: [borrow it](03-borrow-green.md), or press **Get GREEN** on the GREEN page and swap for it.
 
