@@ -177,7 +177,7 @@ Ripe has component-level pause and availability controls rather than one univers
 
 * **Per-contract pausing**: Specific functions (deposits, borrows, liquidations) can be paused independently
 * **Separate boundaries**: Pausing acquisitions, claims, Teller actions, or a price source can have different effects; a price-source pause freezes its configuration and update operations but does not by itself remove the source from reads
-* **Mint circuit breaker**: RipeHQ's protocol-wide mint flag can stop authorized RIPE or GREEN minting, but it is not a global pause for transfers, repayments, or every other action
+* **Mint circuit breaker**: A deployment's RipeHQ mint flag can stop authorized RIPE or GREEN minting on that deployment, but it is not a global pause for transfers, repayments, or every other action
 * **Administration**: Configured governors act through the relevant contract, Switchboard, and timelock paths
 
 Always identify which component and direction a pause controls; do not infer that every protocol route shares the same state.
@@ -245,15 +245,15 @@ Governance-vault positions record points lazily from normalized shares and elaps
 
 ### What's the RIPE token distribution?
 
-The Ripe Foundation's published 1 billion RIPE base-allocation policy is divided as follows; it is not an aggregate cap enforced by the token contract:
+RIPE has a protocol-wide maximum supply of 1 billion tokens across all blockchains, not a separate 1 billion-token cap per network. The cap is administered across authorized issuance and cross-chain operations; no individual token deployment independently maintains the cross-chain aggregate. The supply allocation is divided as follows:
 
 * **25%** Community incentives (only allocation unlocking at TGE)
 * **22.2%** Ripe Foundation treasury
-* **20.6%** Core contributors (4-year linear vesting, with position-transfer eligibility after year one)
+* **20.6%** Core contributors (4-year linear vesting)
 * **17.2%** Early backers ($550k seed at $0.02)
 * **15%** Distribution partner (Hightop)
 
-Contributor schedules and lifecycle actions are recorded by onchain vesting contracts. See full details in [RIPE Tokenomics](../governance-and-economics/01-ripe-tokenomics.md).
+Every investor and employee in the Early Backer and Core Contributor allocations agreed to the additional one-year lock. The earliest scheduled investor release or employee position-transfer eligibility under those commitments is June 26, 2027, two years after the June 26, 2025 TGE. A transferred contributor position remains subject to the separate governance-vault lock applied at confirmation. Contributor schedules and lifecycle actions are recorded by onchain vesting contracts, while applicable holder agreements govern the voluntary extension. See full details in [RIPE Tokenomics](../governance-and-economics/01-ripe-tokenomics.md).
 
 ### What are Ripe Bonds?
 
@@ -305,7 +305,7 @@ The protocol has multiple defenses:
 4. Permissionless keepers can submit eligible liquidations, although monitoring and transaction timing are not guaranteed
 5. Qualifying [bond](../governance-and-economics/03-bonds.md) purchases can credit payment value against outstanding bad debt
 
-If bad debt exists during a [bond](../governance-and-economics/03-bonds.md) purchase, the oracle-valued payment can clear bad debt up to that value. The corresponding portion of the RIPE payout is recorded outside the ordinary bond budget, so bad-debt recovery can expand supply beyond that ordinary budget and dilute holders.
+If bad debt exists during a [bond](../governance-and-economics/03-bonds.md) purchase, the oracle-valued payment can clear bad debt up to that value. Because the corresponding RIPE payout is recorded outside ordinary bond-distribution usage, authorized cap administration must count it separately toward RIPE's protocol-wide 1 billion-token cap across all blockchains.
 
 ### What happens in a market crash?
 

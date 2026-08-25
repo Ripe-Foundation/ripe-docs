@@ -192,19 +192,18 @@ When protocol liquidations create bad debt, bonds serve as a recovery mechanism:
 * The complete calculated RIPE payout—including lock and booster bonuses—must fit the available bond allowance before the purchase can proceed
 * The oracle-valued payment can reduce recorded bad debt up to the outstanding amount
 
-**Supply Expansion Mechanism:**
+**Supply-Cap Treatment:**
 
 * After the full-payout availability check passes, RIPE attributed to the bad-debt portion is recorded outside ordinary bond-distribution usage
-* This accounting can expand minted supply beyond the base token allocation
-* This expansion dilutes all RIPE holders proportionally
-* Protocol transparently tracks all additional RIPE minted
+* Because that payout is recorded separately, authorized cap administration must count it toward RIPE's protocol-wide 1 billion-token cap across all blockchains
+* The protocol records RIPE attributed to bad-debt recovery separately from ordinary bond usage
 
 **Design Rationale:**
 
 * A successful purchase receives its complete computed payout; a purchase that fails a protocol or availability check reverts
-* Any supply expansion associated with bad-debt recovery dilutes RIPE holders
+* Bad-debt recovery uses capacity within the same protocol-wide RIPE cap
 * Bond proceeds still become Endaoment treasury assets while the oracle-valued payment is credited against bad debt
-* Governance has incentive to minimize bad debt to prevent dilution
+* Governance has an incentive to minimize bad debt and preserve RIPE distribution capacity for its intended uses
 
 This lets qualifying bond purchases serve as both a treasury-building tool and a bad-debt recovery path without bypassing the bond's normal preconditions.
 

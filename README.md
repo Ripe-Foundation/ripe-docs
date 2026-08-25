@@ -103,11 +103,12 @@ Configured activities can accrue RIPE entitlement through elapsed-point accounti
 
 #### 📊 [RIPE Tokenomics: Aligned Incentives](governance-and-economics/01-ripe-tokenomics.md)
 
-Understanding RIPE's 1 billion-token base allocation and the vesting schedules that power the protocol.
+Understanding RIPE's 1 billion-token protocol-wide supply cap and the schedules that govern distribution.
 
-* **Base allocation** - 1B ordinary allocation; authorized minting and bad-debt bond accounting are explained in the tokenomics guide
+* **Cross-chain cap** - 1B RIPE in aggregate across all blockchains, not 1B per network
 * **Community first** - 25% for rewards, largest unlocking allocation
-* **Transparent vesting** - All schedules enforced onchain
+* **Extended alignment** - Every investor and employee in the Early Backer and Core Contributor allocations agreed to an additional one-year lock, with the earliest scheduled investor release or employee position-transfer eligibility on June 26, 2027
+* **Transparent schedules** - Onchain vesting mechanics and applicable holder commitments govern release timing
 * **Strategic funding** - $1.87M of founder and external capital described in the tokenomics guide
 
 #### 🏛️ [Governance Points and Locking](governance-and-economics/02-governance.md)

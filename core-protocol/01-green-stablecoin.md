@@ -125,7 +125,7 @@ This standard borrow-and-repay path expands and contracts supply with borrowing 
 
 ### Cross-Chain Token Movement
 
-On a configured CCIP route, outbound GREEN or RIPE delivered to its token-specific pool is burned on the source chain, and the corresponding token-specific pool mints to the recipient on the destination chain. Each pool exposes only its own token capability, while RipeHq must separately authorize that pool to mint and can disable minting globally. This describes the burn-and-mint mechanism; which routes and limits are active depends on each deployment's configuration.
+On a configured CCIP route, outbound GREEN or RIPE delivered to its token-specific pool is burned on the source chain, and the corresponding token-specific pool mints to the recipient on the destination chain. Each pool exposes only its own token capability, while that deployment's RipeHq must separately authorize the pool to mint and can disable minting for that deployment. This describes the burn-and-mint mechanism; which routes and limits are active depends on each deployment's configuration.
 
 ## The Six Pillars of Stability
 
@@ -326,7 +326,7 @@ Bottom line: when configured and available, the PSM gives arbitrageurs a reserve
 
 ### Bad Debt Resolution
 
-If bad debt exists during a [bond](../governance-and-economics/03-bonds.md) purchase, the oracle-valued payment can clear bad debt up to that value. The corresponding RIPE payout is accounted outside the ordinary bond budget, allowing recovery issuance to expand supply and dilute holders.
+If bad debt exists during a [bond](../governance-and-economics/03-bonds.md) purchase, the oracle-valued payment can clear bad debt up to that value. Because the corresponding RIPE payout is accounted outside ordinary bond-distribution usage, authorized cap administration must count it separately toward RIPE's protocol-wide 1 billion-token cap across all blockchains.
 
 ### Protocol-Wide Integration
 

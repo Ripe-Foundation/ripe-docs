@@ -342,7 +342,7 @@ Despite all protective mechanisms, extreme market conditions could potentially c
 
 * The complete computed RIPE payout must first fit the available bond allowance
 * The payout associated with cleared bad debt is accounted outside ordinary bond-distribution usage
-* That accounting can expand minted supply beyond RIPE's 1 billion-token base allocation and dilute holders
+* Authorized cap administration must count that separately accounted payout toward RIPE's protocol-wide 1 billion-token cap across all blockchains
 * Purchase enablement, asset, epoch, capacity, pricing, and minting controls still apply
 
 Bond recovery is a conditional accounting path, not a guarantee that all bad debt will be cleared or that GREEN will remain fully backed in every market outcome.
