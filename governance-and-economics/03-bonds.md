@@ -6,11 +6,11 @@ description: Trade Cash for Power
 
 Every protocol needs capital. Most just sell tokens and spend it.
 
-Ripe bonds transform your capital into permanent treasury assets. Your USDC doesn't get spent on salaries or marketing—it becomes protocol-owned liquidity in the [Endaoment](../core-protocol/07-endaoment.md), earning yield that backs [GREEN](../core-protocol/01-green-stablecoin.md) forever. Lock for 3 years? Triple your allocation. Have activity boosters? Multiply it again.
+Ripe bonds exchange a configured payment asset for RIPE and send the accepted payment to the [Endaoment](../core-protocol/07-endaoment.md). Choose a qualifying lock? A configured bonus can increase your allocation. Have an eligible activity booster? That can add another bonus.
 
 The longer everyone else waits, the more you accumulate.
 
-You're not funding an exit. You're funding a machine that prints money for the protocol—and getting a piece of the action.
+Bonding is a configured route for adding protocol-owned treasury assets while distributing RIPE under explicit epoch and budget controls.
 
 ## The Bond Value Proposition
 
@@ -18,12 +18,12 @@ You're not funding an exit. You're funding a machine that prints money for the p
 
 Bonds solve a critical challenge in DeFi: how to bootstrap protocol-owned liquidity without relying on mercenary capital or unsustainable incentives. Through bonds, Ripe Protocol:
 
-* **Accumulates permanent treasury assets** that generate yield forever
-* **Creates deep liquidity** for GREEN trading without renting it
+* **Accumulates protocol-owned treasury assets** that can be retained or deployed through authorized actions
+* **Can support configured liquidity operations** without relying solely on rented liquidity
 * **Distributes RIPE fairly** based on actual capital contribution
 * **Aligns incentives** between token holders and protocol health
 
-Every bond purchase directly strengthens the protocol while rewarding participants with discounted RIPE tokens.
+A successful bond purchase sends the accepted payment to EndaomentFunds and delivers the calculated RIPE payout under the bond's checks.
 
 ## Bond Mechanics: How It Works
 
@@ -31,36 +31,36 @@ Every bond purchase directly strengthens the protocol while rewarding participan
 
 Bonds operate through time-limited epochs that ensure sustainable token distribution:
 
-* **Fixed Supply Per Epoch**: Limited RIPE available prevents oversupply
-* **Time Windows**: Each epoch runs approximately 8 hours
-* **Fair Access**: First-come, first-served within each epoch
-* **Auto-Renewal**: New epochs can start automatically after sell-out
+* **Payment Capacity Per Epoch**: Each epoch accepts up to a configured amount of the payment asset, subject to the remaining RIPE bond budget
+* **Time Windows**: Epoch length is configurable in protocol blocks
+* **Shared Access**: Purchases consume the remaining payment capacity in transaction order
+* **Auto-Renewal**: Configuration determines whether an exhausted epoch schedules another epoch and the delay before it starts
 * **Availability**: Bonding may be paused during certain protocol phases and enabled by governance
 
-This system prevents whales from capturing entire allocations while ensuring consistent availability for all participants.
+The epoch bounds how much payment can be accepted during a window; it does not guarantee capacity to every participant.
 
 ### Dynamic Pricing That Rewards Action
 
 Within each epoch, RIPE prices follow a descending curve:
 
 ```
-Start of Epoch → Higher Price → Less RIPE per Dollar
+Start of Epoch → Higher Price → Less RIPE per Payment Unit
                       ↓
                  Time Passes
                       ↓
-End of Epoch → Lower Price → More RIPE per Dollar
+End of Epoch → Lower Price → More RIPE per Payment Unit
 ```
 
 This creates interesting dynamics:
 
-* **Early birds** get certainty of availability
+* **Earlier buyers** may encounter more remaining epoch and RIPE-budget capacity, but execution is never guaranteed
 * **Patient buyers** receive better prices
 * **Market forces** determine actual demand
 * **Transparent pricing** visible to all participants
 
 ### Token Allocation
 
-The bonding program draws from the **250 million RIPE** community incentives allocation (shared with block rewards), distributed over approximately 10 years. This measured approach ensures sustainable treasury growth without overwhelming the market while building substantial protocol reserves.
+The bonding program draws from a funded RIPE bond budget. That budget is separate from the payment capacity available in an epoch: a purchase must fit both before it can complete.
 
 ## Maximizing Your Bond Value
 
@@ -70,13 +70,21 @@ Every bond starts with a base exchange rate determined by:
 
 * **Current epoch progress** (0-100%)
 * **Price range** set by governance
-* **Payment asset** (typically USDC)
+* **Configured payment asset**
 
 The smart contract calculates your exact RIPE allocation based on these parameters, ensuring transparent and predictable pricing.
 
+### Payment Amount and Minimum RIPE Payout
+
+A purchase specifies a maximum payment amount and may specify a minimum acceptable RIPE payout. The protocol caps the payment by the caller's available balance and the epoch's remaining capacity, then charges only **whole payment-token units** based on that token's decimals.
+
+Any fractional remainder or unfilled transferred amount is refunded to the transaction caller, even when the bond recipient is another address. After the total payout is calculated, the Teller checks the minimum RIPE payout. If the result is too low, the entire transaction reverts, including the payment transfer.
+
+**Hypothetical example**: If a two-decimal payment token is configured to pay 4 RIPE per whole unit and a user submits 12.75 units, the bond uses 12 whole units, charges 12.00, refunds 0.75, and calculates 48 RIPE before lock or booster bonuses. These are illustrative values.
+
 ### Lock Duration Bonuses
 
-Committing to lock your RIPE dramatically increases your bond value through percentage-based bonuses:
+Committing to lock your RIPE can increase your bond value through a configured percentage-based bonus. The scale below is a hypothetical example, not live lock terms:
 
 **The Lock Bonus Scale:**
 
@@ -91,11 +99,11 @@ No Lock → 0% bonus → 1x RIPE (base amount only)
 
 **How It Works:**
 
-* Choose your lock duration when bonding (0 to 3 years)
+* Choose a lock duration within the configured range
 * Bonus calculated as percentage of base bond amount
-* Locked RIPE automatically deposits into [Ripe Governance Vault](02-governance.md)
-* Start earning governance points and staking rewards immediately
-* Maintain full voting rights throughout lock period
+* Locked RIPE automatically deposits into the current core [Ripe Governance Vault](02-governance.md) resolved through Mission Control
+* Start accumulating governance points and any configured staking rewards after deposit
+* Keep the bond position in the governance vault for the selected lock period
 
 ### Bond Boosters
 
@@ -103,13 +111,15 @@ The protocol rewards specific user activities through Bond Boosters, creating ta
 
 **How Bond Boosters Work:**
 
-* **Automatic Application**: Bond Boosters activate automatically during bond purchases
-* **Unit-Based Limits**: Each user has a maximum number of "units" they can boost (up to 25,000 units)
-* **Minimum Lock Required**: Bond Boosters require a minimum 6-month lock duration to activate
-* **Time Windows**: Bond Boosters expire at specific block numbers
-* **Percentage Multipliers**: Bond Boosters add percentage bonuses to base bond amount (up to 200%)
+* **Automatic Application**: A valid Bond Booster is checked automatically during each bond purchase
+* **Whole-Purchase Capacity**: The purchase receives the booster only if all of its whole payment-token units fit within the user's remaining allowance
+* **Minimum Lock Required**: A booster can impose a configured minimum lock duration
+* **Time Windows**: A booster can expire at a configured block
+* **Percentage Multipliers**: The configured boost ratio adds a bonus to the base bond amount
 
-**Current Bond Booster Programs:**
+**Illustrative Bond Booster Program:**
+
+The program and values below illustrate how a booster can be configured; they are not live protocol parameters.
 
 * **Ripe Radness**: Rewards testnet participants
   * Bond Booster range: 10% to 200% based on contribution level
@@ -121,14 +131,17 @@ The protocol rewards specific user activities through Bond Boosters, creating ta
 
 **The Unit System:** Units represent your Bond Booster capacity:
 
-* 1 unit = 1 USDC
-* Units consumed permanently (no refills)
+* In this example, 1 unit = 1 USDC
+* A qualifying boosted purchase consumes all of its units against the current booster grant; removing the grant or installing an eligible fresh grant can reset usage
+* If the entire purchase does not fit within the remaining units, that purchase gets no booster and consumes no units
 
 Example scenarios with 1,000 units and 200% Bond Booster:
 
 * **Scenario A**: Bond 500 USDC → uses 500 units, all 500 USDC gets boosted (500 units remain)
-* **Scenario B**: Bond 1,500 USDC → uses all 1,000 units, only first 1,000 USDC gets boosted
-* **Scenario C**: Bond 500 USDC first, then bond 1,000 USDC later → second bond only has 500 units left, so only 500 of the 1,000 USDC gets boosted
+* **Scenario B**: Bond 1,500 USDC → the purchase exceeds the 1,000-unit allowance, so none of it is boosted and no units are consumed
+* **Scenario C**: Bond 500 USDC first, then bond 1,000 USDC later → the first purchase uses 500 units; the second exceeds the 500 units remaining, so the second purchase gets no booster and consumes no additional units
+
+To use a booster, keep each qualifying purchase within the units still available to that user.
 
 **Stacking Example:** Top-tier testnet participant bonds 1,000 USDC with 3-year lock:
 
@@ -139,7 +152,9 @@ Example scenarios with 1,000 units and 200% Bond Booster:
 
 _Note: Most participants receive smaller Bond Boosters. With a 50% Radness Bond Booster, total would be 7,000 RIPE (3.5x multiplier)_
 
-## Real-World Bonding Examples
+## Hypothetical Bonding Examples
+
+Every value in the examples below is illustrative.
 
 ### Example 1: Maximum Value Strategy
 
@@ -169,56 +184,56 @@ When protocol liquidations create bad debt, bonds serve as a recovery mechanism:
 
 **How Bond Purchases Work During Bad Debt:**
 
-* Bond purchasers receive **100% of calculated RIPE allocation**
-* Bond proceeds directly clear bad debt from the system
-* Protocol health improves with each bond sale
+* A purchase must satisfy the bond's enablement, payment-asset, epoch-capacity, and payout-availability checks
+* The complete calculated RIPE payout—including lock and booster bonuses—must fit the available bond allowance before the purchase can proceed
+* The oracle-valued payment can reduce recorded bad debt up to the outstanding amount
 
 **Supply Expansion Mechanism:**
 
-* RIPE allocated to cover bad debt gets minted **beyond the 1 billion cap**
-* Example: If 1M RIPE covers bad debt, total supply becomes 1.001 billion
+* After the full-payout availability check passes, RIPE attributed to the bad-debt portion is recorded outside ordinary bond-distribution usage
+* This accounting can expand minted supply beyond the base token allocation
 * This expansion dilutes all RIPE holders proportionally
 * Protocol transparently tracks all additional RIPE minted
 
 **Design Rationale:**
 
-* Bond purchasers always receive full allocation regardless of protocol state
-* Bad debt costs are socialized across all token holders via dilution
-* Bond demand remains strong even during protocol stress
+* A successful purchase receives its complete computed payout; a purchase that fails a protocol or availability check reverts
+* Any supply expansion associated with bad-debt recovery dilutes RIPE holders
+* Bond proceeds still become Endaoment treasury assets while the oracle-valued payment is credited against bad debt
 * Governance has incentive to minimize bad debt to prevent dilution
 
-This mechanism ensures bonds function as both a treasury building tool and an emergency recovery system.
+This lets qualifying bond purchases serve as both a treasury-building tool and a bad-debt recovery path without bypassing the bond's normal preconditions.
 
 ## Bond Proceeds and Treasury Management
 
-All stablecoins from bond sales flow directly to the [Endaoment](../core-protocol/07-endaoment.md), becoming productive protocol assets:
+Accepted payment assets from bond sales flow directly to the [Endaoment](../core-protocol/07-endaoment.md), becoming protocol treasury assets:
 
 **Treasury Deployment Strategy:**
 
-* **Yield Farming**: Earns returns across DeFi via [Underscore](https://underscore.finance/) integrations
-* **GREEN Liquidity**: Provides permanent trading depth for the stablecoin
-* **Market Operations**: Defends GREEN's $1 peg during volatility
-* **Strategic Reserves**: Backstops the protocol during extreme events
+* **Yield Positions**: Can enter compatible [Underscore](https://underscore.finance/) integrations when configured
+* **GREEN Liquidity**: Can provide trading depth through authorized actions
+* **Market Operations**: Can support GREEN's peg through bounded transactions
+* **Strategic Reserves**: Can remain in treasury custody until an authorized use
 
-**The Flywheel Effect:**
+**The Enforced Flow:**
 
 ```
-Your Bonds → Treasury Growth → More Yield → Stronger Protocol
-     ↑                                              ↓
-     └────── Higher RIPE Value ← Better GREEN ←────┘
+Accepted Bond Payment → EndaomentFunds Custody
+                                  ↓
+             Retained Reserve or Authorized Operation
 ```
 
-Unlike protocols that waste treasury on temporary incentives, every bond dollar becomes permanent productive capital working 24/7 for protocol sustainability.
+Accepted bond payments become protocol treasury assets. They may be deployed through configured integrations, used in authorized market operations, or retained in reserve.
 
 ## Time to Choose: Mercenary or Builder?
 
 Here's the choice that matters:
 
-Bond with a 3-year lock? Get up to 3x base allocation. Add Bond Boosters? Multiply again.
+Bond with a qualifying lock? Receive the configured lock bonus. Add an eligible Bond Booster? Receive its configured bonus too.
 
 Wait for exchanges? Pay market price. No bonuses. No multipliers. Just hoping someone sells.
 
-But this isn't really about the discount. It's about what happens to your money. Every dollar bonded becomes permanent protocol capital. Not exit liquidity for VCs. Not marketing budgets. Actual yield-generating assets backing actual stablecoins.
+But this isn't only about the discount. The accepted payment becomes protocol-owned Endaoment treasury capital. It can remain in custody or be used through authorized, configured operations; bonding does not guarantee yield or make each payment direct collateral backing for GREEN.
 
 The protocol needs capital. You want tokens. Bonds make it happen.
 

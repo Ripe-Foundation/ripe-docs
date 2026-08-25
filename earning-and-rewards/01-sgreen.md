@@ -6,9 +6,9 @@ description: Set It and Forget It Yield
 
 Your stablecoins are lazy. Sitting there. Doing nothing. Earning nothing.
 
-Meanwhile, Ripe borrowers are paying interest on loans backed by everything from ETH to jpegs. That interest? It could be yours. Just deposit [GREEN](../core-protocol/01-green-stablecoin.md) into sGREEN and start capturing every penny of protocol revenue. No staking. No claiming. No thinking.
+Meanwhile, Ripe borrowers pay interest on loans backed by supported collateral. Deposit [GREEN](../core-protocol/01-green-stablecoin.md) into sGREEN to capture the configured share of borrower revenue directed to the savings vault—without a separate reward claim.
 
-The best part? You get paid even if borrowers ghost the protocol. Welcome to yield that actually works.
+Accrued borrower interest can be realized for the protocol without waiting for each borrower to repay, as described below.
 
 ## Understanding sGREEN
 
@@ -16,16 +16,16 @@ sGREEN is GREEN's yield-bearing twin — a set-and-forget savings vault that aut
 
 ## Where Your Yield Comes From
 
-Every sGREEN holder benefits from multiple real protocol revenue streams:
+sGREEN backing can grow from borrower revenue directed to the savings vault:
 
-1. **Borrower Interest Payments**: Continuous yield from all active loans across the protocol
-2. **Origination Fees (Daowry)**: 0.25% fee on every new loan minted instantly adds value
-3. **Unrealized Yield Flush**: Even if borrowers never repay, their accrued interest is periodically "flushed" to sGREEN holders through new GREEN minting. You don't wait for loan repayments to get your yield — the protocol ensures sGREEN value grows continuously regardless of borrower behavior
-4. **Future Treasury Yields**: [Governance](../governance-and-economics/02-governance.md) can direct [Endaoment](../core-protocol/07-endaoment.md) profits to sGREEN holders
+1. **Borrower Interest Payments**: The configured share of accrued borrower interest directed to sGREEN
+2. **Origination Fees (Daowry)**: When enabled, the configured fee on new borrowing can add value
+3. **Unrealized Yield Flush**: Accrued interest is recorded as unrealized yield. A later borrow flushes that balance, mints the corresponding GREEN, and applies the configured revenue split; this is transaction-driven rather than a periodic autonomous job
+4. **Other GREEN Inflows**: Any separately authorized GREEN transfer into the vault adds backing per share, but treasury allocation is not part of the automatic borrower-revenue path
 
-**Note on Revenue Split**: Not all protocol revenue goes to sGREEN. Governance can direct a portion toward RIPE buybacks instead. When that's enabled, fees get split — some to sGREEN yield, some to buying RIPE off the market. Both tokens win when the protocol grows.
+**Note on Revenue Split**: Not all borrower revenue must go to sGREEN. The configured buyback portion is transferred as GREEN to the governance recipient, while the remainder increases sGREEN backing. Any RIPE market purchase is a separate governance operation, not an automatic part of the split.
 
-This isn't speculative yield — it's real revenue from actual protocol usage that compounds automatically into your position.
+The share conversion rate reflects the GREEN actually held by the vault; returns depend on realized protocol revenue and the configured split.
 
 ## How to Use sGREEN
 
@@ -33,51 +33,52 @@ This isn't speculative yield — it's real revenue from actual protocol usage th
 
 Convert your GREEN to sGREEN with one transaction:
 
-* Deposit any amount of GREEN to the vault
+* Deposit a positive amount of GREEN that mints at least one share
 * Receive sGREEN shares at the current exchange rate
-* Start earning immediately with no minimum or lock-up
+* Hold without a vault maturity date; the share value reflects backing that subsequently reaches the vault
 
 **Example**: At a 1.1 rate, depositing 1,100 GREEN gives you 1,000 sGREEN
 
-### Option 2: Borrow Directly in sGREEN
+### Option 2: Receive Borrowed GREEN as sGREEN
 
 Advanced strategy for sophisticated users:
 
-* Take out loans denominated in sGREEN instead of GREEN
-* Your debt stays constant while your sGREEN grows
-* Profit when sGREEN yield exceeds your borrow rate
+* All Ripe debt is denominated and accounted for in GREEN
+* Choose whether the borrowed value reaches your wallet as GREEN or is converted into sGREEN
+* You may also route the converted sGREEN directly into its configured [Stability Pool](02-stability-pools.md)
+* Your GREEN debt continues to accrue under your borrowing terms while the sGREEN you receive follows the vault's share price
 
-**The Math**: Borrow at 5% APR, earn 8% on sGREEN = 3% net profit on borrowed funds
+**Hypothetical example**: If a GREEN debt costs 5% APR and the received sGREEN earns 8% over the same period, the gross spread would be 3% before fees, compounding differences, and risk. These are example assumptions, not live rates.
 
-### Option 3: Deploy to [Stability Pools](02-stability-pools.md) (Maximum Yield)
+### Option 3: Deploy to [Stability Pools](02-stability-pools.md) (Additional Exposure)
 
 Stack multiple revenue streams by depositing sGREEN in stability pools:
 
 * **Keep earning**: sGREEN base yield continues
-* **Add liquidations**: Buy collateral at 5-15% discounts
-* **Plus rewards**: Earn [RIPE tokens](03-ripe-rewards.md) on top
-* **Triple stack**: All three sources compound together
+* **Add liquidations**: Share in liquidation collateral acquired by the pool
+* **Plus rewards**: Earn [RIPE tokens](03-ripe-rewards.md) when the Stability position is configured for rewards
+* **Separate Sources**: Underlying yield, claim assets, and RIPE rewards have different accounting and realization paths
 
-**Potential Returns**: Base yield + liquidation profits + RIPE rewards = significant APR
+**Potential Return Sources**: sGREEN exchange-rate growth, realized liquidation outcomes, and configured RIPE rewards. None is guaranteed.
 
-## Getting Paid No Matter What
+## How Accrued Borrower Interest Becomes Vault Backing
 
-Here's what most people miss: sGREEN holders get their yield even if borrowers ghost the protocol.
+Borrower interest does not need to be individually repaid before it can enter the protocol's revenue calculation:
 
 **How It Works**:
 
-* Borrowers accumulate interest every block (paid or unpaid)
+* Borrower interest accrues over elapsed time whether or not it has been repaid
 * This interest is tracked but not yet "realized" as new GREEN
-* Periodically, the protocol "flushes" this unrealized yield
-* New GREEN is minted to represent the accrued interest
-* sGREEN exchange rate increases, capturing this value
+* A later eligible borrow calls the unrealized-yield flush
+* New GREEN is minted to represent the flushed interest
+* The configured buyback portion goes to governance and the remainder goes to sGREEN backing
 
 **What This Means**:
 
-* Your yield doesn't depend on borrowers being good actors
-* Interest compounds into sGREEN value whether loans are repaid or not
-* When borrowers eventually repay (or get liquidated), that GREEN is burned
-* The system stays balanced while you keep earning
+* Realization does not require the original borrower to repay first, but it does require the later flush-triggering transaction
+* Only the configured savings-vault portion increases sGREEN backing
+* Standard borrower repayments and auction purchases burn the GREEN they apply to debt
+* Stability settlement can instead transfer a configured non-GREEN asset for debt credit; GREEN and sGREEN settlement uses the GREEN-burning path
 
 ## The sGREEN Advantage
 
@@ -85,25 +86,25 @@ Here's what most people miss: sGREEN holders get their yield even if borrowers g
 
 Unlike traditional staking where you claim rewards, sGREEN uses an elegant share-based system:
 
-* **Set and Forget**: Your sGREEN balance stays constant while its GREEN value increases
+* **Set and Forget**: Your sGREEN balance is non-rebasing; its GREEN value increases when additional backing reaches the vault
 * **No Gas Fees**: Value accrues through exchange rate appreciation, not token distributions
-* **Compound Growth**: All revenues automatically reinvest, accelerating returns
-* **Monotonic Rate**: The exchange rate can only increase — mathematically impossible to decrease
+* **Revenue Through Backing**: GREEN directed to the vault raises assets per share without a separate holder claim
+* **Share Accounting**: Ordinary deposits and withdrawals preserve the pro-rata conversion rate; GREEN revenue added without new shares raises it
 
-**Real Example**: Deposit 1,000 GREEN at 1.0 rate → Wait one year → Rate becomes 1.08 → Your sGREEN now worth 1,080 GREEN. Zero actions required.
+**Hypothetical example**: Deposit 1,000 GREEN at a 1.0 rate → assume the rate reaches 1.08 after one year → your sGREEN is then worth 1,080 GREEN. These values are illustrative.
 
 ### True DeFi Flexibility
 
-* **Instant Redemption**: Convert to GREEN anytime, no delays or penalties
-* **Zero Lock-ups**: Your capital is never trapped or restricted
-* **Full Transferability**: Send, trade, or use sGREEN like any ERC-20
-* **Tax Efficiency**: Value accrues through price appreciation, not taxable distributions
+* **Vault Redemption**: Convert to GREEN subject to available backing and token/vault safety controls
+* **No Time Lock**: The vault does not impose a maturity date, though pauses, blacklists, and backing checks can restrict exits
+* **Transferability**: Send, trade, or use sGREEN subject to its token controls
+* **Tax Treatment**: Depends on the user and jurisdiction; consult a qualified adviser
 
-## Real User Scenarios
+## Hypothetical User Scenarios
 
 ### Scenario 1: The Passive Saver
 
-_Sarah deposits 10,000 GREEN into sGREEN and forgets about it for a year_
+_Assume Sarah deposits 10,000 GREEN into sGREEN and the vault earns 7% over a year_
 
 * Starting rate: 1.00 (10,000 sGREEN received)
 * After 1 year at 7% APR: Rate is 1.07
@@ -112,48 +113,48 @@ _Sarah deposits 10,000 GREEN into sGREEN and forgets about it for a year_
 
 ### Scenario 2: The Yield Farmer
 
-_Alex deposits 50,000 GREEN worth of sGREEN into stability pools_
+_Assume Alex deposits 50,000 GREEN worth of sGREEN into a Stability pool and realizes the example returns below_
 
 * sGREEN base yield: 6% = 3,000 GREEN/year
 * Liquidation profits: 8% = 4,000 GREEN/year
 * RIPE rewards: 4% = 2,000 GREEN equivalent/year
 * **Total return: 9,000 GREEN (18% APR) plus compounding**
 
-### Scenario 3: The Arbitrageur
+### Scenario 3: The Borrower Who Chooses sGREEN Delivery
 
-_Jordan borrows 100,000 GREEN as sGREEN at 5% APR_
+_Hypothetical: Jordan incurs 100,000 GREEN of debt and chooses to receive the proceeds as sGREEN_
 
-* Borrowing cost: 5,000 GREEN/year
-* sGREEN earnings at 8%: 8,000 GREEN/year
+* Assumed borrowing cost at 5%: 5,000 GREEN/year
+* Assumed sGREEN earnings at 8%: 8,000 GREEN/year
 * **Net profit: 3,000 GREEN/year on borrowed capital**
 
 ## Frequently Asked Questions
 
 **Q: How does sGREEN compare to other yield-bearing stablecoins?** A: The difference isn't just sGREEN — it's the entire Ripe ecosystem:
 
-* **Diverse Revenue**: sGREEN captures yield from a protocol that accepts EVERYTHING as collateral (NFTs, memecoins, yield positions), not just ETH/USDC
-* **Unrealized Yield Flush**: You get paid even if borrowers never repay — unique to Ripe
-* **Triple Stack Potential**: Deploy sGREEN to stability pools for base yield + liquidations + RIPE rewards
-* **Real Demand**: Borrowers use Ripe because they can leverage their entire portfolio in one position — creating sustainable yield sources
+* **Diverse Revenue Potential**: sGREEN can capture revenue from borrowing against the supported collateral portfolio
+* **Unrealized Yield Flush**: Interest can be realized without the original borrower repaying, but only when a later eligible borrow triggers the flush and a nonzero savings allocation directs value to sGREEN
+* **Triple Stack Potential**: A configured Stability position can combine sGREEN backing growth, liquidation claims, and RIPE rewards
+* **Borrowing Activity**: Supported portfolio borrowing can generate interest and enabled fees; sGREEN receives only the configured savings share after that revenue is realized
 * Other yield-bearing stables rely on narrow use cases or subsidized APYs. sGREEN's yield comes from solving a real problem: unified portfolio borrowing.
 
-**Q: What drives sGREEN yields?** A: Real borrowing demand. More loans = more interest and fees = higher sGREEN yields. It's sustainable because borrowers get productive capital.
+**Q: What drives sGREEN yields?** A: Borrower interest and enabled fees can create protocol revenue. sGREEN backing grows only when that revenue is realized and the configured savings share is directed to the vault, so returns are not guaranteed by loan volume alone.
 
-**Q: Is there a minimum deposit?** A: No minimums. Whether you have 10 GREEN or 10 million, you earn the same percentage yield.
+**Q: Is there a minimum deposit?** A: The vault rejects a zero-amount deposit or one that would mint zero shares. Any interface minimum or other live restriction should be checked in the current transaction preview.
 
-**Q: Can sGREEN be used as collateral?** A: Not currently within Ripe Protocol, but other DeFi protocols may accept it. Its appreciating nature makes it attractive collateral, potentially offering better terms than regular stablecoins.
+**Q: Can sGREEN be used as collateral?** A: An sGREEN position deposited in a Ripe Stability vault does not contribute borrowing power; Stability vaults are excluded from collateral-term calculations. Other configured vault roles or external protocols can treat sGREEN differently.
 
-**Q: What happens during market crashes?** A: sGREEN remains stable. Market volatility often increases borrowing and liquidations, potentially boosting yields during turbulent times.
+**Q: What happens during market crashes?** A: sGREEN remains exposed to GREEN's peg, smart-contract, backing, and liquidity risks. Market volatility can also change borrowing, repayment, and realized revenue.
 
-**Q: How often does the exchange rate update?** A: Every transaction updates the rate in real-time. No waiting for daily rebase or epoch updates.
+**Q: How often does the exchange rate update?** A: sGREEN is non-rebasing. Its conversion rate reflects the vault's current GREEN assets and share supply whenever it is queried or used.
 
 ## Stop Leaving Money on the Table
 
-Every block, Ripe borrowers generate interest. Every new loan pays fees. Every liquidation creates value.
+Borrower interest accrues over time, and enabled origination fees can add protocol revenue. The configured share directed to sGREEN increases the GREEN backing its shares.
 
-Without sGREEN, you're watching that revenue flow past you. With sGREEN, you're catching it all — automatically compounding into your position while you sleep, work, or forget crypto exists.
+With sGREEN, the revenue directed to the savings vault is reflected in the position's exchange rate without a separate claim.
 
-One deposit. Infinite compounding. Zero effort.
+One deposit. Share-based revenue accrual without a separate reward claim.
 
 Your stablecoins have been lazy long enough.
 

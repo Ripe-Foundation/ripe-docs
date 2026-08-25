@@ -16,10 +16,10 @@ description: Borrow GREEN against your deposits, and keep the position healthy
 
 **Step 4.** Choose what you receive and where it goes. This is easy to miss and it matters:
 
-* **Receive Token:** **GREEN** (the plain stablecoin) or **Savings GREEN** ([sGREEN](../earning-and-rewards/01-sgreen.md), which earns yield automatically).
-* **Destination:** **Wallet** (it lands in your wallet, ready to spend or move) or **Stability Pool** (it goes straight to work [earning](../earning-and-rewards/02-stability-pools.md), with the APY shown right there).
+* **Receive Token:** **GREEN** (the plain stablecoin) or **Savings GREEN** ([sGREEN](../earning-and-rewards/01-sgreen.md), a non-rebasing share whose GREEN backing can increase when configured revenue reaches the savings vault).
+* **Destination:** **Wallet** (it lands in your wallet, ready to spend or move) or, when receiving **Savings GREEN** and the interface offers a compatible route, **Stability Pool** (the sGREEN is deposited into the configured Stability vault, with the estimate shown in the preview).
 
-If you're borrowing to spend the money, choose GREEN and Wallet. If you're borrowing to put the money to work, sending it straight to the Stability Pool saves you a separate deposit.
+If you're borrowing to spend the money, choose GREEN and Wallet. If an eligible Stability destination is offered, choosing Savings GREEN and Stability Pool converts the borrowed GREEN to sGREEN and saves a separate deposit.
 
 **Step 5.** Press **Borrow** and confirm in your wallet.
 
@@ -27,12 +27,14 @@ If you're borrowing to spend the money, choose GREEN and Wallet. If you're borro
 
 **What to watch afterward:** your Debt Status on the Borrow page (and Debt Ratio on the Dashboard). It reads **No Debt** before you borrow and **Healthy** while you have comfortable room, with your debt shown against the Max Borrow and Liquidation markers. If your collateral loses enough value, your position can be [liquidated](../core-protocol/04-liquidations.md).
 
-The Dashboard shows the same position as a **Debt Ratio** card, which spells out how the number is calculated and the ratio at which liquidation happens. Same information, two vocabularies: the Borrow page gives you a word, the Dashboard gives you the percentage behind it.
+The Dashboard shows the same position as a **Debt Ratio** card, which spells out how the number is calculated and the ratio at which the position becomes eligible for liquidation. Same information, two vocabularies: the Borrow page gives you a word, the Dashboard gives you the percentage behind it.
 
 ![The Dashboard's view of an active loan, with the Debt Ratio explained](../.gitbook/assets/user-guide-16-dashboard-debt.png)
 
-**Stock collateral behaves differently on weekends.** The [price feeds](../core-protocol/06-price-oracles.md) for stocks pause when markets close, so inside the protocol your stock collateral holds its last price for roughly two days. That does not make you safe during the pause. You can still be liquidated in that window in two ways: if your position was already at the liquidation point when the feed froze, or if other collateral that keeps moving, WETH for instance, falls far enough to push you there on its own.
+**Stock collateral behaves differently when its market is closed.** A published stock price remains usable only while it satisfies the configured freshness rules. Ripe does not keep using a last-known cached price after every configured source becomes unusable.
 
-And when feeds resume, the stock price updates in one step rather than drifting. If the stock fell while markets were closed, your position absorbs the whole move at once instead of giving you time to react. Borrow with enough room that a weekend gap doesn't decide anything for you.
+If debt-bearing collateral cannot be priced, the account enters a valuation quarantine. You cannot increase risk by borrowing more or withdrawing collateral that supports the debt, and the protocol withholds liquidation, redemption, and deleveraging until it can value the account safely. You can still repay debt or add collateral, subject to normal protocol controls. Quarantine itself is not a liquidation or a declaration that the account is insolvent.
+
+When a usable feed resumes, the account is valued from the fresh price and normal health checks resume. If the stock moved while its market was closed, the update may arrive in one step. Borrow with enough room that a market-open gap doesn't decide anything for you.
 
 Next: [Pay back and withdraw](04-pay-back-and-withdraw.md).
