@@ -1,5 +1,5 @@
 ---
-description: Get GREEN and earn RIPE by providing liquidity
+description: Get GREEN and provide liquidity that may earn RIPE when configured
 ---
 
 # Get GREEN and Provide Liquidity
@@ -31,7 +31,7 @@ Once deposited, the card can show the position, an estimated yield, and RIPE rew
 
 ![The GREEN/USDG Stability Pool card](../.gitbook/assets/user-guide-13-lp-stability-card.png)
 
-A shortcut worth knowing: if you're borrowing anyway, choose Savings GREEN and—when a compatible Stability destination is configured—the borrow flow can convert the new GREEN to sGREEN and deposit it without a wallet round-trip.
+A shortcut worth knowing: if you're borrowing anyway, choose Savings GREEN and—when a compatible Stability destination is configured—the borrow flow can convert the new GREEN to sGREEN and deposit it without a wallet round-trip. The conversion is subject to the wrapping floor; a smaller output remains GREEN and does not enter Stability.
 
 If that deposit box shows "Your balance: -", it means you don't hold the token yet. Go back and do Step 3 first.
 

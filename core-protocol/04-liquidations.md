@@ -106,7 +106,7 @@ Your position's safety depends on three key thresholds that work together to cre
 * GREEN holders can redeem against your position
 * Provides market-based deleveraging opportunity
 * Varies by asset and deployment configuration
-* Example: At an assumed 77% threshold, others can exchange GREEN for eligible collateral at its oracle value
+* Example: At an assumed 77% threshold, others can exchange GREEN for eligible collateral using an oracle-derived request quote; partial vault delivery scales the debt credit proportionally, subject to integer rounding
 
 **3. Liquidation Threshold**
 
@@ -139,21 +139,22 @@ $10,000                    $8,571      $7,792     $7,500      $0
 * Can still borrow more
 * No forced redemption or liquidation; the owner or a trusted caller can still use proactive deleverage
 
-**🟡 Zone 2: Warning** (Collateral $8,571 - $7,792)
+**🟡 Zone 2: Warning** (Collateral at or below approximately $8,571 but above approximately $7,792)
 
-* Exceeded max LTV, cannot borrow
-* Still safe from redemption
-* Time to add collateral or repay
+* Maximum LTV reached or exceeded, so no further borrowing is available
+* At the maximum boundary, borrowing-power collateral has no withdrawal room; above it, whole-account housekeeping blocks ordinary withdrawals, including zero-LTV assets
+* Still above the redemption boundary
+* Repay to return debt to current max-borrow capacity; adding collateral can also help when the ordinary deposit checks pass
 
 **🟠 Zone 3: Redemption** (Collateral at or below approximately $7,792 but above $7,500)
 
-* Redemption threshold breached (77%)
+* Redemption threshold reached (77%)
 * GREEN holders can redeem your collateral
 * Can reduce debt through a route separate from liquidation and deleverage
 
 **🔴 Zone 4: Liquidation** (Collateral at or below $7,500)
 
-* Liquidation threshold breached (80%)
+* Liquidation threshold reached (80%)
 * The position is eligible for a liquidation episode
 * Active liquidation begins only when an eligible transaction starts the episode
 
@@ -226,12 +227,12 @@ For an asset configured to use [Stability pools](../earning-and-rewards/02-stabi
 2. The liquidation consumes any claimable GREEN associated with that settlement asset first
 3. If more repayment is needed, the vault must have spendable, unreserved settlement-asset liquidity and a usable price
 4. GREEN is burned; sGREEN is redeemed and its GREEN is burned; any other settlement asset is transferred to EndaomentFunds
-5. The vault receives the borrower's collateral as claimable custody, and the debt receives credit for the value actually supplied
+5. The vault receives the borrower's collateral as claimable custody. Debt credit uses the route's settlement-value quote scaled to the amount the vault actually supplies, subject to integer rounding
 
 **The Win-Win Dynamic**
 
 * Compatible in-protocol liquidity can reduce how much collateral reaches auction
-* A nonzero configured liquidation spread gives the Stability cohort more collateral value than the settlement value it supplies
+* A nonzero effective episode spread, after the episode fee caps, gives the Stability cohort more quoted collateral value than the settlement value it supplies
 * Market-price changes, claim liquidity, and pool capacity still affect the depositor's realized outcome
 
 **Additional Pool Benefits**
@@ -242,7 +243,7 @@ For an asset configured to use [Stability pools](../earning-and-rewards/02-stabi
 
 **Optional recipient controls**
 
-A special Stability vault can apply its configured asset-recipient allowlist to claims. This restricts who may receive a controlled claim asset through that vault, but it is a contract-level transfer control rather than a guarantee of regulatory compliance.
+A claim asset can independently configure a recipient allowlist and a special Stability-vault route. A claim checks its recipient against the claim asset's allowlist; the routing choice and recipient control are separate, and neither guarantees regulatory compliance.
 
 _For deeper understanding of stability pool mechanics, see_ [_Stability Pools_](../earning-and-rewards/02-stability-pools.md)_._
 
@@ -256,7 +257,7 @@ For auction-eligible collateral not fully handled by Stability settlement:
 
 * Auctions begin after their configured delay
 * Discounts increase linearly from the configured start discount to the maximum discount
-* A caller with GREEN can buy when global and asset purchase controls are enabled and the recipient passes any configured allowlist
+* A caller with GREEN can buy when global and asset purchase controls are enabled and the recipient passes any configured allowlist. The borrower cannot be the recipient; when caller and recipient differ, the caller also needs the account-wide third-party deposit permission or recognized Underscore-wallet ownership
 * Purchases settle immediately during the open purchase window
 
 **Auction Mechanics**
@@ -274,8 +275,9 @@ For auction-eligible collateral not fully handled by Stability settlement:
 Liquidation economics are configurable rather than one fixed protocol-wide percentage:
 
 * The account's weighted liquidation fee establishes the base fee for a new liquidation episode
+* Episode base and keeper fees are capped by available collateral surplus and a debt-relative hard ceiling. The Stability discount ratio uses the resulting base fee; only that nominal base fee can be treated as spread-paid, while the keeper fee remains debt
 * The Stability-settlement spread lets a participating cohort receive collateral at a discount; it is not necessarily identical to an additive fee charged after settlement
-* The keeper fee is bounded by protocol minimums, maximums, and available collateral surplus; when nonzero, the keeper reward is minted as GREEN or optionally delivered through sGREEN
+* The keeper fee is bounded by protocol minimums, maximums, available collateral surplus, and the combined debt-relative fee ceiling; when nonzero, the keeper reward is minted as GREEN or optionally delivered through sGREEN
 * Stability settlement can cover the nominal base fee through its collateral spread. Any unpaid base fee and keeper fee are added to the account's debt before repayment is recorded
 * The same account may need multiple calls or auctions, but these episode fees are not assessed again while it remains in liquidation
 
@@ -290,7 +292,7 @@ Ripe aims to liquidate enough to restore healthy LTV:
 * Stops traversal when that target has been supplied or no further eligible collateral can be processed
 * Caps creditable repayment so settlement cannot repay more than the debt that can actually be cleared
 
-> **💡 TL;DR**: “Target-based” means Ripe does not start by assuming a full close. It does **not** promise a partial result. The repayment target can be the full debt, and a distressed account can lose all eligible collateral.
+> **💡 TL;DR**: "Target-based" means Ripe does not start by assuming a full close. It does **not** promise a partial result. The repayment target can be the full debt, and a distressed account can lose all eligible collateral.
 
 ## The Keeper Network
 
@@ -314,18 +316,7 @@ Keepers are independent operators that can monitor positions and submit liquidat
 
 No keeper allowlist is required for the liquidation entry point. Actual execution speed depends on offchain monitoring, network conditions, and transaction inclusion.
 
-## Why Ripe's System is Superior
-
-### Quick Comparison
-
-| Feature                | Traditional DeFi       | Ripe Protocol                |
-| ---------------------- | ---------------------- | ---------------------------- |
-| **Liquidation Amount** | Often all-or-nothing | Health-restoring target, which can be the full debt |
-| **Warning System**     | None                   | Deleverage + Redemption zones |
-| **Liquidation Fee**    | Protocol dependent     | Configurable episode fees and settlement discounts |
-| **Who Can Buy**        | Often specialist bots  | Eligible Stability vaults and permitted auction buyers |
-| **Proactive Options**  | None                   | Deleverage with zero penalty |
-| **Market Impact**      | External sale pressure | Stability settlement where available, auction fallback |
+## How Ripe's Resolution Routes Fit Together
 
 ### Borrower Protection Features
 
@@ -341,7 +332,7 @@ No keeper allowlist is required for the liquidation entry point. Actual executio
 2. **Conditional Liquidity**: Stability vaults can settle compatible collateral while capacity is available
 3. **Configured Fallback**: Auction-enabled assets have a second route when Stability settlement is unavailable or incomplete
 4. **Permissionless Execution**: Independent callers can submit eligible liquidations
-5. **Stress Design**: The settlement paths are designed to operate under extreme market conditions, subject to available liquidity and demand
+5. **Conditional Operation**: Every route still depends on its pricing, custody, liquidity, configuration, and caller conditions
 
 ## What If Bad Debt Occurs?
 
@@ -365,7 +356,3 @@ Here's what actually matters:
 Even better: you can [deleverage](05-deleverage.md) before liquidation — using eligible assets to reduce debt without liquidation fees.
 
 The useful protection is the mechanism's target, not a guarantee of what remains. Monitor debt health, understand which collateral is eligible for each route, and use repay or deleverage before the account reaches liquidation.
-
-***
-
-_For technical implementation details, see the_ [_AuctionHouse Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/auctionhouse)_._

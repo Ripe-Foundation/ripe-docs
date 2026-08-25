@@ -43,6 +43,5 @@
 
 ## Developers
 
-* [Technical Documentation](https://ripe-finance.gitbook.io/ripe-developers)
-* [Deployed Contracts](https://ripe-finance.gitbook.io/ripe-developers/deployments)
-* [GitHub](https://github.com/Ripe-Foundation/ripe-protocol)
+* [Live Parameters and Deployments](https://params.ripe.finance)
+* [Protocol Source](https://github.com/Ripe-Foundation/ripe-protocol)

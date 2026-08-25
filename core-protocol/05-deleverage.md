@@ -6,7 +6,7 @@ description: Proactive Debt Reduction Without Liquidation Penalties
 
 Getting liquidated sucks. The fees, the forced selling, the stress.
 
-But what if you could reduce your debt before things get ugly? That's what deleveraging does. It consumes eligible collateral, credits its value against debt, and avoids liquidation and keeper fees.
+But what if you could reduce your debt before things get ugly? That's what deleveraging does. For ordinary eligible collateral, it scales the request quote to the vault-reported delivery. A recognized Underscore basic Earn-vault asset instead uses the value of its capped underlying conversion. Both paths avoid liquidation and keeper fees, and integer rounding can affect the final debt credit.
 
 Depending on an asset's configuration, ordinary deleverage burns GREEN or sGREEN for debt credit or transfers another eligible asset to EndaomentFunds. A configured PSM yield-position token is returned to the EndaomentPSM instead. It does not sell every kind of collateral through one unrestricted user route.
 
@@ -43,7 +43,7 @@ This owner trust applies to the ordered-specific route. Calling the broad route 
 
 When your position enters the configured **deleverage zone**, an address without owner or delegate permission can invoke the broad route:
 
-* Triggered when collateral value falls below redemption threshold
+* Triggered when collateral value is at or below the redemption threshold
 * The account must not already be in liquidation
 * The caller cannot choose an arbitrary asset order
 * Repayment is capped at the amount calculated to return the account toward its safe target
@@ -107,7 +107,7 @@ Volatile collateral uses a separate privileged route restricted to valid Ripe pr
 
 Deleverage plans against a debt snapshot, interacts with collateral, then re-reads live debt immediately before settlement. If the debt amount changed during those interactions, the transaction reverts atomically.
 
-A trusted full-payoff route can use a configured, bounded extra collateral budget to absorb conversion rounding, but debt credit remains capped at the real debt. If that route consumes nonzero collateral yet leaves only a tiny residual debt within both the configured absolute and debt-relative dust caps, it can clear that residual as an explicit debt write-off. No GREEN is burned for the written-off remainder. This dust rule does not apply to partial-payoff or untrusted routes.
+A trusted full-payoff route can use a configured, bounded extra collateral budget to absorb conversion rounding, but debt credit remains capped at the real debt. If that route consumes nonzero collateral yet leaves only a tiny residual debt within both the configured absolute and debt-relative dust caps, it can clear that residual as an explicit debt write-off. No GREEN is burned for the written-off remainder. These full-payoff extras do not apply to partial-payoff or untrusted routes, or when the position owner is a recognized Underscore Earn vault.
 
 ## Using [Underscore](https://underscore.finance/) Vaults?
 
@@ -175,7 +175,3 @@ Smart borrowers:
 The protocol does not add liquidation or keeper fees to a successful deleverage. The collateral consumed and debt credited still depend on eligibility, prices, route limits, and available balances.
 
 Stay ahead of the liquidation threshold. Stay in control.
-
-***
-
-_For technical implementation details, see the_ [_Deleverage Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/deleverage)_._

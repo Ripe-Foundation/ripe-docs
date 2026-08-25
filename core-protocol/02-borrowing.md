@@ -380,7 +380,7 @@ When a repayment succeeds, the credited amount reduces debt in that transaction.
 
 ## The Future of DeFi Borrowing
 
-Forget the old way. No more portfolio fragmentation. No more wasted collateral. No more choosing between earning yield or accessing liquidity.
+Ripe's account-level model can reduce the position fragmentation created by managing each supported collateral type separately. Each asset still contributes only under its configured terms, and some deposits may provide no borrowing power.
 
 With Ripe, supported collateral can contribute according to its configured terms. Compatible yield-bearing positions can retain their external share or exchange-rate economics, while the dynamic-rate, redemption, deleverage, and liquidation mechanisms respond to configured risk conditions.
 
@@ -389,5 +389,3 @@ This is borrowing rebuilt from first principles. One position that actually unde
 ***
 
 _Ready to experience unified borrowing? Your supported portfolio can work together._
-
-_For technical implementation details, see the_ [_Credit Engine Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/creditengine)_._

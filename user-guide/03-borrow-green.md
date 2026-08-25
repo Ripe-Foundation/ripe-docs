@@ -17,9 +17,9 @@ description: Borrow GREEN against your deposits, and keep the position healthy
 **Step 4.** Choose what you receive and where it goes. This is easy to miss and it matters:
 
 * **Receive Token:** **GREEN** (the plain stablecoin) or **Savings GREEN** ([sGREEN](../earning-and-rewards/01-sgreen.md), a non-rebasing share whose GREEN backing can increase when configured revenue reaches the savings vault).
-* **Destination:** **Wallet** (it lands in your wallet, ready to spend or move) or, when receiving **Savings GREEN** and the interface offers a compatible route, **Stability Pool** (the sGREEN is deposited into the configured Stability vault, with the estimate shown in the preview).
+* **Destination:** **Wallet** (it lands in your wallet, ready to spend or move) or, when receiving **Savings GREEN** and the interface offers a compatible route, **Stability Pool** (subject to the wrapping floor, the sGREEN is deposited into the configured Stability vault, with the estimate shown in the preview).
 
-If you're borrowing to spend the money, choose GREEN and Wallet. If an eligible Stability destination is offered, choosing Savings GREEN and Stability Pool converts the borrowed GREEN to sGREEN and saves a separate deposit.
+If you're borrowing to spend the money, choose GREEN and Wallet. If an eligible Stability destination is offered, choosing Savings GREEN and Stability Pool can convert the borrowed GREEN to sGREEN and save a separate deposit. When the calculated output does not exceed the wrapping floor, the recipient receives GREEN instead and nothing enters the Stability vault.
 
 **Step 5.** Press **Borrow** and confirm in your wallet.
 

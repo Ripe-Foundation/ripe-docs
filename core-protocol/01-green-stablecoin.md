@@ -4,9 +4,7 @@ description: The Stablecoin That Works Harder.
 
 # GREEN: The Stablecoin That Works Harder
 
-Your USDC sits there doing nothing. Your DAI requires a new vault for every asset. Your LUSD only accepts ETH.
-
-GREEN? It's built different. Mint it against a unified portfolio of supported collateral. Earn yield through [sGREEN](../earning-and-rewards/01-sgreen.md). Provide liquidation liquidity through [stability pools](../earning-and-rewards/02-stability-pools.md). Multiple mechanisms work together to target the peg.
+Stablecoin designs use different collateral, liquidity, and issuance models. GREEN is built around one account-level debt position backed by a portfolio of supported collateral. It also connects to [sGREEN](../earning-and-rewards/01-sgreen.md), [stability pools](../earning-and-rewards/02-stability-pools.md), and other configured mechanisms that work together to target the peg.
 
 This is what happens when you stop asking "how do we make another stablecoin?" and start asking "how should stablecoins actually work?"
 
@@ -14,29 +12,25 @@ This is what happens when you stop asking "how do we make another stablecoin?" a
 
 ### The Problem with Current Stablecoin Borrowing
 
-Traditional lending protocols force inefficient choices that limit how you can use stablecoins:
+Common lending designs make different tradeoffs:
 
-**Isolated Positions (MakerDAO/Liquity Model)**:
+**Isolated Collateral Positions**:
 
-* Open ETH vault → Borrow DAI
-* Open WBTC vault → Manage separate loan
-* Add new asset? → Yet another position
-* Result: Portfolio fragmentation, constant juggling
+* Each collateral type can have a separate debt position
+* Each position has its own terms and liquidation boundary
+* A portfolio can require several loans to manage
 
-**Pooled Risk (Aave/Compound Model)**:
+**Shared Lending Markets**:
 
-* Limited to "safe" assets only
-* Your collateral backs everyone's loans
-* One bad actor affects all users
-* Result: Restricted innovation, systemic risk
+* Markets select their own supported collateral and risk terms
+* Borrowing depends on available lender liquidity
+* Liquidity and bad debt can be shared within a market
 
-**Isolated Money Markets (Morpho/Euler Model)**:
+**Isolated Money Markets**:
 
-* Deposit ETH → One USDC loan
-* Deposit WBTC → Another separate USDC loan
-* Multiple positions to track and manage
-* Each market needs lenders providing capital
-* Result: Portfolio fragmentation AND rate inefficiency
+* Terms can be tailored per market
+* Each market has separate liquidity and collateral boundaries
+* A multi-asset portfolio can still span several positions
 
 ### Ripe's Solution: Unified Multi-Collateral Borrowing
 
@@ -76,9 +70,9 @@ GREEN isn't just another stablecoin. It's the cornerstone of Ripe Protocol:
 │  BORROWING          YIELD              STABILITY        │
 │  ┌─────────┐       ┌──────────┐       ┌──────────┐      │
 │  │ Mint    │       │ sGREEN   │       │ Stability│      │
-│  │ GREEN   │  ───> │ Auto-    │  ───> │ Pools    │      │
-│  │ Against │       │ Compound │       │ Earn     │      │
-│  │ Assets  │       │ Yield    │       │ Discounts│      │
+│  │ GREEN   │  ───> │ Backing  │  ───> │ Pools    │      │
+│  │ Against │       │ per Share│       │ Earn     │      │
+│  │ Assets  │       │ Can Grow │       │ Spreads  │      │
 │  └─────────┘       └──────────┘       └──────────┘      │
 │       │                  │                   │          │
 │       └──────────────────┴───────────────────┘          │
@@ -89,7 +83,7 @@ GREEN isn't just another stablecoin. It's the cornerstone of Ripe Protocol:
 │                    │  Stabilizer│                       │
 │                    └────────────┘                       │
 │                                                         │
-│  Every GREEN serves multiple purposes simultaneously    │
+│  GREEN can participate in several configured mechanisms │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -402,8 +396,4 @@ Many stablecoin systems make users choose between isolated collateral, pooled le
 
 GREEN combines supported collateral in one debt position, provides an optional sGREEN yield path, and uses complementary stability mechanisms to target its peg.
 
-Stop settling for stablecoins designed for 2020. This is how money works in DeFi now.
-
-***
-
-_For technical implementation details, see the_ [_GreenToken Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/tokens/greentoken)_._
+The mechanism's value is in that combination, subject to the configuration and risk conditions described throughout this guide.

@@ -110,10 +110,10 @@ GREEN above its reference?
 **Guardrails**:
 
 * Minting and redemption can be enabled independently
-* For an ordinary mint recipient, the sender can be subject to the mint allowlist, a fee is deducted, and interval capacity applies. The GREEN output is the lower of the reserve asset's oracle value and its par value
+* For an ordinary mint recipient, the sender can be subject to the mint allowlist, the configured fee applies if nonzero, and interval capacity applies. The GREEN output is the lower of the reserve asset's oracle value and its par value
 * A recognized Underscore mint recipient bypasses the mint allowlist, fee, and interval capacity, but uses the same lower-of-oracle-and-par pricing rule
 * If sGREEN is requested but the GREEN output does not exceed the wrapping path's minimum size, the recipient receives GREEN directly instead
-* For an ordinary redemption recipient, the sender can be subject to the redemption allowlist, interval capacity and a fee apply, and reserve output is the lower of the oracle-derived amount and par
+* For an ordinary redemption recipient, the sender can be subject to the redemption allowlist, interval capacity applies, and the configured fee applies if nonzero. Reserve output is the lower of the oracle-derived amount and par
 * A recognized Underscore redemption recipient bypasses the redemption allowlist, interval capacity, and fee, and receives the higher of the oracle-derived amount and par
 * Every redemption path remains limited by reserve liquidity, including whatever can be withdrawn from a configured yield position
 
@@ -166,7 +166,7 @@ When a borrow realizes configured origination revenue and accrued borrowing inte
 * **Governance Buyback Allocation**: A configured portion of GREEN revenue is sent to the governance recipient for separate RIPE buyback operations
 * **sGREEN Backing**: The rest is sent to [sGREEN](../earning-and-rewards/01-sgreen.md), increasing GREEN backing per share
 
-The split ratio is configurable. The Credit Engine performs the allocation but does not execute the market buyback itself. This flow is separate from Endaoment treasury assets and strategy proceeds. See [RIPE Value Accrual](../governance-and-economics/01-ripe-tokenomics.md#ripe-value-accrual-real-revenue-real-buybacks) for the full breakdown.
+The split ratio is configurable. The Credit Engine performs the allocation but does not execute the market buyback itself. This flow is separate from Endaoment treasury assets and strategy proceeds. See [Borrower Revenue Allocation](../governance-and-economics/01-ripe-tokenomics.md#borrower-revenue-allocation) for the full breakdown.
 
 ### Treasury Yields
 
@@ -190,7 +190,3 @@ Bond and Reserve Engine payments can add treasury assets. Yield harvests can add
 The architecture makes treasury actions transparent and verifiable without claiming that idle assets are automatically deployed or that returns are guaranteed.
 
 Are you in?
-
-***
-
-_For technical implementation details, see the_ [_Endaoment Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/endaoment)_._

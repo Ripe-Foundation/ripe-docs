@@ -183,5 +183,3 @@ The accounting reflects both capital and sustained participation. The clock—an
 ***
 
 _Lock RIPE. Stack points. Understand how they can be used._
-
-_For technical implementation details, see_ [_RipeGov Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/vaults/ripegov)_._

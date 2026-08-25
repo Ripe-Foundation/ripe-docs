@@ -153,15 +153,4 @@ A source adapter's pause flag freezes guarded feed-configuration and update or s
 
 The pricing rule is deterministic: check configured priority sources first, continue through other registered sources when an earlier one is unusable, and accept the first usable nonzero value. Multiple sources provide ordered fallback; they do not corroborate or combine their answers.
 
-Redundancy improves availability, but it is not permission to guess. If every applicable source is stale, unavailable, or failing, Ripe exposes that absence and protects debt-bearing accounts through quarantine. Positions resume normal valuation only when a source can establish a usable price again.
-
-***
-
-_For technical implementation details, see:_
-
-* [_Price Desk Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/pricing/pricedesk) _- Ordered oracle routing_
-* [_Chainlink Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/chainlinkprices) _- Chainlink integration_
-* [_Curve Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/curveprices) _- AMM-based pricing and GREEN monitoring_
-* [_Pyth Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/pythprices) _- Publisher-supplied price updates_
-* [_Stork Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/storkprices) _- Stork feed validation_
-* [_Blue Chip Yield Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/bluechipyieldprices) _- Yield token valuations_
+Redundancy improves availability, but it is not permission to guess. If every applicable source is stale, unavailable, or failing—or recorded vault backing is unusable—Ripe exposes that absence and protects debt-bearing accounts through quarantine. Positions resume normal valuation when the relevant price or backing failure has cleared and every remaining debt-bearing balance is usable.

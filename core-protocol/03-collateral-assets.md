@@ -236,11 +236,11 @@ Global category points, asset-category points, and user balance points accrue se
 * No special lock requirement
 * Allocation can differ by asset and vault
 
-**Vote Depositors** - Community-selected bonus rewards
+**Vote Depositors** - Governor-configured category rewards
 
-* Higher allocations for chosen assets
-* Governance participation benefits
-* Strategic deposit opportunities
+* Only assets with a nonzero configured voter-points weight participate
+* Asset weights determine relative points inside the category
+* The category name does not itself grant voting or proposal authority
 
 **Special Rewards** - Enhanced earnings in specific vaults
 
@@ -308,8 +308,4 @@ Portfolio accounting avoids a separate debt position for each supported collater
 
 With Ripe, configured yield-bearing shares can keep their external economics while contributing to one weighted loan. Additional collateral types can join the same model after compatible vault, pricing, and governance setup.
 
-This isn't just another lending protocol — it's how DeFi lending should have worked from day one.
-
-***
-
-_For technical implementation details, see the_ [_Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/teller)
+This is Ripe's portfolio-lending model: one account-level debt position with asset-specific controls.

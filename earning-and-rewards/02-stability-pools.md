@@ -69,7 +69,7 @@ When a borrower's position needs liquidation:
 1. **AuctionHouse checks eligibility**: The collateral must permit Stability settlement and the vault must accept it as a claim asset
 2. **The vault checks capacity**: It needs unreserved settlement custody, a usable price, and room for the claim asset
 3. **Settlement follows the asset route**: Claimable GREEN is consumed first when available. GREEN-side settlement is burned—sGREEN is first redeemed to GREEN—while every other settlement asset is transferred to EndaomentFunds
-4. **Debt receives credit**: Only value actually supplied by the Stability vault reduces the borrower's liquidation target
+4. **Debt receives credit**: The route's settlement-value quote is scaled to the amount the Stability vault actually supplies, subject to integer rounding; only that result reduces the borrower's liquidation target
 5. **Auction fallback remains**: Any configured auction-eligible remainder can proceed to a Dutch auction
 
 Capacity can decline during liquidations as spendable settlement liquidity becomes claimable collateral, claim-asset slots fill, or custody becomes reserved. A later liquidation can therefore use less Stability liquidity—or skip the vault entirely—even if an earlier one was absorbed.
@@ -84,7 +84,7 @@ Unlike simple token vaults, stability pools use sophisticated USD value-based sh
 
 These are conceptual relationships. The contract's share conversions include virtual offsets and direction-specific integer rounding, so transaction previews—not decimal division alone—determine exact shares and amounts.
 
-“Unreserved” matters: custody already owed as a claim to another cohort is not counted as spendable settlement liquidity. Active claim assets are included in NAV using current prices, so share value can rise or fall with those assets.
+"Unreserved" matters: custody already owed as a claim to another cohort is not counted as spendable settlement liquidity. Active claim assets are included in NAV using current prices, so share value can rise or fall with those assets.
 
 A claim asset can also be **dormant**: the vault retains its custody and liability, but it is not seated in the active claim list—for example, when a new balance is below the activation floor. Dormant custody remains directly claimable or redeemable; activation only places the asset in the normal iterable NAV set. Maintenance can activate or prune entries only under bounded conditions, and a dormant balance is never silently treated as free settlement liquidity.
 
@@ -141,7 +141,7 @@ A successful claim batch can receive a RIPE reward under the claim configuration
 * **Allowance-Capped Distribution**: The result is capped by the remaining rewards accounting allowance; a zero rate or exhausted allowance produces no reward
 * **Governance Deposit**: Awarded RIPE is minted and deposited into the current core [governance vault](../governance-and-economics/02-governance.md) with the configured claim-reward lock, so missing mint authority, a minting circuit breaker, or a failed deposit reverts the transaction
 
-**Batch-order rule:** The contract loads each submitted entry's claim configuration before attempting that entry, then applies the **final submitted entry's** RIPE-per-dollar rate and reward-lock duration to the aggregate USD value successfully claimed across the batch. That final entry controls the reward terms even if the entry itself is skipped as a no-op. A caller must therefore not assume that each successful entry earns under its own configuration.
+**Batch-order rule:** The contract loads each submitted entry's claim configuration before attempting that entry, then applies the **final submitted entry's** resolved RIPE-per-dollar rate and reward-lock duration to the aggregate USD value successfully claimed across the batch. That final entry supplies the fields even if it is skipped as a no-op. Those fields currently resolve from shared reward and governance-vault settings rather than per-claim-asset terms, but the batch still uses one final resolved configuration rather than separately applying a configuration to each successful entry.
 
 The reward can encourage users to remove claim collateral, but it is not dynamically raised per asset when a pool needs rebalancing. A claim also does not replenish the original Stability asset; new deposits or other configured flows are still needed to rebuild settlement liquidity.
 
@@ -192,5 +192,3 @@ Deposit with the full position in mind: underlying asset economics, RIPE rewards
 ***
 
 _Provide liquidation liquidity, and understand what the vault may hold in return._
-
-_For technical implementation details, see the_ [_StabilityPool Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/stabilitypool)_._

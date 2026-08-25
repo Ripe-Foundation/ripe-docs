@@ -19,7 +19,7 @@ The interface pattern is the same: acquire the token using its **Get** link, the
 
 The headline is what the asset itself earns. The second line is additional rewards paid in RIPE, with the claim behavior described in [Get RIPE and Lock It](06-get-and-lock-ripe.md#how-claiming-rewards-applies-a-lock): the configured auto-stake portion is deposited with a reward lock, while the remaining portion goes to your wallet. Read the live claim preview rather than assuming a fixed split.
 
-Displayed rates are estimates and can move independently as protocol revenue, reward budgets, prices, claim assets, and participation change.
+Displayed rates are estimates and can move independently as protocol revenue, reward allowances and configuration, prices, claim assets, and participation change.
 
 ---
 

@@ -104,7 +104,7 @@ It's like being a liquidator without running any bots.
 
 ### How do I earn RIPE rewards?
 
-[RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) accrue from a configured, allowance-capped RIPE-per-block rate. Mission Control can allocate entitlement among borrowers, stakers, general depositors, and vote-selected deposits, then assign asset-level weights inside a category. General-depositor USD points accrue for an asset only when that asset has no staker-points allocation. Your share is based on your points relative to the applicable pool.
+[RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) accrue from a configured, allowance-capped RIPE-per-block rate. Authorized governance paths administer the category and asset weights stored in Mission Control, allocating entitlement among borrowers, stakers, general depositors, and vote-selected deposits. General-depositor USD points accrue for an asset only when that asset has no staker-points allocation. Your share is based on your points relative to the applicable pool.
 
 RIPE is minted when a claim consumes the accrued entitlement, not on every block. A configured portion of a normal claim can be deposited into the current core governance vault with a configured reward lock; **Stake All** deposits the entire claim. See [RIPE Params](https://params.ripe.finance) for live reward settings.
 
@@ -208,7 +208,7 @@ You can grant granular permissions to other addresses for automated position man
 * **canAnyoneBondForUser**: Let others purchase bonds on your behalf
 
 **Limits and controls:**
-* Delegates can never steal funds — withdrawals always go to the original owner
+* Routed withdrawal proceeds go to the original owner, but a delegate with withdrawal or borrowing authority can still change exposure, debt health, and liquidation risk and can cause material loss
 * Each permission is independent — granting one doesn't grant others
 * Per-address delegation has no `canDeposit` flag; third-party deposits use the account-wide `canAnyoneDeposit` setting or a trusted protocol path
 * Changing or revoking these settings requires the Teller configuration route to be available and unpaused
@@ -245,7 +245,7 @@ Governance-vault positions record points lazily from normalized shares and elaps
 
 ### What's the RIPE token distribution?
 
-The 1 billion RIPE base allocation is divided as follows:
+The Ripe Foundation's published 1 billion RIPE base-allocation policy is divided as follows; it is not an aggregate cap enforced by the token contract:
 
 * **25%** Community incentives (only allocation unlocking at TGE)
 * **22.2%** Ripe Foundation treasury

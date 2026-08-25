@@ -16,7 +16,7 @@ When an allocation has fewer participants, each eligible participant may represe
 
 **🎯 The One-Minute Version:**
 
-The percentages and assets below are an illustrative configuration, not live protocol parameters:
+The percentages and assets below are an illustrative configuration, not live protocol parameters. This example assumes the optional voter and general-depositor category weights are zero. If either is nonzero, the protocol normalizes all four raw category weights together, so the staker and borrower shares change. Later numeric examples use the same zero-optional-category assumption unless stated otherwise.
 
 ```
 YOUR ACTIVITY          →  REWARD POOL  →  YOUR SHARE
@@ -62,9 +62,9 @@ For ordinary eligible positions, the position rate comes from the vault's normal
 
 ## Reward Category Example
 
-The following staker and borrower split is an illustrative configuration. Mission Control can configure the category weights.
+The following staker and borrower split uses that illustrative zero-optional-category configuration. Authorized governance paths administer the category weights stored in Mission Control.
 
-### 1. Stakers (90% of Emissions) 💎
+### 1. Stakers (90% in This Example) 💎
 
 Staking in protocol vaults earns the lion's share of rewards:
 
@@ -81,7 +81,7 @@ Staking in protocol vaults earns the lion's share of rewards:
 * **No Governance Lock**: Withdrawal liquidity still depends on unreserved settlement custody
 * **Risk Buffer**: Help secure the protocol while earning
 
-### 2. Borrowers (10% of Emissions) 💰
+### 2. Borrowers (10% in This Example) 💰
 
 Taking out GREEN loans earns rewards proportional to your debt:
 
@@ -144,7 +144,7 @@ Total RIPE Emissions (500 RIPE/day)
     90% → Stakers Pool
     10% → Borrowers Pool
 
-    Optional: Vote & General Pools
+    Vote & General Pools = 0% in this example
             ↓
     ┌───────┴───────┐
     │ Second Split │ (by asset within pool)
@@ -212,7 +212,7 @@ At the assumed $10 per RIPE = $67.50 of example daily entitlement
 | Provide GREEN LP         | Stakers; 25% example weight | Accumulate a larger share of asset balance points |
 | Stake RIPE               | Stakers; 15% example weight | A longer remaining lock can raise the point rate |
 | Deposit sGREEN           | Stakers; 15% example weight | Combine with Stability-pool outcomes when eligible |
-| Borrow GREEN             | Borrowers (10%)           | Larger, longer loans                 |
+| Borrow GREEN             | Borrowers (10% example)   | Larger, longer loans                 |
 | General deposits         | When configured           | Based on eligible deposit points     |
 | Voted assets             | When configured           | Based on eligible deposit points     |
 
@@ -264,7 +264,7 @@ Example: Your position has 2% of accumulated sGREEN balance points
 = $13.50 per day
 ```
 
-**For Borrowing GREEN (10% of emissions):**
+**For Borrowing GREEN (10% in this example):**
 
 ```
 Daily Rewards ≈ (Your Borrow Balance Points / Total Borrow Balance Points) × 50 RIPE
@@ -278,7 +278,7 @@ Example: Your account has 5% of accumulated borrow balance points
 
 ### How Auto-Staking Works
 
-Mission Control can configure auto-staking to balance token distribution with long-term alignment:
+Authorized governance paths configure the auto-staking settings stored in Mission Control:
 
 * **Stake Ratio**: With **Stake All** off, the configured ratio is deposited and the remainder goes to your wallet
 * **Stake All**: Turning it on deposits the entire claim instead of only the configured portion
@@ -291,7 +291,7 @@ Mission Control can configure auto-staking to balance token distribution with lo
 
 ### Flexible Parameters
 
-Mission Control governs all reward settings:
+Mission Control stores the reward settings; authorized Switchboard and governor paths administer them:
 
 * **Emission Rate**: RIPE entitlement accrued per protocol block
 * **Category Weights**: Relative values normalized across the nonzero configured category allocations
@@ -340,7 +340,7 @@ The protocol applies the configured auto-staking parameters to align incentives:
 
 **Configured behavior:**
 
-* **Auto-stake percentage**: Mission Control sets the minimum portion deposited on a normal claim
+* **Auto-stake percentage**: Authorized governance sets the minimum portion stored in Mission Control and deposited on a normal claim
 * **Lock duration**: Derived from the reward settings and current RIPE governance-vault terms
 * **Your choice**: Claim normally, or use **Stake All** to deposit the full claim
 
@@ -384,7 +384,3 @@ When participation is low, each participant may represent a larger share of an a
 If an enabled allocation has fewer accumulated points competing for it, an eligible participant may receive a larger share. More participation, configuration changes, later checkpoints, or a depleted allowance can change that result.
 
 The protocol rewards eligible activity only through the accounting and claim conditions described above. Are you showing up?
-
-***
-
-_For technical implementation details, see_ [_Lootbox Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/lootbox)_._

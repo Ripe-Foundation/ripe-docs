@@ -1,14 +1,16 @@
 ---
-description: Trade Cash for Power
+description: Acquire RIPE while adding protocol treasury assets
 ---
 
-# Ripe Bonds: Trade Cash for Power
+# Ripe Bonds: Acquire RIPE for Treasury Assets
 
 Every protocol needs capital. Most just sell tokens and spend it.
 
 Ripe bonds exchange a configured payment asset for RIPE and send the accepted payment to the [Endaoment](../core-protocol/07-endaoment.md). Choose a qualifying lock? A configured bonus can increase your allocation. Have an eligible activity booster? That can add another bonus.
 
 Bonding is a configured route for adding protocol-owned treasury assets while distributing RIPE under explicit epoch and budget controls.
+
+The [RIPE Reserve Engine](04-reserve-engine.md) is a separate acquisition path: it collects payment at position creation and mints RIPE only as the resulting allocation vests and is claimed. BondRoom instead settles a successful bond purchase immediately, either as unlocked RIPE or through a qualifying RipeGov deposit.
 
 ## The Bond Value Proposition
 
@@ -244,5 +246,3 @@ Check the protocol interface for current bonding availability — epochs may be 
 ***
 
 _Check current epoch status and calculate your potential RIPE allocation in the Ripe Protocol interface._
-
-_For technical implementation details, see the_ [_BondRoom Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/bondroom)_._

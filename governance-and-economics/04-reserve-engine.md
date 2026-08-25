@@ -1,5 +1,5 @@
 ---
-description: Acquire RIPE now and claim it as it vests
+description: Acquire RIPE through configurable vesting
 ---
 
 # RIPE Reserve Engine: Acquire RIPE with Vesting
@@ -8,7 +8,7 @@ The RIPE Reserve Engine accepts a configured payment token and creates a vesting
 
 This is a separate distribution mechanism from [Ripe Bonds](03-bonds.md). A bond uses BondRoom epoch pricing, can add lock and activity-booster bonuses, and can credit its payment against bad debt. A Reserve Engine acquisition uses its own epoch controller, vesting-duration bonus, and allocation budget; its payment goes to EndaomentFunds as a treasury asset and does not use BondRoom's bad-debt accounting.
 
-All payment assets, rates, capacities, durations, and availability controls described here are configurable. Examples explain the mechanism rather than the current onchain configuration; see [RIPE Params](https://params.ripe.finance) for current settings.
+All payment assets, rates, capacities, durations, and availability controls described here are configurable. Examples explain the mechanism rather than asserting that it is deployed or enabled on a particular network. Use [RIPE Params](https://params.ripe.finance) for the current network configuration it exposes; do not infer availability from this guide.
 
 ## Acquisition Flow
 
@@ -19,7 +19,7 @@ A user first previews an acquisition using a payment amount and requested vestin
 * The current epoch and payout-rate information
 * The position's creation, first-claim, and maturity blocks
 
-Execution includes the quoted vesting length and epoch, a minimum RIPE output, and a deadline. These checks protect the user if the state changes between preview and execution.
+Execution includes the quoted vesting length and epoch, a minimum RIPE output, and a deadline. Those are the bound execution checks. The previewed creation, claim-start, and maturity blocks are projections from the preview block; the actual position is anchored to the transaction's inclusion block, so those schedule blocks move if execution is delayed.
 
 Acquisitions are full-fill only. The Engine verifies the exact increase in payment-token custody before it creates the RIPE allocation. A short receipt, false token return, fee-on-transfer result, expired deadline, stale epoch expectation, or insufficient capacity causes the transaction to revert instead of creating a partial position.
 
@@ -71,7 +71,7 @@ If the selected and minimum durations are equal, the entire allocation becomes c
 
 ## Claims and Optional Governance Deposit
 
-A beneficiary can claim one position or batch several position IDs. RIPE is minted only after the Vesting contract records a valid, nonzero claim.
+A beneficiary can claim one position or submit a contract-bounded batch of position IDs. RIPE is minted only after the Vesting contract records a valid, nonzero claim.
 
 * **Direct claim:** RIPE is minted to the beneficiary.
 * **Auto-deposit claim:** RIPE is minted through the Engine and deposited for the beneficiary into the core RipeGov vault currently selected in Mission Control.
@@ -80,7 +80,7 @@ For auto-deposit, the submitted lock duration is a request. The live RipeGov vau
 
 A batch is atomic. Callers should remove duplicate position IDs before submission because a duplicate that reaches the same position twice causes the entire batch to revert. A downstream mint, token, blacklist, or governance-vault failure also rolls back the complete claim transaction.
 
-A blacklisted beneficiary's reserved allocation is not forfeited or returned to the budget. It remains outstanding until it can be claimed or migrated, and therefore continues to prevent the Vesting contract from being retired.
+A blacklisted beneficiary's reserved allocation is not forfeited or returned to the budget. It remains outstanding until it can be claimed and therefore continues to prevent the Vesting contract from being retired. This contract version has no built-in position reassignment, migration, forfeiture, or liability-recovery route.
 
 ## Lifecycle and Governance Controls
 
@@ -90,9 +90,9 @@ The Engine and Vesting contracts have separate pause boundaries, but acquisition
 * Pausing Vesting stops claims and also makes the Engine reject new acquisitions.
 * RIPE token controls, the Engine's mint authorization, and the protocol minting circuit breaker can block claim settlement; the Engine also requires that mint path to be ready before accepting a new acquisition even though it does not mint RIPE at acquisition time.
 
-Engine-configuration and Vesting-allocation-budget changes use timelocked Foxtrot actions. Start, stop, payment-token changes, acquisition-availability changes, and rate-override installation or cancellation are immediate governance actions; changing the payment token still requires the Engine to be stopped.
+Foxtrot is the intended named governance route. Its Engine-configuration and Vesting-allocation-budget changes are timelocked, while start, stop, payment-token changes, acquisition-availability changes, and rate-override installation or cancellation are immediate; changing the payment token still requires the Engine to be stopped. At the target contracts, these setters accept any registered Switchboard, so Foxtrot-only routing and its timelock are not independently enforced by the Engine or Vesting contract.
 
-Replacing the Vesting contract while positions remain outstanding requires migration of those liabilities. The contract is retireable only when it is paused and no RIPE allocation remains outstanding.
+Replacing the Vesting contract while positions remain outstanding would require a separately implemented liability-preserving migration path; the current contracts do not provide one. Without such a path, governance must keep or restore the prior Vesting target until those positions can be claimed. A Vesting contract is retireable only when it is paused and no RIPE allocation remains outstanding.
 
 ## What to Check Before Acquiring
 

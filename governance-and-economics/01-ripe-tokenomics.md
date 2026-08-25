@@ -1,14 +1,12 @@
 ---
-description: Where Early Believers Win
+description: Published allocation policy and onchain distribution mechanics
 ---
 
-# RIPE Tokenomics: Where Early Believers Win
+# RIPE Tokenomics
 
-Every DeFi token promises "fair distribution." Then VCs dump on retail.
+RIPE distribution combines a published base-allocation policy with several onchain distribution mechanisms. Community incentives support protocol participation, while contributor and backer positions follow their vesting contracts. Rewards, bonds, and the Reserve Engine consume separate configured accounting allowances rather than a pre-minted pool held in escrow.
 
-RIPE flips the script. Community incentives support protocol participation, while team and backer allocations follow their vesting contracts. Rewards and bonds consume separate configured accounting allowances rather than a pre-minted pool held in escrow.
-
-One small seed round at $0.02 after 2+ years of building. Just builders who bet their own money and users who show up early.
+The allocation percentages and historical financing figures below are Ripe Foundation policy and business disclosures, documented here as of August 2026. They are not an aggregate supply invariant enforced by the protocol contracts. The mechanism sections identify what the contracts themselves enforce.
 
 > **📊 Tokenomics at a Glance**
 >
@@ -18,7 +16,7 @@ One small seed round at $0.02 after 2+ years of building. Just builders who bet 
 
 For a deep dive into how RIPE powers the protocol—including [staking rewards](../earning-and-rewards/03-ripe-rewards.md), protocol fees via [sGREEN](../earning-and-rewards/01-sgreen.md), [governance participation](02-governance.md), and treasury building through [bond sales](03-bonds.md)—explore these detailed guides. Governance-vault positions accumulate points under the configured mechanism; voting availability and interfaces are deployment state.
 
-## Token Allocation: Community-First Distribution
+## Published Base-Allocation Policy
 
 The 1 billion RIPE base allocation is divided across five key stakeholder groups, with the largest portion dedicated to community incentives:
 
@@ -105,7 +103,7 @@ The seed round brought together a carefully selected group of strategic partners
 
 **Institutional Partners**
 
-* [**OrangeDAO**](https://www.orangedao.xyz/): YCombinator alumni network (also advisor allocation)
+* **OrangeDAO**: Y Combinator alumni network (also advisor allocation)
 * [**Big Brain**](https://www.bigbrain.holdings/): Crypto-Native VC
 * [**Tetranode**](https://x.com/Tetranode): Prominent DeFi investor/whale
 
@@ -166,11 +164,7 @@ Authorized Human Resources governance can freeze a contributor contract or cance
 
 The cancellation `cliffTime` and transfer `unlockTime` are distinct contract terms even when a particular schedule assigns them the same timestamp. The cliff selects the paycheck-cancellation treatment; the unlock controls when a contributor-position transfer can be initiated.
 
-_For deep technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/contributor)_._
-
-## RIPE Value Accrual: Real Revenue, Real Buybacks
-
-Most governance tokens are worthless. Vote on stuff, hope number goes up.
+## Borrower Revenue Allocation
 
 The Credit Engine can allocate a configured portion of borrower interest and origination fees to the governance recipient for RIPE buyback operations. The remainder of that revenue is sent to sGREEN backing. A zero buyback ratio directs the full amount to sGREEN.
 
@@ -202,14 +196,8 @@ An [Underscore](https://underscore.finance/) strategy can have its own performan
 
 The contract-enforced Ripe split applies to borrower revenue; external strategy economics remain separate.
 
-## The Bottom Line: Own the Future, Not the Hype
+## Policy and Contract Mechanics
 
-RIPE isn't another VC exit scam dressed up as "community ownership."
+The published community allocation is intended for protocol-user incentives. [Block rewards](../earning-and-rewards/03-ripe-rewards.md) consume a configured reward allowance, while [bonds](03-bonds.md) draw from their separately tracked allowance. Each mechanism mints RIPE only when its claim or purchase completes, subject to protocol mint controls.
 
-Founders self-funded for 2.5 years. Contributor and backer vesting contracts expose their schedules and lifecycle actions onchain.
-
-But here's what matters: the community allocation is designed for users. [Block rewards](../earning-and-rewards/03-ripe-rewards.md) consume a configured reward allowance, while [bonds](03-bonds.md) draw from their separately tracked allowance. Each mechanism mints RIPE only when its claim or purchase completes, subject to protocol mint controls.
-
-The protocol that wins is the one that survives. The one that survives is the one people own.
-
-Your move.
+Contributor and backer contracts expose their individual schedules and lifecycle actions onchain. Those contracts and the distribution allowances do not independently enforce the aggregate published base-allocation table above.

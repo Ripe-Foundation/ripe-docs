@@ -4,7 +4,7 @@ description: One Loan. Supported Assets. Portfolio Power.
 
 # Ripe Protocol: One Loan. Supported Assets. Portfolio Power.
 
-DeFi lending works great — if you're willing to manage five different vaults. But most people aren't. Five vaults for five assets isn't how people think about their wealth. Your tokenized stocks? Worthless as collateral. Your yield-bearing tokens? Just sitting there, unused.
+DeFi lending often separates assets across vaults or markets, leaving users to manage several debt positions and sets of risk terms. Yield-bearing and tokenized assets can also require market-specific custody, pricing, and risk support before they can be used as collateral.
 
 Ripe combines supported collateral into ONE loan. Finally, borrowing that understands what a portfolio actually is.
 
@@ -14,12 +14,11 @@ These docs explain Ripe's mechanisms and use illustrative examples. Supported as
 
 ## The Problem: DeFi Thinks Your Assets Live in Silos
 
-**Isolated Vaults** (MakerDAO, Liquity) ETH in one vault. WBTC in another. Five assets? Five loans. Five liquidation risks. Portfolios still get split into separate positions.
+**Isolated Collateral Positions** Each collateral type can have its own debt position, terms, and liquidation boundary. A multi-asset portfolio may therefore require several separately managed loans.
 
-**Shared Risk Pools** (Aave, Compound)\
-Your ETH backs someone else's trade. Their bad debt can affect the shared market. Collateral support still depends on the assets and risk terms configured for that market.
+**Shared Lending Markets** Assets and debt can share market liquidity and risk controls, while collateral support still depends on what each market configures.
 
-**"Innovation" That Isn't** (Morpho, Euler) Slightly better rates. Same old isolation. Each market fragments liquidity further. The future looks exactly like the past.
+**Isolated Money Markets** Separate markets can offer tailored terms, but each one has its own liquidity, collateral, and position-management boundaries.
 
 ## The Ripe Solution: Unified Multi-Collateral Lending
 
@@ -123,7 +122,7 @@ Lock RIPE tokens to accumulate governance points and, when configured, protocol 
 
 Exchange a configured payment asset for RIPE at an epoch price, supporting protocol growth.
 
-* **Instant or locked** - A qualifying lock can add a configured bonus
+* **Unlocked or governance-vault delivery** - A qualifying RipeGov lock can add a configured bonus
 * **Bond Boosters** - Bonus rewards for ecosystem contributors
 * **Treasury assets** - Accepted payments become Endaoment treasury assets
 
@@ -172,10 +171,7 @@ Explore Ripe's evolution from early conception through years of refinement to pr
 
 ***
 
-## The Magic: Your Risk, Your Reward, Your Portfolio
-
-Other protocols: "Pick one: safe OR efficient."\
-Ripe: "Why not both?"
+## The Design: One Account-Level Position
 
 * **Account-level position** — Your collateral and debt are accounted per account rather than funded by a pooled lender balance sheet
 * **Portfolio accounting** — Supported assets contribute according to their own terms
@@ -246,14 +242,10 @@ Governance points accumulate with position size and elapsed blocks; compatible g
 
 More forms of value are moving onchain: stocks, real estate, commodities, treasury instruments, and new digital assets.
 
-Traditional DeFi can't handle them. Too risky. Too different. Too complicated.
+Many lending systems require each new asset type to fit an existing market or isolated-position model.
 
 Ripe's vault architecture was built so additional asset types can join a unified loan after governance configures compatible custody, pricing, permissions, and risk terms.
 
 One loan. Supported assets working together. Extensible by design.
 
 Welcome to lending that actually makes sense.
-
-***
-
-_For technical implementation details, see the_ [_Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers)_._
