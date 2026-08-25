@@ -27,7 +27,7 @@ Either way you end up with LP tokens in your wallet representing your share of t
 
 ![Depositing your LP tokens into Ripe](../.gitbook/assets/user-guide-11-lp-deposit-modal.png)
 
-Once deposited, the card shows your position, the yield, and the RIPE rewards on top. As liquidations occur, part of the vault's LP liquidity can become claimable collateral. Claimable NAV is not the same as immediately withdrawable LP-token liquidity.
+Once deposited, the card can show the position, an estimated yield, and RIPE rewards when that position is configured to receive them. As liquidations occur, part of the vault's LP liquidity can become claimable collateral. Claimable NAV is not the same as immediately withdrawable LP-token liquidity.
 
 ![The GREEN/USDG Stability Pool card](../.gitbook/assets/user-guide-13-lp-stability-card.png)
 

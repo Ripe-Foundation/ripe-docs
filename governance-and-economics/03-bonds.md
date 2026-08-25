@@ -8,8 +8,6 @@ Every protocol needs capital. Most just sell tokens and spend it.
 
 Ripe bonds exchange a configured payment asset for RIPE and send the accepted payment to the [Endaoment](../core-protocol/07-endaoment.md). Choose a qualifying lock? A configured bonus can increase your allocation. Have an eligible activity booster? That can add another bonus.
 
-The longer everyone else waits, the more you accumulate.
-
 Bonding is a configured route for adding protocol-owned treasury assets while distributing RIPE under explicit epoch and budget controls.
 
 ## The Bond Value Proposition
@@ -20,7 +18,7 @@ Bonds solve a critical challenge in DeFi: how to bootstrap protocol-owned liquid
 
 * **Accumulates protocol-owned treasury assets** that can be retained or deployed through authorized actions
 * **Can support configured liquidity operations** without relying solely on rented liquidity
-* **Distributes RIPE fairly** based on actual capital contribution
+* **Distributes RIPE by explicit rules** based on accepted whole payment-token units, epoch progress, and any qualifying bonuses
 * **Aligns incentives** between token holders and protocol health
 
 A successful bond purchase sends the accepted payment to EndaomentFunds and delivers the calculated RIPE payout under the bond's checks.
@@ -29,9 +27,9 @@ A successful bond purchase sends the accepted payment to EndaomentFunds and deli
 
 ### Epoch-Based Distribution
 
-Bonds operate through time-limited epochs that ensure sustainable token distribution:
+Bonds operate through time-limited epochs that bound token distribution:
 
-* **Payment Capacity Per Epoch**: Each epoch accepts up to a configured amount of the payment asset, subject to the remaining RIPE bond budget
+* **Payment Capacity Per Epoch**: Each epoch accepts up to a configured amount of the payment asset, subject to the remaining RIPE bond allowance
 * **Time Windows**: Epoch length is configurable in protocol blocks
 * **Shared Access**: Purchases consume the remaining payment capacity in transaction order
 * **Auto-Renewal**: Configuration determines whether an exhausted epoch schedules another epoch and the delay before it starts
@@ -39,7 +37,7 @@ Bonds operate through time-limited epochs that ensure sustainable token distribu
 
 The epoch bounds how much payment can be accepted during a window; it does not guarantee capacity to every participant.
 
-### Dynamic Pricing That Rewards Action
+### Time-Based Epoch Pricing
 
 Within each epoch, RIPE prices follow a descending curve:
 
@@ -51,16 +49,17 @@ Start of Epoch → Higher Price → Less RIPE per Payment Unit
 End of Epoch → Lower Price → More RIPE per Payment Unit
 ```
 
-This creates interesting dynamics:
+With the epoch's pricing inputs unchanged, the onchain curve increases the RIPE paid per whole payment unit as the epoch progresses:
 
 * **Earlier buyers** may encounter more remaining epoch and RIPE-budget capacity, but execution is never guaranteed
-* **Patient buyers** receive better prices
-* **Market forces** determine actual demand
-* **Transparent pricing** visible to all participants
+* **Later blocks** produce a higher RIPE-per-unit result under the same configured curve, but may have less capacity remaining
+* **Current-state calculation** is inspectable onchain; governance changes, transaction ordering, capacity, and slippage checks can still change or reject execution
 
 ### Token Allocation
 
-The bonding program draws from a funded RIPE bond budget. That budget is separate from the payment capacity available in an epoch: a purchase must fit both before it can complete.
+The bonding program draws against the Ledger's `ripeAvailForBonds` accounting allowance. This is not an escrowed balance of RIPE tokens. The allowance is separate from the payment capacity available in an epoch: a purchase must fit both before it can complete.
+
+RIPE is minted only as part of a successful purchase, either to the recipient or temporarily to BondRoom before deposit into the governance vault. That final mint-and-delivery path remains subject to RipeHq mint authorization and its minting circuit breaker, RIPE token controls, and any required governance-vault deposit succeeding.
 
 ## Maximizing Your Bond Value
 
@@ -72,7 +71,7 @@ Every bond starts with a base exchange rate determined by:
 * **Price range** set by governance
 * **Configured payment asset**
 
-The smart contract calculates your exact RIPE allocation based on these parameters, ensuring transparent and predictable pricing.
+The smart contract calculates the RIPE allocation from the state used by that transaction. A preview is informative, but it does not reserve capacity or prevent intervening state or configuration changes.
 
 ### Payment Amount and Minimum RIPE Payout
 
@@ -99,7 +98,9 @@ No Lock → 0% bonus → 1x RIPE (base amount only)
 
 **How It Works:**
 
-* Choose a lock duration within the configured range
+* The requested duration is capped at the configured maximum
+* If the resulting duration is below the configured minimum, the contract resets it to zero: the RIPE is delivered unlocked and receives no lock bonus
+* A booster that produces a nonzero bonus can raise the duration to its own minimum before the bond's minimum-duration check, still capped by the bond maximum
 * Bonus calculated as percentage of base bond amount
 * Locked RIPE automatically deposits into the current core [Ripe Governance Vault](02-governance.md) resolved through Mission Control
 * Start accumulating governance points and any configured staking rewards after deposit
@@ -132,7 +133,8 @@ The program and values below illustrate how a booster can be configured; they ar
 **The Unit System:** Units represent your Bond Booster capacity:
 
 * In this example, 1 unit = 1 USDC
-* A qualifying boosted purchase consumes all of its units against the current booster grant; removing the grant or installing an eligible fresh grant can reset usage
+* A qualifying boosted purchase consumes all of its units against the current booster grant
+* Removing a grant resets its recorded usage. Installing a grant resets usage only when the previous grant is absent or expired; replacing a still-live grant preserves the units already used
 * If the entire purchase does not fit within the remaining units, that purchase gets no booster and consumes no units
 
 Example scenarios with 1,000 units and 200% Bond Booster:

@@ -6,7 +6,7 @@ description: Where Early Believers Win
 
 Every DeFi token promises "fair distribution." Then VCs dump on retail.
 
-RIPE flips the script. Community incentives fund protocol participation, while team and backer allocations follow their vesting contracts. The community allocation can supply the configured reward and bond budgets described below.
+RIPE flips the script. Community incentives support protocol participation, while team and backer allocations follow their vesting contracts. Rewards and bonds consume separate configured accounting allowances rather than a pre-minted pool held in escrow.
 
 One small seed round at $0.02 after 2+ years of building. Just builders who bet their own money and users who show up early.
 
@@ -52,7 +52,9 @@ The graph below shows the RIPE Token emission schedule by category for years 1 t
 
 ### Base Allocation and Authorized Minting
 
-The token contract does not enforce a numeric maximum supply. Minting is restricted to departments authorized by RipeHQ and can be disabled by the protocol-wide minting circuit breaker. The tokenomics schedule defines a 1 billion-token base allocation. During a qualifying [RIPE Bond](03-bonds.md) purchase, the complete calculated payout must first fit the available bond allowance; if the payment clears bad debt, the corresponding part of that payout is accounted outside ordinary bond-distribution usage. That recovery accounting can expand minted supply beyond the base allocation and dilute holders.
+The token contract does not enforce a numeric maximum supply. Minting is restricted to departments authorized by RipeHQ and can be disabled by the protocol-wide minting circuit breaker. The tokenomics schedule defines a 1 billion-token base allocation. Rewards mint RIPE when a claim consumes reward entitlement, and [Ripe Bonds](03-bonds.md) mint RIPE when a purchase consumes bond allowance. During a qualifying bond purchase, the complete calculated payout must first fit that allowance; if the payment clears bad debt, the corresponding part of the payout is accounted outside ordinary bond-distribution usage. That recovery accounting can expand minted supply beyond the base allocation and dilute holders.
+
+The [RIPE Reserve Engine](04-reserve-engine.md) has a third, separate Vesting allocation budget. A successful acquisition reserves its full allocation from that budget, and RIPE is minted only as vested amounts are claimed. None of these accounting allowances is itself token custody, and every mint remains subject to department authorization and the minting circuit breaker.
 
 ### Vesting Schedules by Category
 
@@ -60,23 +62,23 @@ Community Incentives stand alone as the only allocation unlocking from day one, 
 
 **Community Incentives (Beginning at TGE)**
 
-* **First Unlock**: Immediate at TGE
+* **First distribution eligibility**: Immediate at TGE
 * **Release Length**: 10+ years
 * **Pattern**: Dynamic distribution via block rewards, bonding discounts, and governance
 
-**Core Contributors (Locked First Year)**
+**Core Contributors (Transfer-Locked First Year)**
 
-* **First Unlock**: 12 months from TGE
-* **Total Length**: 4 years
-* **Release Pattern**: 25% unlocked at month 12, then linear vesting over 36 months
-* **Example**: A contributor with 1M RIPE allocation receives 250K at month 12, then \~694 RIPE per day
+* **Vesting**: Linear from the schedule start over 4 years
+* **First position-transfer eligibility**: 12 months from TGE
+* **At first transfer eligibility**: 25% is cumulatively vested under this schedule; vesting continues linearly afterward
+* **Before transfer eligibility**: Vested RIPE can already be cashed into the configured governance vault, where the resulting position remains subject to its lock and the contributor transfer controls
 
 **Ripe Foundation, Distribution Partner & Early Backers (Aligned Schedules)**
 
-* **First Unlock**: 12 months from TGE
-* **Total Length**: 3 years
-* **Release Pattern**: 33% unlocked at month 12, then linear vesting over 24 months
-* **Example**: An early backer with 1M RIPE receives 330K at month 12, then \~931 RIPE per day
+* **Vesting**: Linear from the schedule start over 3 years
+* **First position-transfer eligibility**: 12 months from TGE
+* **At first transfer eligibility**: Approximately one third is cumulatively vested under this schedule; vesting continues linearly afterward
+* **Before transfer eligibility**: Vested RIPE can already be cashed into the configured governance vault, subject to the same distinction between cashing and transferring
 
 ## Early Backers: Bootstrap to Launch
 
@@ -162,6 +164,8 @@ Every vesting contract is visible onchain, allowing anyone to verify:
 
 Authorized Human Resources governance can freeze a contributor contract or cancel its paycheck before the vesting end. A freeze pauses cashing and contributor-controlled transfers. On cancellation, the cliff determines the settlement path: before the cliff, the position can be forfeited and burned; at or after the cliff, the contract first tries to cash vested RIPE and returns the remainder to the Human Resources budget. If the contract is frozen, that cash step returns zero, so vested-but-uncashed RIPE can also be forfeited. Previously cashed RIPE follows the contract's governance-vault and transfer rules.
 
+The cancellation `cliffTime` and transfer `unlockTime` are distinct contract terms even when a particular schedule assigns them the same timestamp. The cliff selects the paycheck-cancellation treatment; the unlock controls when a contributor-position transfer can be initiated.
+
 _For deep technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/contributor)_._
 
 ## RIPE Value Accrual: Real Revenue, Real Buybacks
@@ -202,9 +206,9 @@ The contract-enforced Ripe split applies to borrower revenue; external strategy 
 
 RIPE isn't another VC exit scam dressed up as "community ownership."
 
-Founders self-funded for 2.5 years. Locked for another year after launch. Early backers paid real money at a fair price. Every token unlock happens onchain where you can audit it.
+Founders self-funded for 2.5 years. Contributor and backer vesting contracts expose their schedules and lifecycle actions onchain.
 
-But here's what matters: the community allocation is designed for users. [Block rewards](../earning-and-rewards/03-ripe-rewards.md) distribute from a funded, configured reward budget, while [bonds](03-bonds.md) draw from their separately tracked budget when that mechanism is configured and enabled.
+But here's what matters: the community allocation is designed for users. [Block rewards](../earning-and-rewards/03-ripe-rewards.md) consume a configured reward allowance, while [bonds](03-bonds.md) draw from their separately tracked allowance. Each mechanism mints RIPE only when its claim or purchase completes, subject to protocol mint controls.
 
 The protocol that wins is the one that survives. The one that survives is the one people own.
 

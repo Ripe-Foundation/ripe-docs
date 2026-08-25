@@ -33,6 +33,7 @@
 * [RIPE Tokenomics](governance-and-economics/01-ripe-tokenomics.md)
 * [Governance](governance-and-economics/02-governance.md)
 * [Ripe Bonds](governance-and-economics/03-bonds.md)
+* [RIPE Reserve Engine](governance-and-economics/04-reserve-engine.md)
 
 ## Resources
 

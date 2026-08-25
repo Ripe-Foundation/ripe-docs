@@ -16,7 +16,7 @@ One loan backed by a portfolio of supported collateral. While other protocols ma
 
 ### What is GREEN?
 
-[GREEN](../core-protocol/01-green-stablecoin.md) is Ripe's overcollateralized stablecoin, designed to target $1. You create GREEN by borrowing against supported collateral under configured debt terms, and repayment burns GREEN as it reduces the loan.
+[GREEN](../core-protocol/01-green-stablecoin.md) is Ripe's overcollateralized stablecoin, designed to target $1. You create GREEN by borrowing against supported collateral under configured debt terms. A standard GREEN or sGREEN repayment burns the GREEN applied to debt; separate deleverage and Stability-settlement routes can instead transfer a configured non-GREEN asset for debt credit.
 
 ### Is my money safe?
 
@@ -34,7 +34,7 @@ You pay a single weighted rate based on your [collateral mix](../core-protocol/0
 
 ### What are dynamic rates?
 
-Dynamic rates are a protective mechanism for sustained GREEN imbalance. The protocol builds a duration-weighted ratio from chronological reference-pool snapshots, and each interval uses the lower of two consecutive readings so one spike cannot activate the mechanism by itself. Above the configured danger threshold, a ratio boost and a sustained-danger boost are added to the weighted base rate, subject to a maximum-rate cap. Danger history clears only after consecutive safe observations cover the configured recovery window. See [Dynamic Interest Rates](../core-protocol/02-borrowing.md#dynamic-interest-rates) for details.
+Dynamic rates are a protective mechanism for sustained GREEN imbalance. The protocol builds a duration-weighted ratio from chronological reference-pool snapshots, and each interval uses the lower of two consecutive readings so one spike cannot activate the mechanism by itself. Above the configured danger threshold, a ratio boost and a sustained-danger boost are added to the weighted base rate, subject to a maximum-rate cap. Danger history clears only after consecutive safe observations cover the same configured freshness interval used by the snapshot mechanism. See [Dynamic Interest Rates](../core-protocol/02-borrowing.md#dynamic-interest-rates) for details.
 
 ### Can I repay early?
 
@@ -44,34 +44,36 @@ There is no maturity date or prepayment penalty. Partial and full repayment are 
 
 ### When do I get liquidated?
 
-A position becomes eligible for [liquidation](../core-protocol/04-liquidations.md) when its collateral value drops below the required minimum for its debt. A permissionless caller must then submit an eligible liquidation transaction. There are three key thresholds to monitor (values vary by asset risk):
+A position becomes eligible for [liquidation](../core-protocol/04-liquidations.md) when its collateral value reaches or falls below the required minimum for its debt. A permissionless caller must then submit an eligible liquidation transaction. There are three key thresholds to monitor (values vary by asset risk):
 
 1. **Max LTV**: Your borrowing limit; you cannot increase debt beyond it
 2. **Redemption threshold**: The zone in which GREEN holders may redeem against eligible collateral
 3. **Liquidation threshold**: The point at which a liquidation episode may begin
 
-**Illustrative example**: With $6,000 debt and an assumed 90% liquidation threshold, the position needs at least $6,667 of collateral ($6,000 ÷ 0.90). Below that value, the position is eligible for liquidation under the example terms.
+**Illustrative example**: With $6,000 debt and an assumed 90% liquidation threshold, the position needs more than approximately $6,667 of collateral ($6,000 ÷ 0.90) to remain outside liquidation eligibility under the example terms. At or below the exact threshold, it is eligible.
 
 Monitor your position and add collateral or repay debt before reaching these zones. For a visual guide showing all risk zones, see [How Thresholds Work Together](../core-protocol/02-borrowing.md#how-thresholds-work-together-a-visual-guide).
 
 ### What happens if one of my collateral assets cannot be priced?
 
-If debt-bearing collateral has no usable price or backing amount, Ripe places the account in a valuation quarantine. The unavailable asset contributes no borrowing power; new borrowing and withdrawals of collateral that supports the debt are blocked, while liquidation, redemption, and deleveraging are withheld because they cannot be priced safely. Repayment and other recovery actions remain available subject to normal protocol controls. Quarantine is not an automatic liquidation or an insolvency determination. Normal health checks resume after pricing or backing recovers.
+If debt-bearing collateral has no usable price or backing amount, Ripe places the account in a valuation quarantine. The unavailable asset contributes no borrowing power; new borrowing and debt-supporting withdrawals are blocked, while new liquidation, redemption, and deleveraging passes are withheld because they cannot be priced safely. Repayment remains the dependable recovery action, subject to its normal controls. Ordinary Teller deposits and withdrawals also run strict debt housekeeping and can revert while the debt-bearing asset remains unpriced, so adding collateral is not a promised outage-recovery path. Quarantine is not an automatic liquidation or an insolvency determination. Normal health checks resume after pricing or backing recovers.
 
 ### What's the difference between redemption and liquidation?
 
 **Redemption** (a separate permissionless debt-reduction path):
 
 * No penalty or discount
-* GREEN is treated as a $1 debt unit and exchanged for oracle-valued eligible collateral
-* Can reduce debt before the account reaches its liquidation threshold
+* GREEN is treated as a $1 debt-value input and exchanged for a conservatively calculated, vault-credited amount of eligible collateral
+* Can remain available below the liquidation threshold until a liquidation episode actually begins
 * Is not an automatic phase inside a liquidation transaction
 
 **Liquidation** (available at the liquidation threshold):
 
 * Incurs configured liquidation fees
 * Tries an eligible Stability Pool before starting a Dutch auction for remaining eligible collateral
-* Targets restored health and is usually partial, but can use all eligible collateral when the shortfall requires it
+* Targets restored health and may be partial, but can use all eligible collateral when the shortfall requires it
+
+Borrower addresses registered as Underscore Earn vaults are excluded from ordinary credit redemption and AuctionHouse liquidation; merely depositing an Underscore share token does not give an ordinary borrower that exception.
 
 ### How does partial liquidation work?
 
@@ -102,7 +104,7 @@ It's like being a liquidator without running any bots.
 
 ### How do I earn RIPE rewards?
 
-[RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) accrue from a configured, budget-capped RIPE-per-block rate. Mission Control can allocate that entitlement among borrowers, stakers, general depositors, and vote-selected deposits, then assign asset-level weights inside a category. Your share is based on your points relative to the applicable pool.
+[RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) accrue from a configured, allowance-capped RIPE-per-block rate. Mission Control can allocate entitlement among borrowers, stakers, general depositors, and vote-selected deposits, then assign asset-level weights inside a category. General-depositor USD points accrue for an asset only when that asset has no staker-points allocation. Your share is based on your points relative to the applicable pool.
 
 RIPE is minted when a claim consumes the accrued entitlement, not on every block. A configured portion of a normal claim can be deposited into the current core governance vault with a configured reward lock; **Stake All** deposits the entire claim. See [RIPE Params](https://params.ripe.finance) for live reward settings.
 
@@ -135,9 +137,9 @@ GREEN targets $1, but no smart-contract mechanism can guarantee a market price o
 
 ### What is the PSM and how do I use it?
 
-When enabled, the Peg Stability Module (PSM) converts between GREEN and a configured reserve stablecoin around a $1 reference. Normal-user quotes use the more conservative of the reserve asset's oracle value and par, then apply any configured fee:
+When enabled, the Peg Stability Module (PSM) converts between GREEN and one immutable, six-decimal reserve token around a $1 reference. Ordinary-user quotes use the more conservative of the reserve asset's oracle value and par, then apply any configured fee:
 
-* **Mint GREEN**: Send the reserve stablecoin and receive GREEN, or request delivery through sGREEN
+* **Mint GREEN**: Send the reserve stablecoin and receive GREEN, or request delivery through sGREEN; if the calculated output is not greater than one GREEN, the PSM delivers GREEN instead of wrapping it
 * **Redeem GREEN**: Pay with GREEN or sGREEN and receive the reserve stablecoin
 
 **Why use it?**
@@ -146,7 +148,7 @@ When enabled, the Peg Stability Module (PSM) converts between GREEN and a config
 * Get GREEN without borrowing
 * Exit GREEN to the configured reserve asset without a DEX trade
 
-**Limitations**: Minting and redemption can be enabled independently, can have separate interval limits, fees, and allowlists, and redemption always requires sufficient reserve liquidity. See [RIPE Params](https://params.ripe.finance) for current onchain availability and terms.
+**Ordinary and recognized-vault paths:** Minting and redemption can be enabled independently. An ordinary path can be subject to its direction-specific allowlist when enforcement is enabled; the configured fee and interval capacity apply. When the **recipient** is a recognized Underscore vault, those ordinary allowlist, fee, and interval controls are bypassed. Recognized-recipient minting is still bounded by the submitted input and conservative lower-of-oracle-and-par sizing, but not by PSM reserve inventory; recognized-recipient redemption uses the higher of the oracle-derived amount and par and still requires sufficient reserve liquidity. See [RIPE Params](https://params.ripe.finance) for current onchain availability and terms.
 
 ## Technical Details
 
@@ -163,24 +165,22 @@ This rate limiting:
 
 ### What is account locking?
 
-Account locking is an emergency security feature that restricts all protocol actions for a specific wallet address. If your account is locked:
+Account locking is an emergency security feature enforced by Teller-routed user actions for a specific wallet address. If your account is locked, those routes cannot deposit, withdraw, borrow, or repay for the account.
 
-* You cannot deposit, withdraw, borrow, or repay
-* This is typically activated for security reasons (suspected compromise, unusual activity)
-* Contact the team via Discord or email to resolve
+Direct functions outside Teller have their own permission and pause boundaries. For example, direct PSM conversions and Reserve Engine acquisitions are not governed by the Teller account-lock check merely because the same wallet calls them.
 
-Account locking protects both users and the protocol from potential exploits or hacked wallets.
+Account locking is therefore a scoped Teller control, not a universal wallet freeze across every Ripe contract.
 
 ### Can the protocol be paused?
 
-Yes. In emergency situations, individual components or the entire protocol can be paused:
+Ripe has component-level pause and availability controls rather than one universal switch that halts every operation:
 
 * **Per-contract pausing**: Specific functions (deposits, borrows, liquidations) can be paused independently
-* **Global pause**: All protocol operations can be halted
-* **Purpose**: Allows response to discovered vulnerabilities or market emergencies
-* **Controlled by**: Governance through RipeHq
+* **Separate boundaries**: Pausing acquisitions, claims, Teller actions, or a price source can have different effects; a price-source pause freezes its configuration and update operations but does not by itself remove the source from reads
+* **Mint circuit breaker**: RipeHQ's protocol-wide mint flag can stop authorized RIPE or GREEN minting, but it is not a global pause for transfers, repayments, or every other action
+* **Administration**: Configured governors act through the relevant contract, Switchboard, and timelock paths
 
-Pauses are temporary measures used only in genuine emergencies to protect user funds.
+Always identify which component and direction a pause controls; do not infer that every protocol route shares the same state.
 
 ## Advanced Features
 
@@ -207,10 +207,11 @@ You can grant granular permissions to other addresses for automated position man
 * **canAnyoneRepayDebt**: Allow anyone to repay your debt (useful for rescue scenarios)
 * **canAnyoneBondForUser**: Let others purchase bonds on your behalf
 
-**Security Guarantees:**
+**Limits and controls:**
 * Delegates can never steal funds — withdrawals always go to the original owner
 * Each permission is independent — granting one doesn't grant others
-* Permissions can be revoked at any time
+* Per-address delegation has no `canDeposit` flag; third-party deposits use the account-wide `canAnyoneDeposit` setting or a trusted protocol path
+* Changing or revoking these settings requires the Teller configuration route to be available and unpaused
 
 **Use Cases:**
 * Automated yield strategies via third-party protocols
@@ -234,13 +235,13 @@ This can create positive carry when the realized sGREEN return exceeds the GREEN
 
 RIPE is the protocol's [governance](../governance-and-economics/02-governance.md) token. Lock it in the governance vault to:
 
-* Accumulate voting power for future governance
-* Earn rewards from the staker allocation
+* Accumulate governance points that a compatible governance interface can use as voting weight
+* Earn rewards from the staker allocation when the asset and category are configured
 * Increase the point rate when the configured lock terms provide a duration boost
 
 ### How does governance participation work?
 
-Governance-vault positions accumulate points from normalized shares, elapsed protocol blocks, asset weight, and any remaining-lock boost. Voting availability and the contracts or interfaces used to exercise that power are deployment state, while the point-accounting mechanism remains the same.
+Governance-vault positions record points lazily from normalized shares and elapsed protocol blocks. At a checkpoint, the then-current remaining-lock multiplier is applied across the whole uncheckpointed interval rather than declining continuously block by block. A compatible governance interface can use those points as voting weight; the points do not by themselves authorize administrative calls.
 
 ### What's the RIPE token distribution?
 
@@ -248,15 +249,19 @@ The 1 billion RIPE base allocation is divided as follows:
 
 * **25%** Community incentives (only allocation unlocking at TGE)
 * **22.2%** Ripe Foundation treasury
-* **20.6%** Core contributors (locked 1 year, then 4-year vest)
+* **20.6%** Core contributors (4-year linear vesting, with position-transfer eligibility after year one)
 * **17.2%** Early backers ($550k seed at $0.02)
 * **15%** Distribution partner (Hightop)
 
-All vesting happens onchain with transparent contracts. See full details in [RIPE Tokenomics](../governance-and-economics/01-ripe-tokenomics.md).
+Contributor schedules and lifecycle actions are recorded by onchain vesting contracts. See full details in [RIPE Tokenomics](../governance-and-economics/01-ripe-tokenomics.md).
 
 ### What are Ripe Bonds?
 
 [Bonds](../governance-and-economics/03-bonds.md) let you exchange a configured payment asset for RIPE at an epoch price. A qualifying lock can add a configured bonus, and the accepted payment goes to the [Endaoment](../core-protocol/07-endaoment.md).
+
+### What is the RIPE Reserve Engine?
+
+The [RIPE Reserve Engine](../governance-and-economics/04-reserve-engine.md) is a separate acquisition-and-vesting mechanism. It accepts a configured payment token, sends the payment to EndaomentFunds, and reserves a base-plus-duration-bonus RIPE allocation from its own Vesting budget. Nothing is minted at acquisition: RIPE is minted only as the beneficiary claims vested amounts, either directly or through an optional deposit into the current core governance vault.
 
 ### What are Bond Boosters?
 
@@ -266,12 +271,12 @@ Bond Boosters can add a configured bonus for eligible users. A booster tracks ho
 
 The [Endaoment](../core-protocol/07-endaoment.md) is Ripe's governed onchain treasury system. It:
 
-* Manages protocol-owned liquidity from bond sales
+* Holds treasury assets received from bonds, Reserve Engine acquisitions, and other authorized flows
 * Can deploy configured yield positions, including compatible [Underscore](https://underscore.finance/) integrations
 * Supports GREEN through authorized, bounded market operations
 * Holds and deploys protocol-owned assets under its permission model
 
-Accepted bond payments become protocol treasury assets in EndaomentFunds.
+Accepted bond and Reserve Engine payments become protocol treasury assets in EndaomentFunds.
 
 ## Safety & Security
 
@@ -279,7 +284,7 @@ Accepted bond payments become protocol treasury assets in EndaomentFunds.
 
 * **Smart contract risk**: Bugs could affect funds
 * **Liquidation risk**: Collateral value dropping too fast
-* **Oracle risk**: Incorrect price feeds (mitigated by multiple sources)
+* **Oracle risk**: Incorrect or unavailable price feeds; ordered fallback improves availability but is not cross-source consensus
 * **Interest rate risk**: Dynamic rates during market stress
 
 ### Is Ripe audited?
@@ -309,7 +314,7 @@ During extreme volatility:
 * Redemption and deleverage remain separate paths for reducing eligible debt
 * Stability pools provide liquidation liquidity only while compatible and sufficiently funded
 * Liquidation targets restored health but can reach the full debt
-* Dynamic rates incentivize debt repayment
+* Dynamic rates can increase borrowing cost under sustained configured danger conditions
 * Ordered oracle sources provide failover; when none is usable, valuation fails closed and debt-bearing accounts can enter quarantine
 
 ## Getting Help

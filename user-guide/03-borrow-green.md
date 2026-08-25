@@ -25,15 +25,15 @@ If you're borrowing to spend the money, choose GREEN and Wallet. If an eligible 
 
 ![Your position with an active loan, shown as Healthy](../.gitbook/assets/user-guide-08-borrow-page-healthy.png)
 
-**What to watch afterward:** your Debt Status on the Borrow page (and Debt Ratio on the Dashboard). It reads **No Debt** before you borrow and **Healthy** while you have comfortable room, with your debt shown against the Max Borrow and Liquidation markers. If your collateral loses enough value, your position can be [liquidated](../core-protocol/04-liquidations.md).
+**What to watch afterward:** your Debt Status on the Borrow page (and Debt Ratio on the Dashboard). It reads **No Debt** before you borrow and **Healthy** while you have comfortable room, with your debt shown against the Max Borrow and Liquidation markers. Debt can grow as interest accrues, even if collateral prices do not move. If the position reaches its liquidation threshold, it can become eligible for [liquidation](../core-protocol/04-liquidations.md).
 
 The Dashboard shows the same position as a **Debt Ratio** card, which spells out how the number is calculated and the ratio at which the position becomes eligible for liquidation. Same information, two vocabularies: the Borrow page gives you a word, the Dashboard gives you the percentage behind it.
 
 ![The Dashboard's view of an active loan, with the Debt Ratio explained](../.gitbook/assets/user-guide-16-dashboard-debt.png)
 
-**Stock collateral behaves differently when its market is closed.** A published stock price remains usable only while it satisfies the configured freshness rules. Ripe does not keep using a last-known cached price after every configured source becomes unusable.
+**Stock collateral behaves differently when its market is closed.** Market closure does not automatically quarantine a position. A feed's last published stock price can remain usable while it satisfies the configured freshness rules, so borrowing-health and liquidation checks can continue during the closure—including when another asset in the portfolio moves. Ripe does not keep using a last-known cached price after every configured source becomes unusable.
 
-If debt-bearing collateral cannot be priced, the account enters a valuation quarantine. You cannot increase risk by borrowing more or withdrawing collateral that supports the debt, and the protocol withholds liquidation, redemption, and deleveraging until it can value the account safely. You can still repay debt or add collateral, subject to normal protocol controls. Quarantine itself is not a liquidation or a declaration that the account is insolvent.
+If debt-bearing collateral cannot be priced, the account enters a valuation quarantine. You cannot increase risk by borrowing more or withdrawing collateral that supports the debt, and the protocol withholds new liquidation, redemption, and deleveraging passes until it can value the account safely. Repayment remains the dependable recovery path, subject to its ordinary controls. Do not assume an ordinary deposit or withdrawal will work during the outage: those Teller actions run strict debt housekeeping and can revert while a debt-bearing price remains unusable. Quarantine itself is not a liquidation or a declaration that the account is insolvent.
 
 When a usable feed resumes, the account is valued from the fresh price and normal health checks resume. If the stock moved while its market was closed, the update may arrive in one step. Borrow with enough room that a market-open gap doesn't decide anything for you.
 

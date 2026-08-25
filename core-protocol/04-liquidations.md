@@ -4,11 +4,13 @@ description: When Leverage Goes Wrong (But Not Too Wrong)
 
 # Liquidations: When Leverage Goes Wrong (But Not Too Wrong)
 
-When an eligible liquidation call is submitted for a position beyond its liquidation threshold, Ripe calculates a repayment target designed to restore debt health rather than automatically closing the entire account.
+When an eligible liquidation call is submitted for a position that has reached or crossed its liquidation threshold, Ripe calculates a repayment target designed to restore debt health rather than automatically closing the entire account.
 
-That makes many liquidations partial, but **partial is not guaranteed**. If the account is deeply underwater, has too little eligible collateral, or must repay all remaining debt to recover, liquidation can consume all eligible collateral and clear the full debt.
+That means a liquidation **may be partial**, but partial repayment is not guaranteed. If the account is deeply underwater or has too little eligible collateral, liquidation can consume all eligible collateral without clearing all of the debt. If full repayment is both required and available, it can instead clear the entire debt.
 
 [Deleverage](05-deleverage.md), credit redemption, and liquidation are separate mechanisms. Deleverage and redemption may reduce risk before liquidation; they are not automatic phases inside a liquidation call.
+
+The borrower address also matters. AuctionHouse liquidation and ordinary credit redemption skip an address registered as an Underscore Earn vault. That exception belongs to the recognized borrower, not to every user who happens to deposit an Underscore share token as collateral.
 
 ## Executive Summary
 
@@ -18,7 +20,7 @@ That makes many liquidations partial, but **partial is not guaranteed**. If the 
 * 📊 **Target-based**: Liquidation aims to restore health, but the target can be the full debt
 * 💰 **Episode-based fees**: Liquidation and keeper fees are assessed once for a liquidation episode, not on every retry
 * ⚡ **Permissionless execution**: Eligible callers can submit liquidation transactions; monitoring coverage and timing are not guaranteed
-* 🎯 **Two settlement routes**: Eligible collateral tries Stability liquidity first, then uses an auction when necessary
+* 🎯 **Two settlement routes**: Eligible collateral tries Stability liquidity first, then uses a configured auction fallback when available
 
 **Quick Visual: The Liquidation Flow**
 
@@ -118,7 +120,7 @@ Your position's safety depends on three key thresholds that work together to cre
 Consider an illustrative position with $10,000 initial collateral and $6,000 debt, using assumed 70%, 77%, and 80% thresholds:
 
 ```
-POSITION HEALTH VISUALIZATION (for $6,000 debt, ETH/BTC collateral)
+POSITION HEALTH VISUALIZATION (for $6,000 debt, illustrative WETH/WBTC collateral)
 ←─────────────────────────────────────────────────────────────→
 $10,000                    $8,571      $7,792     $7,500      $0
   YOU                        ↓           ↓           ↓
@@ -163,7 +165,7 @@ _For a detailed explanation of how these thresholds work together, see_ [_Unders
 
 ### A Separate Pre-Liquidation Mechanism
 
-Credit redemption has its own eligibility checks, pricing, asset traversal, and settlement. When its configured conditions are met, a GREEN holder can exchange GREEN for eligible collateral and reduce the selected borrower's debt.
+Credit redemption has its own eligibility checks, pricing, asset traversal, and settlement. When its configured conditions are met, a GREEN holder can exchange GREEN for eligible collateral and reduce the selected borrower's debt. Reaching the liquidation threshold does not by itself set `inLiquidation`, so redemption may remain available until an eligible liquidation transaction actually starts the episode.
 
 A redemption can improve debt health and may prevent a later liquidation, but it is **not** the first phase of `liquidateUser`. Likewise, [deleverage](05-deleverage.md) is a separate debt-reduction route that can consume only assets eligible for that mechanism.
 
@@ -179,36 +181,39 @@ Before your position reaches liquidation, you may have options to reduce debt wi
 * Burn GREEN-side assets or transfer eligible stable-side collateral for credit against debt
 * Use an owner-approved asset order, or let the broad route follow protocol priority
 
-This is handled by the separate [Deleverage](05-deleverage.md) system. The owner, trusted protocol callers, and delegates with borrowing permission have broader control; an untrusted caller is limited to a bounded deleverage when the account is in the configured danger zone.
+This is handled by the separate [Deleverage](05-deleverage.md) system. Caller authority depends on the deleverage entry point: the ordered-specific route recognizes the owner and permitted delegates, while an ordinary self-call through the broad route remains subject to its untrusted health cap.
 
-**Key Point**: The liquidation path skips assets configured for stable-side burn or transfer so that Deleverage can handle them. Liquidation processes other eligible collateral through Stability settlement and/or auction according to each asset's configuration.
+**Key Point**: The liquidation path skips GREEN or sGREEN marked to burn as payment, and it skips assets marked for transfer to Endaoment, so that Deleverage can handle them. Liquidation processes other eligible collateral through Stability settlement and/or auction according to each asset's configuration.
 
 ### What Happens When Liquidation Starts
 
-When an eligible liquidation call is submitted after the position crosses the liquidation threshold:
+When an eligible liquidation call is submitted once the position reaches or crosses the liquidation threshold:
 
 1. **Position enters `inLiquidation` state**
    * You are blocked from taking new borrows
-   * You can still repay debt to exit liquidation
+   * All user withdrawals are blocked while debt remains and `inLiquidation` is set, including withdrawals of assets that do not contribute borrowing power
+   * You can still repay debt; the restriction clears when debt is zero or no greater than the account's current maximum borrowing capacity, not merely when the position moves back above the liquidation threshold
    * Eligible collateral becomes available to the liquidation process
 
 2. **The episode's fees are calculated once**
    * The base liquidation fee and bounded keeper fee are assessed only when the account first enters the episode
+   * A nonzero keeper reward is newly minted as GREEN, or optionally deposited into sGREEN for the keeper, while the corresponding keeper fee is added to the borrower's debt
    * A later retry while `inLiquidation` does not assess those fees again
    * A first pass that repays nothing and starts no auction is economically inert and does not earn a keeper fee
 
 3. **A repayment target and traversal order are set**
    * The target uses live debt and account terms and aims below the danger threshold
-   * It is often less than the full debt, but can equal the full debt
+   * It can be less than the full debt, but can also equal the full debt
    * Configured priority assets are visited first, followed by the user's other vault assets
 
 4. **Each eligible asset chooses a settlement route**
    * The protocol first checks compatible Stability vaults when that asset permits Stability settlement
-   * Any configured auction-eligible remainder can be saved for a Dutch auction
+   * Any remainder whose asset is configured for auction can be saved for a Dutch auction
 
 5. **The episode resolves or waits**
-   * Debt health restoration clears the account's liquidation restriction
+   * Debt at or below current maximum borrowing capacity clears the account's liquidation restriction
    * An outstanding auction owns the current liquidation pass, so another liquidation pass waits until auctions are bought, removed, or restarted as appropriate
+   * A later valuation quarantine does not automatically pause or remove an auction that already exists; that auction remains governed by its own active status, pricing, and purchase checks
    * If the account remains unhealthy after auctions are resolved, the protocol can retry without charging the episode fees again
 
 ### Stability Pool Settlement
@@ -218,14 +223,15 @@ For an asset configured to use [Stability pools](../earning-and-rewards/02-stabi
 **How Pool Swaps Work**
 
 1. The Stability vault must support the settlement asset and be able to accept the collateral as a claim asset
-2. It must have spendable, unreserved settlement liquidity and a usable price
-3. The vault gives up settlement liquidity and receives the borrower's collateral as claimable custody
-4. The debt receives credit for the value actually supplied by the Stability vault
+2. The liquidation consumes any claimable GREEN associated with that settlement asset first
+3. If more repayment is needed, the vault must have spendable, unreserved settlement-asset liquidity and a usable price
+4. GREEN is burned; sGREEN is redeemed and its GREEN is burned; any other settlement asset is transferred to EndaomentFunds
+5. The vault receives the borrower's collateral as claimable custody, and the debt receives credit for the value actually supplied
 
 **The Win-Win Dynamic**
 
 * Compatible in-protocol liquidity can reduce how much collateral reaches auction
-* The configured liquidation spread gives the Stability cohort more collateral value than the settlement value it supplies
+* A nonzero configured liquidation spread gives the Stability cohort more collateral value than the settlement value it supplies
 * Market-price changes, claim liquidity, and pool capacity still affect the depositor's realized outcome
 
 **Additional Pool Benefits**
@@ -234,11 +240,9 @@ For an asset configured to use [Stability pools](../earning-and-rewards/02-stabi
 * Claimable collateral remains part of share NAV while it is active and priced
 * Claiming collateral and withdrawing the original settlement asset are separate actions
 
-**Special Note on Permissioned Assets** For regulated assets (tokenized securities, real estate):
+**Optional recipient controls**
 
-* Dedicated permissioned pools with whitelisted participants
-* Same swap mechanics but restricted access
-* Ensures compliance throughout liquidation process
+A special Stability vault can apply its configured asset-recipient allowlist to claims. This restricts who may receive a controlled claim asset through that vault, but it is a contract-level transfer control rather than a guarantee of regulatory compliance.
 
 _For deeper understanding of stability pool mechanics, see_ [_Stability Pools_](../earning-and-rewards/02-stability-pools.md)_._
 
@@ -258,8 +262,8 @@ For auction-eligible collateral not fully handled by Stability settlement:
 **Auction Mechanics**
 
 * A purchase is bounded by the buyer's requested amount, available GREEN, available collateral, and the borrower's **live debt**
-* GREEN payment is burned, reducing your debt
-* Only the GREEN corresponding to collateral actually delivered is spent; unused input is refunded after the batch
+* GREEN payment is burned, reducing the borrower's debt
+* Only the GREEN corresponding to the collateral amount credited by the vault is spent; unused input is refunded after the batch
 * The maximum discount applies on the final purchasable block. The recorded end block is exclusive and cannot be purchased
 * An auction is removed when its collateral is depleted. An active auction that reaches its end block can be explicitly removed as expired before later processing or restart
 
@@ -271,7 +275,7 @@ Liquidation economics are configurable rather than one fixed protocol-wide perce
 
 * The account's weighted liquidation fee establishes the base fee for a new liquidation episode
 * The Stability-settlement spread lets a participating cohort receive collateral at a discount; it is not necessarily identical to an additive fee charged after settlement
-* The keeper fee is bounded by protocol minimums, maximums, and available collateral surplus
+* The keeper fee is bounded by protocol minimums, maximums, and available collateral surplus; when nonzero, the keeper reward is minted as GREEN or optionally delivered through sGREEN
 * Stability settlement can cover the nominal base fee through its collateral spread. Any unpaid base fee and keeper fee are added to the account's debt before repayment is recorded
 * The same account may need multiple calls or auctions, but these episode fees are not assessed again while it remains in liquidation
 
@@ -335,7 +339,7 @@ No keeper allowlist is required for the liquidation entry point. Actual executio
 
 1. **Layered Tools**: Redemption, deleverage, liquidation, Stability settlement, and auctions are distinct mechanisms with separate conditions
 2. **Conditional Liquidity**: Stability vaults can settle compatible collateral while capacity is available
-3. **Public Fallback**: Auctions provide a second route when Stability settlement is unavailable or incomplete
+3. **Configured Fallback**: Auction-enabled assets have a second route when Stability settlement is unavailable or incomplete
 4. **Permissionless Execution**: Independent callers can submit eligible liquidations
 5. **Stress Design**: The settlement paths are designed to operate under extreme market conditions, subject to available liquidity and demand
 

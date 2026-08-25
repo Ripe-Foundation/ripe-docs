@@ -14,10 +14,10 @@ These docs explain Ripe's mechanisms and use illustrative examples. Supported as
 
 ## The Problem: DeFi Thinks Your Assets Live in Silos
 
-**Isolated Vaults** (MakerDAO, Liquity) ETH in one vault. WBTC in another. Five assets? Five loans. Five liquidation risks. It's 2025 and we're still pretending portfolios don't exist.
+**Isolated Vaults** (MakerDAO, Liquity) ETH in one vault. WBTC in another. Five assets? Five loans. Five liquidation risks. Portfolios still get split into separate positions.
 
 **Shared Risk Pools** (Aave, Compound)\
-Your ETH backs someone else's degen trade. Their bad debt? Your problem. Oh, and forget about using tokenized stocks or treasury bills.
+Your ETH backs someone else's trade. Their bad debt can affect the shared market. Collateral support still depends on the assets and risk terms configured for that market.
 
 **"Innovation" That Isn't** (Morpho, Euler) Slightly better rates. Same old isolation. Each market fragments liquidity further. The future looks exactly like the past.
 
@@ -26,11 +26,11 @@ Your ETH backs someone else's degen trade. Their bad debt? Your problem. Oh, and
 ```
 Illustrative Portfolio:      Traditional:           Ripe:
 ┌─────────────┐             ┌─────────────┐       ┌─────────────┐
-│ 5 ETH       │ ──────────> │ ETH Loan #1 │       │             │
+│ 5 WETH      │ ──────────> │ WETH Loan #1│       │             │
 │ 2 WBTC      │ ──────────> │ WBTC Loan #2│       │  ONE LOAN   │
 │ 10K USDC    │ ──────────> │ USDC Loan #3│  ───> │  GREEN      │
-│ Asset C     │ ──────────> │ Loan #3     │       │  Supported  │
-│ Asset D     │ ──────────> │ Loan #4     │       │  Assets     │
+│ Asset C     │ ──────────> │ Loan #4     │       │  Supported  │
+│ Asset D     │ ──────────> │ Loan #5     │       │  Assets     │
 └─────────────┘             └─────────────┘       └─────────────┘
                             5 positions to          1 unified
                             manage, limited         position,
@@ -67,9 +67,9 @@ The vault architecture can support different token and accounting models when go
 
 #### 🛡️ [Liquidations: Protection Through Innovation](core-protocol/04-liquidations.md)
 
-Ripe uses separate deleverage, redemption, Stability Pool, and auction paths to reduce unsafe debt. Liquidations target restored health and are usually partial, but severe shortfalls can require all eligible collateral.
+Ripe uses separate deleverage, redemption, Stability Pool, and auction paths to reduce unsafe debt. A liquidation targets restored health and may be partial, but severe shortfalls can require all eligible collateral.
 
-* **Redemption buffer** - Eligible positions can be deleveraged through configured GREEN redemption
+* **Redemption buffer** - GREEN can be exchanged for eligible collateral through the separate configured redemption path
 * **Separate deleverage path** - Eligible GREEN-side assets can burn and configured stable-side assets can transfer for debt credit
 * **Stability pools** - Conditional settlement before ordinary auctions
 * **Dutch auctions** - Time-based pricing for remaining collateral
@@ -90,13 +90,13 @@ Deposit to gain passive exposure to configured liquidation spreads and claim ass
 
 * **Discounted collateral exposure** when eligible liquidations use the pool
 * **Multiple return sources** — underlying yield, liquidation results, and configured RIPE rewards
-* **Zero effort** — Smart contracts do the work
+* **Passive settlement exposure** — Depositors do not submit each liquidation themselves
 
 #### 🪙 [RIPE Rewards: Earn by Using the Protocol](earning-and-rewards/03-ripe-rewards.md)
 
-Earn RIPE by using the protocol. Time-weighted rewards ensure fair distribution.
+Configured activities can accrue RIPE entitlement through elapsed-point accounting.
 
-* **Funded reward budget** - Accrual is capped by RIPE available for rewards
+* **Accounting allowance** - Accrual is capped by the remaining configured reward allowance; RIPE is minted on claim
 * **Configurable categories** - Borrower, staker, depositor, and voter allocations
 * **Auto-staking** - A configured claim portion can deposit into governance
 
@@ -109,15 +109,15 @@ Understanding RIPE's 1 billion-token base allocation and the vesting schedules t
 * **Base allocation** - 1B ordinary allocation; authorized minting and bad-debt bond accounting are explained in the tokenomics guide
 * **Community first** - 25% for rewards, largest unlocking allocation
 * **Transparent vesting** - All schedules enforced onchain
-* **Strategic funding** - Bootstrapped with only $1.87M raised
+* **Strategic funding** - $1.87M of founder and external capital described in the tokenomics guide
 
-#### 🏛️ [Governance: Power Through Time](governance-and-economics/02-governance.md)
+#### 🏛️ [Governance Points and Locking](governance-and-economics/02-governance.md)
 
-Lock RIPE tokens to accumulate voting power and earn protocol rewards.
+Lock RIPE tokens to accumulate governance points and, when configured, protocol rewards.
 
 * **Time multipliers** - Configured remaining-lock terms can raise the point rate
 * **Staker rewards** - Earn from protocol emissions
-* **Future control** - Guide protocol evolution
+* **Governance integration** - Compatible governance interfaces can use accumulated points as voting weight
 
 #### 🎟️ [Bonds: Fund the Future](governance-and-economics/03-bonds.md)
 
@@ -125,7 +125,15 @@ Exchange a configured payment asset for RIPE at an epoch price, supporting proto
 
 * **Instant or locked** - A qualifying lock can add a configured bonus
 * **Bond Boosters** - Bonus rewards for ecosystem contributors
-* **Permanent funding** - Builds the Endaoment treasury
+* **Treasury assets** - Accepted payments become Endaoment treasury assets
+
+#### 🏦 [RIPE Reserve Engine: Acquire RIPE with Vesting](governance-and-economics/04-reserve-engine.md)
+
+Exchange a configured payment token for a RIPE allocation that vests over time.
+
+* **Epoch controller** - Base payout rates can respond between committed epochs
+* **Duration bonus** - A longer vesting selection can increase the allocation
+* **Mint on claim** - Payment is collected at acquisition; vested RIPE is minted only when claimed
 
 #### 🏰 [The Endaoment: Onchain Treasury](core-protocol/07-endaoment.md)
 
@@ -139,7 +147,7 @@ Governed treasury infrastructure for supporting GREEN and deploying protocol-own
 
 #### 🔮 [Price Oracles: Accurate Asset Valuation](core-protocol/06-price-oracles.md)
 
-Multi-oracle system ensuring fair and manipulation-resistant pricing.
+Ordered price-source routing with isolated fallbacks and fail-closed valuation.
 
 * **Multiple source types** - External feeds, market pools, and derived-asset pricing
 * **Ordered fallbacks** - Uses the first configured source that returns a valid price
@@ -193,7 +201,7 @@ Have questions? Check our comprehensive [**FAQ**](resources/faq.md) for answers 
 
 ## Pick Your Play
 
-Four ways to win. All of them better than watching your assets do nothing.
+Several ways to use the protocol, each with its own conditions and risks.
 
 ### 🟢 **The Savings Path**: Convert GREEN to sGREEN
 
@@ -210,9 +218,9 @@ Eligible Stability settlement exchanges vault liquidity for claimable collateral
 Combine supported collateral under its individual terms in one unified GREEN loan.\
 **→** [**Start Borrowing**](core-protocol/02-borrowing.md)
 
-### 🏗️ **The Long Game**: Lock RIPE, Run the Protocol
+### 🏗️ **The Long Game**: Lock RIPE and Stack Points
 
-Governance power grows with time. Lock today, control tomorrow.\
+Governance points accumulate with position size and elapsed blocks; compatible governance interfaces can use them as voting weight.\
 **→** [**Lock and Lead**](governance-and-economics/02-governance.md)
 
 ***

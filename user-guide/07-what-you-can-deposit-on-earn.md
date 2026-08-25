@@ -23,4 +23,4 @@ Displayed rates are estimates and can move independently as protocol revenue, re
 
 ---
 
-_Not covered here: executing [liquidations](../core-protocol/04-liquidations.md) (the Liquidations page is for advanced users who run them; [Borrow GREEN](03-borrow-green.md) covers how to avoid being on the receiving end) and purchasing [bonds](../governance-and-economics/03-bonds.md), whose mechanism is covered in the protocol guide rather than this click-through tutorial._
+_Not covered here: executing [liquidations](../core-protocol/04-liquidations.md) (the Liquidations page is for advanced users who run them; [Borrow GREEN](03-borrow-green.md) covers how to avoid being on the receiving end), purchasing [bonds](../governance-and-economics/03-bonds.md), or creating a vesting position through the [RIPE Reserve Engine](../governance-and-economics/04-reserve-engine.md). Those distribution mechanisms are covered in the protocol guides rather than this Earn tutorial._

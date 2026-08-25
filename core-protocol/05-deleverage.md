@@ -8,27 +8,27 @@ Getting liquidated sucks. The fees, the forced selling, the stress.
 
 But what if you could reduce your debt before things get ugly? That's what deleveraging does. It consumes eligible collateral, credits its value against debt, and avoids liquidation and keeper fees.
 
-Depending on an asset's configuration, deleverage can burn GREEN-side Stability assets or transfer eligible collateral to Endaoment. It does not sell every kind of collateral through one unrestricted user route.
+Depending on an asset's configuration, ordinary deleverage burns GREEN or sGREEN for debt credit or transfers another eligible asset to EndaomentFunds. A configured PSM yield-position token is returned to the EndaomentPSM instead. It does not sell every kind of collateral through one unrestricted user route.
 
 ## Quick Overview
 
 **What is Deleverage?**
 
-Deleveraging is a debt-reduction mechanism separate from liquidation and credit redemption. An owner or trusted caller can use it proactively; an untrusted caller can use only the bounded broad route when the account is in the configured deleverage zone. Deleverage has no liquidation fee, but only eligible assets can settle debt through its ordinary routes.
+Deleveraging is a debt-reduction mechanism separate from liquidation and credit redemption. The ordered-specific route recognizes the owner and permitted callers and can be used proactively. The broad route has its own trust rules: an ordinary owner's self-call is untrusted and can execute only in the configured deleverage zone, while valid Ripe callers, permitted delegates acting for another account, and recognized Underscore self-calls can use its trusted behavior. Deleverage has no liquidation fee, but only eligible assets can settle debt through its ordinary routes.
 
 **Key Differences:**
 
 | Aspect | Deleverage | Liquidation |
 |--------|------------|-------------|
-| When it happens | Proactively for trusted callers; in a bounded danger zone for untrusted callers | When an eligible caller submits after the liquidation threshold |
-| Who triggers it | Owner, trusted protocol caller, `canBorrow` delegate, or an eligible untrusted caller | A keeper or other permitted caller |
+| When it happens | Proactively through the ordered-specific route or a trusted broad call; in a bounded danger zone for an untrusted broad call | When an eligible caller submits at or beyond the liquidation threshold |
+| Who triggers it | Authority depends on the route; the broad route does not automatically trust an ordinary owner self-call | A keeper or other permitted caller |
 | Fees | No liquidation or keeper fee | Episode-based liquidation and keeper fees |
 | Asset order | Trusted callers may submit an eligible asset order; the broad route follows protocol priority | Protocol priority traversal, Stability eligibility, then auction fallback |
-| Amount | Trusted route target; untrusted route capped by the health-restoring calculation | Health-restoring target that can reach full debt |
+| Amount | Submitted target for a trusted route; untrusted broad route capped by the health-restoring calculation | Health-restoring target that can reach full debt |
 
 ## When Can You Be Deleveraged?
 
-### Self-Deleveraging (Trusted Route)
+### Specific-Asset Self-Deleveraging (Trusted Route)
 
 You can deleverage your own position while it has debt and eligible assets:
 
@@ -36,6 +36,8 @@ You can deleverage your own position while it has debt and eligible assets:
 * Specify a per-asset repayment target; actual debt credit is bounded by eligible collateral, live debt, and route behavior
 * No threshold requirements
 * No permissions needed
+
+This owner trust applies to the ordered-specific route. Calling the broad route for your own ordinary account does not by itself make that call trusted; unless the caller is otherwise recognized, the broad route applies its untrusted zone and repayment cap.
 
 ### Untrusted Deleveraging (Bounded Danger Zone)
 
@@ -53,28 +55,29 @@ Ripe exposes several deleverage routes with different authority and traversal ru
 
 ### Broad and Batch Deleverage
 
-The broad route can process one or many users. For each user, it determines whether the caller is trusted independently; authority over one account does not grant authority over another account in the same batch.
+The broad route can process one or many users. A valid Ripe caller is trusted for the route. Otherwise, trust is evaluated per user: a `canBorrow` delegation can authorize the caller for another account, and a registered Underscore address can be trusted for its own position. An ordinary owner self-call is not upgraded merely because caller and user match, and authority over one account does not grant authority over another account in the same batch.
 
 Assets are traversed in this order:
 
-**Phase 1: Stability Pool Assets**
+**Phase 1: Priority Stability Vaults**
 
-Configured priority Stability-vault cohorts are considered first:
+Configured priority Stability vaults are considered first. Each listed vault is visited at most once, and the route traverses the user's stored assets inside that vault rather than treating the configured list entry as one asset:
 
-* GREEN-side assets configured to burn as payment are withdrawn and burned for debt credit
-* Stability-vault availability is checked fail-soft; an unavailable cohort is skipped rather than blocking the whole broad route
+* GREEN and sGREEN configured to burn as payment are withdrawn; sGREEN is redeemed to GREEN, and the resulting GREEN is burned for debt credit
+* Other assets marked for Endaoment transfer are sent to EndaomentFunds, except a configured PSM yield-position token, which returns to the EndaomentPSM
+* Stability-vault availability is checked fail-soft; an unavailable vault is skipped rather than blocking the whole broad route
 * A Stability position's claimable NAV is not treated as if it were all immediately available in the original settlement asset
 
 **Phase 2: Priority Deleverage Assets**
 
-The protocol then visits configured priority assets outside the Stability cohorts:
+The protocol then visits configured priority assets outside the Stability vaults:
 
-* Assets configured to transfer to Endaoment are moved there for debt credit
+* Assets configured to transfer to Endaoment are moved to EndaomentFunds for debt credit, subject to the PSM yield-position-token exception above
 * Assets without either the burn-as-payment or transfer-to-Endaoment flag are skipped by ordinary deleverage
 
 **Phase 3: Remaining User Vaults**
 
-If the target remains, the route traverses the user's other vaults in their stored order, applying the same eligibility rules and avoiding a second pass over assets already handled.
+If the target remains, the route traverses the user's other vaults in their stored order, applying the same eligibility rules and avoiding a second pass over a vault or asset already handled.
 
 ### Choosing Specific Assets
 
@@ -100,9 +103,11 @@ The unrelated volatile collateral is not processed by this route.
 
 Volatile collateral uses a separate privileged route restricted to valid Ripe protocol addresses or governance's switchboard. This route deliberately skips assets configured for ordinary burn or Endaoment transfer. A user-controlled specific order cannot be used to bypass that privilege boundary.
 
-### Atomic Debt Settlement
+### Atomic Debt Settlement and Full-Payoff Dust
 
-Deleverage plans against a debt snapshot, interacts with collateral, then re-reads live debt immediately before settlement. If the debt amount changed during those interactions, the transaction reverts atomically. Debt credit is capped at the real debt even when a narrowly bounded full-payoff buffer is used for rounding.
+Deleverage plans against a debt snapshot, interacts with collateral, then re-reads live debt immediately before settlement. If the debt amount changed during those interactions, the transaction reverts atomically.
+
+A trusted full-payoff route can use a configured, bounded extra collateral budget to absorb conversion rounding, but debt credit remains capped at the real debt. If that route consumes nonzero collateral yet leaves only a tiny residual debt within both the configured absolute and debt-relative dust caps, it can clear that residual as an explicit debt write-off. No GREEN is burned for the written-off remainder. This dust rule does not apply to partial-payoff or untrusted routes.
 
 ## Using [Underscore](https://underscore.finance/) Vaults?
 
@@ -116,10 +121,11 @@ You can authorize others to manage your position:
 
 ### Available Permissions
 
-* **Owner**: Can use the ordered-specific route for their own account
-* **canBorrow**: Makes a delegate trusted for broad deleverage and allows that delegate to submit a specific eligible asset order
-* **Valid Ripe addresses**: Can use trusted protocol routes; trust is still evaluated for each user in a multi-user batch
-* **Untrusted addresses**: Can use only the bounded broad route when its zone and health checks pass
+* **Owner**: Can use the ordered-specific route for their own account; an ordinary owner's broad self-call remains untrusted unless another trust rule applies
+* **canBorrow**: Makes a delegate acting for another account trusted for broad deleverage and allows that delegate to submit a specific eligible asset order
+* **Valid Ripe addresses**: Are trusted by the broad route and can use privileged protocol routes where authorized
+* **Registered Underscore addresses**: Can receive broad-route trust for their own position
+* **Untrusted addresses**: Can use only the bounded broad route when its zone and health checks pass, including an otherwise unrecognized owner self-call
 
 ### Setting Up Delegation
 
@@ -153,7 +159,7 @@ remain usable     be limited         routes may open         liquidation
 * **Deleverage**: Eligible assets reduce debt without liquidation fees; ordering depends on caller authority and route
 * **Liquidation**: A separate forced-settlement episode using Stability eligibility and auction fallback
 
-Trusted deleverage is available proactively while the account and assets pass their checks. A caller without permission must wait for the bounded deleverage zone and cannot act after the account is already in liquidation. For the complete picture, see [Liquidations](04-liquidations.md).
+The ordered-specific route and trusted broad behavior are available proactively while the account and assets pass their checks. A broad caller without route-specific trust must wait for the bounded deleverage zone and cannot act after the account is already in liquidation. For the complete picture, see [Liquidations](04-liquidations.md).
 
 ## Taking Control of Your Risk
 

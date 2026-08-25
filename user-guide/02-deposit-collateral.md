@@ -16,7 +16,7 @@ Assets deposited on the Borrow page join the [collateral](../core-protocol/03-co
 
 ![The deposit dialog, with your wallet balance shown](../.gitbook/assets/user-guide-05-deposit-modal.png)
 
-**Step 4.** Enter the amount. The first time you deposit any asset, your wallet asks you to **Approve** it, a one-time permission. Confirm the approval, then confirm the deposit.
+**Step 4.** Enter the amount. If the Teller does not have enough token allowance, your wallet first asks you to **Approve** it. Whether a later deposit needs another approval depends on the token, allowance amount, and current token state. Confirm any required approval, then confirm the deposit.
 
 **Step 5.** Done. Your deposit shows in the **Your Deposits** column, and the panel at the top of the page updates with your totals.
 
