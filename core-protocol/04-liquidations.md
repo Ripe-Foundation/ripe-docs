@@ -64,7 +64,7 @@ At or below the liquidation threshold
 
 ### Protecting Protocol Solvency
 
-Liquidations are designed to defend protocol solvency and reduce bad-debt risk. When [borrowing positions](02-borrowing.md) become undercollateralized due to collateral value drops or accumulated interest, eligible liquidation routes can reduce debt and transfer collateral. They cannot guarantee complete backing in every market state: severe shortfalls can exhaust eligible collateral and leave residual debt, which the protocol records as bad debt.
+Liquidations are designed to defend protocol solvency and reduce bad-debt risk. When [borrowing positions](02-borrowing.md) become undercollateralized due to collateral value drops or accumulated interest, eligible liquidation routes can reduce debt and transfer collateral. They cannot guarantee complete backing in every market state: severe shortfalls can exhaust eligible collateral and leave residual borrower debt. Liquidation itself does not automatically add that amount to the protocol's separately administered recorded-bad-debt balance.
 
 ### The Borrower-Friendly Approach
 
@@ -255,6 +255,8 @@ Before collateral moves, the Stability vault must confirm that the settlement co
 
 Whitelists and recipient checks are independent asset configuration, not a property of every Stock Token or other tokenized asset. When configured, the relevant participant and recipient must pass those checks during settlement. A whitelist does not by itself enable Stability settlement, and a Stock Token does not inherently require a permissioned pool.
 
+For Stock Tokens, passing Stability access and recipient checks does not establish eligibility under issuer terms; see [Stock Tokens as Collateral](03-collateral-assets.md#stock-tokens-as-collateral).
+
 _For deeper understanding of stability pool mechanics, see_ [_Stability Pools_](../earning-and-rewards/02-stability-pools.md)_._
 
 ### Phase 2: Dutch Auctions
@@ -275,6 +277,8 @@ Dutch auctions process remaining auction-enabled collateral when configured pool
 * An individual asset auction is removed when its collateral position is depleted; restoring account debt health removes all outstanding auctions
 * After the purchase window expires, anyone can remove an otherwise active expired auction so liquidation can be retried
 * Collateral not purchased remains in the borrower's vault
+
+For a Stock Token auction, passing protocol access and recipient checks likewise does not establish eligibility under issuer terms; see [Stock Tokens as Collateral](03-collateral-assets.md#stock-tokens-as-collateral).
 
 ## Liquidation Economics
 
@@ -358,9 +362,9 @@ Anyone can be a keeper — no special permissions are needed to submit an eligib
 
 ## What If Bad Debt Occurs?
 
-Despite all protective mechanisms, extreme market conditions could potentially create bad debt (where liquidation proceeds don't fully cover the debt). The protocol has a clear resolution mechanism:
+Extreme market conditions can leave residual borrower debt after eligible collateral is exhausted. If governance separately records an amount as protocol bad debt, qualifying bond purchases provide one recovery path:
 
-**Bond Sales for Recovery**: A qualifying [bond](../governance-and-economics/03-bonds.md) purchase can credit its oracle-valued payment against outstanding bad debt. In this process:
+**Bond Sales for Recovery**: A qualifying [bond](../governance-and-economics/03-bonds.md) purchase can credit its oracle-valued payment against recorded bad debt. In this process:
 
 * The complete computed RIPE payout must fit the available bond allowance
 * RIPE attributed to cleared bad debt is accounted outside ordinary bond-distribution usage

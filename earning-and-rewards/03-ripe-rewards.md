@@ -4,7 +4,7 @@ description: How configured RIPE rewards accrue and are claimed
 
 # RIPE Rewards: Configured Rewards for Protocol Use
 
-RIPE rewards use a rewards-specific accounting allowance, separate from bond and Reserve Engine allowances. Entitlement accrues from elapsed blocks when checkpointed; RIPE is minted only when a claim succeeds.
+RIPE rewards use a rewards-specific accounting allowance, separate from bond and Reserve Engine allowances. Lootbox participant entitlement accrues from elapsed blocks when checkpointed; for borrowers, stakers, voters, and general depositors, RIPE is minted when a successful claim consumes that entitlement. The same allowance can also fund configured Stability collateral-claim rewards and a separately authorized, interval-gated Underscore distribution.
 
 > **Examples, not live terms:** All assets, percentages, rates, prices, lock terms, tables, and scenario outputs on this page are illustrative. See [RIPE Params](https://params.ripe.finance) for current onchain configuration.
 
@@ -23,7 +23,7 @@ Configured assets      →  Voters           →  Asset voter points × user bal
 Category and asset weights normalize against their relevant configured totals.
 ```
 
-**💡 Key Insight**: You don't compete with all users — only those in your specific pool. A borrower doesn't dilute a staker's rewards!
+**💡 Key Insight**: Participant activity in one category does not dilute another category's configured allocation—a borrower's points do not enter the staker calculation. Configuration weights still determine each category's share. Within a deposit-based category, both an asset's share of category points and the user's share of that asset's points affect the claim.
 
 ## The Reward Engine
 
@@ -32,8 +32,10 @@ Category and asset weights normalize against their relevant configured totals.
 Unlike traditional yield farming with discrete epochs, Ripe's rewards flow continuously:
 
 * **Every Block Counts**: Elapsed blocks add allowance-capped entitlement under the configuration used at checkpoint; they do not mint tokens every block
-* **Mint on Claim**: RIPE mints only during a successful claim, subject to mint authority and circuit breakers
+* **Participant Mint on Claim**: Ordinary Lootbox participant RIPE mints during a successful claim, subject to mint authority and circuit breakers
 * **Configurable Distribution**: Category splits, asset allocations, point eligibility, and claim settings can change
+
+A configured Underscore distribution is a separate path, not a participant claim. An authorized Switchboard action can invoke it only after its interval and allowance checks pass; the route checkpoints participant accrual, draws from the remaining reward allowance, and mints the allowance-capped deposit-reward and yield-bonus amounts to the configured Underscore distributor.
 
 ### The Points System
 
@@ -111,7 +113,7 @@ Each supported asset can have configuration values that accrue points within the
 
 ### How Rewards Actually Flow (Simplified)
 
-Think of RIPE rewards like a waterfall with two splits:
+Think of RIPE rewards as category allocation followed by the applicable point ratios:
 
 ```
 Hypothetical RIPE Entitlement (500 RIPE/day equivalent)
@@ -253,11 +255,13 @@ Example: a $100,000 sGREEN position representing 2% of that asset's reward balan
 ```
 Daily Rewards ≈ (Your Borrow Points / Total Borrow Points) × 50 RIPE
 
-Example: $500,000 borrowed (5% of total debt)
+Example: Your accumulated Borrow Points equal 5% of global Borrow Points at the claim calculation
 = 5% × 50 = 2.5 RIPE per day
 = $25.00 per day
 = ~1.8% APR in hypothetical rewards before borrowing costs
 ```
+
+Current debt share does not necessarily equal Borrow Point share; principal history and elapsed blocks determine the accumulated ratio.
 
 ## Auto-Staking Mechanism
 
@@ -294,12 +298,12 @@ The contracts and governance roles configured for a deployment determine who can
 
 ### "Why do I calculate my share twice?"
 
-You don't! Think of it as one calculation with two inputs:
+For staker, voter, and general-depositor claims, two nested ratios determine the user's share after the category allocation:
 
-1. **Which pie you're eating from** (Staker, Borrower, etc.)
-2. **How big your slice is** (Your percentage of that pie)
+1. **Asset share**: the asset's category points divided by global points for that category
+2. **User share**: the user's balance points divided by total balance points for that asset
 
-It's like a buffet where desserts are on one table and mains on another — you only compete with people at your table, not the whole restaurant!
+The claim multiplies the category allocation by both ratios. Borrower claims use one ratio instead: the user's accumulated Borrow Points divided by global Borrow Points.
 
 ### "How do I estimate my rewards?"
 

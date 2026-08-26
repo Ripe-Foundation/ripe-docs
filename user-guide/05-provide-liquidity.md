@@ -39,6 +39,6 @@ If that deposit box shows "Your balance: -", it means you don't hold the token y
 
 **Step 5.** When this position is configured for RIPE rewards, its entitlement accrues and appears on your dashboard. Claiming runs through the [claim dialog described in the next guide](06-get-and-lock-ripe.md#how-claiming-rewards-applies-a-lock). The configured auto-stake portion receives a reward lock, and **Stake All** can deposit the full claim. Read that section before you claim for the first time.
 
-A note on the yield numbers you'll see: young pools show very high rates because deposits are still small, and those rates come down as the pool grows.
+A note on the yield numbers you'll see: displayed rates are estimates, not fixed returns. They can move in either direction as activity, rewards, asset prices, pool liquidity, and protocol configuration change.
 
 Next: [Get RIPE and lock it](06-get-and-lock-ripe.md).

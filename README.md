@@ -96,7 +96,7 @@ Deposit eligible liquidity into a shared vault. When configured Stock Tokens or 
 
 Eligible activity can accrue RIPE when its reward category, rate, and allowance are configured.
 
-* **Allowance-capped distribution** — RIPE is minted when accrued rewards are claimed
+* **Allowance-capped participant distribution** — Ordinary participant RIPE is minted when accrued rewards are claimed
 * **Configurable categories** - Borrower, staker, depositor, and voter allocations
 * **Auto-staking** - A configured share of a claim can be deposited into governance
 
@@ -148,7 +148,7 @@ Protocol-owned treasury for configured yield, liquidity, and peg-support operati
 
 #### 🔮 [Price Oracles: Accurate Asset Valuation](core-protocol/06-price-oracles.md)
 
-Multi-oracle system ensuring fair and manipulation-resistant pricing.
+Ordered, fail-closed asset pricing with configurable fallback.
 
 * **Configurable source adapters** - External feeds, market pools, and derived-asset pricing
 * **Ordered fallbacks** - Uses the first configured source that returns a valid price

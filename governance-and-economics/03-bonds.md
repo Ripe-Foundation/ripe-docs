@@ -57,7 +57,7 @@ End of Epoch → Lower Price → More RIPE per Dollar
 
 This creates interesting dynamics:
 
-* **Early birds** get certainty of availability
+* **Earlier buyers** may encounter more remaining capacity, but every purchase still depends on the live checks above
 * **Patient buyers** receive better prices
 * **Market forces** determine actual demand
 * **Transparent pricing** visible to all participants
@@ -175,7 +175,7 @@ _James bonds 10,000 USDC with moderate lock_
 
 ## Understanding Bad Debt Mechanics
 
-When protocol liquidations create bad debt, bonds serve as a recovery mechanism:
+When governance has recorded protocol bad debt, bonds can serve as a recovery mechanism:
 
 **How Bond Purchases Work During Bad Debt:**
 

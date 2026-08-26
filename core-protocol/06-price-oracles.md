@@ -6,7 +6,7 @@ description: The Truth About Your Money
 
 One bad price feed can destroy a protocol. Positions liquidated on fake spikes. Exploits draining millions. Users losing everything to a malicious update.
 
-Ripe doesn't rely on any single source. We check configured source adapters in priority order — taking the first usable price. If one source reverts, returns malformed data, or cannot provide a usable price, the Price Desk isolates that result and continues to later sources.
+Ripe routes across registered price-source adapters in configured priority order and returns the first usable price. If an earlier source reverts, returns malformed data, or cannot provide a usable price, the Price Desk isolates that result and continues to later sources. An asset's available sources depend on deployment configuration, so a particular asset may have only one usable source.
 
 Which adapters are registered, their priority, and their asset coverage vary by deployment and governance configuration. See [RIPE Params](https://params.ripe.finance) for current onchain settings.
 
@@ -26,9 +26,9 @@ Every critical protocol operation depends on accurate pricing:
 
 With so much at stake, we've built a pricing system that's both robust and transparent.
 
-## The Multi-Oracle Advantage
+## Ordered Oracle Routing
 
-Instead of relying on a single price feed, Ripe routes across configured price-source adapters:
+When multiple adapters cover an asset, Ripe routes across them in configured order:
 
 ```
 Asset Price Request Flow:
@@ -41,7 +41,7 @@ Price Desk (Ordered Router)
 2. If no usable price, check the remaining registered source IDs
 3. Return the first usable nonzero price
     ↓
-Accurate USD Value
+First Usable USD Value
 ```
 
 This design provides several benefits:
@@ -73,7 +73,7 @@ Direct pricing from the largest stablecoin liquidity pools:
 * **Coverage**: Stablecoins, Curve LP tokens, GREEN pairs
 * **Reliability**: Based on actual tradeable liquidity
 * **Special Feature**: Monitors GREEN's peg in real-time
-* **Trust Model**: On-chain AMM state, manipulation-resistant
+* **Trust Model**: On-chain AMM state with adapter-specific validation and pool-liquidity risk
 
 **Critical for GREEN Stability**: The Curve price feed maintains the configured Green Reference Pool data that directly impacts [dynamic interest rates](02-borrowing.md#dynamic-interest-rates). Each qualifying interval uses the lower GREEN ratio from two consecutive observations, weights that interval by duration, and excludes excessive gaps or stale history. This makes the rate input depend on sustained recorded conditions rather than one isolated observation.
 
@@ -197,7 +197,7 @@ Oracle additions, priority changes, feed updates, and emergency controls follow 
 * Ordered fallback across configured sources
 * Isolated source calls so one failure does not mask a later healthy source
 * Strict valuation fails closed when no source establishes a usable value
-* Pause functionality for compromised feeds
+* Governance-controlled feed and adapter disable or replacement paths
 * Fund recovery for stuck update fees
 * Governance override capabilities
 

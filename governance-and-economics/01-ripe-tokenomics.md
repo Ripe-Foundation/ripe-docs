@@ -147,7 +147,7 @@ These early supporters bring diverse perspectives from across DeFi, helping guid
 Ripe's underlying vesting and Contributor schedules are enforced onchain. The additional one-year commitments described above are holder obligations layered on top. An applicable onchain position:
 
 * **Automatically calculates** vested tokens using linear formulas
-* **Allows cashing** vested-but-uncashed RIPE after vesting begins, even before the cancellation cliff
+* **Allows cashing** vested-but-uncashed RIPE after vesting begins, even before the cancellation cliff, when the Contributor contract is not frozen and the route's other checks pass
 * **Deposits cashed RIPE** into the current core governance vault using the stored duration, clamped to that vault's live lock bounds
 * **Enforces contract terms** without manual vesting calculations
 
@@ -163,7 +163,7 @@ Tokens vest continuously as elapsed time advances.
 
 **2. Claiming Tokens**
 
-* Contributors can cash vested RIPE after vesting begins; the cancellation cliff is not a claim gate
+* Contributors can cash vested RIPE after vesting begins when the contract is not frozen and the route's other checks pass; the cancellation cliff is not a claim gate
 * Cashed tokens are minted and deposited into the current core [Governance Vault](02-governance.md)
 * Governance points accrue only when enabled and the position is eligible
 
@@ -184,7 +184,7 @@ Every vesting contract is visible onchain, allowing anyone to verify:
 * Exact unlock dates
 * No hidden terms or backdoors
 
-The protocol can freeze contracts in emergencies but cannot steal vested tokens. If someone leaves early, unvested tokens return to treasury while vested amounts remain claimable—ensuring fairness for all parties.
+The protocol can freeze a Contributor contract, which prevents cashing while the freeze remains active. Cancellation follows the contract's cliff-specific logic: unclaimed compensation can be forfeited, and cancellation before the cliff can withdraw and burn the Contributor's governance-vault position. The onchain schedule, claimed amount, freeze state, and cancellation state determine which contract actions remain available.
 
 _For deep technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/contributor)_._
 

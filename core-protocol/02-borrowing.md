@@ -286,11 +286,11 @@ Ripe implements several limits to ensure sustainable growth:
 * Equal limits for all users
 * Can be updated by governance
 
-**3. Global Debt Limit**
+**3. Global Borrower-Debt Limit**
 
-* System-wide GREEN supply cap
-* Prevents unlimited minting
-* Protects protocol stability
+* Limits additional CreditEngine borrowing based on aggregate borrower debt
+* Does not cap total GREEN supply or other authorized mint paths
+* Can be updated through protocol configuration
 
 **4. Interval Borrowing Limits**
 

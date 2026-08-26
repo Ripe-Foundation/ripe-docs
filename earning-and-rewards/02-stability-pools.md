@@ -119,6 +119,8 @@ When claiming, you specify:
 
 Each result is capped by shares, claim custody, the requested maximum, and usable pricing. A batch is atomic and must transfer value for at least one requested asset.
 
+For Stock Tokens, passing protocol access and recipient checks does not establish eligibility under issuer terms; see [Stock Tokens as Collateral](../core-protocol/03-collateral-assets.md#stock-tokens-as-collateral).
+
 **Delegation**: Others can claim on your behalf if you've granted `canClaimFromStabPool` permission in your delegation settings. This enables automated claim strategies.
 
 #### Claim Incentives: Keeping Pools Healthy

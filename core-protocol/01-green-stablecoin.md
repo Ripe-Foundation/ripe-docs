@@ -56,14 +56,7 @@ Supported Stock Tokens and other eligible non-Stability collateral across your p
 
 ### Complementary, Not Competitive
 
-While these other lending protocols have borrowing limitations, they excel at generating yield — and Ripe turns their yield-bearing tokens into powerful collateral. Instead of choosing between earning yield OR borrowing, you can do both:
-
-* **Aave aTokens**: Earn lending yield while using as Ripe collateral
-* **Compound cTokens**: Your supplied assets keep compounding
-* **Morpho positions**: Optimized rates become productive collateral
-* **Maker sDAI**: Savings rate continues while backing GREEN loans
-
-The best strategy? Lend on these protocols for yield, then use those yield-bearing positions as collateral on Ripe. You get their yields AND our capital efficiency — truly the best of both worlds.
+When a yield-bearing token and its Ripe vault path are supported and configured, its underlying economics can continue while it serves as collateral. Examples can include lending-market tokens, vault shares, and savings-rate tokens from integrations such as Aave, Compound, Morpho, or Maker. Support is asset- and deployment-specific; see [RIPE Params](https://params.ripe.finance) for current configuration.
 
 ### Built for the Entire Ecosystem
 
@@ -120,7 +113,9 @@ Single Loan, Single Interest Rate, All Assets Working Together
 
 The assets and values above are illustrative. See [RIPE Params](https://params.ripe.finance) for current asset support and configuration.
 
-Borrowing is not the only mint path. A successful borrow also realizes previously accrued system interest and mints that amount for configured revenue allocation. Separately controlled paths can mint GREEN against PSM reserves or for authorized Endaoment liquidity operations, with their own reserve, debt-ceiling, permission, and interval controls.
+Borrowing is not the only mint path. A successful borrow also realizes previously accrued system interest and mints that amount for configured revenue allocation. Other authorized mint paths use different controls: the PSM mints against received reserve assets under its conversion controls; the Endaoment stabilizer can mint GREEN as recorded pool debt up to its configured ceiling; and partner-liquidity minting is separately authorized and bounded by received partner-asset custody and usable oracle value.
+
+Productive liquidation calls can also mint a bounded keeper reward: the keeper fee is added to borrower debt, and GREEN is minted to the keeper directly or wrapped into sGREEN.
 
 ### Destruction Through Repayment
 
@@ -130,7 +125,7 @@ Standard repayment burns the GREEN applied to debt:
 2. **Burn Forever**: GREEN is permanently destroyed
 3. **Reduce Debt**: Repayment can restore withdrawal capacity; withdrawing collateral is a separate permitted operation
 
-Other configured routes can also burn GREEN, including redemption, Stability settlement, and Endaoment operations. Total supply therefore reflects borrowing, realized interest, reserve and liquidity operations, repayment, and the other authorized mint-and-burn paths described on this page.
+Other configured routes can also burn GREEN, including redemption, Stability settlement, and Endaoment operations. Total supply therefore reflects borrowing, realized interest, keeper rewards, reserve and liquidity operations, repayment, and the other authorized mint-and-burn paths described on this page.
 
 Standard repayment returns any payment above the live debt to the payer. A full payoff does not need to traverse or reprice the borrower's collateral, so repayment remains the recovery path when a nonzero-LTV position causes valuation quarantine, subject to the normal repayment controls. If a partial repayment cannot derive eligible replacement terms, the stored debt terms are preserved.
 
@@ -242,7 +237,7 @@ The [Endaoment](07-endaoment.md) serves as GREEN's financial fortress — a prot
 
 **Capital Arsenal from Bond Sales**:
 
-* Bond proceeds provide stablecoin reserves for immediate deployment
+* Bond proceeds transfer the configured payment asset to EndaomentFunds treasury custody for later authorized use
 * Treasury assets can be deployed through authorized DeFi operations
 * Available resources depend on bond activity, treasury performance, existing custody, and authorized execution
 
@@ -331,7 +326,7 @@ Bottom line: when configured and available, the PSM supplies another arbitrage p
 
 ### Bad Debt Resolution
 
-If bad debt exists during a [bond](../governance-and-economics/03-bonds.md) purchase, the oracle-valued payment can clear bad debt up to that value. The corresponding RIPE payout is accounted outside ordinary bond-distribution usage, but authorized cap administration must count it separately toward RIPE's protocol-wide 1 billion-token cap across all blockchains.
+If recorded bad debt exists during a [bond](../governance-and-economics/03-bonds.md) purchase, the oracle-valued payment can clear recorded bad debt up to that value. The corresponding RIPE payout is accounted outside ordinary bond-distribution usage, but authorized cap administration must count it separately toward RIPE's protocol-wide 1 billion-token cap across all blockchains.
 
 ### Protocol-Wide Integration
 
@@ -345,7 +340,7 @@ If bad debt exists during a [bond](../governance-and-economics/03-bonds.md) purc
 
 * Permissionless keepers can monitor positions and submit eligible liquidation calls; monitoring coverage and timing are not guaranteed
 * Trigger liquidations when positions become unsafe
-* Productive keeper calls can earn a configured, bounded reward paid in GREEN
+* Productive keeper calls can earn a configured, bounded reward minted as GREEN directly or wrapped into sGREEN
 * Minimizes bad debt through rapid liquidation execution
 
 ## GREEN Throughout Ripe Protocol

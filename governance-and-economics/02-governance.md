@@ -56,8 +56,8 @@ Stored Points = Previous Stored Points + New Points
 
 The vault offers dramatic bonuses for longer commitments:
 
-| Lock Duration     | Bonus Multiplier | Effective APY Boost |
-| ----------------- | ---------------- | ------------------- |
+| Lock Duration     | Bonus Multiplier | Point Accrual Multiplier |
+| ----------------- | ---------------- | ------------------------ |
 | 1 day (minimum)   | 0%               | 1x points           |
 | 3 months          | \~15%            | 1.15x points        |
 | 6 months          | \~35%            | 1.35x points        |
@@ -100,7 +100,7 @@ Need liquidity urgently? Early release may be available under the configured loc
 * **Another Holder Required**: Early release is unavailable when the user owns all shares for that asset
 * **Release, Then Withdraw**: Release clears the lock; withdrawal is a separate action
 * **Point Accounting**: Released shares reduce future accrual, but release does not instantly erase every stored point
-* **Smart Protection**: System prevents exits during bad debt (when you couldn't withdraw anyway)
+* **Configured Bad-Debt Freeze**: When enabled, recorded protocol bad debt prevents release and withdrawal
 
 **Example**: With an 80% configured fee, releasing a 10,000 RIPE-equivalent live claim leaves approximately 2,000 RIPE-equivalent before share rounding and later withdrawal checks.
 

@@ -73,7 +73,7 @@ Stock Tokens are not intrinsically permissioned or assigned to a particular liqu
 
 ### Pricing and Corporate Actions
 
-Ripe values a Stock Token through the first usable source in its configured price-source order. A configured Stock Token feed must return the token-level USD price with the applicable corporate-action adjustment already incorporated. Ripe consumes that price once and does not independently read or apply `uiMultiplier()`. The nominal token units credited by Ripe do not change when that multiplier changes; the adjusted feed price changes the value and share-equivalent exposure represented by those units.
+Ripe values a Stock Token through the first usable source in its configured price-source order. A configured Stock Token feed must return the already multiplier-adjusted USD price per token, which Ripe consumes once without independently reading or applying `uiMultiplier()`. The nominal token units credited by Ripe remain unchanged. Separately, `uiMultiplier()` expresses the share-equivalent units represented by those tokens for display purposes; Ripe does not use it in valuation.
 
 Reference-market closures do not create a separate pricing mode inside Ripe. See [Stock-Market Hours and Price Gaps](06-price-oracles.md#stock-market-hours-and-price-gaps) for how freshness, fallback, quarantine, and reopening gaps interact.
 
@@ -152,14 +152,14 @@ Each supported asset is assigned to a configured vault whose accounting matches 
 
 * Share-based accounting preserves yields
 * Compound earnings while deposited
-* No opportunity cost from collateralization
+* Underlying economics can continue when supported, subject to the asset's vault, custody, and market risks
 
 Deposits and withdrawals must deliver the amount the vault accounts for. An underbacked position provides no usable collateral value and, when it has nonzero LTV and debt remains, can quarantine the account until backing recovers or the debt is repaid.
 
 **Special Purpose Vaults**
 
 * [**Ripe Gov Vault**](../governance-and-economics/02-governance.md): Lock RIPE tokens for governance power
-* [**Stability Pools**](../earning-and-rewards/02-stability-pools.md): Earn from liquidations with sGREEN/LP tokens
+* [**Stability Pools**](../earning-and-rewards/02-stability-pools.md): Participate in configured liquidation settlement with sGREEN or eligible LP tokens
 * **Future Vaults**: Non-fungible and other assets requiring specialized custody or accounting
 
 Positions in any vault classified as a Stability vault are excluded from borrowing collateral terms.
@@ -276,7 +276,7 @@ Third-party deposit, repayment, and bond permissions are disabled by default. Ri
 
 * **Account-wide rights**: `canAnyoneDeposit`, `canAnyoneRepayDebt`, and `canAnyoneBondForUser`
 * **Delegate rights**: `canWithdraw`, `canBorrow`, `canClaimFromStabPool`, and `canClaimLoot`
-* **Full Flexibility**: Revoke permissions anytime
+* **Permission Management**: Update or revoke permissions through Teller while that route is available and unpaused
 * **Smart Wallet Compatible**: Works with Underscore smart wallets, including those used by Hightop for agent-managed accounts
 
 Use cases:
@@ -316,7 +316,7 @@ The applicable controls come from the specific token and protocol configuration;
 
 * **One position** instead of many to manage
 * **Cross-collateralization** maximizes borrowing power
-* **Lower liquidation risk** through diversification
+* **Diversification can reduce concentration risk**, while every asset remains exposed to account-level settlement
 * **Optimized parameters** for each asset type
 
 ## The Power of True Portfolio Lending

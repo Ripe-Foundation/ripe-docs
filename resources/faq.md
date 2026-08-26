@@ -101,7 +101,7 @@ No separate reward claim is needed; when configured revenue is transferred to th
 
 ### How do I earn RIPE rewards?
 
-[RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) accrue from a configured, allowance-capped rate across eligible categories and assets. RIPE is minted when claimed, and a configured claim portion can be deposited into the current core governance vault with a reward lock. See [RIPE Params](https://params.ripe.finance) for current settings.
+[RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) accrue from a configured, allowance-capped rate across eligible categories and assets. Ordinary participant RIPE is minted when claimed, and a configured claim portion can be deposited into the current core governance vault with a reward lock. The same allowance can also fund the separately authorized distribution paths described in the rewards guide. See [RIPE Params](https://params.ripe.finance) for current settings.
 
 ## GREEN Stability
 
@@ -258,7 +258,7 @@ Ripe's [Price Desk](../core-protocol/06-price-oracles.md) checks configured prio
 
 ### How does Ripe handle bad debt?
 
-Conservative collateral terms, redemption, deleverage, [liquidation](../core-protocol/04-liquidations.md), and funded [Stability pools](../earning-and-rewards/02-stability-pools.md) reduce bad-debt risk. Qualifying [bond](../governance-and-economics/03-bonds.md) payments can also clear outstanding bad debt up to their oracle value; the associated RIPE still counts toward the protocol-wide 1 billion-token cap.
+Conservative collateral terms, redemption, deleverage, [liquidation](../core-protocol/04-liquidations.md), and funded [Stability pools](../earning-and-rewards/02-stability-pools.md) reduce bad-debt risk. Qualifying [bond](../governance-and-economics/03-bonds.md) payments can also clear recorded bad debt up to their oracle value; the associated RIPE still counts toward the protocol-wide 1 billion-token cap.
 
 ### What happens in a market crash?
 
