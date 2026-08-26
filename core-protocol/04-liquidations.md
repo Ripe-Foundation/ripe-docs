@@ -140,7 +140,7 @@ $10,000                    $8,571      $7,792     $7,500      $0
 
 * Redemption threshold breached (77%)
 * GREEN holders can redeem your collateral
-* Acts as automatic deleveraging
+* Reduces debt when an eligible redemption is submitted
 
 **🔴 Zone 4: Liquidation** (Collateral ≤ $7,500)
 

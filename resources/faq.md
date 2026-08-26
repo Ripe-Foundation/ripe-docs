@@ -60,7 +60,7 @@ If debt-bearing collateral has no usable price or backing, the account enters va
 
 ### What's the difference between redemption and liquidation?
 
-**Redemption** is a separate path in which GREEN can be exchanged for eligible collateral using a $1 debt-value input. It can remain available below the liquidation threshold until a liquidation episode begins.
+**Redemption** is a separate path in which GREEN can be exchanged for eligible collateral using a $1 debt-value input. Crossing the liquidation threshold does not itself stop redemption; it remains available until the account enters `inLiquidation`, subject to the normal eligibility and valuation checks.
 
 **Liquidation** becomes available at the liquidation threshold, includes configured fees, and can use Stability settlement or auctions. See [Liquidations](../core-protocol/04-liquidations.md).
 
