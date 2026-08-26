@@ -8,13 +8,13 @@ Getting liquidated sucks. The fees, the forced selling, the stress.
 
 But what if you could reduce your debt before things get ugly? That's what deleveraging does. Sell some collateral, pay down debt, stay in control. No liquidation penalties. No keeper fees. Just a rational way to manage risk.
 
-Even better: if you're using Ripe's stability pools, the protocol can automatically burn your GREEN or sGREEN to reduce your debt. Your own assets, used to protect your own position.
+Even better: configured deleverage routes can consume eligible assets already deposited in Ripe. An eligible sGREEN Stability position can be redeemed to GREEN and burned, while supported stable-side collateral can be transferred for debt credit. Paying GREEN from a wallet is standard repayment instead; GREEN is not an ordinary Stability deposit.
 
 ## Quick Overview
 
 **What is Deleverage?**
 
-Deleveraging is the voluntary (or protocol-assisted) sale of collateral to reduce debt. Unlike liquidation, it happens before you reach the danger zone and carries no penalties.
+Deleveraging is the voluntary (or protocol-assisted) use of eligible deposited assets to reduce debt. Unlike liquidation, it can happen before you reach the danger zone and carries no liquidation penalties.
 
 If a debt-bearing collateral balance has no usable price or is nominally present in a vault with no usable backing, the account is quarantined and ordinary deleverage routes decline it. Standard GREEN repayment remains available while pricing or backing is restored.
 
@@ -54,14 +54,13 @@ Broad deleverage evaluates authorization separately for each account; authority 
 
 When deleveraging occurs, assets are processed in priority order:
 
-**Phase 1: Stability Pool Assets**
+**Phase 1: Eligible Stability Positions**
 
-Your assets in stability pools are used first:
+Eligible positions in Stability vaults are considered first when their configured route is available:
 
-* **GREEN deposits**: Burned directly to reduce your debt
-* **sGREEN deposits**: Redeemed to GREEN, then burned
-* No slippage, no fees, no market impact
-* Most efficient form of debt repayment
+* **sGREEN positions**: Eligible sGREEN can be redeemed to GREEN, then burned to reduce debt
+* **Other configured Stability assets**: Used only when their asset configuration supplies an eligible deleverage route
+* **Wallet GREEN**: Repaid through the standard repayment flow, not treated as a Stability deposit or collateral-based deleverage asset
 
 Unavailable Stability liquidity is skipped instead of blocking the broader deleverage route.
 
@@ -80,22 +79,24 @@ You can specify exactly which assets to deleverage:
 The owner, an approved protocol caller, or a `canBorrow` delegate can choose the asset order. Underscore registration alone does not authorize another user's account.
 
 ```
-Example: Deleverage with Specific Assets
+Hypothetical example: preserve a Stock Token with specific assets
 
 You have:
-- 10,000 USDC ($10,000)
-- 5 ETH ($15,000)
-- 1,000 sGREEN ($1,000)
+- Stock Token A ($15,000)
+- Eligible stable-side collateral ($10,000)
+- An eligible sGREEN Stability position ($1,000)
 
 Debt: $12,000
 
 You choose to deleverage with:
 1. sGREEN first ($1,000 debt reduction)
-2. USDC second ($10,000 debt reduction)
-3. Keep all ETH
+2. The stable-side asset second ($10,000 debt reduction)
+3. Preserve Stock Token A
 
-Result: $1,000 debt remaining, all ETH preserved
+Result: $1,000 debt remaining and Stock Token A preserved
 ```
+
+That outcome depends on the selected assets and routes being eligible and the account holding enough of those assets. If you instead repay with GREEN from your wallet, standard repayment can reduce the debt without consuming deposited collateral; that is a separate path.
 
 ## Using [Underscore](https://underscore.finance/) Vaults?
 
@@ -155,7 +156,7 @@ Smart borrowers:
 
 1. Monitor their position health
 2. Set up delegation for automated protection
-3. Use stability pools for instant debt reduction
+3. Keep eligible sGREEN or stable-side collateral available for configured debt-reduction routes
 4. Deleverage proactively rather than reactively
 
 The protocol doesn't penalize you for managing your risk. It rewards it with zero-fee debt reduction using your own assets.

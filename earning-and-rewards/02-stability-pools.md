@@ -116,7 +116,7 @@ After liquidations, you can claim your proportional share of accumulated collate
 
 When claiming, you specify:
 1. **Stability Pool Asset**: Which of your deposited assets to use (sGREEN or GREEN LP)
-2. **Claim Asset**: Which liquidated collateral you want to receive (ETH, WBTC, etc.)
+2. **Claim Asset**: Which available liquidated collateral you want to receive (a configured Stock Token, ETH, WBTC, etc.)
 3. **Maximum USD Value**: Cap on how much to claim (or max for full claim)
 
 Each result is capped by shares, claim custody, the requested maximum, and usable pricing. A batch is atomic and must transfer value for at least one requested asset.
@@ -141,6 +141,7 @@ This can support GREEN-market arbitrage while changing the cohort's custody and 
 
 Over time, stability pools accumulate diverse collateral types:
 
+* Configured Stock Tokens from compatible Stock Token-backed liquidations
 * ETH from liquidated Ethereum positions
 * cbBTC from Bitcoin-backed loans
 * Various DeFi tokens from other collateral types

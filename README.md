@@ -1,12 +1,12 @@
 ---
-description: One Loan. Every Asset. Maximum Power.
+description: Borrow GREEN against supported Stock Tokens in one unified position.
 ---
 
-# Ripe Protocol: One Loan. Every Asset. Maximum Power.
+# Ripe Protocol: Borrow Against Stock Tokens
 
-DeFi lending works great — if you're willing to manage five different vaults. But most people aren't. Five vaults for five assets isn't how people think about their wealth. Your tokenized stocks? Worthless as collateral. Your yield-bearing tokens? Just sitting there, unused.
+Stock-market exposure is moving onchain. Ripe makes it useful: deposit supported Stock Tokens, borrow GREEN without selling them at origination, and keep their economic exposure while your position remains healthy.
 
-Ripe simplifies everything. Eligible collateral configured with borrowing power across your portfolio can back ONE loan. Finally, borrowing that understands what a portfolio actually is.
+Supported Stock Tokens can join other eligible collateral in ONE unified loan. Redemption, deleverage, or liquidation can transfer collateral and reduce or eliminate that exposure, so position health still matters.
 
 These docs explain how Ripe's components work. Supported assets, parameters, and optional feature availability vary by deployment; use [RIPE Params](https://params.ripe.finance) for current onchain configuration.
 
@@ -14,27 +14,26 @@ These docs explain how Ripe's components work. Supported assets, parameters, and
 
 ## The Problem: DeFi Thinks Your Assets Live in Silos
 
-**Isolated Vaults** (MakerDAO, Liquity) ETH in one vault. WBTC in another. Five assets? Five loans. Five liquidation risks. It's 2025 and we're still pretending portfolios don't exist.
+**Isolated Vaults** (MakerDAO, Liquity) One asset in one vault. Another asset in another. Five assets? Five loans. Five liquidation risks. We're still pretending portfolios don't exist.
 
 **Shared Risk Pools** (Aave, Compound)\
-Your ETH backs someone else's degen trade. Their bad debt? Your problem. Oh, and forget about using tokenized stocks or treasury bills.
+Your collateral backs someone else's degen trade. Their bad debt? Your problem. Oh, and forget about using Stock Tokens alongside the rest of your portfolio.
 
 **"Innovation" That Isn't** (Morpho, Euler) Slightly better rates. Same old isolation. Each market fragments liquidity further. The future looks exactly like the past.
 
 ## The Ripe Solution: Unified Multi-Collateral Lending
 
 ```
-Your Portfolio:              Traditional:           Ripe:
-┌─────────────┐             ┌─────────────┐       ┌─────────────┐
-│ 5 ETH       │ ──────────> │ ETH Loan #1 │       │             │
-│ 2 WBTC      │ ──────────> │ WBTC Loan #2│       │  ONE LOAN   │
-│ 10K USDC    │ ──────────> │ USDC Loan #3│  ───> │  GREEN      │
-│ RWA tokens  │ ──────────> │ Can't use   │       │  Eligible   │
-│ T-bills     │ ──────────> │ Can't use   │       │  Assets     │
-└─────────────┘             └─────────────┘       └─────────────┘
-                            5 positions to          1 unified
-                            manage, limited         position,
-                            assets                  everything works
+Your Supported Collateral:  Traditional:           Ripe:
+┌──────────────┐            ┌──────────────┐      ┌─────────────┐
+│ Stock Tokens │ ─────────> │ Stock loan   │      │             │
+│ ETH          │ ─────────> │ ETH loan     │      │  ONE LOAN   │
+│ Stablecoins  │ ─────────> │ Stable loan  │ ───> │  GREEN      │
+│ Yield tokens │ ─────────> │ Yield loan   │      │  Eligible   │
+│ Other assets │ ─────────> │ Other loan   │      │  Collateral │
+└──────────────┘            └──────────────┘      └─────────────┘
+                            Separate positions     1 unified
+                            to manage              position
 ```
 
 ***
@@ -46,10 +45,10 @@ Your Portfolio:              Traditional:           Ripe:
 USDC sits there. DAI does nothing. GREEN? It's working.
 
 * **Mint it** by borrowing against supported collateral configured with borrowing power
-* **Stays at $1** through five mechanisms that actually work
+* **Targets $1** — Six complementary mechanisms can support the peg, but none guarantees GREEN's market price
 * **Burns on repayment** — no infinite supply games
 
-#### 💰 [Borrowing: Your Whole Portfolio, One Loan](core-protocol/02-borrowing.md)
+#### 💰 [Borrowing Against Stock Tokens and Your Portfolio](core-protocol/02-borrowing.md)
 
 Stop juggling vaults. Stop wasting collateral. Just borrow.
 
@@ -57,12 +56,13 @@ Stop juggling vaults. Stop wasting collateral. Just borrow.
 * **Smart rates** — Sustained reference-pool imbalance can add a capped rate adjustment
 * **Targeted liquidations** — Limited shortfalls may produce a partial target; severe shortfalls can produce a full-debt target and exhaust eligible collateral without fully clearing the debt
 
-#### 🏦 [Collateral Assets: Everything Has Value](core-protocol/03-collateral-assets.md)
+#### 🏦 [Collateral Assets: Stock Tokens and More](core-protocol/03-collateral-assets.md)
 
-From stablecoins to tokenized stocks, from blue-chip crypto to your favorite PFP — supported assets with borrowing power can back your loan.
+Supported Stock Tokens can back GREEN alongside other eligible collateral, all in one position.
 
-* **Unified positions** - Eligible assets support one loan
-* **Weighted terms** - Each asset contributes its best LTV
+* **Borrowing against Stock Tokens** - Access GREEN without selling supported Stock Tokens at origination
+* **Unified positions** - Supported Stock Tokens and other eligible assets can back one loan
+* **Weighted terms** - Each asset's borrowing power contributes to the position's weighted terms
 * **Extensible vaults** - Support for future asset types
 
 #### 🛡️ [Liquidations: Protection Through Innovation](core-protocol/04-liquidations.md)
@@ -189,10 +189,11 @@ Ripe: "Why not both?"
 
 Have questions? Check our comprehensive [**FAQ**](resources/faq.md) for answers to:
 
+* Can I borrow against Stock Tokens without selling them?
+* What happens to Stock Tokens when their reference markets are closed?
+* Can redemption or liquidation transfer my Stock Tokens?
 * How is GREEN different from DAI or USDC?
 * What happens during liquidations?
-* How are RIPE rewards calculated?
-* What makes Ripe's multi-collateral system unique?
 * How does sGREEN generate yield?
 * And much more...
 
@@ -214,9 +215,9 @@ Swap to sGREEN. Close laptop. Come back richer. That's it.\
 Someone else overleveraged? Their loss, your gain. Stability pools turn liquidations into profit.\
 **→** [**Join the Pools**](earning-and-rewards/02-stability-pools.md)
 
-### 🎯 **The Power Move**: One Loan to Rule Them All
+### 🎯 **The Stock Move**: Borrow Without Selling at Origination
 
-Eligible tokenized shares + ETH + treasury bills + that yield position = One massive loan. Finally.\
+Supported Stock Tokens + other eligible collateral = one unified GREEN loan. Keep the tokens' economic exposure while they remain in a healthy position.\
 **→** [**Start Borrowing**](core-protocol/02-borrowing.md)
 
 ### 🏗️ **The Long Game**: Lock RIPE, Run the Protocol
@@ -243,17 +244,13 @@ Governance power grows with time. Lock today, control tomorrow.\
 
 ***
 
-## The Real Vision: Unlocking $16 Trillion
+## The Real Vision: Put Tokenized Value to Work
 
-Here's what matters: By 2030, $16 trillion in real-world assets will be tokenized. Stocks. Real estate. Gold. Treasury bills.
+Bringing stock-market exposure onchain is only the first step. Ripe is built so supported Stock Tokens can do more than sit in a wallet: they can back GREEN liquidity alongside other eligible collateral.
 
-Traditional DeFi can't handle them. Too risky. Too different. Too complicated.
+Stock Tokens are the focus. The same extensible architecture can support other tokenized real-world assets as compatible assets, pricing, and risk controls emerge.
 
-Ripe was built for this moment. When your tokenized Tesla shares are as easy to borrow against as your ETH. When that tokenized apartment in São Paulo unlocks liquidity for its owner. When a farmer in Guatemala can finally access capital using tokenized land.
-
-Every other protocol is fighting over the same $500B in crypto. We're building for the $16 trillion that's coming.
-
-One loan. Every asset. The future of finance.
+One position. Supported Stock Tokens and other eligible collateral. Liquidity without an origination sale.
 
 Welcome to lending that actually makes sense.
 

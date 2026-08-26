@@ -93,7 +93,7 @@ Your position's safety depends on three key thresholds that work together to cre
 **2. Redemption Threshold**
 
 * Early warning system before liquidation
-* GREEN holders can redeem against your position
+* GREEN holders can redeem against eligible collateral when the position, asset, and recipient checks pass
 * Provides market-based deleveraging opportunity
 * Varies by asset and deployment configuration
 * Example: At an assumed 77% threshold, GREEN is treated as a $1 debt-value input and oracle prices size the eligible collateral
@@ -139,7 +139,7 @@ $10,000                    $8,571      $7,792     $7,500      $0
 **🟠 Zone 3: Redemption** (Collateral $7,792 - $7,500)
 
 * Redemption threshold breached (77%)
-* GREEN holders can redeem your collateral
+* GREEN holders can redeem eligible collateral when redemption is enabled and all checks pass
 * Reduces debt when an eligible redemption is submitted
 
 **🔴 Zone 4: Liquidation** (Collateral ≤ $7,500)
@@ -156,11 +156,11 @@ _For a detailed explanation of how these thresholds work together, see_ [_Unders
 
 ### Your First Line of Defense
 
-Before liquidation becomes possible, the redemption mechanism provides a unique protective buffer. When your position enters the redemption zone:
+Before liquidation becomes possible, the redemption mechanism can provide a protective buffer. When redemption is enabled and your position enters the redemption zone:
 
 * **GREEN is treated as a $1 debt-value input** while oracle pricing and actual vault delivery determine the collateral amount and debt credit
 * **No discount applied** - fair value exchange protects you from penalties
-* **Reduces your debt** automatically as collateral is redeemed
+* **Reduces your debt** when an eligible redemption transaction succeeds
 * **May prevent liquidation** by improving your position health
 
 Each redemption is capped by the debt reduction needed to reach the account's target based on its lowest applicable LTV and configured buffer. It does not proceed while the borrower is in liquidation or valuation quarantine, or when the borrower address is registered as an Underscore Earn vault.
@@ -177,18 +177,29 @@ If a debt-bearing collateral balance has no usable price or is nominally present
 
 AuctionHouse liquidation and ordinary credit redemption also skip a borrower address registered as an Underscore Earn vault. This exception follows the borrower address; it does not apply to an ordinary user merely because that user deposited an Earn-vault share as collateral.
 
+### Stock Token Collateral Follows Configured Paths
+
+A Stock Token does not receive a redemption or liquidation route merely because it is a Stock Token. Asset and deployment configuration independently determine which paths and recipient controls apply:
+
+* **Before liquidation**: Direct redemption can transfer a Stock Token only when redemption is enabled for the position and asset and the recipient passes the applicable checks. Standard GREEN repayment and eligible [deleverage](05-deleverage.md) remain separate ways to reduce debt.
+* **At the liquidation threshold**: Reaching the threshold makes the account eligible; it does not move the Stock Token automatically. An eligible caller must submit a liquidation transaction.
+* **After submission**: Stability settlement applies only when enabled for the Stock Token and a compatible, sufficiently funded Stability cohort can accept it. An auction applies only when enabled for that asset. Configuration can route eligible collateral through either phase as applicable.
+* **What can be lost**: A limited shortfall may consume only part of the eligible Stock Token collateral. A severe shortfall can exhaust all eligible Stock Tokens and other collateral without fully clearing the debt.
+
+Stock-market closure and feed freshness are separate from route selection. If the account cannot be valued safely, new liquidation processing waits as described in [Price Oracles](06-price-oracles.md); when usable pricing returns, eligibility is recalculated from that price and still requires a submitted transaction.
+
 ### Before Liquidation: Deleverage
 
-Before your position reaches liquidation, you have options to reduce debt with **zero penalties**:
+Before your position reaches liquidation, you have options to reduce debt without liquidation penalties:
 
-* **[Deleverage](05-deleverage.md)** your position using GREEN, sGREEN, or stablecoins
-* Burns your stability pool deposits to reduce debt directly
-* Transfers configured stable-side collateral to Endaoment and credits debt at the collateral's oracle-valued amount
+* **Repay GREEN** through the standard repayment path without consuming collateral
+* **[Deleverage](05-deleverage.md)** with eligible sGREEN or stable-side collateral when its configured route is available
+* Eligible sGREEN can be redeemed to GREEN and burned; configured stable-side collateral can be transferred to Endaoment and credited at its oracle-valued amount
 * No liquidation fees, no discounts — just debt reduction
 
-This is handled by the separate [Deleverage](05-deleverage.md) system and can be triggered by you, delegated addresses, or third parties when you're in the redemption zone.
+Standard repayment uses its own repayment path. For [Deleverage](05-deleverage.md), the owner or an authorized caller can use the specific-assets route without waiting for the redemption zone. An untrusted third party can use the broad route only once the account is in the redemption zone, subject to its health-restoration cap.
 
-**Key Point**: GREEN, sGREEN, and assets configured for Endaoment settlement are skipped by liquidation itself and handled through deleveraging. Liquidation processes assets configured for Stability settlement and/or auctions.
+**Key Point**: Wallet GREEN uses standard repayment. Assets configured to burn as payment or transfer to Endaoment can be handled through deleveraging, while liquidation processes assets configured for Stability settlement and/or auctions.
 
 ### What Happens When Liquidation Starts
 
@@ -218,12 +229,12 @@ When an eligible liquidation call is submitted after your position reaches or cr
 
 ### Phase 1: Stability Pool Swaps
 
-The protocol engages [stability pools](../earning-and-rewards/02-stability-pools.md) for instant liquidity on your volatile assets (ETH, WBTC, etc.):
+The protocol engages [stability pools](../earning-and-rewards/02-stability-pools.md) only for liquidation assets whose configuration enables this route. A Stock Token enters this phase only when a compatible, funded Stability cohort can accept it; being a Stock Token does not select the route by itself.
 
 **How Pool Swaps Work**
 
-1. Your collateral (ETH, WBTC, etc.) needs liquidation
-2. [Stability pools](../earning-and-rewards/02-stability-pools.md) hold GREEN LP tokens and [sGREEN](../earning-and-rewards/01-sgreen.md)
+1. A configured collateral asset needs liquidation
+2. A compatible [Stability pool](../earning-and-rewards/02-stability-pools.md) holds an eligible settlement asset such as [sGREEN](../earning-and-rewards/01-sgreen.md) or a supported LP position
 3. Pool assets swap for your collateral at the liquidation discount
 4. Pool participants get discounted assets, you avoid market dumps
 
@@ -242,17 +253,15 @@ Before collateral moves, the Stability vault must confirm that the settlement co
 * GREEN holders can redeem against pool collateral for peg stability
 * Flexible withdrawal lets depositors choose which assets to claim
 
-**Special Note on Permissioned Assets** For regulated assets (tokenized securities, real estate):
+**Optional Access and Recipient Controls**
 
-* Dedicated permissioned pools with whitelisted participants
-* Same swap mechanics but restricted access
-* Enforces configured participant and recipient whitelist restrictions during settlement
+Whitelists and recipient checks are independent asset configuration, not a property of every Stock Token or other tokenized asset. When configured, the relevant participant and recipient must pass those checks during settlement. A whitelist does not by itself enable Stability settlement, and a Stock Token does not inherently require a permissioned pool.
 
 _For deeper understanding of stability pool mechanics, see_ [_Stability Pools_](../earning-and-rewards/02-stability-pools.md)_._
 
 ### Phase 2: Dutch Auctions
 
-For remaining auction-enabled collateral when configured pool routes do not complete the target:
+Dutch auctions process remaining auction-enabled collateral when configured pool routes do not complete the target. A Stock Token reaches this phase only when its auction route is enabled:
 
 **Time-Based Discounts**
 
@@ -371,11 +380,11 @@ Here's what actually matters:
 
 **When you get liquidated on Ripe**: A limited shortfall may leave collateral and an active position; severe undercollateralization can consume all eligible collateral.
 
-Even better: you can [deleverage](05-deleverage.md) before liquidation even happens — using your GREEN, sGREEN, or stablecoins to pay down debt with zero penalties. That's not an option on other protocols.
+Even better: you can repay GREEN through the standard repayment path or [deleverage](05-deleverage.md) with eligible sGREEN or stable-side collateral before liquidation, potentially preserving Stock Token collateral without liquidation penalties.
 
 The protocol doesn't do this to be nice. It does it because borrowers who survive keep borrowing, keep paying interest, keep the system running. Your success is the protocol's success.
 
-So go ahead. Take that loan. You've got deleverage, redemption buffers, stability pools, and auctions watching your back.
+So go ahead. Take that loan. Standard repayment, deleverage, redemption, Stability settlement, and auctions can protect the position when their respective eligibility and configuration checks pass.
 
 ***
 

@@ -6,7 +6,7 @@ description: The Stablecoin That Works Harder.
 
 Your USDC sits there doing nothing. Your DAI requires a new vault for every asset. Your LUSD only accepts ETH.
 
-GREEN? It's built different. Mint it against eligible borrowing collateral across your portfolio — ETH, stablecoins, NFTs, and other supported assets. Earn yield automatically through [sGREEN](../earning-and-rewards/01-sgreen.md). Score liquidation profits in [stability pools](../earning-and-rewards/02-stability-pools.md). Watch six different mechanisms defend the peg while you sleep.
+GREEN? It's built different. Mint it against supported Stock Tokens and other eligible borrowing collateral across your portfolio. Earn yield automatically through [sGREEN](../earning-and-rewards/01-sgreen.md). Score liquidation profits in [stability pools](../earning-and-rewards/02-stability-pools.md). Watch six different mechanisms defend the peg while you sleep.
 
 This is what happens when you stop asking "how do we make another stablecoin?" and start asking "how should stablecoins actually work?"
 
@@ -47,12 +47,12 @@ Traditional:  ETH → DAI Position 1
               WBTC → DAI Position 2
               USDC → Can't use
 
-Ripe:         ETH + WBTC + USDC + stETH + NFTs + Eligible Assets
+Ripe:         Stock Tokens + ETH + Stablecoins + Eligible Assets
               ↓ (eligible collateral combined)
               One GREEN Loan at Weighted Terms
 ```
 
-Eligible non-Stability collateral across your portfolio — from blue-chip crypto assets to yield-bearing positions, from stablecoins to tokenized stocks — backs a single GREEN loan. This creates unmatched capital efficiency while keeping your risk isolated from other users.
+Supported Stock Tokens and other eligible non-Stability collateral across your portfolio can back a single GREEN loan. Each asset contributes according to its configured terms while your risk remains isolated from other users.
 
 ### Complementary, Not Competitive
 
@@ -99,7 +99,7 @@ GREEN isn't just another stablecoin. It's the cornerstone of Ripe Protocol:
 
 Every GREEN token represents real value locked in Ripe Protocol:
 
-1. **Deposit Collateral**: Lock any [supported asset](03-collateral-assets.md) (ETH, WBTC, stablecoins, etc.)
+1. **Deposit Collateral**: Deposit a supported [Stock Token or other eligible asset](03-collateral-assets.md)
 2. **Borrow GREEN**: Mint new GREEN against your collateral
 3. **Configured Collateralization**: Asset-specific LTV terms determine borrowing power
 4. **Pay Interest**: [Dynamic rates](02-borrowing.md#dynamic-interest-rates) that respond to market conditions
@@ -109,13 +109,12 @@ Every GREEN token represents real value locked in Ripe Protocol:
 
 ```
 Your Unified Portfolio:
-- 5 ETH worth $10,000 (70% LTV = $7,000 borrowing power)
-- 10,000 USDC (80% LTV = $8,000 borrowing power)
-- 2 cbETH worth $4,000 (70% LTV = $2,800 borrowing power)
-- 1M DEGEN worth $1,000 (40% LTV = $400 borrowing power)
-- 1 Bored Ape worth $50,000 (40% LTV = $20,000 borrowing power)
+- Stock Token A worth $10,000 (60% LTV = $6,000 borrowing power)
+- WETH worth $10,000 (70% LTV = $7,000 borrowing power)
+- A stable asset worth $10,000 (80% LTV = $8,000 borrowing power)
+- A yield position worth $4,000 (70% LTV = $2,800 borrowing power)
 
-Total Borrowing Power: $38,200 GREEN
+Total Borrowing Power: $23,800 GREEN
 Single Loan, Single Interest Rate, All Assets Working Together
 ```
 
@@ -407,7 +406,7 @@ When you need to borrow stablecoins, GREEN offers fundamental advantages:
 * No real backing = inevitable collapse
 * GREEN: Borrowing is limited by configured collateral and debt terms
 
-**The Key Difference**: GREEN is built for borrowers who want to use eligible collateral across their portfolio efficiently. Supported ETH, stablecoins, NFTs, tokenized stocks, and emerging tokens can work together to back a single, manageable loan position.
+**The Key Difference**: GREEN is built for borrowers who want to use eligible collateral across their portfolio efficiently. Supported Stock Tokens can work alongside stablecoins, crypto assets, yield positions, and other eligible collateral to back a single, manageable loan position.
 
 ## Why This Matters
 

@@ -5,8 +5,8 @@
 ## User Guide
 
 * [Getting Set Up](user-guide/01-getting-set-up.md)
-* [Deposit Collateral](user-guide/02-deposit-collateral.md)
-* [Borrow GREEN](user-guide/03-borrow-green.md)
+* [Deposit Stock Tokens & Collateral](user-guide/02-deposit-collateral.md)
+* [Borrow GREEN Against Stock Tokens](user-guide/03-borrow-green.md)
 * [Pay Back and Withdraw](user-guide/04-pay-back-and-withdraw.md)
 * [Get GREEN and Provide Liquidity](user-guide/05-provide-liquidity.md)
 * [Get RIPE and Lock It](user-guide/06-get-and-lock-ripe.md)
@@ -15,8 +15,8 @@
 ## Core Protocol
 
 * [GREEN Stablecoin](core-protocol/01-green-stablecoin.md)
-* [Borrowing](core-protocol/02-borrowing.md)
-* [Collateral Assets](core-protocol/03-collateral-assets.md)
+* [Borrowing Against Stock Tokens](core-protocol/02-borrowing.md)
+* [Stock Tokens & Collateral](core-protocol/03-collateral-assets.md)
 * [Liquidations](core-protocol/04-liquidations.md)
 * [Deleverage](core-protocol/05-deleverage.md)
 * [Price Oracles](core-protocol/06-price-oracles.md)

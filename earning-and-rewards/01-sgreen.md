@@ -6,7 +6,7 @@ description: Set It and Forget It Yield
 
 Your stablecoins are lazy. Sitting there. Doing nothing. Earning nothing.
 
-Meanwhile, Ripe borrowers are paying interest on loans backed by everything from ETH to jpegs. A configured share of that revenue can increase sGREEN backing. Just deposit [GREEN](../core-protocol/01-green-stablecoin.md) into sGREEN. No staking. No claiming. No thinking.
+Meanwhile, Ripe borrowers are paying interest on loans backed by supported Stock Tokens and other eligible collateral. A configured share of that revenue can increase sGREEN backing. Just deposit [GREEN](../core-protocol/01-green-stablecoin.md) into sGREEN. No staking. No claiming. No thinking.
 
 Repayment is not the only realization event: later borrowing activity can flush previously accrued interest to protocol revenue.
 
@@ -133,7 +133,7 @@ _Jordan borrows 100,000 GREEN at 5% APR and chooses sGREEN delivery_
 
 **Q: How does sGREEN compare to other yield-bearing stablecoins?** A: The difference isn't just sGREEN — it's the entire Ripe ecosystem:
 
-* **Diverse Revenue**: sGREEN captures yield from a protocol that can accept a broad range of supported collateral, including eligible NFTs, memecoins, and yield positions
+* **Diverse Revenue**: sGREEN captures yield from a protocol that can accept a broad range of supported collateral, including Stock Tokens, blue-chip crypto, yield positions, NFTs, and other eligible assets
 * **Unrealized Yield Flush**: Later borrowing can realize previously accrued interest without waiting for the original borrower to repay
 * **Triple Stack Potential**: Deploy sGREEN to stability pools for base yield + liquidations + RIPE rewards
 * **Real Demand**: Borrowers use Ripe because eligible collateral across their portfolio can back one position — creating sustainable yield sources

@@ -1,20 +1,20 @@
 ---
-description: One Loan, Endless Possibilities.
+description: Borrow GREEN against supported Stock Tokens and eligible portfolio collateral.
 ---
 
-# Borrowing: One Loan, Endless Possibilities
+# Borrowing Against Stock Tokens and Your Portfolio
 
-Most lending protocols make you juggle multiple vaults. Different assets, different loans, different liquidation risks. Complexity for no reason.
+Stock Tokens can represent meaningful market exposure, but traditional lending often requires selling that exposure or managing a separate position for each asset.
 
-Ripe simplifies everything. Eligible collateral with configured borrowing power — from ETH to memecoins to that jpeg you overpaid for — can back a single [GREEN](01-green-stablecoin.md) loan. Your supported non-Stability collateral determines your borrowing power. One position. One rate. One liquidation threshold.
+Ripe lets supported [Stock Tokens](03-collateral-assets.md#stock-tokens-as-collateral) with configured borrowing power back a [GREEN](01-green-stablecoin.md) loan without a protocol sale at origination. They can work alongside other eligible non-Stability collateral in one position, with each asset contributing according to its independently configured terms.
 
-Finally, borrowing that respects how people actually manage money.
+One portfolio-backed position. Weighted terms. Liquidity without first giving up the deposited token exposure.
 
 ## How Borrowing Works
 
 ### Unified Position Structure
 
-In Ripe Protocol, eligible collateral across non-Stability vaults backs a single, unified loan position. You don't have separate loans for each asset — instead, supported collateral with nonzero borrowing terms supports one consolidated debt position. Positions in vaults classified as Stability vaults are excluded from borrowing collateral terms, even though they can serve other protocol roles.
+In Ripe Protocol, eligible collateral across non-Stability vaults backs a single, unified loan position. You don't have a separate loan for each Stock Token or other collateral asset — supported collateral with nonzero borrowing terms supports one consolidated debt position. Positions in vaults classified as Stability vaults are excluded from borrowing collateral terms, even though they can serve other protocol roles.
 
 ### The Credit Calculation Engine
 
@@ -31,30 +31,30 @@ This multi-factor approach ensures fair credit access while maintaining system s
 
 When you deposit multiple collateral types, Ripe doesn't just average your terms — it weights them based on each asset's contribution to your total borrowing power. Here's how it works:
 
-**Hypothetical Example Portfolio:**
+**Hypothetical Stock-Led Portfolio:**
 
 ```
-ETH: $10,000 value × 70% LTV = $7,000 borrowing power
-WBTC: $5,000 value × 70% LTV = $3,500 borrowing power
-USDC: $15,000 value × 80% LTV = $12,000 borrowing power
+Stock Token A: $10,000 value × 60% LTV = $6,000 borrowing power
+WETH: $5,000 value × 70% LTV = $3,500 borrowing power
+Stable Asset: $10,000 value × 80% LTV = $8,000 borrowing power
 
-Total Borrowing Power = $22,500
+Total Borrowing Power = $17,500
 ```
 
 **Weighted Interest Rate Calculation:**
 
 ```
-ETH weight: $7,000 / $22,500 = 31.1%
-WBTC weight: $3,500 / $22,500 = 15.6%
-USDC weight: $12,000 / $22,500 = 53.3%
+Stock Token A weight: $6,000 / $17,500 = 34.3%
+WETH weight: $3,500 / $17,500 = 20.0%
+Stable Asset weight: $8,000 / $17,500 = 45.7%
 
-If rates are: ETH 7%, WBTC 7%, USDC 5%
-Your rate = (7% × 31.1%) + (7% × 15.6%) + (5% × 53.3%) = 5.9%
+If illustrative rates are: Stock Token A 8%, WETH 7%, Stable Asset 5%
+Position rate = (8% × 34.3%) + (7% × 20.0%) + (5% × 45.7%) = 6.4%
 ```
 
 This weighting applies to all debt terms: interest rates, liquidation thresholds, redemption thresholds, and origination fees. Assets with higher borrowing power have proportionally greater influence on your overall terms.
 
-The example values above are illustrative. See [RIPE Params](https://params.ripe.finance) for current asset support and debt terms.
+The example is illustrative and does not identify supported assets or live terms. See [RIPE Params](https://params.ripe.finance) for current asset support and debt terms.
 
 ## Key Safety Thresholds
 
@@ -188,9 +188,11 @@ Understanding this inverse relationship helps you monitor the right metrics and 
 
 ## When a Collateral Price or Backing Is Unavailable
 
-If a positive debt-bearing balance has no usable price, or a nominal Basic Vault position has unusable backing, the account is quarantined while debt is outstanding. The affected position contributes no borrowing power, and new borrowing, ordinary withdrawal capacity, redemption, deleveraging, and new liquidation processing are withheld because the account cannot be valued safely.
+If a positive debt-bearing balance has no usable price, or a nominal ERC-20 vault position has unusable backing, the account is quarantined while debt is outstanding. The affected position contributes no borrowing power, and new borrowing, ordinary withdrawal capacity, redemption, deleveraging, and new liquidation processing are withheld because the account cannot be valued safely.
 
 Standard repayment remains the recovery path. A full payoff does not need collateral repricing or traversal and returns any payment above the live debt to the payer. On a partial repayment, stored debt terms are preserved if no eligible replacement terms can be derived. Once usable pricing and backing return, ordinary health checks resume.
+
+For the distinct behavior of Stock Token prices around reference-market closures and reopening gaps, see [Stock-Market Hours and Price Gaps](06-price-oracles.md#stock-market-hours-and-price-gaps).
 
 ## Dynamic Interest Rates
 
@@ -366,7 +368,7 @@ When standard repayment exceeds the live debt, the excess is returned to the pay
 
 Forget the old way. No more portfolio fragmentation. No more wasted collateral. No more choosing between earning yield or accessing liquidity.
 
-With Ripe, supported stablecoins can receive borrowing terms while eligible yield positions keep earning and backing your loan. Dynamic rates protect the protocol without punishing everyday borrowers. And if things go south? Redemptions give you a buffer before liquidations even start.
+With Ripe, supported Stock Tokens can provide access to GREEN without a protocol sale at origination, while other eligible assets can join the same position. Each asset keeps its own configured terms, and those terms combine into one account-level borrowing position.
 
 This is borrowing rebuilt from first principles. One position that actually understands what a portfolio is.
 

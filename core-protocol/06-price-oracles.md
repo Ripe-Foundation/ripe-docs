@@ -33,7 +33,7 @@ Instead of relying on a single price feed, Ripe routes across configured price-s
 ```
 Asset Price Request Flow:
 
-Your Asset (e.g., ETH)
+Your Asset (e.g., a configured Stock Token or ETH)
     ↓
 Price Desk (Ordered Router)
     ↓
@@ -55,16 +55,16 @@ This design provides several benefits:
 
 The adapters below describe mechanisms the protocol can support; the live set is deployment configuration rather than a fixed inventory in these docs.
 
-### 1. Chainlink (Primary)
+### 1. Chainlink
 
 The industry standard for decentralized price feeds:
 
-* **Coverage**: Major crypto assets (ETH, BTC, stablecoins, blue chips)
+* **Coverage**: Major crypto assets and equity-reference feeds when configured
 * **Reliability**: Battle-tested across DeFi with billions secured
 * **Update Frequency**: Varies by asset based on volatility
 * **Trust Model**: Decentralized node operators with reputation
 
-Chainlink serves as our primary oracle for most mainstream assets due to its proven track record and wide deployment.
+The Chainlink adapter can provide prices for configured mainstream assets. Its live role, asset coverage, and priority vary by deployment.
 
 ### 2. Curve Pools (Specialized)
 
@@ -138,6 +138,16 @@ Each oracle can have custom staleness limits:
 * Blue Chip: Adapter-specific; share-rate snapshot routes use local delay and freshness settings, while direct-underlying routes do not use those snapshots
 
 Freshness enforcement is adapter-specific. Blue Chip snapshot routes and Undy vault pricing use their locally configured snapshot freshness rather than the forwarded global stale-time setting.
+
+### Stock-Market Hours and Price Gaps
+
+Ripe does not read an exchange calendar or switch into a separate mode when a stock reference market closes. Price Desk continues to use its ordinary ordered routing and freshness checks. A Stock Token's last published price may remain usable while the configured source still considers it fresh, so market closure alone does not quarantine an account.
+
+If every configured source becomes unusable, Ripe does not substitute an indefinitely cached price. A debt-bearing account whose Stock Token collateral can no longer be valued is handled by the same fail-closed quarantine rules as any other unpriced collateral.
+
+When a usable source resumes, the next accepted price can revalue the Stock Token in one step. A reference-market reopening gap can therefore change account health abruptly, and subsequent borrowing, withdrawal, redemption, deleverage, and liquidation checks use the recovered price.
+
+Where a Stock Token's configured feed already incorporates an issuer multiplier or corporate-action adjustment, Ripe consumes that adjusted token-level price once; Price Desk does not independently apply the adjustment again. See [Stock Tokens as Collateral](03-collateral-assets.md#stock-tokens-as-collateral).
 
 ### What Happens When Prices Go Stale?
 

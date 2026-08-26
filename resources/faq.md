@@ -8,11 +8,11 @@ description: Quick answers to what actually matters.
 
 ### What is Ripe Protocol?
 
-One loan backed by your supported collateral. While other protocols make you juggle five vaults for five assets, Ripe combines configured collateral types into ONE position. Borrow GREEN stablecoins against it all.
+Ripe lets you borrow GREEN against supported Stock Tokens and other eligible collateral in one unified position. Stock-market exposure becomes productive collateral instead of sitting idle.
 
 ### What makes Ripe different from other lending protocols?
 
-**One loan, many supported assets.** While other protocols force you to manage separate positions for each collateral type, Ripe lets you deposit multiple configured assets that all work together to back a single GREEN [borrowing position](../core-protocol/02-borrowing.md). [RIPE Params](https://params.ripe.finance) shows what is currently configured.
+**Borrowing against Stock Tokens, one unified position.** Supported Stock Tokens can work alongside other configured collateral to back a single GREEN [borrowing position](../core-protocol/02-borrowing.md). [Collateral Assets](../core-protocol/03-collateral-assets.md) explains the architecture; [RIPE Params](https://params.ripe.finance) shows what each deployment currently supports.
 
 ### What is GREEN?
 
@@ -20,9 +20,13 @@ One loan backed by your supported collateral. While other protocols make you jug
 
 ### Is my money safe?
 
-Your [deposits](../core-protocol/03-collateral-assets.md) back only your own loan, not other users' positions. If another borrower gets liquidated or creates bad debt, it doesn't directly affect your collateral.
+Eligible collateral in non-Stability vaults backs only your own borrowing position, not other users' loans. Stability-vault deposits are different: when configured, they can be used to settle other borrowers' liquidations in exchange for claimable collateral. See [Collateral Assets](../core-protocol/03-collateral-assets.md) and [Stability Pools](../earning-and-rewards/02-stability-pools.md).
 
 ## Borrowing Basics
+
+### Can I borrow against Stock Tokens without selling them?
+
+When a Stock Token is supported and configured with borrowing power, you can deposit it and borrow GREEN without selling it at origination. The collateral is the Stock Token—not an underlying share or fund interest—and Ripe does not create or expand the legal rights attached to it; those rights come from the token's issuer and terms. You retain its economic exposure while you still hold the Stock Token or have a credited vault balance for it. An ordinary withdrawal returns the token, while redemption, deleverage, or liquidation can transfer it away. See [Collateral Assets](../core-protocol/03-collateral-assets.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current support.
 
 ### How much can I borrow?
 
@@ -41,6 +45,14 @@ Dynamic rates can add a capped adjustment when corroborated reference-pool obser
 Yes! There are no prepayment penalties, fixed terms, or lockups. Repay any amount at any time to reduce your debt and improve your position health.
 
 ## Managing Risk
+
+### What happens when a Stock Token's reference market is closed?
+
+A closed reference market does not automatically make a Stock Token's price unusable. A source's last published price can remain usable while it satisfies the configured freshness rules. If every configured source becomes unusable, valuation fails closed and a debt-bearing account can enter quarantine until pricing recovers. A reference-market reopening can also produce a sudden price gap, so leave room below your borrowing limit. See [Price Oracles](../core-protocol/06-price-oracles.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current configuration.
+
+### Can I lose my Stock Tokens while borrowing?
+
+Yes. Borrowing does not sell your Stock Tokens at origination, but an eligible redemption, deleverage, or liquidation can transfer some or all of that collateral away. A severe shortfall can exhaust eligible collateral and still leave debt. Monitor position health, add collateral, or repay before intervention becomes available; see [Liquidations](../core-protocol/04-liquidations.md) and [Deleverage](../core-protocol/05-deleverage.md).
 
 ### When do I get liquidated?
 
@@ -132,10 +144,6 @@ Ripe has component-level pause and availability controls, not one switch that ha
 ### Can I use yield-bearing tokens as collateral?
 
 Yes! Tokens like stETH, aTokens, and LP positions continue earning their underlying yields while serving as collateral. The protocol uses share-based accounting to capture all rewards, rebases, and fee accruals.
-
-### Can I use tokenized real-world assets?
-
-Yes! Ripe is built for the $16 trillion in real-world assets being tokenized by 2030. Tokenized stocks, real estate, treasury bills, gold — if it has value, you can borrow against it. This is the core vision: unlocking liquidity for assets that traditional DeFi ignores.
 
 ### What's the delegation system?
 
