@@ -1,14 +1,16 @@
 ---
-description: How Ripe Selects and Validates Asset Prices
+description: The Truth About Your Money
 ---
 
-# Price Oracles: How Ripe Selects Asset Prices
+# Price Oracles: The Truth About Your Money
 
-Ripe routes asset valuation through a Price Desk and registered source adapters. The Price Desk checks configured priority sources first, then other registered sources, and returns the first usable nonzero price. A failure in one source is isolated so later sources can still answer.
+One bad price feed can destroy a protocol. Positions liquidated on fake spikes. Exploits draining millions. Users losing everything to a malicious update.
 
-This is ordered failover, not consensus: the Price Desk does not medianize, average, or require agreement among sources before accepting the first usable result.
+Ripe doesn't rely on any single source. We check configured source adapters in priority order — taking the first usable price. If one source reverts, returns malformed data, or cannot provide a usable price, the Price Desk isolates that result and continues to later sources.
 
-If no source can establish a usable price, the protocol fails closed rather than inventing a value or relying on a last-known cache.
+Which adapters are registered, their priority, and their asset coverage vary by deployment and governance configuration. See [RIPE Params](https://params.ripe.finance) for current onchain settings.
+
+Your collateral value comes from the first usable source in the configured order.
 
 ## Why Pricing Matters in Ripe
 
@@ -16,91 +18,126 @@ Every critical protocol operation depends on accurate pricing:
 
 * **Borrowing Power**: Your collateral value determines how much GREEN you can borrow
 * **Liquidation Safety**: Price movements trigger liquidations when positions become risky
-* **Redemption Values**: Credit redemption treats GREEN as a $1 debt unit and determines the collateral amount from a usable oracle price
-* **Stability Settlement**: Collateral and settlement values depend on usable prices
-* **Interest Rates**: Dynamic rates can use confirmed observations from a configured GREEN reference pool
+* **Redemption Values**: Direct redemptions exchange GREEN for exactly $1 of collateral
+* **Stability Pool Profits**: Liquidation discounts are calculated from current market prices
+* **Interest Rates**: Dynamic rates respond to GREEN's market price
 
-## Price Source Routing
+With so much at stake, we've built a pricing system that's both robust and transparent.
 
-Instead of hard-coding one price feed, Ripe routes valuation through a registry of source adapters:
+## The Multi-Oracle Advantage
+
+Instead of relying on a single price feed, Ripe routes across configured price-source adapters:
 
 ```
 Asset Price Request Flow:
 
-Your Asset (e.g., WETH)
+Your Asset (e.g., ETH)
     ↓
-Price Desk (Router)
+Price Desk (Ordered Router)
     ↓
-1. Check configured priority sources
-2. Isolate an unsupported, stale, reverted, or malformed response
-3. If needed, check remaining registered sources
-4. Return the first usable nonzero price
-5. If none is usable, return unavailable or fail closed for a strict caller
+1. Check configured priority source IDs
+2. If no usable price, check the remaining registered source IDs
+3. Return the first usable nonzero price
     ↓
-Usable USD Value or Explicit Unavailability
+Accurate USD Value
 ```
 
-This design provides:
+This design provides several benefits:
 
-* **Failure Isolation**: One source revert or malformed response does not abort the entire search
-* **Asset Flexibility**: Different source adapters can support different assets
-* **Explicit Failure**: No usable source means no price, not a guessed or cached value
-* **Extensibility**: Governance can register additional compatible source adapters
+* **Failure Isolation**: A failed source does not prevent a later configured usable source from answering
+* **Asset Flexibility**: Different oracles support different assets
+* **Cost Optimization**: Use expensive oracles only for critical assets
+* **Future-Proof**: New oracle providers can be added seamlessly
 
-## Price Source Adapters
+## Our Oracle Providers
 
-The protocol supports multiple kinds of source adapter. Which adapters are registered, their priority, and their asset coverage are deployment configuration — the mechanism does not assume that every adapter below is active on every chain.
+The adapters below describe mechanisms the protocol can support; the live set is deployment configuration rather than a fixed inventory in these docs.
 
-### Chainlink
+### 1. Chainlink (Primary)
 
-The Chainlink adapter reads configured aggregator feeds, normalizes their decimals, and rejects values that do not satisfy the adapter's answer and freshness checks. It can serve as a prioritized source for any asset with a configured feed.
+The industry standard for decentralized price feeds:
 
-### Curve Pools
+* **Coverage**: Major crypto assets (ETH, BTC, stablecoins, blue chips)
+* **Reliability**: Battle-tested across DeFi with billions secured
+* **Update Frequency**: Varies by asset based on volatility
+* **Trust Model**: Decentralized node operators with reputation
 
-The Curve adapter derives supported values from configured Curve pool state. It also maintains confirmed observations for a configured GREEN reference pool.
+Chainlink serves as our primary oracle for most mainstream assets due to its proven track record and wide deployment.
 
-For [dynamic interest rates](02-borrowing.md#dynamic-interest-rates), each qualifying interval uses the lower ratio from two consecutive reference-pool observations. Qualifying intervals are weighted by duration, and excessive gaps or stale history are excluded. This makes the rate input depend on sustained recorded conditions rather than one isolated observation.
+### 2. Curve Pools (Specialized)
 
-### Pyth Network
+Direct pricing from the largest stablecoin liquidity pools:
 
-The Pyth adapter can support configured feeds whose publisher data is supplied through an update transaction. Its own feed identity, value, confidence, and timestamp checks determine whether a response is usable.
+* **Coverage**: Stablecoins, Curve LP tokens, GREEN pairs
+* **Reliability**: Based on actual tradeable liquidity
+* **Special Feature**: Monitors GREEN's peg in real-time
+* **Trust Model**: On-chain AMM state, manipulation-resistant
 
-### Stork Network
+**Critical for GREEN Stability**: The Curve price feed maintains the configured Green Reference Pool data that directly impacts [dynamic interest rates](02-borrowing.md#dynamic-interest-rates). Each qualifying interval uses the lower GREEN ratio from two consecutive observations, weights that interval by duration, and excludes excessive gaps or stale history. This makes the rate input depend on sustained recorded conditions rather than one isolated observation.
 
-The Stork adapter reads configured Stork feeds and applies its feed and freshness validation before returning a value. It can provide additional asset coverage when registered and configured.
+### 3. Pyth Network (High-Frequency)
 
-### Blue Chip Yield Prices
+Sub-second price updates from institutional providers:
 
-The Blue Chip adapter uses protocol-specific accounting rather than one universal yield-token formula:
+* **Coverage**: Wide range including stocks, forex, commodities, and crypto
+* **Reliability**: Professional market makers provide data
+* **Update Frequency**: Can update every slot if needed
+* **Trust Model**: Aggregated from multiple institutional sources
 
-* **Aave V3 and Compound V3**: Return the current usable price of the configured underlying asset directly; these branches do not use share-price snapshots
-* **Morpho, Morpho V2, Euler, and Fluid ERC-4626 vaults**: Combine the current usable underlying price with a conservative share rate derived from weighted snapshots and the current live conversion rate
-* **Moonwell**: Uses its stored exchange-rate accounting with the same weighted-snapshot and current-rate comparison
+Useful for assets requiring frequent updates or those not covered by Chainlink.
 
-For snapshot-based branches, new observations can throttle configured upside changes, while a lower current conversion rate is accepted immediately. For example, to price a hypothetical Morpho USDC position:
+### 4. Stork Network (Emerging)
 
-* **Underlying USDC price**: Assumed at $1.00 from the first usable configured source
+Next-generation oracle with unique features:
+
+* **Coverage**: Growing selection of DeFi assets
+* **Reliability**: Novel cryptographic attestation model
+* **Update Frequency**: On-demand with nanosecond precision
+* **Trust Model**: Decentralized publishers with stakes
+
+Provides additional redundancy and supports newer assets.
+
+### 5. Blue Chip Yield Prices (Specialized)
+
+Custom pricing for yield-bearing tokens from major protocols:
+
+* **Coverage**: aTokens (Aave), cTokens (Compound), Morpho and Morpho V2 positions, Euler, etc.
+* **Reliability**: Direct integration with protocol contracts
+* **Special Feature**: Handles rebasing and yield accrual correctly
+* **Trust Model**: Based on underlying protocol's accounting
+
+**Two-Layer Pricing**: This oracle combines real-time underlying asset prices (from Chainlink or other primary oracles) with weighted snapshots of the share price/exchange rate. For example, to price a Morpho USDC position:
+
+* **Underlying USDC price**: Fetched in real-time from Chainlink ($1.00)
 * **Morpho share price**: Weighted average over time (e.g., 1.05 USDC per share)
 * **Final position value**: $1.00 × 1.05 = $1.05 per share
 
-Only the share or exchange rate uses this snapshot treatment; the underlying asset price remains current. If either required component is unavailable or invalid, that branch returns no usable price.
+**Manipulation Protection**: Only the exchange rate uses weighted snapshots — the underlying asset price remains current. This prevents attackers from manipulating the yield token's exchange rate through flash loans or temporary spikes, while ensuring the collateral responds immediately to market movements in the underlying asset. The snapshots also include upside deviation throttling for the exchange rate, gradually incorporating sudden appreciation rather than accepting it immediately.
 
-## Freshness and Failure Protection
+## Staleness Protection
 
-Each source adapter validates the data needed for its own pricing method. Depending on the adapter, that can include a global freshness policy, an asset-specific feed rule, publisher timestamps, or confirmed snapshot history.
+Stale prices are dangerous. Here's how we prevent them:
 
-For each source, the Price Desk distinguishes among:
+### Global Staleness Threshold
 
-* A usable nonzero price
-* A valid response that has no feed for the asset
-* A configured feed that currently has no usable price, including stale data
-* A reverted, malformed, or otherwise invalid response
+* Freshness windows are set through deployment and governance configuration
+* A feed-specific nonzero window can override the global policy; otherwise the feed inherits the global window
+* See [RIPE Params](https://params.ripe.finance) for current onchain settings
 
-Unsupported assets and isolated source failures do not prevent the Price Desk from checking later sources. A stale or failed primary source can therefore fall through to another usable source without a manual intervention.
+### Per-Oracle Configuration
 
-### What Happens When No Source Is Usable?
+Each oracle can have custom staleness limits:
 
-The protocol does **not** substitute a last-known cached price. A non-strict query reports the price as unavailable; a strict valuation fails closed rather than continuing with an unverified value.
+* Chainlink: Uses round timestamp
+* Pyth/Stork: Uses publish timestamp
+* Curve: Reads pool state directly; confirmed GREEN reference history has its own block-based freshness rules
+* Blue Chip: Snapshot-based with minimum delays
+
+### What Happens When Prices Go Stale?
+
+1. **Earlier Source Stale**: The query continues to the next configured source
+2. **All Sources Unusable**: A non-strict query reports no price and a strict valuation fails closed; the protocol does not substitute a last-known cached value
+3. **No Feed Available**: New assets without feeds cannot be borrowed against
 
 For an account with outstanding debt, a positive balance of borrowing-power collateral with no usable price — or a recorded balance with no usable vault backing — creates a valuation quarantine:
 
@@ -115,42 +152,50 @@ Quarantine is not itself a liquidation trigger or a declaration of insolvency. O
 
 ## Price Priority System
 
-Not all sources have the same trust model or asset coverage. The Price Desk therefore uses a configurable search order:
+Not all oracles are created equal. The priority system selects the first usable source in the configured order:
 
 ```
-Configured priority source IDs
-    ↓
-Remaining registered source IDs not already checked
-    ↓
-First usable nonzero price, or explicit unavailability
+Priority Order (Configurable):
+1. Check configured priority source IDs
+2. Check the remaining registered source IDs
+3. Return the first usable nonzero price
 ```
 
 Governance can adjust priorities based on:
 
-* Source reliability and trust model
-* Asset coverage
-* Operational cost
-* Deployment-specific risk policy
+* Oracle reliability track record
+* Gas costs for updates
+* Asset-specific considerations
+* Market conditions
 
 ## Security Measures
 
-### Controlled Configuration
+### Time-Locked Changes
 
-Source registration, priority, feed configuration, and emergency controls follow their governance and permission paths. Their exact timelocks and parameters are deployment configuration rather than properties of the aggregation algorithm.
-
-A source adapter's pause flag freezes guarded feed-configuration and update or snapshot operations. It does **not** disable that adapter's existing price reads, so a paused source can still answer the Price Desk from already configured state. Disabling a feed or changing routing priority is a separate action.
+Oracle additions, priority changes, feed updates, and emergency controls follow their configured governance and permission paths. Exact delays and permissions vary by deployment; see [RIPE Params](https://params.ripe.finance) for current onchain settings.
 
 ### Fail-Safe Mechanisms
 
-* First-usable-source failover across registered adapters
+* Ordered fallback across configured sources
 * Isolated source calls so one failure does not mask a later healthy source
-* Strict callers fail closed when coverage exists but no source establishes a usable value
-* Source pause controls for guarded configuration, update, and snapshot operations without implicitly changing read routing
+* Strict valuation fails closed when no source establishes a usable value
+* Pause functionality for compromised feeds
 * Fund recovery for stuck update fees
-* Governance-controlled source and priority configuration
+* Governance override capabilities
 
-## Selection and Failure Semantics
+## Trust Through Verification
 
-The pricing rule is deterministic: check configured priority sources first, continue through other registered sources when an earlier one is unusable, and accept the first usable nonzero value. Multiple sources provide ordered fallback; they do not corroborate or combine their answers.
+Here's what your lending protocol won't tell you: they probably use one oracle. Maybe two if they're fancy.
 
-Redundancy improves availability, but it is not permission to guess. If every applicable source is stale, unavailable, or failing—or recorded vault backing is unusable—Ripe exposes that absence and protects debt-bearing accounts through quarantine. Positions resume normal valuation when the relevant price or backing failure has cleared and every remaining debt-bearing balance is usable.
+Ripe can connect to multiple independent price sources. Price Desk checks them in configured order and continues past an unusable source. If no source returns a usable price, non-strict queries report no price and strict valuation fails closed; fallback improves resilience but does not guarantee uninterrupted pricing.
+
+***
+
+_For technical implementation details, see:_
+
+* [_Price Desk Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/pricing/pricedesk) _- Ordered price routing_
+* [_Chainlink Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/chainlinkprices) _- Chainlink integration_
+* [_Curve Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/curveprices) _- AMM-based pricing and GREEN monitoring_
+* [_Pyth Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/pythprices) _- High-frequency oracle updates_
+* [_Stork Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/storkprices) _- Decentralized price attestations_
+* [_Blue Chip Yield Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/bluechipyieldprices) _- Yield token valuations_

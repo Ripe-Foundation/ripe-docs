@@ -1,66 +1,60 @@
 ---
-description: Provide liquidation liquidity and receive claimable collateral
+description: Buy liquidated collateral at a configured spread
 ---
 
-# Stability Pools: Provide Liquidation Liquidity
+# Stability Pools: Buy the Dip at a Configured Spread
 
-Stability pools let deposited assets provide in-protocol liquidity for compatible liquidations. When a pool is eligible and has capacity, some of its settlement liquidity can be exchanged for the borrower's collateral at the configured liquidation spread.
+Forget hunting for dips. Forget timing the market. Forget competing with MEV bots.
 
-This can create attractive outcomes, but it is not guaranteed arbitrage. The received collateral becomes claimable custody, its market price can move, and a pool can be skipped when it is incompatible, reserved, full, paused, unpriced, or short of spendable liquidity. Auction settlement handles eligible collateral that the Stability route cannot absorb.
+Stability pools let deposited liquidity participate in configured liquidation settlement before auction fallback. Participation is passive after deposit, but routing, capacity, pricing, and any rewards remain conditional.
+
+This is wholesale DeFi liquidations, democratized.
+
+> **Examples, not live terms:** All assets, percentages, rates, and scenario values on this page are illustrative. See [RIPE Params](https://params.ripe.finance) for current onchain configuration.
 
 ## The Core Proposition
 
-### Passive Liquidation Participation
+### Instant Arbitrage Opportunities
 
-Stability-vault depositors do not submit a separate bid for each liquidation that uses the vault:
+Unlike traditional liquidation systems that require active monitoring and complex bot infrastructure, stability pools democratize liquidation profits:
 
-* **Conditional Passive Participation**: A deposited cohort participates automatically only when a compatible liquidation actually selects that vault and all settlement checks pass
-* **Share Accounting**: Settlement liquidity and active claim assets are reflected in cohort NAV
-* **No Per-Liquidation Bid**: The protocol calls the eligible vault during liquidation; users still submit and pay for their own deposit, withdrawal, claim, or redemption transactions
-* **Conditional Priority**: A compatible Stability vault is checked before auction fallback for collateral configured to use it
+* **Passive Participation**: Deposit once and automatically participate in liquidations
+* **Fair Distribution**: Profits shared proportionally among all depositors
+* **No Technical Barriers**: No bots, no gas wars, no timing games
+* **Configured Discounts**: Liquidation terms can quote collateral below its oracle value without guaranteeing profit
 
-When Stability settlement occurs, part of the cohort's spendable settlement asset is exchanged for claimable collateral. That changes the composition of the position; it does not instantly convert the claim into base-asset cash or guarantee a realized profit.
+When a liquidation settles through the vault, settlement custody is consumed and the cohort receives a collateral claim. The realized result depends on the configured spread and subsequent asset prices.
 
 ### Multiple Revenue Streams
 
-Depending on the deposited asset and current configuration, a position may have several sources of return:
+Depending on configuration, stability pool participants can combine three distinct sources:
 
-1. **Underlying Asset Return**: [sGREEN](01-sgreen.md) can continue reflecting its underlying vault economics; an AMM LP token continues reflecting its pool share and fees
-2. **Liquidation Spread**: A cohort may receive more oracle-valued collateral than the settlement value it supplies
-3. [**RIPE Rewards**](03-ripe-rewards.md): A deposited Stability-vault position may earn configured protocol rewards
+1. **Base Asset Yield**: [sGREEN](01-sgreen.md) continues earning protocol revenue while in the pool
+2. **Liquidation Premiums**: Settle collateral at a configured spread to oracle value
+3. [**RIPE Rewards**](03-ripe-rewards.md): Earn protocol tokens when the position is configured for rewards
 
-These sources have different risks and are not fixed or guaranteed. In particular, collateral prices can move after a liquidation, and claimable collateral is not the same thing as immediately withdrawable settlement liquidity.
+These sources have separate accounting and risks; none guarantees a positive return.
 
 ## How Stability Pools Work
 
-### Pool, LP Token, and Stability Vault Are Different
-
-These three objects are related but not interchangeable:
-
-1. **External AMM pool**: The trading venue where users supply a token pair and swaps generate AMM fees
-2. **LP token**: The token representing a proportional position in that external AMM pool
-3. **Ripe Stability vault**: A Ripe vault that accepts configured settlement assets, including an eligible LP token, and issues internal shares used for Ripe accounting and rewards
-
-An LP token in your wallet still represents its AMM position and can continue accruing the AMM's trading fees. It does **not** earn Ripe Stability-vault rewards until it is deposited into Ripe.
-
 ### The Deposit Process
 
-Ripe can configure different assets as Stability-vault settlement assets. Common designs include:
+Ripe can configure different Stability-vault settlement assets. Common designs include:
 
 **GREEN-pair LP Tokens**
 
-* Continue representing the underlying AMM position and its fee economics
-* Become eligible for Ripe rewards only after deposit into the Ripe Stability vault
-* Are transferred to [EndaomentFunds](../core-protocol/07-endaoment.md) when consumed in ordinary Stability liquidation settlement
+* Earn trading fees while waiting for liquidations
+* Become eligible for RIPE rewards only after deposit when that reward path is configured
+* Transfer to [Endaoment](../core-protocol/07-endaoment.md) treasury when consumed in ordinary Stability settlement
 
 [**sGREEN**](01-sgreen.md) (Savings GREEN)
 
 * Continues earning base yield in the pool
-* Is redeemed to GREEN and burned when used as liquidation settlement liquidity
+* Redeemed and burned during liquidations
 
-Your deposit is converted to Stability-vault shares representing a proportional claim on that settlement-asset cohort's NAV.
+Your deposits are converted to shares representing your proportional claim on the pool's total value — including both deposited assets and accumulated liquidated collateral.
 
-GREEN itself is not a Stability-vault deposit asset. It can instead appear as claimable custody for a cohort after a Stability-pool redemption. A later liquidation consumes and burns that claimable GREEN before drawing on the cohort's ordinary deposited settlement asset.
+GREEN itself is not a Stability-vault deposit asset. It can appear as claimable custody after a redemption and is consumed and burned before the cohort's ordinary settlement asset in a later liquidation.
 
 ### The Liquidation Flow
 
@@ -68,45 +62,43 @@ When a borrower's position needs liquidation:
 
 1. **AuctionHouse checks eligibility**: The collateral must permit Stability settlement and the vault must accept it as a claim asset
 2. **The vault checks capacity**: It needs unreserved settlement custody, a usable price, and room for the claim asset
-3. **Settlement follows the asset route**: Claimable GREEN is consumed first when available. GREEN-side settlement is burned—sGREEN is first redeemed to GREEN—while every other settlement asset is transferred to EndaomentFunds
-4. **Debt receives credit**: The route's settlement-value quote is scaled to the amount the Stability vault actually supplies, subject to integer rounding; only that result reduces the borrower's liquidation target
+3. **Settlement follows the asset route**: Claimable GREEN is consumed first. GREEN and redeemed sGREEN are burned; other settlement assets transfer to EndaomentFunds
+4. **Debt receives scaled credit**: Only the settlement value actually supplied, subject to rounding, reduces the liquidation target
 5. **Auction fallback remains**: Any configured auction-eligible remainder can proceed to a Dutch auction
 
-Capacity can decline during liquidations as spendable settlement liquidity becomes claimable collateral, claim-asset slots fill, or custody becomes reserved. A later liquidation can therefore use less Stability liquidity—or skip the vault entirely—even if an earlier one was absorbed.
+Example: If ETH is worth $2,000 and the configured spread is 10%, the pool supplies $1,800 of settlement value for 1 ETH. The $200 difference is an initial valuation spread, not guaranteed realized profit.
 
 ### USD Value-Based Accounting
 
 Unlike simple token vaults, stability pools use sophisticated USD value-based share accounting:
 
-* **Share Price = Cohort NAV / Total Shares**
-* **Cohort NAV = Unreserved settlement-asset custody + Valued active claim assets**
+* **Share Price = Total Pool Value / Total Shares**
+* **Pool Value = Unreserved settlement-asset custody + Valued active claim assets**
 * **Your Value = Your Shares × Current Share Price**
 
-These are conceptual relationships. The contract's share conversions include virtual offsets and direction-specific integer rounding, so transaction previews—not decimal division alone—determine exact shares and amounts.
+This ensures fair distribution regardless of which assets the pool holds at any moment.
 
-"Unreserved" matters: custody already owed as a claim to another cohort is not counted as spendable settlement liquidity. Active claim assets are included in NAV using current prices, so share value can rise or fall with those assets.
+Reserved claim custody cannot be spent as settlement liquidity. A small claim can remain dormant and directly claimable without entering active NAV until it meets the activation rules.
 
-A claim asset can also be **dormant**: the vault retains its custody and liability, but it is not seated in the active claim list—for example, when a new balance is below the activation floor. Dormant custody remains directly claimable or redeemable; activation only places the asset in the normal iterable NAV set. Maintenance can activate or prune entries only under bounded conditions, and a dormant balance is never silently treated as free settlement liquidity.
+## The Economics of Liquidation Profits
 
-## The Economics of Liquidation Outcomes
+### How Liquidation Fees Become Your Profit
 
-### How Liquidation Spreads Affect Your Position
+The protocol's liquidation fee structure directly determines your returns. When a position liquidates:
 
-The configured liquidation spread determines how much collateral value the cohort receives relative to the settlement value it supplies. It is only one part of the depositor's eventual return:
+* **5% liquidation fee** = You buy collateral at 95% of market value
+* **10% liquidation fee** = You buy collateral at 90% of market value
+* **15% liquidation fee** = You buy collateral at 85% of market value
 
-* The collateral remains exposed to price changes after settlement
-* Claiming the collateral realizes a token position, not a guaranteed base-asset profit
-* Withdrawing the original Stability asset depends on how much unreserved custody remains
-
-The spread can provide a cushion, but it does not guarantee profitability during volatile markets.
+Actual spreads are configurable by collateral. Oracle behavior, market movement, and claim timing mean a quoted discount does not ensure profitability.
 
 ### Real-World Scenarios
 
-**During Market Volatility**: Liquidations may increase as prices swing, creating more settlement opportunities but also increasing the price risk of claim assets.
+**During Market Volatility**: Liquidations increase as prices swing, generating more profit opportunities. Your passive position captures value from market stress without active trading.
 
-**In Stable Markets**: Fewer liquidations may occur. Underlying asset returns and RIPE rewards, when configured, remain separate from liquidation outcomes.
+**In Stable Markets**: Fewer liquidations occur. Underlying asset economics and RIPE rewards continue only when their separate mechanisms and configurations provide them.
 
-**Portfolio Effect**: As liquidations occur across different collateral types, the cohort can accumulate multiple claim assets. That is changing exposure, not automatic diversification or profit.
+**Portfolio Effect**: As liquidations occur across different collateral types, you build a diversified basket of assets acquired at discount — essentially dollar-cost averaging into multiple positions at below-market prices.
 
 ## Advanced Features
 
@@ -117,78 +109,77 @@ After liquidations, you can claim your proportional share of accumulated collate
 * **Flexible Claims**: Choose which assets to claim and when
 * **Share Settlement**: Claiming burns the shares corresponding to the value delivered
 * **Auto-Deposit Option**: Claimed assets can automatically enter Ripe deposit vaults
-* **Batch Claims**: Multiple claim assets can be requested in one transaction, each with its own maximum USD value
-* **Optional RIPE Rewards**: A successful claim batch may receive locked RIPE only when claim rewards are enabled by a nonzero rate, accounting allowance remains, and the required mint-and-deposit path succeeds
+* **Batch Claims**: A bounded set of claim assets can be requested in one transaction
+* **Optional RIPE Rewards**: A successful batch earns locked RIPE only when a rate is configured, allowance remains, and mint-and-deposit succeeds
 
 **How to Claim:**
 
-For each claim, you specify:
-1. **Stability Pool Asset**: Which configured settlement-asset cohort supplies your shares (for example, sGREEN or an eligible GREEN-pair LP token)
-2. **Claim Asset**: Which available liquidated collateral you want to receive
+When claiming, you specify:
+1. **Stability Pool Asset**: Which of your deposited assets to use (sGREEN or GREEN LP)
+2. **Claim Asset**: Which liquidated collateral you want to receive (ETH, WBTC, etc.)
 3. **Maximum USD Value**: Cap on how much to claim (or max for full claim)
 
-The protocol caps each result by your shares, available claim custody, the requested maximum, and a usable price. Some entry-level conditions—such as an empty request, disabled asset, missing claim balance, or zero calculated shares—skip that entry, and the batch succeeds only if at least one claim transfers value. This is not a general partial-success guarantee: strict pricing or custody checks, caller authorization, token delivery, auto-deposit, reward minting, or the final checkpoint can revert the entire batch atomically.
-
-Only an **active** claim asset appears in the normal claim/NAV list. A nonzero **dormant** claim balance remains tracked as a custody liability and can still be claimed or used in an eligible redemption; maintenance is required only to seat it in the active iterable set. Dormant does not mean unowned or available for the vault to spend.
+Each result is capped by shares, claim custody, the requested maximum, and usable pricing. A batch is atomic and must transfer value for at least one requested asset.
 
 **Delegation**: Others can claim on your behalf if you've granted `canClaimFromStabPool` permission in your delegation settings. This enables automated claim strategies.
 
-#### Claim Incentives
+#### Claim Incentives: Keeping Pools Healthy
 
-A successful claim batch can receive a RIPE reward under the claim configuration applied by the contract:
-
-* **Value-Based Calculation**: The configured RIPE-per-dollar rate is applied to the total USD value successfully claimed
-* **Allowance-Capped Distribution**: The result is capped by the remaining rewards accounting allowance; a zero rate or exhausted allowance produces no reward
-* **Governance Deposit**: Awarded RIPE is minted and deposited into the current core [governance vault](../governance-and-economics/02-governance.md) with the configured claim-reward lock, so missing mint authority, a minting circuit breaker, or a failed deposit reverts the transaction
-
-**Batch-order rule:** The contract loads each submitted entry's claim configuration before attempting that entry, then applies the **final submitted entry's** resolved RIPE-per-dollar rate and reward-lock duration to the aggregate USD value successfully claimed across the batch. That final entry supplies the fields even if it is skipped as a no-op. Those fields currently resolve from shared reward and governance-vault settings rather than per-claim-asset terms, but the batch still uses one final resolved configuration rather than separately applying a configuration to each successful entry.
-
-The reward can encourage users to remove claim collateral, but it is not dynamically raised per asset when a pool needs rebalancing. A claim also does not replenish the original Stability asset; new deposits or other configured flows are still needed to rebuild settlement liquidity.
+When claim rewards are configured, the RIPE-per-dollar rate applies to aggregate USD value successfully claimed and is capped by the remaining rewards accounting allowance. Awarded RIPE is minted and deposited into the current core [governance vault](../governance-and-economics/02-governance.md) with the configured lock. Claiming does not replenish the original settlement asset.
 
 ### GREEN Redemption Mechanism
 
-Stability pools can also provide a GREEN redemption path. When redemption is enabled for the vault, asset, and recipient—and usable pricing and claim custody are available—an eligible caller can exchange GREEN for available claim collateral:
+When redemption is enabled for the vault, asset, and recipient—and usable pricing and claim custody are available—an eligible caller can:
 
-1. **GREEN is the debt-value input**: The vault treats GREEN as a $1 unit for the redemption calculation
-2. **Configured collateral pricing determines output**: The claim amount is bounded by the requested GREEN, available GREEN, asset pricing, and claim custody
-3. **Pool composition changes**: GREEN value replaces the redeemed claim collateral; an sGREEN cohort deposits the incoming GREEN into sGREEN, while other cohorts record it as GREEN claim custody
+1. **Redeem GREEN for available collateral** using GREEN as a $1 input to the bounded calculation
+2. **Help stabilize GREEN price** through arbitrage
+3. **Change pool custody**: an sGREEN cohort deposits incoming GREEN into sGREEN, while other cohorts record it as GREEN claim custody
 
-This conditional arbitrage path can support GREEN's peg, but it is not an unconditional right to redeem any amount or asset and does not guarantee depositor value.
+This can support GREEN-market arbitrage while changing the cohort's custody and risk exposure.
 
 ### Multi-Asset Accumulation
 
-Over time, a Stability cohort can accumulate several configured claim assets from compatible liquidations. GREEN received through pool redemptions changes custody in the opposite direction by replacing redeemed claim collateral; for an sGREEN cohort it is converted into sGREEN instead of becoming a GREEN claim. The actual asset mix is configuration- and activity-dependent, and each claim asset brings its own price and liquidity risk.
+Over time, stability pools accumulate diverse collateral types:
+
+* ETH from liquidated Ethereum positions
+* cbBTC from Bitcoin-backed loans
+* Various DeFi tokens from other collateral types
+* GREEN from redemption operations
+
+Your shares maintain exposure to the cohort's valued basket until claims or redemptions change it.
 
 ## Why Participate in Stability Pools?
 
 ### For Yield Seekers
 
-* **Multiple potential return sources** from underlying economics, liquidation outcomes, and configured rewards
-* **Passive settlement exposure** without submitting each liquidation transaction yourself
-* **Liquidation exposure** through configured settlement spreads, with corresponding market risk
+* **Multiple potential return sources** from the deposited asset, liquidation settlement, and configured rewards
+* **Passive income** requiring no active management
+* **Configured liquidation spreads** whose realized outcome remains market-dependent
 
 ### For Risk-Conscious Users
 
-* **Conditional settlement-route priority**: an eligible Stability vault is checked before ordinary auction fallback
-* **Flexible claims and withdrawals**, subject to available custody and configuration
+* **Pre-auction route** when the vault is selected and has capacity
+* **Claim and withdrawal paths** subject to vault and protocol checks
 * **Protocol protection** role enhances system stability
 
 ### For GREEN Ecosystem Supporters
 
 * **Strengthen the protocol** by providing liquidation liquidity
-* **Potentially earn configured rewards** while supplying eligible settlement liquidity
-* **Accumulate governance points** when claim rewards are deposited into the configured governance vault
+* **Earn while protecting** the system from bad debt
+* **Accumulate governance power** through RIPE rewards
 
 ## The Liquidation Game, Simplified
 
-For collateral configured to use Stability settlement, an eligible vault is checked before auction fallback. Some events can be absorbed completely, some only partly, and some not at all.
+Every market crash. Every overleveraged position. Every liquidation event.
 
-When settlement occurs, your cohort exchanges liquid Stability assets for claimable collateral at the configured spread. Its NAV includes valued active claims, but that NAV is not a promise of immediate withdrawal in the original asset.
+Eligible liquidations can flow through a compatible Stability vault before auction fallback; incompatible, reserved, full, paused, unpriced, or illiquid routes are skipped.
 
-The vault removes the need for each depositor to compete in the auction for every Stability settlement. It does not remove transaction gas, execution risk, or the need to monitor and manage the resulting position.
+Depositors do not need to bid on each liquidation, although deposits, claims, and withdrawals remain onchain transactions.
 
-Deposit with the full position in mind: underlying asset economics, RIPE rewards when configured, liquidation-claim exposure, and the liquidity available when you later withdraw or claim.
+Deposit, let the shared vault provide conditional liquidation liquidity, and claim your proportional position when the applicable checks permit it.
 
 ***
 
-_Provide liquidation liquidity, and understand what the vault may hold in return._
+_Provide liquidation liquidity without bidding on every auction._
+
+_For technical implementation details, see the_ [_StabilityPool Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/stabilitypool)_._

@@ -16,18 +16,18 @@ description: Borrow GREEN against your deposits, and keep the position healthy
 
 **Step 4.** Choose what you receive and where it goes. This is easy to miss and it matters:
 
-* **Receive Token:** **GREEN** (the plain stablecoin) or **Savings GREEN** ([sGREEN](../earning-and-rewards/01-sgreen.md), a non-rebasing share whose GREEN backing can increase when configured revenue reaches the savings vault).
-* **Destination:** **Wallet** (it lands in your wallet, ready to spend or move) or, when receiving **Savings GREEN** and the interface offers a compatible route, **Stability Pool** (subject to the wrapping floor, the sGREEN is deposited into the configured Stability vault, with the estimate shown in the preview).
+* **Receive Token:** **GREEN** (the plain stablecoin) or **Savings GREEN** ([sGREEN](../earning-and-rewards/01-sgreen.md), which earns yield automatically).
+* **Destination:** **Wallet** (it lands in your wallet, ready to spend or move) or **Stability Pool** (it goes straight to work [earning](../earning-and-rewards/02-stability-pools.md), with the APY shown right there).
 
-If you're borrowing to spend the money, choose GREEN and Wallet. If an eligible Stability destination is offered, choosing Savings GREEN and Stability Pool can convert the borrowed GREEN to sGREEN and save a separate deposit. When the calculated output does not exceed the wrapping floor, the recipient receives GREEN instead and nothing enters the Stability vault.
+If you're borrowing to spend the money, choose GREEN and Wallet. If you're borrowing to put the money to work, sending it straight to the Stability Pool saves you a separate deposit.
 
 **Step 5.** Press **Borrow** and confirm in your wallet.
 
 ![Your position with an active loan, shown as Healthy](../.gitbook/assets/user-guide-08-borrow-page-healthy.png)
 
-**What to watch afterward:** your Debt Status on the Borrow page (and Debt Ratio on the Dashboard). It reads **No Debt** before you borrow and **Healthy** while you have comfortable room, with your debt shown against the Max Borrow and Liquidation markers. Debt can grow as interest accrues, even if collateral prices do not move. If the position reaches its liquidation threshold, it can become eligible for [liquidation](../core-protocol/04-liquidations.md).
+**What to watch afterward:** your Debt Status on the Borrow page (and Debt Ratio on the Dashboard). It reads **No Debt** before you borrow and **Healthy** while you have comfortable room, with your debt shown against the Max Borrow and Liquidation markers. If your collateral loses enough value, your position can be [liquidated](../core-protocol/04-liquidations.md).
 
-The Dashboard shows the same position as a **Debt Ratio** card, which spells out how the number is calculated and the ratio at which the position becomes eligible for liquidation. Same information, two vocabularies: the Borrow page gives you a word, the Dashboard gives you the percentage behind it.
+The Dashboard shows the same position as a **Debt Ratio** card, which spells out how the number is calculated and the ratio at which liquidation happens. Same information, two vocabularies: the Borrow page gives you a word, the Dashboard gives you the percentage behind it.
 
 ![The Dashboard's view of an active loan, with the Debt Ratio explained](../.gitbook/assets/user-guide-16-dashboard-debt.png)
 

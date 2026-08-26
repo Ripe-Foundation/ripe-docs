@@ -19,9 +19,9 @@ A user first previews an acquisition using a payment amount and requested vestin
 * The current epoch and payout-rate information
 * The position's creation, first-claim, and maturity blocks
 
-Execution includes the quoted vesting length and epoch, a minimum RIPE output, and a deadline. Those are the bound execution checks. The previewed creation, claim-start, and maturity blocks are projections from the preview block; the actual position is anchored to the transaction's inclusion block, so those schedule blocks move if execution is delayed.
+Execution binds the requested vesting length and epoch, a minimum RIPE output, and a deadline. The actual schedule is anchored to the transaction's inclusion block, so previewed schedule blocks move if execution is delayed.
 
-Acquisitions are full-fill only. The Engine verifies the exact increase in payment-token custody before it creates the RIPE allocation. A short receipt, false token return, fee-on-transfer result, expired deadline, stale epoch expectation, or insufficient capacity causes the transaction to revert instead of creating a partial position.
+Acquisitions are full-fill only. The Engine verifies exact payment-token receipt before creating the allocation; invalid payment, stale quote, or insufficient capacity reverts instead of creating a partial position.
 
 On success:
 
@@ -37,10 +37,6 @@ Each committed epoch snapshots the terms used for acquisitions in that epoch, in
 The controller can adjust the next epoch's base rate from the preceding committed epoch's utilization and timing data, subject to configured bounds and idle-decay rules. The rate therefore stays fixed within a committed epoch while the controller can respond between epochs.
 
 The vesting-duration bonus is separate from the base rate. A longer selected duration can increase the total RIPE allocation according to the configured bonus curve. Governance also sets an all-in payout-rate ceiling so the base rate plus the maximum duration bonus remains bounded.
-
-When the minimum and maximum vesting lengths differ, configuration validation also bounds the bonus relative to that duration range. The maximum-duration option cannot have an equal or faster average RIPE release rate solely because of its bonus.
-
-An optional one-shot override can set the base rate for one resolved epoch. It is applied and consumed if a successful acquisition first commits that target epoch. If no acquisition commits the target before the clock advances, the next committed epoch clears the override as missed. The overridden rate becomes the historical starting point for the following controller transition rather than snapping back immediately. Engine start, stop, and controller changes invalidate an installed override; a pause or acquisition-availability change by itself does not.
 
 ## Allocation Budget
 
@@ -71,28 +67,22 @@ If the selected and minimum durations are equal, the entire allocation becomes c
 
 ## Claims and Optional Governance Deposit
 
-A beneficiary can claim one position or submit a contract-bounded batch of position IDs. RIPE is minted only after the Vesting contract records a valid, nonzero claim.
+A beneficiary can claim vested RIPE from a position. RIPE is minted only after the Vesting contract records a valid, nonzero claim.
 
 * **Direct claim:** RIPE is minted to the beneficiary.
 * **Auto-deposit claim:** RIPE is minted through the Engine and deposited for the beneficiary into the core RipeGov vault currently selected in Mission Control.
 
-For auto-deposit, the submitted lock duration is a request. The live RipeGov vault applies its configured minimum, maximum, and whole-position lock mechanics. The deposit affects that RIPE asset position in the current core vault; a separate position in a historical governance vault is not merged automatically.
-
-A batch is atomic. Callers should remove duplicate position IDs before submission because a duplicate that reaches the same position twice causes the entire batch to revert. A downstream mint, token, blacklist, or governance-vault failure also rolls back the complete claim transaction.
-
-A blacklisted beneficiary's reserved allocation is not forfeited or returned to the budget. It remains outstanding until it can be claimed and therefore continues to prevent the Vesting contract from being retired. This contract version has no built-in position reassignment, migration, forfeiture, or liability-recovery route.
+For auto-deposit, the submitted lock duration is a request. The current core RipeGov vault applies its configured minimum, maximum, and whole-position lock mechanics; a separate position in a historical governance vault is not merged automatically.
 
 ## Lifecycle and Governance Controls
 
-The Engine and Vesting contracts have separate pause boundaries, but acquisition readiness also checks that the later RIPE settlement path is available:
+The Engine and Vesting contracts have separate pause boundaries:
 
 * Pausing the Engine stops new acquisitions but does not stop claims.
 * Pausing Vesting stops claims and also makes the Engine reject new acquisitions.
-* RIPE token controls, the Engine's mint authorization, and the protocol minting circuit breaker can block claim settlement; the Engine also requires that mint path to be ready before accepting a new acquisition even though it does not mint RIPE at acquisition time.
+* RIPE token controls, mint authorization, and the protocol minting circuit breaker can block claim settlement and new acquisitions.
 
-Foxtrot is the intended named governance route. Its Engine-configuration and Vesting-allocation-budget changes are timelocked, while start, stop, payment-token changes, acquisition-availability changes, and rate-override installation or cancellation are immediate; changing the payment token still requires the Engine to be stopped. At the target contracts, these setters accept any registered Switchboard, so Foxtrot-only routing and its timelock are not independently enforced by the Engine or Vesting contract.
-
-Replacing the Vesting contract while positions remain outstanding would require a separately implemented liability-preserving migration path; the current contracts do not provide one. Without such a path, governance must keep or restore the prior Vesting target until those positions can be claimed. A Vesting contract is retireable only when it is paused and no RIPE allocation remains outstanding.
+Governance can start, stop, pause, and configure the mechanism through its authorized paths. Exact availability, terms, and control settings are live configuration; see [RIPE Params](https://params.ripe.finance).
 
 ## What to Check Before Acquiring
 

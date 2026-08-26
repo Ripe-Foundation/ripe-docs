@@ -1,8 +1,8 @@
 ---
-description: Understand common Earn position types and their accounting
+description: Compare the assets you can deposit on Earn
 ---
 
-# Understanding Earn Position Types
+# What You Can Deposit on Earn
 
 The previous guides cover [GREEN/USDG LP](05-provide-liquidity.md) and [RIPE](06-get-and-lock-ripe.md). The examples below explain the different vault mechanics behind common Earn rows; the exact assets and venues exposed by the live interface can change.
 

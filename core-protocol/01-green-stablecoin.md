@@ -4,7 +4,9 @@ description: The Stablecoin That Works Harder.
 
 # GREEN: The Stablecoin That Works Harder
 
-Stablecoin designs use different collateral, liquidity, and issuance models. GREEN is built around one account-level debt position backed by a portfolio of supported collateral. It also connects to [sGREEN](../earning-and-rewards/01-sgreen.md), [stability pools](../earning-and-rewards/02-stability-pools.md), and other configured mechanisms that work together to target the peg.
+Your USDC sits there doing nothing. Your DAI requires a new vault for every asset. Your LUSD only accepts ETH.
+
+GREEN? It's built different. Mint it against your entire portfolio — ETH, stablecoins, NFTs, whatever you've got. Earn yield automatically through [sGREEN](../earning-and-rewards/01-sgreen.md). Score liquidation profits in [stability pools](../earning-and-rewards/02-stability-pools.md). Watch six different mechanisms defend the peg while you sleep.
 
 This is what happens when you stop asking "how do we make another stablecoin?" and start asking "how should stablecoins actually work?"
 
@@ -12,25 +14,29 @@ This is what happens when you stop asking "how do we make another stablecoin?" a
 
 ### The Problem with Current Stablecoin Borrowing
 
-Common lending designs make different tradeoffs:
+Traditional lending protocols force inefficient choices that limit how you can use stablecoins:
 
-**Isolated Collateral Positions**:
+**Isolated Positions (MakerDAO/Liquity Model)**:
 
-* Each collateral type can have a separate debt position
-* Each position has its own terms and liquidation boundary
-* A portfolio can require several loans to manage
+* Open ETH vault → Borrow DAI
+* Open WBTC vault → Manage separate loan
+* Add new asset? → Yet another position
+* Result: Portfolio fragmentation, constant juggling
 
-**Shared Lending Markets**:
+**Pooled Risk (Aave/Compound Model)**:
 
-* Markets select their own supported collateral and risk terms
-* Borrowing depends on available lender liquidity
-* Liquidity and bad debt can be shared within a market
+* Limited to "safe" assets only
+* Your collateral backs everyone's loans
+* One bad actor affects all users
+* Result: Restricted innovation, systemic risk
 
-**Isolated Money Markets**:
+**Isolated Money Markets (Morpho/Euler Model)**:
 
-* Terms can be tailored per market
-* Each market has separate liquidity and collateral boundaries
-* A multi-asset portfolio can still span several positions
+* Deposit ETH → One USDC loan
+* Deposit WBTC → Another separate USDC loan
+* Multiple positions to track and manage
+* Each market needs lenders providing capital
+* Result: Portfolio fragmentation AND rate inefficiency
 
 ### Ripe's Solution: Unified Multi-Collateral Borrowing
 
@@ -41,23 +47,23 @@ Traditional:  ETH → DAI Position 1
               WBTC → DAI Position 2
               USDC → Can't use
 
-Ripe:         Multiple supported collateral assets
+Ripe:         ETH + WBTC + USDC + stETH + NFTs + Anything
               ↓ (all combined)
               One GREEN Loan at Weighted Terms
 ```
 
-Supported members of your portfolio can back a single GREEN loan. Collateral and debt are accounted per account rather than through a pooled lender balance sheet, while global debt limits, dynamic-rate signals, oracle and liquidity conditions, and protocol bad debt remain shared risks.
+Your entire portfolio — from blue-chip crypto assets to yield-bearing positions, from stablecoins to tokenized stocks — backs a single GREEN loan. This creates unmatched capital efficiency while keeping your risk isolated from other users.
 
 ### Complementary, Not Competitive
 
-When a yield-bearing token is registered with compatible custody, debt terms, and a usable price path, its external share or exchange-rate economics can continue while it is used as Ripe collateral. Illustrative token models include:
+While these other lending protocols have borrowing limitations, they excel at generating yield — and Ripe turns their yield-bearing tokens into powerful collateral. Instead of choosing between earning yield OR borrowing, you can do both:
 
-* **Aave-style receipt tokens**: Lending-market share value can remain reflected in the deposited token
-* **Compound-style cTokens**: The external exchange-rate model can continue
-* **Morpho-style positions**: A compatible vault can represent the yield-bearing position
-* **Savings-rate tokens**: Their configured share-price mechanics can remain reflected while backing GREEN
+* **Aave aTokens**: Earn lending yield while using as Ripe collateral
+* **Compound cTokens**: Your supplied assets keep compounding
+* **Morpho positions**: Optimized rates become productive collateral
+* **Maker sDAI**: Savings rate continues while backing GREEN loans
 
-These are architecture examples, not a current supported-asset list. Each asset still requires governance configuration, compatible vault behavior, and usable pricing; see [RIPE Params](https://params.ripe.finance).
+The best strategy? Lend on these protocols for yield, then use those yield-bearing positions as collateral on Ripe. You get their yields AND our capital efficiency — truly the best of both worlds.
 
 ### Built for the Entire Ecosystem
 
@@ -70,9 +76,9 @@ GREEN isn't just another stablecoin. It's the cornerstone of Ripe Protocol:
 │  BORROWING          YIELD              STABILITY        │
 │  ┌─────────┐       ┌──────────┐       ┌──────────┐      │
 │  │ Mint    │       │ sGREEN   │       │ Stability│      │
-│  │ GREEN   │  ───> │ Backing  │  ───> │ Pools    │      │
-│  │ Against │       │ per Share│       │ Earn     │      │
-│  │ Assets  │       │ Can Grow │       │ Spreads  │      │
+│  │ GREEN   │  ───> │ Auto-    │  ───> │ Pools    │      │
+│  │ Against │       │ Compound │       │ Earn     │      │
+│  │ Assets  │       │ Yield    │       │ Discounts│      │
 │  └─────────┘       └──────────┘       └──────────┘      │
 │       │                  │                   │          │
 │       └──────────────────┴───────────────────┘          │
@@ -83,7 +89,7 @@ GREEN isn't just another stablecoin. It's the cornerstone of Ripe Protocol:
 │                    │  Stabilizer│                       │
 │                    └────────────┘                       │
 │                                                         │
-│  GREEN can participate in several configured mechanisms │
+│  Every GREEN serves multiple purposes simultaneously    │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -91,96 +97,96 @@ GREEN isn't just another stablecoin. It's the cornerstone of Ripe Protocol:
 
 ### Creation Through Borrowing
 
-Borrower-originated GREEN is minted against value locked in Ripe Protocol:
+Every GREEN token represents real value locked in Ripe Protocol:
 
-1. **Deposit Collateral**: Lock any [supported asset](03-collateral-assets.md) (WETH, compatible tokenized assets, stablecoins, etc.)
+1. **Deposit Collateral**: Lock any [supported asset](03-collateral-assets.md) (ETH, WBTC, stablecoins, etc.)
 2. **Borrow GREEN**: Mint new GREEN against your collateral
-3. **Overcollateralized Borrowing**: Asset-specific LTV terms limit debt against the portfolio
+3. **Configured Collateralization**: Asset-specific LTV terms determine borrowing power
 4. **Pay Interest**: [Dynamic rates](02-borrowing.md#dynamic-interest-rates) that respond to market conditions
-5. **Origination Fee (Daowry)**: A configured one-time fee can direct value to sGREEN and/or RIPE buybacks
+5. **Origination Fee (Daowry)**: A configured one-time fee flows through protocol revenue allocation
 
 **Hypothetical Multi-Asset Borrowing Example**:
 
 ```
 Your Unified Portfolio:
-- 5 WETH worth $10,000 (70% LTV = $7,000 borrowing power)
+- 5 ETH worth $10,000 (70% LTV = $7,000 borrowing power)
 - 10,000 USDC (80% LTV = $8,000 borrowing power)
 - 2 cbETH worth $4,000 (70% LTV = $2,800 borrowing power)
 - 1M DEGEN worth $1,000 (40% LTV = $400 borrowing power)
-- $50,000 of an ERC-20-compatible tokenized asset (40% LTV = $20,000 borrowing power)
+- 1 Bored Ape worth $50,000 (40% LTV = $20,000 borrowing power)
 
 Total Borrowing Power: $38,200 GREEN
 Single Loan, Single Interest Rate, All Assets Working Together
 ```
 
-### Standard Repayment with GREEN
+The assets and values above are illustrative. See [RIPE Params](https://params.ripe.finance) for current asset support and configuration.
 
-When a borrower uses the standard GREEN repayment path:
+### Destruction Through Repayment
+
+GREEN supply contracts automatically when loans are repaid:
 
 1. **Send GREEN**: Return borrowed amount plus interest
-2. **Burn the Payment**: The GREEN credited against debt is destroyed
-3. **Restore Withdrawal Capacity**: A separate withdrawal can release collateral that is no longer needed to support the remaining debt
+2. **Burn Forever**: GREEN is permanently destroyed
+3. **Unlock Collateral**: Get your assets back proportionally
 
-This standard borrow-and-repay path expands and contracts supply with borrowing activity. Separate department and collateral-settlement paths can reduce debt without burning a GREEN payment—for example, configured stable-side deleverage or non-GREEN Stability settlement. GREEN also has separately accounted mint-and-burn paths described on this page, including reserve-backed PSM conversion, realized borrower-revenue distribution, and authorized Endaoment liquidity operations.
+This elegant mechanism ensures GREEN supply expands and contracts with real borrowing demand.
+
+Standard repayment returns any payment above the live debt to the payer. A full payoff does not need to traverse or reprice the borrower's collateral, so repayment remains the recovery path when a debt-bearing asset is quarantined by unavailable pricing or backing. If a partial repayment cannot derive eligible replacement terms, the stored debt terms are preserved.
 
 ### Cross-Chain Token Movement
 
-On a configured CCIP route, outbound GREEN or RIPE delivered to its token-specific pool is burned on the source chain, and the corresponding token-specific pool mints to the recipient on the destination chain. Each pool exposes only its own token capability, while that deployment's RipeHq must separately authorize the pool to mint and can disable minting for that deployment. This describes the burn-and-mint mechanism; which routes and limits are active depends on each deployment's configuration.
+Configured CCIP pools move GREEN or RIPE with a burn-and-mint design: the token-specific source pool burns the amount sent, and the corresponding token-specific destination pool mints to the recipient. Each deployment must separately authorize its pool to mint, and route availability and limits remain deployment configuration.
 
 ## The Six Pillars of Stability
 
-GREEN targets its $1 peg through multiple interconnected mechanisms. Some are automatic consequences of user actions, while others are optional or require an authorized transaction. Together, the redemption and conversion paths create arbitrage loops that can support the peg from multiple angles:
+GREEN uses multiple interconnected stability mechanisms with different triggers and authorization paths. Its redemption and conversion mechanisms can create arbitrage loops that support the peg from multiple angles:
 
 ### 1. Overcollateralization Foundation
 
 The bedrock of GREEN's stability:
 
-* **Configured Collateralization**: Each asset contributes according to its governed debt terms
-* **Extensible Asset Support**: Compatible vault and pricing modules can add different collateral types without changing the one-loan model
-* **Portfolio Composition**: Multiple collateral assets can reduce concentration, but the protocol does not guarantee diversification or lower risk
-* **Onchain Health Checks**: Relevant actions evaluate positions using current usable [price-oracle](06-price-oracles.md) outputs
+* **Configured Ratios**: Collateralization depends on each asset's governed debt terms
+* **Extensible Asset Support**: Different collateral types can be added when compatible custody, pricing, and risk configuration exist
+* **Portfolio Effect**: When one asset drops, others may rise — true diversification
+* **Real-Time Monitoring**: Continuous health checks on all positions using [price oracles](06-price-oracles.md)
 * **Buffer Zones**: Multiple warning levels before [liquidation](04-liquidations.md)
 
 ### 2. Dynamic Interest Rate Response
 
-When sustained, corroborated observations show GREEN overrepresented in the configured reference pool, borrowing rates can increase to encourage repayment. The contract uses that reserve-ratio history as its signal rather than reacting directly to a spot market price. For complete details, see [Dynamic Interest Rates](02-borrowing.md#dynamic-interest-rates) in the borrowing documentation.
+When sustained reference-pool observations show GREEN overrepresented, borrowing rates can increase to encourage repayment. For complete details on how dynamic rates work, see [Dynamic Interest Rates](02-borrowing.md#dynamic-interest-rates) in the borrowing documentation.
 
 **Normal Conditions**:
 
-* Confirmed reference-pool observations remain below the configured danger threshold
-* An ordinary borrower's next eligible debt checkpoint stores the weighted base rate for subsequent accrual
-* Existing debt continues accruing at its previously stored rate until a protocol action updates the debt terms
+* The duration-weighted GREEN ratio remains below the configured danger trigger
+* Borrowers pay their weighted base rates
 
-**Below-Peg Response (GREEN Weak)**:
+**Below Peg Response (GREEN Weak)**:
 
-* Chronological pool snapshots measure whether GREEN remains overrepresented, rather than reacting to one observation
-* Consecutive snapshots must corroborate an imbalance; qualifying intervals are weighted by their duration
-* A ratio-based boost grows with the confirmed imbalance, while a duration-based boost grows with sustained danger
-* The combined rate is bounded by a configured cap
-* An eligible debt update checkpoints the resulting rate for subsequent accrual; a signal change does not retroactively reprice an elapsed interval
-* Higher rates incentivize borrowers to repay, creating buying pressure for GREEN
+* Snapshots are evaluated chronologically, with each valid interval weighted by its duration
+* The lower ratio of each interval's two endpoints is used, so one isolated high observation cannot raise the signal
+* Stale, out-of-order, or excessively gapped history fails closed instead of being extrapolated through a live tail
+* Configured ratio and duration boosts can increase the rate, subject to the configured cap
+* Higher rates incentivize borrowers to repay (buy GREEN)
+* Repayment creates buying pressure, restoring peg
 
 **Above Peg Response (GREEN Strong)**:
 
-* Normal base rates apply (no increase needed)
-* An authorized, configured Endaoment action can mint GREEN within its pool-debt ceiling and add liquidity
-* Additional sell-side liquidity can put downward pressure on the market price
+* Normal base rates apply when the reference-pool signal is below the configured trigger
+* Endaoment can mint GREEN to add liquidity
+* Increased supply brings price back down
 
-**Recovery**: A single safe observation does not erase accumulated danger. Consecutive safe observations must cover the same configured freshness interval used to bound observations before the duration history resets. Mixed, stale, or unavailable intervals neither add danger credit nor count as confirmed recovery. A safe signal affects an existing borrower's stored rate only at a later eligible debt checkpoint. See [Dynamic Interest Rates](02-borrowing.md#dynamic-interest-rates) for the full mechanism.
+**Confirmed Recovery**: Mixed safe/danger intervals do not erase accumulated danger duration. Consecutive safe endpoints must cover the configured freshness window before that history resets.
 
 ### 3. Direct Redemption Mechanism
 
-When their protocol, position, asset, recipient, and pricing checks pass, redemptions create an arbitrage path that can support GREEN below $1. For a detailed explanation of how this separate protective buffer works, see [The Redemption Buffer](04-liquidations.md#the-redemption-buffer) in the liquidations documentation.
+Redemptions create an automatic arbitrage loop that restores GREEN's peg whenever it trades below $1. For a detailed explanation of how redemptions work as a protective buffer, see [The Redemption Buffer](04-liquidations.md#the-redemption-buffer) in the liquidations documentation.
 
-**Dollar-Denominated Redemption**:
+**$1 Accounting and Rounding**:
 
-* GREEN is treated as a $1 debt-value input for sizing; this is protocol accounting, not a guarantee of GREEN's market price or literal dollar proceeds
-* The inverse asset quote rounds down, and debt credit follows the amount credited by the vault rather than assuming the requested amount was delivered exactly
-* Targets positions at or beyond the redemption threshold while they are not already `inLiquidation`; this can include a liquidation-eligible position before an episode starts
-* Uses a bounded, health-restoring target rather than automatically emptying the selected borrower's debt
-* Registered Underscore Earn-vault borrowers are skipped by ordinary credit redemption
-* Execution is permissionless when the position, asset, recipient, prices, and protocol controls are eligible
-* The resulting arbitrage opportunity can support GREEN's market price
+* GREEN is treated as a $1 debt-value input when sizing a redemption; the inverse asset quote rounds down, and debt credit follows the amount actually credited by the vault
+* Targets only positions in the "Redemption Zone" (below redemption threshold)
+* No committees, no voting, no delays — instant execution
+* Creates a hard floor for GREEN's market price
 
 **How Arbitrage Restores the Peg**:
 
@@ -189,12 +195,14 @@ GREEN trading at $0.97? Here's what happens:
 
 1. Arbitrageurs spot the 3% discount
 2. Buy 10,000 GREEN for $9,700 on the market
-3. Submit a redemption sized for up to $10,000 of eligible collateral under the example accounting and rounding assumptions
-4. Compare the $300 gross spread with execution costs and market risk
-5. This buying pressure can support GREEN's return toward $1
+3. Submit a redemption sized for up to $10,000 worth of eligible collateral
+4. Profit: $300 risk-free
+5. This buying pressure pushes GREEN back to $1
 ```
 
-**Important Constraint**: Redemptions require a position at or beyond its redemption threshold and stop once that position enters an active liquidation episode. During stable markets with healthy collateral ratios, direct redemptions may be unavailable. The protocol, asset, recipient, pricing, custody, and borrower-type checks must also pass.
+**Important Constraint**: Redemptions are only possible when positions exist in the Redemption Zone. During stable markets with healthy collateral ratios, direct redemptions may be unavailable. The protocol also withholds redemption while any debt-bearing collateral in the account has unavailable pricing or unusable backing.
+
+This mechanism activates when market stress pushes positions toward liquidation, providing buying pressure precisely when GREEN needs support most.
 
 ### 4. Stability Pool Redemption Mechanism
 
@@ -202,12 +210,13 @@ A second powerful redemption path exists through [stability pools](../earning-an
 
 **How Pool Redemptions Work**:
 
-* Stability pools can accumulate configured collateral assets from liquidations
-* GREEN is treated as a $1 accounting input when sizing the exchange for priced, claimable pool assets; inverse quotes and vault accounting can round the credited result
-* **Availability Dependent**: The vault, asset, recipient, pricing, and claim custody must all qualify
+* Stability deposits are represented by shares whose NAV includes unreserved settlement assets and strictly priced active claim assets
+* Small liquidation claims can remain dormant until they qualify for activation; active claims can later retire under bounded residual rules
+* Public claims and redemptions use batch routes and require usable pricing, available claim custody, and unreserved settlement liquidity
+* A compatible liquidation can fall back to an ordinary auction when Stability settlement is unavailable
 * Creates arbitrage opportunities during periods of liquidation activity
 
-**Important Constraint**: Pool redemptions require available claim collateral and enabled redemption configuration. A pool can reject or skip a request even when it has other claim assets.
+**Important Constraint**: Pool redemptions require the stability pools to hold collateral from recent liquidations. During calm markets with no liquidations, this redemption path may be unavailable.
 
 **Complementary Redemption Paths**:
 
@@ -219,156 +228,154 @@ GREEN at $0.96? Potential redemption options:
 Both paths subject to availability
 ```
 
-**When Pool Redemptions May Be Available**:
+**When Pool Redemptions Are Most Effective**:
 
-* A compatible liquidation may add claim collateral to a configured Stability cohort
-* Redemption still depends on enabled routes, usable pricing, active claims, cohort balances, conversion feasibility, and available custody
-* Incompatible, reserved, full, or unfunded Stability routes fall back or decline rather than creating redemption capacity
-* Market stress can create opportunities, but it can also reduce liquidity or make a route unavailable
+* **Market Stress**: Liquidations increase, filling pools with collateral
+* **Price Volatility**: More positions fail, creating redemption opportunities
+* **Cascading Events**: Each liquidation enables more GREEN redemptions
+* **Self-Balancing**: Redemptions occur precisely when GREEN needs support
 
 ### 5. Endaoment Treasury Operations
 
-The [Endaoment](07-endaoment.md) is a protocol-owned treasury that can support the peg through authorized, configured transactions:
+The [Endaoment](07-endaoment.md) serves as GREEN's financial fortress — a protocol-owned treasury with vast capabilities to defend the peg:
 
 **Capital Arsenal from Bond Sales**:
 
-* Accepted bond proceeds become treasury assets
-* Treasury assets can enter configured yield or liquidity positions
-* Assets can remain in custody until an authorized transaction deploys them
-* Available reserves and configured permissions bound what an operation can do
+* Bond proceeds provide stablecoin reserves for immediate deployment
+* Treasury assets can be deployed through authorized DeFi operations
+* Growing war chest ensures firepower during any market condition
+* No reliance on external capital or emergency fundraising
 
-**Authorized Stabilizer Transaction**:
+**Switchboard-Authorized Stabilizer Action**:
+
+A Switchboard-authorized caller submits each stabilizer action; the Endaoment does not run on an autonomous scheduler.
 
 ```
-Reference-pool adjustment:
-
-Normalized paired-asset balance exceeds GREEN?
-→ Use treasury GREEN first
-→ Mint only the additional GREEN needed, within the pool-debt ceiling
-→ Add a configured fraction of the imbalance as liquidity
+Normalized pool-balance adjustment:
 
 Normalized GREEN balance exceeds the paired asset?
-→ Remove a bounded amount of GREEN liquidity
-→ Burn recovered GREEN up to the pool's recorded debt
-→ Keep any remaining treasury value under the stabilizer's accounting checks
-```
+→ Remove excess GREEN liquidity
+→ Burn GREEN tokens permanently
+→ Restore pool balance to support price
 
-The balances are normalized into the same value scale before comparison. A Switchboard-authorized call performs the operation; the contract does not run an autonomous scheduler or force an exact 50/50 result in one transaction.
+Normalized paired-asset balance exceeds GREEN?
+→ Mint new GREEN (tracked as debt)
+→ Add liquidity to deepen markets
+→ Restore pool balance to stabilize price
+```
 
 **Liquidity Management Powers**:
 
-* **Multi-DEX Operations**: Deploy liquidity through configured Curve, Uniswap, Aerodrome, or other compatible routes
+* **Multi-DEX Operations**: Deploy liquidity across Curve, Uniswap, Aerodrome simultaneously
 * **Concentrated Positions**: Use Uniswap V3 or Aero Slipstream for capital-efficient price support
-* **Partner Programs**: Mint GREEN within configured debt limits to pair with compatible assets
-* **Transaction-Based Rebalancing**: Authorized calls can adjust configured positions; the contract has no autonomous scheduler
+* **Partner Programs**: Mint GREEN paired with partner assets for deeper markets
+* **Transaction-Based Rebalancing**: Move capital between pools through authorized transactions
 
 **Strategic Market Making**:
 
 * Can provide buy-side support when GREEN weak
 * Can provide sell-side liquidity when GREEN strong
-* Any proceeds or fees from configured positions remain protocol treasury value
-* Operations are limited by assets in custody and the authority of the called route
+* Profits from spreads flow back to treasury
+* Self-funded operations through yield generation
 
 **Why This Matters**:
 
-* **Accounted Minting**: Authorized GREEN minting is bounded and tracked as pool debt
-* **Configured Venues**: Operations can use compatible routes that governance has configured
-* **Controlled Execution**: Authorized calls are bounded by configured pool, debt, and liquidity constraints
-* **Treasury Retention**: Any resulting fees or proceeds remain under treasury accounting
+* **Deep Resources**: An authorized stabilizer action can mint GREEN within the configured pool debt ceiling
+* **Multiple Fronts**: Operates across all major DEXes simultaneously
+* **Authorized Execution**: Each operation requires a Switchboard-authorized transaction and must pass configured controls
+* **Self-Strengthening**: Every intervention generates fees that grow the treasury
 
-The Endaoment transforms a passive treasury into an onchain market participant that can support GREEN's peg through governed operations.
+The Endaoment transforms from passive treasury to active market participant, with authorized operations that can support GREEN's peg.
 
 ### 6. Peg Stability Module (PSM)
 
-When a direction is enabled, the PSM converts between GREEN and a reserve stablecoin around a $1 reference without using a DEX trade. The reserve token is fixed when that PSM is deployed and must use six decimals.
+Forget complex arbitrage strategies. When a direction is enabled, the PSM converts between GREEN and its reserve stablecoin around a $1 reference. The reserve token is immutable for that PSM deployment and must use six decimals.
 
 **Dead Simple**:
 
-* **Mint GREEN**: Deposit the reserve stablecoin and receive GREEN, or request delivery through sGREEN when the output exceeds the contract's wrapping minimum; a smaller output is delivered as GREEN
-* **Redeem GREEN**: Pay with GREEN or sGREEN and receive the reserve stablecoin
-* **Independent Controls**: Minting and redemption can be enabled, limited, and allowlisted separately
+* **Mint GREEN**: Deposit the reserve stablecoin, receive GREEN around the 1:1 reference (minus a fee if applicable)
+* **Redeem GREEN**: Burn GREEN, receive the reserve stablecoin around the 1:1 reference (minus a fee if applicable)
+* **Reserve Backed**: Redemption is separate from danger-zone collateral and Stability claims, but still depends on enabled configuration and available reserves
 
-**A Conditional Arbitrage Loop**:
+**Illustrative, Conditional Arbitrage Loop**:
+
+The examples below assume the relevant direction is enabled, reserves and interval capacity are available, and fees and execution costs are zero.
 
 ```
-GREEN trading below its reference?
-1. Buy GREEN in the market
-2. Redeem through the PSM if redemption is enabled and reserve capacity is available
-3. If the conservative quote leaves a profit after fees, arbitrage buying can support the peg
+GREEN trading at $0.97?
+1. Buy 10,000 GREEN on DEX for $9,700
+2. Redeem through the PSM for the configured reserve stablecoin
+3. Illustrative gross spread: $300 before fees and execution costs
+4. Your buying pressure can help restore the peg
 
-GREEN trading above its reference?
-1. Mint GREEN if minting is enabled and the applicable recipient, fee, and capacity checks pass
-2. Sell GREEN in the market
-3. If the quote leaves a profit after fees, arbitrage selling can support the peg
+GREEN trading at $1.03?
+1. Mint 10,000 GREEN through the PSM with the configured reserve stablecoin
+2. Sell on DEX for $10,300
+3. Illustrative gross spread: $300 before fees and execution costs
+4. Your selling pressure can help restore the peg
 ```
 
 **Why It Works**:
 
-* **No debt-position prerequisite** — the PSM is separate from collateral redemption
-* **Direction-specific bounds** — ordinary minting is bounded by the caller's input, the conservative oracle-or-par quote, fees, and interval capacity; redemption is additionally bounded by reserve liquidity
-* **Optional sGREEN handling** — mint proceeds can be delivered through sGREEN, and sGREEN can fund redemption
-* **Optional reserve yield** — a configured yield position can deploy idle reserves and withdraw them when needed
+* **No prerequisites** — don't need positions in danger zones or liquidated collateral
+* **Bounded quotes** — conversion uses the applicable oracle/par rule and configured fees
+* **Fast** — one transaction, done
+* **Optional reserve yield** — configured reserves can use a compatible yield position while waiting
 
 **The Fine Print**:
 
-Recognized-vault treatment is determined from the **recipient**, not merely the transaction caller:
+Rate limits and optional allowlists govern ordinary recipients. A recognized Underscore-vault recipient bypasses the ordinary allowlist, fee, and interval controls, but minting remains bounded by the submitted reserve input and its conservative quote, while redemption remains bounded by available reserves.
 
-* **Mint to an ordinary recipient**: Any enabled mint allowlist applies to the caller; the configured fee and interval capacity apply; output uses the lower of oracle value and par
-* **Mint to a recognized Underscore vault**: The ordinary allowlist, fee, and interval controls are bypassed, but output uses the same conservative lower-of-oracle-and-par quote and remains bounded by the caller's supplied reserve token rather than by existing reserve inventory
-* **Redeem to an ordinary recipient**: Any enabled redeem allowlist applies to the caller; the configured fee and interval capacity apply; output uses the lower of oracle value and par and cannot exceed available reserves
-* **Redeem to a recognized Underscore vault**: The ordinary allowlist, fee, and interval controls are bypassed; output uses the more favorable higher-of-oracle-and-par quote but remains bounded by available reserves
-
-See [RIPE Params](https://params.ripe.finance) for current configuration.
-
-Bottom line: when configured and available, the PSM gives arbitrageurs a reserve-backed path that can help close a GREEN price gap.
+Bottom line: when configured and available, the PSM supplies another arbitrage path that can help close a GREEN price gap.
 
 ## Additional GREEN Ecosystem Features
 
 ### Bad Debt Resolution
 
-If bad debt exists during a [bond](../governance-and-economics/03-bonds.md) purchase, the oracle-valued payment can clear bad debt up to that value. Because the corresponding RIPE payout is accounted outside ordinary bond-distribution usage, authorized cap administration must count it separately toward RIPE's protocol-wide 1 billion-token cap across all blockchains.
+If bad debt exists during a [bond](../governance-and-economics/03-bonds.md) purchase, the oracle-valued payment can clear bad debt up to that value. The corresponding RIPE payout is accounted outside ordinary bond-distribution usage, but authorized cap administration must count it separately toward RIPE's protocol-wide 1 billion-token cap across all blockchains.
 
 ### Protocol-Wide Integration
 
 * GREEN is the only borrowable asset in Ripe Protocol
-* Debt reduction is denominated in GREEN; Stability settlement can consume GREEN, sGREEN, or another configured Stability asset, while ordinary auction purchases pay GREEN
+* All liquidations settle in GREEN
 * Fee flows strengthen the ecosystem
 * Designed for maximum composability with DeFi
 
 ### Keeper Network Protection
 
-* Permissionless callers can monitor GREEN loans and submit liquidations when positions become eligible
-* Productive first calls can earn a configured, bounded keeper reward
-* Prompt execution can limit bad-debt exposure, but the contracts do not guarantee monitoring coverage or transaction timing
+* Automated bots monitor all GREEN loans 24/7
+* Trigger liquidations when positions become unsafe
+* Productive keeper calls can earn a configured, bounded reward paid in GREEN
+* Minimizes bad debt through rapid liquidation execution
 
 ## GREEN Throughout Ripe Protocol
 
-### Transform to sGREEN for Share-Based Savings
+### Transform to sGREEN for Automatic Yield
 
 [sGREEN](../earning-and-rewards/01-sgreen.md) is GREEN's yield-bearing twin:
 
 * **Set and Forget**: Deposit GREEN, receive sGREEN
-* **Backing-Based Value**: The exchange rate can grow when configured revenue reaches the vault; sGREEN does not rebase
-* **Protocol Revenue**: Captures the configured share of borrower interest and origination fees directed to sGREEN
-* **Vault Redemption**: Redeem for GREEN subject to backing and the token/vault safety controls
-* **Stability Compatibility**: A configured Stability vault can accept sGREEN as its settlement asset
+* **Auto-Compounding**: Value grows through exchange rate, not rebasing
+* **Protocol Revenue**: Captures fees from borrowing, liquidations, and more
+* **Instant Liquidity**: Redeem for GREEN anytime
+* **Use Everywhere**: Stability pools accept sGREEN for enhanced returns
 
 ### Participate in Stability Pools
 
-Deploy a configured settlement asset such as sGREEN or a GREEN-pair LP token in [stability pools](../earning-and-rewards/02-stability-pools.md) for exposure to liquidation outcomes:
+Deploy sGREEN or GREEN LP tokens in [stability pools](../earning-and-rewards/02-stability-pools.md) for liquidation profits:
 
-* **Multiple Return Sources**: Underlying asset economics, liquidation outcomes, and configured RIPE rewards
-* **Settlement Spread**: Receive claimable collateral through the configured liquidation spread, with market and liquidity risk
-* **Support Protocol**: Available, compatible deposits can supply liquidation settlement liquidity
-* **Conditional Withdrawal**: Exits depend on unreserved custody and the ordinary token and vault controls
+* **Triple Yield**: Base sGREEN rate + liquidation profits + RIPE rewards
+* **Configured Spread**: Receive collateral through the configured liquidation spread
+* **Support Protocol**: Your deposits enable smooth liquidations
+* **Conditional Withdrawal**: Exits depend on unreserved custody and ordinary vault controls
 
 ### Enable Borrowing Options
 
 When taking loans, receive GREEN flexibly:
 
-* **Direct GREEN**: Standard stablecoin delivery, subject to GREEN's token controls
-* **Auto-sGREEN**: Receive sGREEN exposure directly; its backing per share can grow whenever additional GREEN reaches the savings vault, whether through configured revenue or a direct transfer
-* **Stability Pool Entry**: Direct sGREEN delivery into the configured Stability vault
+* **Direct GREEN**: Standard stablecoin for any use
+* **Auto-sGREEN**: Start earning immediately on borrowed funds
+* **Stability Pool Entry**: Maximum yield from day one
 
 ### Earn RIPE Block Rewards
 
@@ -379,21 +386,37 @@ Multiple ways to earn [RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) 
 * **Time-Weighted System**: Points accumulate based on position size × time
 * **Offset Costs**: Rewards help reduce effective borrowing rates or boost stability pool returns
 
-## GREEN and Other Stablecoin Designs
+## GREEN vs The Competition: A Clear Winner
 
-GREEN differs from several common issuance models:
+When you need to borrow stablecoins, GREEN offers fundamental advantages:
 
-* **Issuer-backed supply**: Existing stablecoin supply may be traded or lent by a market, but a user does not permissionlessly mint the issuer's token against that user's own portfolio
-* **Isolated collateral positions**: Some designs separate debt by collateral type or market; GREEN combines supported collateral into one account-level debt position
-* **Uncollateralized or reflexive supply**: These designs rely on different stabilization assumptions; GREEN's ordinary borrowing path is limited by configured collateral and debt terms
-* **Optional savings path**: GREEN can be deposited into sGREEN, whose backing per share can grow when configured protocol revenue reaches the vault
+**vs Centralized Stables (USDC/USDT)**:
 
-**The Key Difference**: GREEN is built for borrowers who want to use a supported collateral portfolio efficiently. Different configured asset types can work together to back a single, manageable loan position.
+* Can't borrow USDC/USDT — you must buy them
+* GREEN: Mint by borrowing against any asset you own
+* Bonus: GREEN earns yield via sGREEN, USDC sits idle
+
+**vs Traditional Crypto Stables (DAI/LUSD)**:
+
+* DAI: Separate vaults for each collateral type
+* LUSD: Only accepts ETH (or similar) as collateral
+* GREEN: One loan backed by your entire portfolio
+
+**vs Algorithmic Experiments (UST)**:
+
+* No real backing = inevitable collapse
+* GREEN: Borrowing is limited by configured collateral and debt terms
+
+**The Key Difference**: GREEN is built for borrowers who want to use their entire portfolio efficiently. Whether you hold ETH, stablecoins, NFTs, tokenized stocks or emerging tokens, everything works together to back a single, manageable loan position.
 
 ## Why This Matters
 
-Many stablecoin systems make users choose between isolated collateral, pooled lenders, yield, and simplicity.
+Every other stablecoin makes you choose: safety or efficiency, yield or liquidity, simplicity or power.
 
-GREEN combines supported collateral in one debt position, provides an optional sGREEN yield path, and uses complementary stability mechanisms to target its peg.
+GREEN breaks the tradeoffs. One position backed by everything you own. Automatic yield that compounds while you sleep. Liquidation profits when others get rekt. A peg that defends itself through pure economics, not faith.
 
-The mechanism's value is in that combination, subject to the configuration and risk conditions described throughout this guide.
+Stop settling for stablecoins designed for 2020. This is how money works in DeFi now.
+
+***
+
+_For technical implementation details, see the_ [_GreenToken Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/tokens/greentoken)_._

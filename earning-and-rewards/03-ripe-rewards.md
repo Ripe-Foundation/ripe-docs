@@ -4,19 +4,19 @@ description: Get Paid to Use the Protocol
 
 # RIPE Rewards: Get Paid to Use the Protocol
 
-Elapsed blocks. Eligible positions. A remaining rewards accounting allowance.
+Every block. Every transaction. Every dollar borrowed or staked.
 
-Ripe Protocol is accounting.
+Ripe Protocol is watching. And paying.
 
-The Ledger tracks how much RIPE may still be allocated to rewards; it does not hold an escrowed pool of RIPE tokens. Configured emissions accrue category entitlement against that allowance. Borrow GREEN? You can earn from the borrower allocation. Stake in eligible pools? You can earn from their configured allocations. Lock your rewards? You can increase the position earning governance points.
+RIPE rewards use a rewards-specific accounting allowance, separate from bond and Reserve Engine allowances. Entitlement accrues from elapsed blocks when checkpointed; RIPE is minted only when a claim succeeds.
 
-When an allocation has fewer participants, each eligible participant may represent a larger share of its points.
+The best part? Early users are sharing a tiny pool. More rewards per person until the masses arrive.
+
+> **Examples, not live terms:** All assets, percentages, rates, prices, lock terms, tables, and scenario outputs on this page are illustrative. See [RIPE Params](https://params.ripe.finance) for current onchain configuration.
 
 ## Quick Start: Understanding Your Rewards
 
 **🎯 The One-Minute Version:**
-
-The percentages and assets below are an illustrative configuration, not live protocol parameters. This example assumes the optional voter and general-depositor category weights are zero. If either is nonzero, the protocol normalizes all four raw category weights together, so the staker and borrower shares change. Later numeric examples use the same zero-optional-category assumption unless stated otherwise.
 
 ```
 YOUR ACTIVITY          →  REWARD POOL  →  YOUR SHARE
@@ -26,113 +26,106 @@ Staking (All Types)    →  90% of RIPE  →  Based on asset type + position
   • sGREEN/GREEN LP   →  Stability    →  Size × time × weight
 Borrowing GREEN        →  10% of RIPE  →  Based on debt size
 
-OPTIONAL ALLOCATIONS:
-General deposits       →  If configured  →  Based on eligible USD value
-Voted assets           →  If configured  →  Based on configured points
+OPTIONAL ALLOCATIONS (when configured):
+Depositing any asset   →  TBD % of RIPE  →  Based on USD value
+Future voted assets    →  TBD % of RIPE  →  Community decides
 
-SIMPLIFIED FLOW: Category rewards × asset point share × user point share
+SIMPLE FORMULA: Your % of pool × Pool rewards = Your RIPE
 ```
 
-**💡 Key Insight**: Top-level categories are accounted separately. A borrower's points do not dilute the staker reward bucket.
+**💡 Key Insight**: You don't compete with all users — only those in your specific pool. A borrower doesn't dilute a staker's rewards!
 
 ## The Reward Engine
 
-### Elapsed-Block Reward Accounting
+### Continuous Token Flow
 
-Unlike traditional yield farming with discrete epochs, Ripe accounts for rewards using elapsed protocol blocks:
+Unlike traditional yield farming with discrete epochs, Ripe's rewards flow continuously:
 
-* **Elapsed Blocks Count at Checkpoint**: The blocks since the stored update and the configuration read at the next checkpoint determine new reward entitlement
-* **Allowance-Capped Accumulation**: New entitlement cannot exceed the rewards accounting allowance still available
-* **No Epoch Waiting Period**: Eligible points begin accruing once the position is included in reward accounting
-* **Lazy Accounting**: User, asset, category, and global values update when their relevant protocol path checkpoints them; the mechanism does not promise manipulation-proof or timing-independent outcomes
-
-RIPE is not pre-funded or minted to users every block. Points and category entitlement accrue first. A successful claim mints the calculated RIPE at that time, so it still depends on claim enablement, the Lootbox's RIPE mint authority, the RipeHq minting circuit breaker, token controls, and any required governance-vault deposit succeeding.
-
-Configuration changes do not automatically split an uncheckpointed interval into old-config and new-config portions. At the next update, the contract applies the configuration it reads then across the elapsed blocks since the stored checkpoint. A governance process that intends a clean historical boundary must checkpoint the affected accounting before changing the configuration.
+* **Every Block Counts**: Elapsed blocks add allowance-capped entitlement under the configuration used at checkpoint; they do not mint tokens every block
+* **Mint on Claim**: RIPE mints only during a successful claim, subject to mint authority and circuit breakers
+* **Configurable Distribution**: Category splits, asset allocations, point eligibility, and claim settings can change
 
 ### The Points System
 
-Ripe uses elapsed-point accounting rather than a current-balance snapshot:
+Ripe uses an elegant points mechanism that rewards both size and commitment:
 
 ```
-User Balance Points = Eligible Position Rate × Elapsed Protocol Blocks
+Balance Points = Eligible Position Measure × Elapsed Blocks
 ```
 
-For ordinary eligible positions, the position rate comes from the vault's normalized balance or shares. For governance-vault positions, normalized shares and the remaining-lock bonus determine that rate. Separate asset-category points accrue from the configured asset weights. A claim uses both layers of accumulated points, so a current token-balance percentage is only a rough estimate when positions or configuration have changed.
+This simple formula creates profound fairness — a smaller position held longer can earn more than a whale's brief deposit. It's democracy through mathematics.
 
-## Reward Category Example
+## Current Reward Categories
 
-The following staker and borrower split uses that illustrative zero-optional-category configuration. Authorized governance paths administer the category weights stored in Mission Control.
+The protocol can distribute rewards across configured participant groups:
 
-### 1. Stakers (90% in This Example) 💎
+### 1. Stakers (90% of Emissions) 💎
 
 Staking in protocol vaults earns the lion's share of rewards:
 
 [**Governance Vault**](../governance-and-economics/02-governance.md) **(RIPE & RIPE LP)**
 
 * **Base Rewards**: Size × time × asset weight
-* **Lock Multiplier**: The configured remaining-lock terms can raise the point rate
-* **Asset Weight**: RIPE and its LP token can have different configured point weights
-* **Auto-Stake Strategy**: Deposited claims increase the shares that earn future points
+* **Lock Multiplier**: Up to 3x boost for maximum duration locks
+* **LP Advantage**: RIPE LP tokens earn 50% more points than RIPE
+* **Compound Strategy**: Auto-stake rewards for exponential growth
 
 [**Stability Pools**](02-stability-pools.md) **(**[**sGREEN**](01-sgreen.md) **& GREEN LP)**
 
-* **Multiple Exposures**: Configured RIPE rewards plus liquidation claim outcomes
-* **No Governance Lock**: Withdrawal liquidity still depends on unreserved settlement custody
+* **Dual Yield**: RIPE rewards plus liquidation profits
+* **No Lock Required**: Flexible liquidity with full rewards
 * **Risk Buffer**: Help secure the protocol while earning
 
-### 2. Borrowers (10% in This Example) 💰
+### 2. Borrowers (10% of Emissions) 💰
 
 Taking out GREEN loans earns rewards proportional to your debt:
 
 * **Reward Basis**: Outstanding GREEN principal × time borrowed
 * **Why It Matters**: Borrowing creates GREEN demand and protocol revenue
-* **Point Effect**: Larger, longer-lived principal accumulates more borrower points while also increasing interest cost and liquidation exposure
-* **Potential Benefit**: Claimed RIPE may offset part of borrowing costs; neither the reward amount nor its value is guaranteed
+* **Smart Strategy**: Larger, longer-term loans maximize rewards
+* **Real Benefit**: Offset borrowing costs with RIPE earnings
 
-## Additional Configurable Reward Categories
+## Additional Reward Categories
 
 ### Vote Depositors
 
-The configured voter category and asset weights can allocate rewards to specific deposits:
+When governance activates, token holders may vote to allocate rewards to specific assets:
 
-* **Configured Selection**: Only assets with the applicable nonzero voter-points weight participate
-* **Targeted Incentives**: Configuration can direct entitlement toward selected liquidity
-* **Separate from Voting Authority**: Reward-category naming does not itself grant a depositor proposal or execution rights
+* **Democratic Selection**: Community chooses reward-earning assets
+* **Targeted Incentives**: Direct liquidity where protocol needs it most
+* **Strategic Deposits**: Align your holdings with governance decisions
 
 ### General Depositors
 
-May be activated to reward eligible vault deposits:
+Can reward eligible vault deposits when the required configuration is present:
 
-* **USD-Weighted**: Eligible underlying value supplies the general-depositor point rate
-* **Category and Asset Gating**: The top-level general-depositor category must have an allocation, and an asset contributes general-depositor USD value only when its staker-points allocation is zero
-* **Mutually Exclusive Funding Branch**: An asset with a nonzero staker-points weight does not simultaneously fund general-depositor points
+* **Top-Level Allocation Required**: The category must receive a configured share
+* **Asset-Level Gate**: An asset enters this branch only when its staker-points allocation is zero
+* **USD-Weighted**: Eligible aggregate deposit value determines the asset's points
 
 ## Understanding Your Share
 
-### Asset-Specific Allocation Weights
+### Asset-Specific Allocations
 
-Each supported asset has its own configuration that supplies relative weights inside the top-level reward categories:
+Each supported asset has its own configuration that determines how it splits the top-level reward pools:
 
-* **Staker Points Weight**: The asset's configured weight relative to the total staker weights
+* **Staker Points Allocation**: Percentage of the total Stakers pool this asset receives
   * Only applies to staked assets (RIPE, RIPE LP in [Governance Vault](../governance-and-economics/02-governance.md); [sGREEN](01-sgreen.md), GREEN LP in [Stability Pools](02-stability-pools.md))
-  * Illustrative weights used in the examples below:
-    * RIPE LP: 45%
+  * Example allocations:
+    * RIPE LP: 45% (highest rewards!)
     * GREEN LP: 25%
     * sGREEN: 15%
     * RIPE: 15%
-* **Voter Points Weight**: The asset's configured weight relative to the total voter weights
-  * Applies only when the asset has a nonzero voter weight
-  * Weights do not need to sum to 100; the reward calculation normalizes each asset against the applicable total
-  * For one asset, its configured staker and voter weights together cannot exceed 100%
+* **Voter Points Allocation**: Percentage of the Vote Depositors pool this asset receives
+  * Only for assets selected through governance voting
+  * Aggregate configured voter allocations normalize the relevant asset-point shares
+  * Staked assets have 0% voter allocation since they earn from the Stakers pool
 
-**Important**: These are relative category weights, not guaranteed shares. In a hypothetical configuration where voter weights total 100 and Asset A has weight 50, Asset A receives half of the voter category. If the voter category itself receives 20% of total rewards, that example works out to 10% of total rewards.
+**Important**: These percentages split their respective category pools. If Vote Depositors receive 20% of total emissions and Asset A has 50% voter allocation, Asset A depositors share 10% of total emissions (50% of 20%).
 
 ### How Rewards Actually Flow (Simplified)
 
 Think of RIPE rewards like a waterfall with two splits:
-
-All amounts, splits, token prices, APRs, and returns in the following diagrams and calculations are hypothetical.
 
 ```
 Total RIPE Emissions (500 RIPE/day)
@@ -144,14 +137,15 @@ Total RIPE Emissions (500 RIPE/day)
     90% → Stakers Pool
     10% → Borrowers Pool
 
-    Vote & General Pools = 0% in this example
+    Future: Vote & General Pools
+    (Currently 0%, may change)
             ↓
     ┌───────┴───────┐
     │ Second Split │ (by asset within pool)
     └───────┬───────┘
             ↓
-    Each asset gets a share based on
-    accumulated category points
+    Each asset gets its
+    configured percentage
             ↓
     Your share based on
     your points vs total
@@ -177,7 +171,7 @@ Daily emissions: 500 RIPE at $10 per token = $5,000/day
 Stakers pool gets 90%: 450 RIPE/day
 Borrowers pool gets 10%: 50 RIPE/day
 
-Assuming the example weights remain unchanged and there are no earlier outstanding points, within the Stakers pool (450 RIPE/day):
+Within the Stakers pool (450 RIPE/day):
 - RIPE LP tokens get 45% = 202.5 RIPE/day
 - GREEN LP tokens get 25% = 112.5 RIPE/day
 - sGREEN gets 15% = 67.5 RIPE/day
@@ -189,8 +183,9 @@ Assuming the example weights remain unchanged and there are no earlier outstandi
 ```
 Your Share = Your accumulated balance points ÷ Total accumulated balance points for that asset
 
-Example: Your position accumulates 100,000 RIPE balance points
-- Total RIPE balance points: 1,000,000
+Example: You stake 1,000 RIPE for 100 blocks
+- Your points: 1,000 × 100 = 100,000
+- Total RIPE points: 1,000,000
 - Your share: 100,000 ÷ 1,000,000 = 10%
 ```
 
@@ -201,106 +196,112 @@ Your rewards = Your share × Asset's daily allocation
 
 Example: 10% share of RIPE staking pool
 10% × 67.5 RIPE/day = 6.75 RIPE per day
-At the assumed $10 per RIPE = $67.50 of example daily entitlement
+At $10 per RIPE = $67.50 per day earned!
 ```
 
 ### Quick Reference Table
 
 | Your Action              | Pool You Earn From        | How to Maximize                      |
 | ------------------------ | ------------------------- | ------------------------------------ |
-| Provide RIPE LP          | Stakers; 45% example weight | Accumulate a larger share of asset balance points |
-| Provide GREEN LP         | Stakers; 25% example weight | Accumulate a larger share of asset balance points |
-| Stake RIPE               | Stakers; 15% example weight | A longer remaining lock can raise the point rate |
-| Deposit sGREEN           | Stakers; 15% example weight | Combine with Stability-pool outcomes when eligible |
-| Borrow GREEN             | Borrowers (10% example)   | Larger, longer loans                 |
-| General deposits         | When configured           | Based on eligible deposit points     |
-| Voted assets             | When configured           | Based on eligible deposit points     |
+| Provide RIPE LP          | Stakers (90%) - 45% share | Larger positions earn more           |
+| Provide GREEN LP         | Stakers (90%) - 25% share | Larger positions earn more           |
+| Stake RIPE               | Stakers (90%) - 15% share | Lock for 3 years (+200% bonus)       |
+| Deposit sGREEN           | Stakers (90%) - 15% share | Combine with stability pool benefits |
+| Borrow GREEN             | Borrowers (10%)           | Larger, longer loans                 |
+| Future: General deposits | Not active yet            | TBD                                  |
+| Future: Voted assets     | Not active yet            | TBD                                  |
 
 ### Simple Rewards Estimator
 
 **"How much will I earn?"** - Quick formulas for common scenarios:
 
-**Hypothetical assumptions for every example below:** 500 RIPE daily emissions at $10 per RIPE token. These are example inputs, not live parameters or price projections.
+Assumptions: 500 RIPE daily emissions at $10 per RIPE token. Position ratios below mean accumulated balance points divided by total asset points; current balances alone match only when histories and weights align, and a governance lock is already reflected in those points.
 
-**For RIPE LP (45% example asset share):**
+**For RIPE LP (Highest Rewards - 45% of stakers):**
 
 ```
-Daily Rewards ≈ (Your RIPE LP Balance Points / Total RIPE LP Balance Points) × 202.5 RIPE
+Daily Rewards ≈ (Your RIPE LP Points / Total RIPE LP Points) × 202.5 RIPE
 
-Example: Your position has 1% of accumulated RIPE LP balance points
+Example: $100,000 in RIPE LP (1% of total)
 = 1% × 202.5 = 2.025 RIPE per day
 = $20.25 per day
+= ~7.4% APR in USD terms
 ```
 
 **For GREEN LP (25% of stakers):**
 
 ```
-Daily Rewards ≈ (Your GREEN LP Balance Points / Total GREEN LP Balance Points) × 112.5 RIPE
+Daily Rewards ≈ (Your GREEN LP Points / Total GREEN LP Points) × 112.5 RIPE
 
-Example: Your position has 1% of accumulated GREEN LP balance points
+Example: $100,000 in GREEN LP (1% of total)
 = 1% × 112.5 = 1.125 RIPE per day
 = $11.25 per day
+= ~4.1% APR in USD terms
 ```
 
 **For RIPE Staking (15% of stakers):**
 
 ```
-Daily Rewards ≈ (Your RIPE Balance Points / Total RIPE Balance Points) × 67.5 RIPE
+Daily Rewards ≈ (Your RIPE Points / Total RIPE Points) × 67.5 RIPE
 
-Example: After every participant's shares and remaining-lock rate are included, your position has 1% of accumulated RIPE balance points
-= 1% × 67.5 = 0.675 RIPE per day
-= $6.75 per day
+Example: 10,000 RIPE staked with a 3-year lock, representing 3% of accumulated points
+= 3% × 67.5 = 2.025 RIPE per day
+= $20.25 per day
+= Your stake worth $100,000, earning $20.25/day = ~7.4% APR
+With compounding: ~7.6% APY
 ```
-
-Do not multiply this point share by a lock multiplier again. The lock already affects the rate at which both the user's balance points and the asset's aggregate balance-point denominator accumulated.
 
 **For sGREEN Deposits (15% of stakers):**
 
 ```
-Daily Rewards ≈ (Your sGREEN Balance Points / Total sGREEN Balance Points) × 67.5 RIPE
+Daily Rewards ≈ (Your sGREEN Points / Total sGREEN Points) × 67.5 RIPE
 
-Example: Your position has 2% of accumulated sGREEN balance points
+Example: $100,000 in sGREEN (2% of total)
 = 2% × 67.5 = 1.35 RIPE per day
 = $13.50 per day
+= ~4.9% APR in USD terms
 ```
 
-**For Borrowing GREEN (10% in this example):**
+**For Borrowing GREEN (10% of emissions):**
 
 ```
-Daily Rewards ≈ (Your Borrow Balance Points / Total Borrow Balance Points) × 50 RIPE
+Daily Rewards ≈ (Your Borrow Points / Total Borrow Points) × 50 RIPE
 
-Example: Your account has 5% of accumulated borrow balance points
+Example: $500,000 borrowed (5% of total debt)
 = 5% × 50 = 2.5 RIPE per day
 = $25.00 per day
+= ~1.8% APR in rewards (offsetting borrowing costs!)
 ```
 
 ## Auto-Staking Mechanism
 
 ### How Auto-Staking Works
 
-Authorized governance paths configure the auto-staking settings stored in Mission Control:
+The protocol enforces auto-staking to balance token distribution with long-term alignment:
 
-* **Stake Ratio**: With **Stake All** off, the configured ratio is deposited and the remainder goes to your wallet
-* **Stake All**: Turning it on deposits the entire claim instead of only the configured portion
-* **Lock Duration**: The reward settings and current RIPE governance-vault terms determine the lock on the deposited portion
-* **Current Vault Resolution**: The claim resolves the core governance vault from Mission Control instead of relying on a permanent vault ID
+* **Stake Ratio**: 75% must be auto-staked
+  * Only 25% goes to your wallet as liquid RIPE
+  * Prevents market flooding while building committed participants
+* **Duration Ratio**: 33% × 3-year max = ~1-year lock
+  * All auto-staked rewards are locked for approximately 1 year
+  * Ensures reward recipients become long-term stakeholders
 
-**Why This Matters**: Auto-staking sends the configured portion of a successful claim into the governance vault instead of the wallet. That deposited portion can earn governance points under the vault's current terms.
+**Why This Matters**: Rather than dumping tokens on the market, auto-staking creates a community of invested participants who earn governance power alongside their rewards. You're not just earning tokens — you're earning a voice in the protocol's future.
 
 ## Protocol Configuration
 
 ### Flexible Parameters
 
-Mission Control stores the reward settings; authorized Switchboard and governor paths administer them:
+Mission Control governs all reward settings:
 
-* **Emission Rate**: RIPE entitlement accrued per protocol block
-* **Category Weights**: Relative values normalized across the nonzero configured category allocations
+* **Emission Rate**: RIPE entitlement accounted per elapsed block at checkpoint
+* **Category Splits**: Percentage to each participant type
 * **Asset Allocations**: Individual asset point multipliers
 * **Auto-Stake Settings**: Default ratios and durations
 
 ### Governance Evolution
 
-Governance can adjust:
+Once activated, RIPE holders will control:
 
 * Emission schedules and rates
 * Category allocation adjustments
@@ -320,50 +321,48 @@ It's like a buffet where desserts are on one table and mains on another — you 
 
 ### "How do I estimate my rewards?"
 
-**Simple Method, using the same hypothetical values above:**
+**Simple Method:**
 
 1. Find your pool's daily RIPE allocation:
    * Stakers total: 450 RIPE/day (90% of 500 RIPE)
    * Borrowers total: 50 RIPE/day (10% of 500 RIPE)
-2. For stakers, find the asset's share of accumulated staker-category points. Under the unchanged example weights:
+2. For stakers, find your asset's share:
    * RIPE LP: 202.5 RIPE/day (45% of stakers)
    * GREEN LP: 112.5 RIPE/day (25% of stakers)
    * sGREEN: 67.5 RIPE/day (15% of stakers)
    * RIPE: 67.5 RIPE/day (15% of stakers)
-3. Multiply the asset's category entitlement by your accumulated balance-point share for that asset
+3. Multiply: asset allocation × your percentage = daily rewards
 
-**Example**: You have 1% of the accumulated RIPE balance points → 67.5 × 1% = 0.675 RIPE per day = $6.75/day
+**Example**: You have 1% of all staked RIPE → 67.5 × 1% = 0.675 RIPE per day = $6.75/day
 
 ### "What happens when I claim?"
 
-The protocol applies the configured auto-staking parameters to align incentives:
+The protocol enforces auto-staking parameters to align incentives:
 
-**Configured behavior:**
+**Example Settings (Protocol-Controlled):**
 
-* **Auto-stake percentage**: Authorized governance sets the minimum portion stored in Mission Control and deposited on a normal claim
-* **Lock duration**: Derived from the reward settings and current RIPE governance-vault terms
-* **Your choice**: Claim normally, or use **Stake All** to deposit the full claim
+* **Auto-stake percentage**: 75% must be auto-staked
+* **Lock duration**: ~1 year (33% of max 3-year duration)
+* **Your choice**: Claim now or wait, and optionally request that the entire claim be staked
 
 **The Full Claim Process:**
 
 When you claim RIPE rewards, the Lootbox contract:
 1. Iterates through ALL your vaults and assets to calculate total points
 2. Determines your share of each reward pool (stakers, borrowers, etc.)
-3. Calculates RIPE owed based on your points vs total pool points
-4. Mints the RIPE owed by the completed calculation, subject to current mint authority, circuit-breaker, and token checks
-5. Splits the claim according to the configured auto-stake ratio, unless **Stake All** is selected
-6. Resolves the current core governance vault through Mission Control and deposits the staked portion for you
+3. Calculates allowance-capped RIPE entitlement from your points versus the relevant totals
+4. Mints RIPE only as the claim succeeds and applies the configured liquid/auto-staked split
+5. Deposits the auto-staked portion into the current core governance vault resolved through Mission Control
 
-**Hypothetical Example Claim:**
+**Example Claim:**
 
 * You have 1,000 RIPE rewards to claim
-* Assume the protocol requires 75% auto-stake for this example
-* With **Stake All** off: 250 RIPE goes to your wallet and 750 RIPE is deposited with the configured reward lock
-* With **Stake All** on: all 1,000 RIPE is deposited
+* Protocol requires 75% auto-stake with ~1-year lock
+* Result: 250 RIPE to your wallet + 750 RIPE locked in governance vault
 
 **Delegation**: Others can claim on your behalf if you've granted `canClaimLoot` permission. This enables automated compounding strategies.
 
-**Why This Matters**: Auto-staking reduces the immediately liquid portion of a normal claim and places the configured portion into the governance vault. It does not guarantee market behavior or governance participation.
+**Why This Matters**: Auto-staking prevents market flooding and ensures reward recipients become long-term stakeholders with governance power. You're earning both tokens AND future influence!
 
 ### "Do different assets in the same pool compete?"
 
@@ -371,16 +370,22 @@ Yes, within each pool! For example, in the Stakers pool:
 
 * RIPE stakers compete with other RIPE stakers
 * RIPE LP stakers compete with other RIPE LP stakers
-* Their assets share the total Stakers allocation through accumulated category points whose rates come from configured weights
+* But they share the total Stakers allocation based on configured percentages
 
 ### "What happens if nobody stakes/borrows?"
 
-Fewer outstanding points can mean a larger share for active participants. If you are the only RIPE staker and no other historical RIPE balance points remain outstanding, your position receives the user share of RIPE's staker-category entitlement.
+More rewards for those who do! If you're the only RIPE staker, you get 100% of RIPE's allocation in the Stakers pool. Early participants often see highest returns.
 
 ## The Early Bird Gets the RIPE
 
-When participation is low, each participant may represent a larger share of an allocation.
+Participant point totals and relative reward shares change over time.
 
-If an enabled allocation has fewer accumulated points competing for it, an eligible participant may receive a larger share. More participation, configuration changes, later checkpoints, or a depleted allowance can change that result.
+Those juicy GREEN LP yields? They'll shrink when billions pour in. That insane RIPE staking APY? Only while the participant pool stays small.
 
-The protocol rewards eligible activity only through the accounting and claim conditions described above. Are you showing up?
+Every block you wait is rewards you're not earning. Every day you delay is yield going to someone else.
+
+The protocol pays those who show up. Are you showing up?
+
+***
+
+_For technical implementation details, see_ [_Lootbox Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/lootbox)_._

@@ -1,27 +1,28 @@
 ---
-description: Protocol-wide supply, allocation, and distribution mechanics
+description: Where Early Believers Win
 ---
 
-# RIPE Tokenomics
+# RIPE Tokenomics: Where Early Believers Win
 
-RIPE has a maximum supply of 1 billion tokens in aggregate across all blockchains. This is one protocol-wide cap, not a separate 1 billion-token cap for each network.
+Every DeFi token promises "fair distribution." Then VCs dump on retail.
 
-The cap must be administered across authorized issuance and cross-chain operations. Individual deployments track local supply and mint authority; no individual deployment independently maintains or enforces the cross-chain aggregate.
+RIPE flips the script. The community-incentive allocation starts first under the published schedule, while team and investor allocations follow their schedules and additional holder commitments. Early backers paid 2 cents while builders self-funded development.
 
-RIPE distribution combines several mechanisms. Community incentives support protocol participation, while contributor and backer positions follow their vesting and release terms. Rewards, bonds, and the Reserve Engine consume separate configured accounting allowances rather than a pre-minted pool held in escrow. The protocol-wide cap, allocation percentages, and historical financing figures below are Ripe Foundation policy and business disclosures, documented here as of August 2026. The investor and employee extension is an additional holder commitment layered on those published schedules.
+One small seed round at $0.02 after 2+ years of building. Just builders who bet their own money and users who show up early.
 
 > **📊 Tokenomics at a Glance**
 >
-> * **Protocol-wide cap**: 1B RIPE in aggregate across all blockchains, not 1B per chain
-> * **Community first**: 25% of the total allocation goes to user incentives; this is the only bucket that begins unlocking at TGE via block rewards and bonding
-> * **Extended alignment**: Every investor and employee in the Early Backer and Core Contributor allocations agreed to an additional one-year lock; the earliest scheduled investor release or employee position-transfer eligibility is June 26, 2027
-> * **Release mechanics**: Onchain vesting mechanics and applicable holder commitments govern release timing
+> * **Protocol-wide cap**: 1B RIPE across all blockchains, including RIPE attributed to bad-debt recovery
+> * **Community first**: 25% of supply goes to user incentives; this is the only bucket that begins unlocking at TGE via block rewards & bonding
+> * **Two layers**: Onchain vesting and Contributor schedules define contract rights; the additional investor and employee lock is a separate holder commitment
 
-For a deep dive into how RIPE powers the protocol—including [staking rewards](../earning-and-rewards/03-ripe-rewards.md), protocol fees via [sGREEN](../earning-and-rewards/01-sgreen.md), [governance participation](02-governance.md), and treasury building through [bond sales](03-bonds.md)—explore these detailed guides. Governance-vault positions accumulate points under the configured mechanism; voting availability and interfaces are deployment state.
+For a deep dive into how RIPE powers the protocol—including [staking rewards](../earning-and-rewards/03-ripe-rewards.md), protocol fees via [sGREEN](../earning-and-rewards/01-sgreen.md), [governance participation](02-governance.md), and treasury building through [bond sales](03-bonds.md)—explore these detailed guides.
 
-## Protocol-Wide Supply Allocation
+> **Examples, not live terms:** Mechanism parameter examples on this page are illustrative; the 1B cap, allocation policy, and dated holder commitments are stated tokenomics facts. See [RIPE Params](https://params.ripe.finance) for current onchain configuration.
 
-The protocol-wide 1 billion RIPE supply is allocated across five key stakeholder groups, with the largest portion dedicated to community incentives:
+## Token Allocation: Community-First Distribution
+
+The 1 billion RIPE supply is allocated across five key stakeholder groups, with the largest portion dedicated to community incentives:
 
 ![RIPE Token Allocation](https://miro.medium.com/v2/format:webp/1*2OWDZIl3gjqJl_B6JXyyaw.png)
 
@@ -47,50 +48,55 @@ Seed investors who provided capital and strategic guidance during testnet develo
 
 ## Release Schedule and Additional One-Year Lock
 
-Community incentives can begin distributing at TGE. Every investor and employee in the Early Backer and Core Contributor allocations has agreed to extend their lock by one additional year. The earliest scheduled investor release or employee position-transfer eligibility under those commitments is **June 26, 2027**, two years after the **June 26, 2025** TGE. Later releases remain governed by the applicable holder schedules.
+Every investor and employee in the Early Backer and Core Contributor allocations has agreed to an additional one-year lock. The earliest date those holders have committed to release an investor allocation or transfer an employee position is **June 26, 2027**, two years after the **June 26, 2025** TGE.
 
-Here, the June 26 date is the first release or position-transfer eligibility date under those voluntary commitments. Vesting or accounting before that date does not mean the tokens are transferable or circulating. A contributor position transferred on or after that date remains subject to the separate governance-vault lock applied at confirmation.
+Onchain schedules and these holder commitments are separate layers. A contract can account for vested or cashable RIPE earlier, but the commitment still restricts release or position transfer; a later contributor transfer also receives its separate governance-vault lock at confirmation.
+
+## Emission Schedule: Sustainable Token Release
+
+The graph below shows the RIPE Token emission schedule by category for years 1 to 10 following TGE.
+
+![RIPE Emission Schedule](https://miro.medium.com/v2/format:webp/1*HQcm7_N9ZD6hbEn3-OUp9Q.png)
+
+This graph illustrates the underlying category schedules; it does not incorporate the additional investor and employee holder commitments described above.
 
 ### Cross-Chain Supply Cap and Authorized Minting
 
-The 1 billion-token cap applies to total RIPE across all blockchains. Each chain's token contract tracks its local supply, and that deployment's RipeHQ controls local mint authority rather than each network receiving its own 1 billion-token allotment. Authorized issuance must therefore be administered against the single protocol-wide cap.
+The 1 billion-token cap applies across all blockchains. RIPE attributed to bad-debt recovery is tracked separately from ordinary bond-distribution usage but must still count toward that protocol-wide cap.
 
-On a configured CCIP route, RIPE is burned on the source chain and the corresponding amount is minted on the destination after the cross-chain message is validated. A completed transfer moves RIPE between chains rather than adding a second supply allocation.
+On a configured CCIP route, RIPE burns on the source chain and the corresponding amount mints on the destination after validation, moving supply rather than creating a new chain-specific allotment.
 
-Rewards mint RIPE when a claim consumes reward entitlement, and [Ripe Bonds](03-bonds.md) mint RIPE when a purchase consumes bond allowance. During a qualifying bond purchase, the complete calculated payout must first fit that allowance. Because a bad-debt-attributed payout is recorded outside ordinary bond-distribution usage, authorized cap administration must count it separately toward RIPE's protocol-wide 1 billion-token cap across all blockchains.
-
-The [RIPE Reserve Engine](04-reserve-engine.md) has a separate Vesting allocation budget. A successful acquisition reserves its full allocation from that budget, and RIPE is minted only as vested amounts are claimed. These accounting allowances govern their respective distribution mechanisms; they are not token custody or a cross-chain cap. Authorized administration must coordinate them within the protocol-wide 1 billion-token cap. Every department-authorized post-deployment mint remains subject to that deployment's minting circuit breaker.
+[RIPE Rewards](../earning-and-rewards/03-ripe-rewards.md), [Ripe Bonds](03-bonds.md), and the [RIPE Reserve Engine](04-reserve-engine.md) use separate accounting allowances. Those allowances are neither token custody nor independent supply caps.
 
 ### Vesting Schedules by Category
 
 Community Incentives stand alone as the only allocation unlocking from day one, ensuring immediate protocol activity:
 
-**Community Incentives (Beginning at TGE)**
+**Community Incentives (Distribution Schedule)**
 
-* **First distribution eligibility**: Immediate at TGE
+* **First Unlock**: Immediate at TGE
 * **Release Length**: 10+ years
 * **Pattern**: Dynamic distribution via block rewards, bonding discounts, and governance
 
 **Core Contributors (Employee Lock Extension)**
 
 * **Vesting**: Linear from the schedule start over 4 years
-* **Voluntary extension**: Every employee in this allocation agreed to an additional one-year lock
-* **Earliest position-transfer eligibility**: June 26, 2027, two years after TGE
-* **Before transfer eligibility**: Vested RIPE can be accounted for or cashed into a configured governance-vault position, but that does not make it transferable
-* **Transfer process**: A two-step handoff can begin at eligibility; confirmation applies the Contributor contract's stored lock term to the recipient's governance-vault position, where it is share-weighted with any existing position rather than becoming immediately withdrawable
+* **Additional commitment**: Every employee agreed to an additional one-year lock
+* **Earliest committed position-transfer date**: June 26, 2027
+* **Before transfer**: Vested RIPE can be accounted for or cashed into a governance-vault position without becoming transferable
 
-**Early Backers (Additional One-Year Lock)**
+**Early Backers (Additional One-Year Holder Commitment)**
 
-* **Voluntary extension**: All investors agreed to an additional one-year lock
-* **Earliest scheduled release**: June 26, 2027, two years after TGE
-* **Later releases**: Continue under the applicable holder schedules
+* **Additional commitment**: Every investor agreed to an additional one-year lock
+* **Earliest committed release date**: June 26, 2027
+* **Later releases**: Follow the applicable holder schedules
 
 **Ripe Foundation & Distribution Partner**
 
-* **Published allocation schedule**: Linear from the schedule start over 3 years
-* **First position-transfer eligibility**: 12 months from TGE
-* **At first transfer eligibility**: Approximately one third is cumulatively vested under this schedule; vesting continues linearly afterward
-* **Before transfer eligibility**: Vested RIPE can already be cashed into the configured governance vault, subject to the same distinction between cashing and transferring
+* **First Unlock**: 12 months from TGE
+* **Total Length**: 3 years
+* **Release Pattern**: 33% unlocked at month 12, then linear vesting over 24 months
+* **Example**: An early backer with 1M RIPE receives 330K at month 12, then \~931 RIPE per day
 
 ## Early Backers: Bootstrap to Launch
 
@@ -117,7 +123,7 @@ The seed round brought together a carefully selected group of strategic partners
 
 **Institutional Partners**
 
-* **OrangeDAO**: Y Combinator alumni network (also advisor allocation)
+* [**OrangeDAO**](https://www.orangedao.xyz/): YCombinator alumni network (also advisor allocation)
 * [**Big Brain**](https://www.bigbrain.holdings/): Crypto-Native VC
 * [**Tetranode**](https://x.com/Tetranode): Prominent DeFi investor/whale
 
@@ -131,16 +137,16 @@ The seed round brought together a carefully selected group of strategic partners
 
 These early supporters bring diverse perspectives from across DeFi, helping guide the protocol's development while sharing in its long-term success through aligned vesting schedules.
 
-## How Contributor Vesting Works
+## How Vesting Works: Immutable Smart Contracts
 
 ### Smart Contract Automation
 
-Contributor contracts encode their schedules and permissioned lifecycle onchain. A contract:
+Ripe's underlying vesting and Contributor schedules are enforced onchain. The additional one-year commitments described above are holder obligations layered on top. An applicable onchain position:
 
-* **Calculates vesting** linearly from its start timestamp to its end timestamp
-* **Allows cashing** vested-but-uncashed RIPE after vesting begins, even before the cliff
-* **Deposits cashed RIPE** into the current core governance vault using the contract's stored duration, clamped to that vault's live minimum and maximum lock terms
-* **Supports administration** through explicit freeze and paycheck-cancellation permissions
+* **Automatically calculates** vested tokens using linear formulas
+* **Allows cashing** vested-but-uncashed RIPE after vesting begins, even before the cancellation cliff
+* **Deposits cashed RIPE** into the current core governance vault using the stored duration, clamped to that vault's live lock bounds
+* **Enforces contract terms** without manual vesting calculations
 
 ### The Vesting Process
 
@@ -150,20 +156,21 @@ Contributor contracts encode their schedules and permissioned lifecycle onchain.
 Vested Amount = Total Allocation × (Time Elapsed / Vesting Duration)
 ```
 
-Tokens vest continuously by timestamp between the contract's start and end times.
+Tokens vest continuously—every block brings contributors closer to their full allocation.
 
 **2. Claiming Tokens**
 
-* Contributors can cash vested RIPE after vesting begins; the cliff is not a claim gate
-* Claimed tokens are minted and deposited into the [Governance Vault](02-governance.md)
-* Tokens remain locked and accumulate governance-vault points according to the vault's share, time, asset-weight, and remaining-lock mechanics
+* Contributors can cash vested RIPE after vesting begins; the cancellation cliff is not a claim gate
+* Cashed tokens are minted and deposited into the current core [Governance Vault](02-governance.md)
+* Governance points accrue only when enabled and the position is eligible
 
 **3. Unlocking for Transfer**
 
-* After the unlock period (varies by group), a contributor-position transfer can be initiated
+* After the contract unlock, a contributor-position transfer can be initiated
 * Two-phase security process: initiate → wait → confirm
-* The final contributor-position handoff applies the Contributor contract's stored lock duration; it is distinct from the live-term clamp applied when a paycheck is cashed
-* Protects against compromised accounts and hasty decisions
+* Confirmation applies the Contributor contract's stored lock duration to the recipient's governance-vault position; this is separate from the live-term clamp used when RIPE is cashed
+
+The cancellation cliff and transfer unlock are separate terms: the cliff selects cancellation treatment, while the unlock controls when a position transfer can begin.
 
 ### Transparency & Security
 
@@ -172,15 +179,17 @@ Every vesting contract is visible onchain, allowing anyone to verify:
 * Total allocation and vesting schedule
 * Tokens claimed vs. remaining
 * Exact unlock dates
-* The configured owner, manager, and administrative lifecycle
+* No hidden terms or backdoors
 
-Authorized Human Resources governance can freeze a contributor contract or cancel its paycheck before the vesting end. A freeze pauses cashing and contributor-controlled transfers. On cancellation, the cliff determines the settlement path: before the cliff, the position can be forfeited and burned; at or after the cliff, the contract first tries to cash vested RIPE and returns the remainder to the Human Resources budget. If the contract is frozen, that cash step returns zero, so vested-but-uncashed RIPE can also be forfeited. Previously cashed RIPE follows the contract's governance-vault and transfer rules.
+The protocol can freeze contracts in emergencies but cannot steal vested tokens. If someone leaves early, unvested tokens return to treasury while vested amounts remain claimable—ensuring fairness for all parties.
 
-The cancellation `cliffTime` and transfer `unlockTime` are distinct contract terms even when a particular schedule assigns them the same timestamp. The cliff selects the paycheck-cancellation treatment; the unlock controls when a contributor-position transfer can be initiated.
+_For deep technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/contributor)_._
 
-## Borrower Revenue Allocation
+## RIPE Value Accrual: Real Revenue, Real Buybacks
 
-The Credit Engine can allocate a configured portion of borrower interest and origination fees to the governance recipient for RIPE buyback operations. The remainder of that revenue is sent to sGREEN backing. A zero buyback ratio directs the full amount to sGREEN.
+Most governance tokens are worthless. Vote on stuff, hope number goes up.
+
+RIPE actually captures protocol revenue. Every loan fee, every interest payment — a portion goes straight to buying RIPE off the market.
 
 ### How the Buyback Split Works
 
@@ -192,26 +201,32 @@ Protocol Revenue (Fees + Interest)
 RIPE Buybacks     sGREEN Yield
 ```
 
-Governance sets the split. The contract transfers the buyback allocation as GREEN to the governance recipient; any market purchase is a separate operation rather than an automatic Credit Engine trade.
+Governance sets the split. More protocol usage = more revenue = more buybacks. Simple math.
 
-**What happens after allocation?** Governance controls how the buyback allocation is executed and how any acquired RIPE is used; the Credit Engine itself does not enforce a purchase, distribution, or burn.
+**What happens to bought RIPE?** Can be distributed to stakers or burned. Either way, it's value flowing to holders instead of sitting in a treasury doing nothing.
 
 ### Underscore Adds More
 
-An [Underscore](https://underscore.finance/) strategy can have its own performance-fee and buyback policy. That external policy is separate from Ripe's Credit Engine revenue split and should be evaluated from the configured strategy.
+All performance fees from [Underscore](https://underscore.finance/) vaults? 100% goes to RIPE buybacks. The AI-powered yield strategies generate fees, those fees buy RIPE. More money working for token holders.
 
 ### The Full Picture
 
 | Revenue Source | Where It Goes |
 |----------------|---------------|
-| Borrowing fees (Daowry) | Configured split: governance buyback allocation + sGREEN |
-| Accrued borrower interest | Configured split: governance buyback allocation + sGREEN |
-| Underscore performance fees | Determined by the external strategy's policy |
+| Borrowing fees (Daowry) | Split: buybacks + sGREEN |
+| Interest payments | Split: buybacks + sGREEN |
+| Underscore performance fees | 100% RIPE buybacks |
 
-The contract-enforced Ripe split applies to borrower revenue; external strategy economics remain separate.
+Three revenue streams. All flowing to token holders. That's how you build sustainable tokenomics.
 
-## Policy and Contract Mechanics
+## The Bottom Line: Own the Future, Not the Hype
 
-The published community allocation is intended for protocol-user incentives. [Block rewards](../earning-and-rewards/03-ripe-rewards.md) consume a configured reward allowance, while [bonds](03-bonds.md) draw from their separately tracked allowance. Each mechanism mints RIPE only when its claim or purchase completes, subject to protocol mint controls.
+RIPE isn't another VC exit scam dressed up as "community ownership."
 
-Contributor and backer contracts expose their individual schedules and lifecycle actions onchain. Because supply and mint authority are chain-local, no individual deployment independently maintains the cross-chain total. Authorized issuance, distribution allowances, and bridge administration must operate within the single protocol-wide cap.
+Founders self-funded for 2.5 years. Every employee and investor in the Core Contributor and Early Backer allocations agreed to the additional lock, making June 26, 2027 the earliest committed release or position-transfer date. Onchain schedules remain auditable; the additional commitment is a separate holder restriction.
+
+But here's what matters: 250 million RIPE is allocated to community incentives. [Rewards](../earning-and-rewards/03-ripe-rewards.md) and [bonds](03-bonds.md) draw against their separate allowances and mint only through authorized paths.
+
+The protocol that wins is the one that survives. The one that survives is the one people own.
+
+Your move.
