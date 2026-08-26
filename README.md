@@ -46,7 +46,7 @@ Your Portfolio:             Traditional:           Ripe:
 The whole point. What a stock token is inside Ripe, how it's priced when markets are closed, what corporate actions do, and exactly which events can move your tokens.
 
 * **Keep the upside** — Borrowing never sells your tokens
-* **Market hours, explained** — The last price holds through the weekend; the reopen gap lands in one step
+* **Market hours, explained** — The last price holds while the feed is fresh; the reopen gap lands in one step
 * **Your tokens leave three ordinary ways** — You withdraw, a redemption, or a liquidation
 
 #### 🟢 [GREEN: The Stablecoin That Actually Does Something](core-protocol/01-green-stablecoin.md)

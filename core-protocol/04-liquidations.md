@@ -187,7 +187,7 @@ Once you're at or past the liquidation threshold, anyone can trigger a liquidati
 1. **Your account is frozen.** No new borrows, no withdrawals (zero-LTV assets included). You can still repay, and you can still deleverage with your own sGREEN and stablecoin positions.
 2. **Fees are set once.** The base liquidation fee and the keeper fee are calculated on the first pass of a liquidation episode. Retry passes charge nothing — see [Liquidation Economics](#liquidation-economics).
 3. **Collateral is processed toward the target.** Stability Pools first, then auctions for what's left. Collateral that isn't needed stays with you.
-4. **An open auction owns the pass.** While one of your auctions is running, another liquidation pass has to wait. Once it expires, anyone can clear it so liquidation can retry.
+4. **An open auction owns the pass.** While one of your auctions is running, another liquidation pass has to wait. Once it expires, anyone can clear it so liquidation can retry (a governance-paused auction stays until governance clears it).
 
 **Getting out.** Any update that finds your position healthy clears the liquidation flag and cancels your open auctions. Healthy means debt at or below your max borrow capacity, so repaying, adding collateral, or a price recovery plus any action that re-checks your position all count. Creeping back above the liquidation threshold alone isn't enough.
 
@@ -247,18 +247,20 @@ Two fees, charged once per liquidation episode:
 
 The target is the debt reduction that gets you back to a safe LTV. It's built from your live debt plus fees, your collateral value, the lowest LTV among your assets, and a payback buffer. Ripe takes the collateral that covers the target and nothing more.
 
-Simplified example (the real target also counts the liquidation fee, so a little more is taken):
+Example:
 
 ```
 Debt: $1,000
 Collateral: $1,250 — past the threshold
-Target: back to 50% LTV
-Liquidation fee: 10%
+Target LTV: 50%
+Liquidation fee: 10%, no keeper fee
 
-Ripe takes $937.50 of collateral.
-The pool pays $843.75 for it (10% below oracle price).
-Debt falls to $156.25. Collateral left: $312.50. LTV: 50%.
-The $93.75 spread is the pool depositors' return.
+Target repayment = (debt + fee − collateral × 50%) ÷ (1 − 50%)
+                 = ($1,000 + $100 − $625) ÷ 0.5 = $950
+
+The pool pays $950 and takes $1,055.56 of collateral (10% below oracle price).
+Debt falls to $50. Collateral left: $194.44 — back well inside the safe zone.
+The $105.56 spread is the pool depositors' return.
 
 Other protocols: take all $1,250. You get $0.
 ```
@@ -295,8 +297,8 @@ Debt left on a liquidated position isn't automatically protocol bad debt; govern
 
 Elsewhere, a liquidation means starting over from zero. On Ripe you lose a slice, the position survives, and you're still in the game. With deleverage, you can usually skip the slice altogether.
 
-That $312.50 in the example is the difference between a setback and a catastrophe. The protocol isn't being nice: borrowers who survive keep borrowing and keep paying interest. Your success is the protocol's success.
+That $194.44 in the example is the difference between a setback and a catastrophe. The protocol isn't being nice: borrowers who survive keep borrowing and keep paying interest. Your success is the protocol's success.
 
 ***
 
-_For technical implementation details, see the_ [_AuctionHouse Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/auctionhouse)_._
+_For technical implementation details, see the_ [_AuctionHouse Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core/auctionhouse)_._

@@ -50,7 +50,7 @@ Yes. No term, no prepayment penalty, partial payments welcome. Pay with GREEN or
 
 ### What happens to my stock tokens when the market is closed?
 
-Stock price feeds follow market hours, so over a weekend your stock collateral holds Friday's close. You can still be liquidated in that window if you were already past the threshold or your other collateral keeps falling. When the market reopens, the new price lands in one step. Borrow with room. Full explanation: [Stock Tokens on Ripe](../core-protocol/08-stock-tokens.md#market-hours-and-weekend-gaps).
+Stock price feeds follow market hours, so over a weekend your stock collateral holds Friday's last price for as long as the feed's freshness window allows — and if the window is shorter than the closure, the token has no price until Monday and your account waits, repay-only. You can still be liquidated in that window if you were already past the threshold or your other collateral keeps falling. When the market reopens, the new price lands in one step. Borrow with room. Full explanation: [Stock Tokens on Ripe](../core-protocol/08-stock-tokens.md#market-hours-and-weekend-gaps).
 
 ### What happens if Ripe can't price one of my assets?
 

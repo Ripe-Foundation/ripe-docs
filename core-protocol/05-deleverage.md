@@ -132,4 +132,4 @@ Stay ahead of the liquidation threshold. Stay in control.
 
 ***
 
-_For technical implementation details, see the_ [_Deleverage Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/deleverage)_._
+_For technical implementation details, see the_ [_Deleverage Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core/deleverage)_._

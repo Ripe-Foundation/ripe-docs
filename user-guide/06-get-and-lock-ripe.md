@@ -14,7 +14,7 @@ Where RIPE rewards come from, so you know what you're joining: the protocol dist
 
 **Step 2.** Go to the **RIPE** page (or the **Earn** page), find the RIPE row, and press **Deposit**.
 
-![Depositing into an Earn position](../.gitbook/assets/user-guide-14-sgreen-deposit.png)
+![The Earn deposit dialog, shown here for sGREEN; the RIPE version adds a lock-duration picker](../.gitbook/assets/user-guide-14-sgreen-deposit.png)
 
 **Step 3.** Enter an amount using the 25% / 50% / 75% / MAX buttons or by typing it.
 

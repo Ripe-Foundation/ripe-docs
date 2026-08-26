@@ -28,7 +28,7 @@ Each asset keeps its own LTV, rate, and thresholds; they blend into one position
 
 ## Stock Tokens as Collateral
 
-Ripe holds stock tokens one-for-one: deposit 10 tokens and your position records 10 tokens. Borrowing GREEN against them never sells them, lends them out, or touches them — if the stock rises, your collateral rises with it. Each token is priced by its feed, corporate actions included; when the market is closed, the last price holds through the weekend.
+Ripe holds stock tokens one-for-one: deposit 10 tokens and your position records 10 tokens. Borrowing GREEN against them never sells them, lends them out, or touches them — if the stock rises, your collateral rises with it. Each token is priced by its feed, corporate actions included; when the market is closed, the last price holds for as long as the feed's freshness window allows.
 
 Everything stock-specific — custody, pricing, market hours, corporate actions, issuer terms, and exactly which events can move your tokens — is on [Stock Tokens on Ripe](08-stock-tokens.md).
 
@@ -133,4 +133,4 @@ Don't sell your stocks. Put them to work.
 
 ***
 
-_For technical implementation details, see the_ [_Teller Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/teller)_._
+_For technical implementation details, see the_ [_Teller Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core/teller)_._

@@ -102,11 +102,11 @@ Stock feeds follow market hours. When the exchange closes, the last published pr
 
 If one of your collateral assets loses its price, Ripe stops guessing about your whole position. Two things can be wrong, and they freeze you differently:
 
-**The feed is stale or broken** — the usual case: a stock feed past its freshness window, a bad round. Every action that re-values your account reverts until a good price is back: borrowing, deposits, withdrawals, liquidation, redemption, deleverage — whether or not you have debt. A batch liquidation reverts for every account in it if one of them holds a stale asset. Repaying GREEN still works.
+**The feed is stale or broken** — the usual case: a stock feed past its freshness window, a bad round. Every action that re-values your account reverts until a good price is back — borrowing, deposits, withdrawals, liquidation, deleverage — whether or not you have debt, and redemption skips you. A batch liquidation reverts for every account in it if one of them holds a stale asset. Repaying GREEN still works, and with no debt you can still withdraw the stale asset itself in full.
 
-**The asset has no price source at all, or its vault is unbacked** — an issuer burned tokens out of the vault, say. Ripe quarantines your borrowing terms: the asset counts for zero, you can't borrow, and while you have debt you can't withdraw anything. You can still repay and add collateral, and liquidation, redemption, and third-party deleverage skip your account. With no debt you can still withdraw your other assets; an unbacked token can't leave until it's backed again.
+**The asset has no price source at all, or its vault is unbacked** — an issuer burned tokens out of the vault, say. Ripe quarantines your borrowing terms: the asset counts for zero, you can't borrow, and while you have debt you can't withdraw anything. You can still repay and add collateral, and liquidation, redemption, and deleverage skip your account. With no debt you can still withdraw your other assets; an unbacked token can't leave until it's backed again.
 
-Either way, everything resumes the moment a good price returns, using the new price. Zero-LTV assets never trigger any of this — they don't back your loan, so they don't need a price.
+Everything resumes the moment the price — or the missing backing — is back, using the new price. Zero-LTV assets never trigger any of this — they don't back your loan, so they don't need a price.
 
 ## Governance and Safeguards
 

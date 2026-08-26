@@ -192,4 +192,4 @@ No more vault per asset. No more idle collateral. Your stock tokens, your ETH, a
 
 ***
 
-_For technical implementation details, see the_ [_Credit Engine Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/creditengine)_._
+_For technical implementation details, see the_ [_Credit Engine Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core/creditengine)_._

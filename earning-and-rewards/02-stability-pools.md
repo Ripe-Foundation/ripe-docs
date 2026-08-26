@@ -121,4 +121,4 @@ Deposit. Wait. Claim.
 
 _Stop watching liquidations happen. Start owning them._
 
-_For technical implementation details, see the_ [_StabilityPool Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/stabilitypool)_._
+_For technical implementation details, see the_ [_StabilityPool Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core/stabilitypool)_._

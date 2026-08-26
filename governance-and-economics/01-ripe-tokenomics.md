@@ -130,7 +130,7 @@ Vested Amount = Total Allocation × (Time Elapsed / Vesting Duration)
 
 Every contract is public: total allocation, schedule, claimed versus remaining, and the unlock date are all readable onchain. Governance can freeze or cancel a contract; cancellation follows the cliff rule above.
 
-_For technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/contributor)_._
+_For technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury/contributor)_._
 
 ## RIPE Value Accrual
 

@@ -28,11 +28,11 @@ Ripe doesn't read the issuer's "oracle paused" flag or a market calendar. It jus
 
 ### Market Hours and Weekend Gaps
 
-Stock feeds follow market hours. When the exchange closes for the weekend or a holiday, the feed stops updating and Ripe keeps using the last published price for as long as it's inside the feed's freshness window. Governance sets that window per feed — check it on [Params](https://params.ripe.finance); stock feeds are currently set long enough to span a normal weekend, and that setting can change.
+Stock feeds follow market hours. When the exchange closes for the weekend or a holiday, the feed stops updating and Ripe keeps using the last published price for as long as it's inside the feed's freshness window. Governance sets that window per feed, and it decides what a weekend looks like: a window longer than the closure means Friday's last price stays in force until Monday; a shorter one means the token has no price until the market reopens and your account waits, repay-only (see below). The window for each feed is on [Params](https://params.ripe.finance).
 
 So over a weekend:
 
-* Your stock collateral holds Friday's close.
+* Your stock collateral holds Friday's last price for as long as the feed's window allows.
 * You can still be liquidated in that window — if you were already past the threshold when the feed stopped, or if your other collateral (WETH, say) keeps falling and drags you there on its own.
 * When the market reopens, the new price lands in one step. If the stock fell 8% while markets were closed, your position absorbs the whole 8% at once.
 
