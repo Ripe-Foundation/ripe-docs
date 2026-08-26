@@ -56,6 +56,10 @@ There is no contractual maturity or prepayment penalty. You can submit partial o
 
 Its last published price can remain usable after the reference market closes while a configured source considers it valid and fresh. A reopening price can gap, so leave room below your borrowing limit. See [Price Oracles](../core-protocol/06-price-oracles.md) and [RIPE Params](https://params.ripe.finance) for more information.
 
+### What happens if Ripe cannot value one of my collateral assets?
+
+Ripe fails closed rather than guessing. A nonzero-LTV collateral position without a usable value or vault backing can cause the account's current borrow terms to be treated as in valuation quarantine; see [When an Account Cannot Be Valued](../core-protocol/06-price-oracles.md#when-an-account-cannot-be-valued) for the affected actions and recovery paths.
+
 ### Can I lose my Stock Tokens while borrowing?
 
 Yes. Borrowing does not sell your Stock Tokens at origination. Authorized deleverage or eligible redemption can transfer some or all of that collateral before permissionless liquidation eligibility, and an eligible liquidation can also transfer collateral through configured Stability or auction routes. A severe shortfall can exhaust eligible collateral and still leave debt. Monitor position health, add collateral, or repay; see [Liquidations](../core-protocol/04-liquidations.md) and [Deleverage](../core-protocol/05-deleverage.md).

@@ -180,10 +180,10 @@ Explore Ripe's evolution from early conception through years of refinement to pr
 Other protocols: "Pick one: safe OR efficient."\
 Ripe: "Why not both?"
 
-* **Your collateral, your loan** — No sharing risk with degens
+* **Your collateral, your loan** — Eligible non-Stability collateral backs only your own borrowing position
 * **Eligible collateral counts** — From ETH to tokenized gold to treasury bills when supported
 * **Supported assets work together** — Assets with configured borrowing power back one loan
-* **Sleep easy** — Your position doesn't care what others do
+* **Shared roles are explicit** — Stability deposits and system-level controls follow their own rules
 
 ***
 

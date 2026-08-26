@@ -27,6 +27,8 @@ Ripe's credit engine performs sophisticated calculations to determine your borro
 
 This multi-factor approach ensures fair credit access while maintaining system security.
 
+Borrowing requires a usable whole-position valuation. See [When an Account Cannot Be Valued](06-price-oracles.md#when-an-account-cannot-be-valued) for Ripe's separate valuation-quarantine condition and its recovery behavior.
+
 ### Weighted Debt Terms Explained
 
 When you deposit multiple collateral types, Ripe doesn't just average your terms — it weights them based on each asset's contribution to your total borrowing power. Here's how it works:
@@ -255,7 +257,7 @@ You don't interact with Ripe directly for this discount. Instead:
 1. Deposit funds into an Underscore Earn Vault
 2. Core Vaults run AI-managed yield strategies, while Amplified Vaults add Ripe borrowing inside the strategy
 3. The vault — not you — receives the discounted rates when Ripe borrowing is used
-4. You benefit from the improved strategy returns
+4. Any depositor benefit depends on separate Underscore strategy performance and product terms
 
 **Scope of the Preferential Terms**
 
@@ -284,20 +286,25 @@ Ripe implements several limits to ensure sustainable growth:
 * Does not cap total GREEN supply or other authorized mint paths
 * Can be updated through protocol configuration
 
-**4. Interval Borrowing Limits**
+**4. Maximum Borrower Count**
+
+* A configured cap can prevent a new address from opening its first debt position once the active borrower count reaches the limit
+* This specific gate does not apply to an address already counted as a borrower
+
+**5. Interval Borrowing Limits**
 
 * Configured time-based windows measured in protocol blocks
-* Prevents flash loan attacks
+* Caps a user's aggregate new borrowing during each configured block interval, limiting rapid repeated borrowing
 * Smooths borrowing demand
 
-**5. Minimum Debt Requirement**
+**6. Minimum Debt Requirement**
 
 * Configured minimum debt for a new or increased borrowing position
 * Governance can update the value
 * Ensures position economic viability
 * Reduces system complexity
 
-When borrowing, the most restrictive limit applies. This creates a robust framework that protects both individual users and the protocol.
+All applicable gates must pass, and the borrow amount is bounded by the most restrictive numeric limit. This creates a robust framework that protects both individual users and the protocol.
 
 ## The Borrowing Experience
 

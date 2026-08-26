@@ -160,7 +160,7 @@ When sustained reference-pool observations show GREEN overrepresented, borrowing
 
 * Snapshots are evaluated chronologically, with each valid interval weighted by its duration
 * The lower ratio of each interval's two endpoints is used, so one isolated high observation cannot raise the signal
-* Stale, out-of-order, or excessively gapped history fails closed instead of being extrapolated through a live tail
+* Excessive gaps are excluded while other valid intervals can still contribute; a stale latest observation, malformed ordering, or arithmetic failure produces no dynamic signal, and no unobserved live tail is extrapolated
 * Configured ratio and duration boosts can increase the rate, subject to the configured cap
 * Higher rates incentivize borrowers to repay (buy GREEN)
 * Repayment can create buying pressure that helps move GREEN toward its target
@@ -250,7 +250,8 @@ Normalized pool-balance adjustment:
 
 Normalized GREEN balance exceeds the paired asset?
 → Remove excess GREEN liquidity
-→ Burn GREEN tokens permanently
+→ Burn recovered GREEN up to the recorded pool debt and reduce that debt
+→ Return any remaining GREEN to EndaomentFunds custody
 → Adjust the pool balance in a direction that can support price
 
 Normalized paired-asset balance exceeds GREEN?

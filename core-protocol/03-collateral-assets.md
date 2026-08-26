@@ -120,9 +120,8 @@ Underscore's AI-powered vaults (ERC4626) are the recommended way to earn yield w
 * **Always optimizing**: AI agents continuously rebalance strategies even while your vault tokens are locked as collateral on Ripe
 * **Multiple asset types**: USD, ETH, BTC, and other strategies available
 * **Continuous yield**: Vaults keep earning while serving as your collateral
-* **Preferential borrowing**: Underscore vaults receive [discounted rates](02-borrowing.md#underscore-earn-vault-integration) when borrowing GREEN
 
-Deposit into Underscore vaults, then use those vault tokens as collateral in Ripe — the AI keeps working to maximize your yield while you borrow against it.
+Supported Underscore vault shares can remain yield-bearing while used as Ripe collateral, subject to the vault's own product terms and Ripe's collateral configuration. Depositing a vault share does not itself qualify an ordinary borrower for Earn-vault rate treatment. That treatment applies only when the borrower address itself is registered as an Underscore Earn vault; see [Underscore Earn Vault Integration](02-borrowing.md#underscore-earn-vault-integration).
 
 **5. NFTs & Unique Assets** - Beyond fungible tokens
 

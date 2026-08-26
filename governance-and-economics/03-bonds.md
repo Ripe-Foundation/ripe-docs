@@ -24,7 +24,7 @@ Bonds provide a configured route for exchanging a payment asset for RIPE while b
 
 * **Accumulates treasury assets** in EndaomentFunds
 * **Makes treasury assets available** for later authorized yield, liquidity, market, or reserve operations
-* **Distributes RIPE fairly** based on actual capital contribution
+* **Calculates RIPE payouts** from accepted payment, the epoch rate, and any eligible lock or booster bonuses
 * **Aligns incentives** between token holders and protocol health
 
 Every successful purchase transfers the accepted payment to EndaomentFunds and mints the calculated RIPE payout. What the treasury does with that payment afterward requires separate authorization.
@@ -43,11 +43,13 @@ Bonds operate through time-limited epochs that ensure sustainable token distribu
 
 An epoch can still sell out, and each purchase remains subject to remaining payment capacity, bond allowance, permission checks, pauses, and the configured window.
 
-### Dynamic Pricing That Rewards Action
+### Configurable Epoch Pricing
 
-Within each epoch, RIPE prices follow a descending curve:
+Each epoch configures minimum and maximum RIPE-per-payment-unit rates. When those rates differ, the payout rate can increase linearly through the epoch; when they are equal, the base rate stays flat.
 
 ```
+Example when the configured payout rate rises:
+
 Start of Epoch → Higher Price → Less RIPE per Dollar
                       ↓
                  Time Passes
@@ -58,7 +60,7 @@ End of Epoch → Lower Price → More RIPE per Dollar
 This creates interesting dynamics:
 
 * **Earlier buyers** may encounter more remaining capacity, but every purchase still depends on the live checks above
-* **Patient buyers** receive better prices
+* **Patient buyers** can receive better prices when the configured payout rate rises
 * **Market forces** determine actual demand
 * **Transparent pricing** visible to all participants
 

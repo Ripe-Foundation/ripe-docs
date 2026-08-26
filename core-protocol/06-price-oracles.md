@@ -22,7 +22,7 @@ Every critical protocol operation depends on accurate pricing:
 * **Liquidation Safety**: Price movements trigger liquidations when positions become risky
 * **Redemption Values**: Direct redemptions treat GREEN as a $1 debt-value input while oracle pricing and actual delivery determine collateral and debt credit
 * **Stability Settlement**: Configured liquidation spreads are calculated from usable oracle prices
-* **Interest Rates**: Dynamic rates respond to GREEN's market price
+* **Interest Rates**: Dynamic rates can respond to a duration-weighted signal built from recorded GREEN reference-pool balance ratios
 
 With so much at stake, we've built a pricing system that's both robust and transparent.
 
@@ -72,10 +72,10 @@ Direct pricing from the largest stablecoin liquidity pools:
 
 * **Coverage**: Stablecoins, Curve LP tokens, GREEN pairs
 * **Reliability**: Based on actual tradeable liquidity
-* **Special Feature**: Monitors GREEN's peg in real-time
+* **Special Feature**: Records GREEN reference-pool balance-ratio snapshots during qualifying protocol housekeeping
 * **Trust Model**: On-chain AMM state with adapter-specific validation and pool-liquidity risk
 
-**Critical for GREEN Stability**: The Curve price feed maintains the configured Green Reference Pool data that directly impacts [dynamic interest rates](02-borrowing.md#dynamic-interest-rates). Each qualifying interval uses the lower GREEN ratio from two consecutive observations, weights that interval by duration, and excludes excessive gaps or stale history. This makes the rate input depend on sustained recorded conditions rather than one isolated observation.
+**Critical for GREEN Stability**: The Curve price feed maintains the configured Green Reference Pool data that directly impacts [dynamic interest rates](02-borrowing.md#dynamic-interest-rates). Each qualifying interval uses the lower GREEN ratio from two consecutive observations and weights that interval by duration. Excessive gaps are excluded, while a stale latest observation produces no dynamic signal. This makes the rate input depend on sustained recorded conditions rather than one isolated observation.
 
 ### 3. Pyth Network (High-Frequency)
 
@@ -156,6 +156,14 @@ For a Stock Token that uses `uiMultiplier()`, the configured feed must return th
 1. **Earlier Source Stale**: The query continues to the next configured source
 2. **All Sources Unusable**: A non-strict query reports no price and a strict valuation fails closed; the protocol does not substitute a last-known cached value
 3. **No Feed Available**: New assets without feeds cannot be borrowed against
+
+### When an Account Cannot Be Valued
+
+If a non-Stability collateral position with nonzero LTV has a positive balance but no usable value, or still records a balance while its vault resolves no usable backing, Ripe treats the account's current borrow terms as being in **valuation quarantine**. Zero-LTV assets do not cause this condition, and it applies to the affected account rather than every holder of the asset.
+
+While valuation quarantine applies, unavailable collateral contributes no borrowing power, the account cannot borrow more, and new liquidation, redemption, and deleverage processing is withheld. While debt remains, withdrawals of borrowing-power collateral are blocked, and other Teller deposits or withdrawals that revalue the whole account can fail. Adding collateral is therefore not a guaranteed workaround.
+
+Valuation quarantine is not itself liquidation or a declaration of insolvency. Standard GREEN repayment remains available under its normal controls: a partial repayment can preserve stored debt terms when replacement terms cannot be derived, while a full standard payoff skips collateral traversal. Valuation-dependent actions can resume, subject to their other controls, when usable pricing or backing returns.
 
 ## Price Priority System
 
