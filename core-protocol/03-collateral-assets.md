@@ -1,10 +1,10 @@
 ---
-description: Stock Tokens and eligible collateral backing one GREEN position.
+description: Tokenized stocks and eligible collateral backing one GREEN position.
 ---
 
-# Stock Tokens & Collateral
+# Tokenized Stocks & Collateral
 
-Ripe is built around a simple idea: supported Stock Tokens should be able to unlock liquidity without a protocol sale at origination. When configured with borrowing power, they can work alongside other eligible collateral to back a single GREEN position with weighted, asset-specific terms. Stability-vault positions remain excluded from those borrowing terms.
+Ripe is built around a simple idea: supported tokenized stocks should be able to unlock liquidity without a protocol sale at origination. When configured with borrowing power, they can work alongside other eligible collateral to back a single GREEN position with weighted, asset-specific terms. Stability-vault positions remain excluded from those borrowing terms.
 
 ## Why Ripe's Approach is Different
 
@@ -47,6 +47,10 @@ This architecture combines eligible collateral without flattening its risks or c
 
 ## Stock Tokens as Collateral
 
+These docs use **stock tokens** and **tokenized stocks** as broad category terms. Issuers use different product names and structures, including [Robinhood Stock Tokens](https://docs.robinhood.com/chain/stock-tokens/) and [Coinbase Tokenized Stocks](https://www.coinbase.com/tokenize). Ripe's collateral mechanics do not make those products legally identical or replace the applicable issuer's terms.
+
+### Robinhood Stock Tokens
+
 Robinhood Stock Tokens are standard ERC-20 tokenised debt securities issued by Robinhood Assets (Jersey) Limited (RHJ). They provide economic exposure to a referenced equity or ETF, but they are not the underlying shares or fund interests and do not confer legal or beneficial rights in them. See Robinhood's [Stock Token documentation](https://docs.robinhood.com/chain/stock-tokens/) for the product description.
 
 Ripe is a separate lending protocol and is not the issuer. Its contracts can custody and transfer supported Stock Tokens through permitted protocol routes, but Ripe support and protocol permissions do not determine who is eligible under RHJ's terms to acquire, hold, transfer, or use them. Canonical token identity, Ripe support, and the absence of a protocol whitelist do not establish investor eligibility. Review RHJ's current [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj) before interacting with a Stock Token. Other security-linked products can have different issuer terms and rights.
@@ -73,7 +77,7 @@ Stock Tokens are not intrinsically permissioned or assigned to a particular liqu
 
 ### Pricing and Corporate Actions
 
-Ripe values a Stock Token through the first usable source in its configured price-source order. A configured Stock Token feed must return the already multiplier-adjusted USD price per token, which Ripe consumes once without independently reading or applying `uiMultiplier()`. The nominal token units credited by Ripe remain unchanged. Separately, `uiMultiplier()` expresses the share-equivalent units represented by those tokens for display purposes; Ripe does not use it in valuation.
+Ripe values a tokenized stock through the first usable source in its configured price-source order. For a multiplier-based stock token, the configured source must return the token-level USD price with the applicable adjustment already incorporated. Ripe consumes that price once without independently reading or applying `uiMultiplier()`. The nominal token units credited by Ripe remain unchanged. Where a product exposes `uiMultiplier()`, that value expresses the share-equivalent units represented by those tokens for display purposes; Ripe does not use it in valuation.
 
 Reference-market closures do not create a separate pricing mode inside Ripe. See [Stock-Market Hours and Price Gaps](06-price-oracles.md#stock-market-hours-and-price-gaps) for how freshness, fallback, and reopening gaps interact.
 
@@ -81,9 +85,9 @@ Reference-market closures do not create a separate pricing mode inside Ripe. See
 
 Ripe's extensible architecture can support a vast and growing universe of tokenized value. The categories and assets below are illustrative; see [RIPE Params](https://params.ripe.finance) for current asset support and configuration.
 
-**1. Stock Tokens and Other Tokenized Real-World Assets** - Market exposure as collateral
+**1. Tokenized Stocks and Other Tokenized Real-World Assets** - Market exposure as collateral
 
-* **Stock Tokens**: ERC-20 products providing stock-market exposure, subject to the custody, pricing, and asset-specific controls described above
+* **Stock Tokens**: ERC-20 products providing public equity exposure, subject to the custody, pricing, and asset-specific controls described above
 * **Other tokenized assets**: Bonds, commodities, real estate interests, and other issuer-defined products when supported
 * Eligibility, transfer restrictions, and protocol routes remain specific to each token and configuration
 
@@ -292,7 +296,7 @@ Some assets can require special access or recipient eligibility, while others ha
 * **Protocol controls**: An optional asset whitelist or recipient check
 * **Route controls**: Independent eligibility for deposit, withdrawal, redemption, Stability settlement, auction, or another authorized operation
 
-The applicable controls come from the specific token and protocol configuration; the Stock Token category alone does not determine them.
+The applicable controls come from the specific token and protocol configuration; the tokenized-stock category alone does not determine them.
 
 ## Why Deposit in Ripe?
 
@@ -321,7 +325,7 @@ The applicable controls come from the specific token and protocol configuration;
 
 Forget everything you know about DeFi borrowing. No more juggling ten different positions. No more leaving half your assets idle because they're "not supported." No more choosing between earning yield or accessing liquidity.
 
-With Ripe, supported Stock Tokens can unlock GREEN liquidity without a protocol sale at origination, while other eligible assets can contribute to the same position. One loan, weighted terms, and asset-specific controls working together.
+With Ripe, supported tokenized stocks can unlock GREEN liquidity without a protocol sale at origination, while other eligible assets can contribute to the same position. One loan, weighted terms, and asset-specific controls working together.
 
 This isn't just another lending protocol — it's how DeFi lending should have worked from day one.
 

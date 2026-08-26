@@ -6,7 +6,7 @@ description: The Stablecoin That Works Harder.
 
 Your USDC sits there doing nothing. Your DAI requires a new vault for every asset. Your LUSD only accepts ETH.
 
-GREEN? It's built different. Mint it against supported Stock Tokens and other eligible borrowing collateral across your portfolio. Deposit it into [sGREEN](../earning-and-rewards/01-sgreen.md) for potential backing growth. Use configured [stability pools](../earning-and-rewards/02-stability-pools.md) for potential liquidation proceeds. Multiple conditional mechanisms can support the peg.
+GREEN? It's built different. Mint it against supported tokenized stocks and other eligible borrowing collateral across your portfolio. Deposit it into [sGREEN](../earning-and-rewards/01-sgreen.md) for potential backing growth. Use configured [stability pools](../earning-and-rewards/02-stability-pools.md) for potential liquidation proceeds. Multiple conditional mechanisms can support the peg.
 
 This is what happens when you stop asking "how do we make another stablecoin?" and start asking "how should stablecoins actually work?"
 
@@ -402,7 +402,7 @@ When you need to borrow stablecoins, GREEN offers fundamental advantages:
 * No real backing = inevitable collapse
 * GREEN: Borrowing is limited by configured collateral and debt terms
 
-**The Key Difference**: GREEN is built for borrowers who want to use eligible collateral across their portfolio efficiently. Supported Stock Tokens can work alongside stablecoins, crypto assets, yield positions, and other eligible collateral to back a single, manageable loan position.
+**The Key Difference**: GREEN is built for borrowers who want to use eligible collateral across their portfolio efficiently. Supported tokenized stocks can work alongside stablecoins, crypto assets, yield positions, and other eligible collateral to back a single, manageable loan position.
 
 ## Why This Matters
 

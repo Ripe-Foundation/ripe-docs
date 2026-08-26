@@ -1,10 +1,10 @@
 ---
-description: Participate in configured Stock Token and other collateral liquidation settlement
+description: Participate in liquidation settlement for configured tokenized stocks and other collateral
 ---
 
-# Stability Pools: Participate in Stock Token and Collateral Settlement
+# Stability Pools: Tokenized Stock and Collateral Settlement
 
-Stability pools let deposited liquidity participate in configured liquidation settlement for eligible Stock Tokens and other collateral before auction fallback. Participation is passive after deposit, but routing, capacity, pricing, realized results, and any rewards remain conditional.
+Stability pools let deposited liquidity participate in configured liquidation settlement for eligible tokenized stocks and other collateral before auction fallback. Participation is passive after deposit, but routing, capacity, pricing, realized results, and any rewards remain conditional.
 
 This is wholesale DeFi liquidations, democratized.
 
@@ -114,12 +114,12 @@ After liquidations, you can claim your proportional share of accumulated collate
 
 When claiming, you specify:
 1. **Stability Pool Asset**: Which of your deposited assets to use (sGREEN or GREEN LP)
-2. **Claim Asset**: Which available liquidated collateral you want to receive (a configured Stock Token, ETH, WBTC, etc.)
+2. **Claim Asset**: Which available liquidated collateral you want to receive (a configured stock token, ETH, WBTC, etc.)
 3. **Maximum USD Value**: Cap on how much to claim (or max for full claim)
 
 Each result is capped by shares, claim custody, the requested maximum, and usable pricing. A batch is atomic and must transfer value for at least one requested asset.
 
-For Stock Tokens, passing protocol access and recipient checks does not establish eligibility under issuer terms; see [Stock Tokens as Collateral](../core-protocol/03-collateral-assets.md#stock-tokens-as-collateral).
+For tokenized stocks, passing protocol access and recipient checks does not establish eligibility under the applicable issuer's terms; see [Stock Tokens as Collateral](../core-protocol/03-collateral-assets.md#stock-tokens-as-collateral).
 
 **Delegation**: Others can claim on your behalf if you've granted `canClaimFromStabPool` permission in your delegation settings. This enables automated claim strategies.
 
@@ -141,7 +141,7 @@ This can support GREEN-market arbitrage while changing the cohort's custody and 
 
 Over time, stability pools accumulate diverse collateral types:
 
-* Configured Stock Tokens from compatible Stock Token-backed liquidations
+* Configured tokenized stocks received through compatible liquidations
 * ETH from liquidated Ethereum positions
 * cbBTC from Bitcoin-backed loans
 * Various DeFi tokens from other collateral types

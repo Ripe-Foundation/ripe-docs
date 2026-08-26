@@ -76,7 +76,7 @@ You can specify exactly which assets to deleverage:
 The owner, an approved protocol caller, or a `canBorrow` delegate can choose the asset order. Underscore registration alone does not authorize another user's account.
 
 ```
-Hypothetical example: preserve a Stock Token with specific assets
+Hypothetical example: preserve a tokenized stock with specific assets
 
 You have:
 - Stock Token A ($15,000)

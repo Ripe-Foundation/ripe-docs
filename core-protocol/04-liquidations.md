@@ -172,9 +172,9 @@ When liquidation becomes necessary, Ripe can use up to two configured phases—S
 
 AuctionHouse liquidation and ordinary credit redemption also skip a borrower address registered as an Underscore Earn vault. This exception follows the borrower address; it does not apply to an ordinary user merely because that user deposited an Earn-vault share as collateral.
 
-### Stock Token Collateral Follows Configured Paths
+### Tokenized Stock Collateral Follows Configured Paths
 
-A Stock Token does not receive a redemption or liquidation route merely because it is a Stock Token. Asset and deployment configuration independently determine which paths and recipient controls apply:
+A tokenized stock does not receive a redemption or liquidation route merely because it belongs to that asset category. Asset and deployment configuration independently determine which paths and recipient controls apply:
 
 * **Before liquidation**: Direct redemption can transfer a Stock Token only when redemption is enabled for the position and asset and the recipient passes the applicable checks. Standard GREEN repayment and eligible [deleverage](05-deleverage.md) remain separate ways to reduce debt.
 * **At the liquidation threshold**: Reaching the threshold makes the account eligible; it does not move the Stock Token automatically. An eligible caller must submit a liquidation transaction.
@@ -223,7 +223,7 @@ When an eligible liquidation call is submitted after your position reaches or cr
 
 ### Phase 1: Stability Pool Swaps
 
-The protocol engages [stability pools](../earning-and-rewards/02-stability-pools.md) only for liquidation assets whose configuration enables this route. A Stock Token enters this phase only when a compatible, funded Stability cohort can accept it; being a Stock Token does not select the route by itself.
+The protocol engages [stability pools](../earning-and-rewards/02-stability-pools.md) only for liquidation assets whose configuration enables this route. A tokenized stock enters this phase only when a compatible, funded Stability cohort can accept it; its asset type does not select the route by itself.
 
 **How Pool Swaps Work**
 
@@ -249,7 +249,7 @@ Before collateral moves, the Stability vault must confirm that the settlement co
 
 **Optional Access and Recipient Controls**
 
-Whitelists and recipient checks are independent asset configuration, not a property of every Stock Token or other tokenized asset. When configured, the relevant participant and recipient must pass those checks during settlement. A whitelist does not by itself enable Stability settlement, and a Stock Token does not inherently require a permissioned pool.
+Whitelists and recipient checks are independent asset configuration, not a property of every tokenized stock or other tokenized asset. When configured, the relevant participant and recipient must pass those checks during settlement. A whitelist does not by itself enable Stability settlement, and a tokenized stock does not inherently require a permissioned pool.
 
 For Stock Tokens, passing Stability access and recipient checks does not establish eligibility under issuer terms; see [Stock Tokens as Collateral](03-collateral-assets.md#stock-tokens-as-collateral).
 
@@ -257,7 +257,7 @@ _For deeper understanding of stability pool mechanics, see_ [_Stability Pools_](
 
 ### Phase 2: Dutch Auctions
 
-Dutch auctions process remaining auction-enabled collateral when configured pool routes do not complete the target. A Stock Token reaches this phase only when its auction route is enabled:
+Dutch auctions process remaining auction-enabled collateral when configured pool routes do not complete the target. A tokenized stock reaches this phase only when its auction route is enabled:
 
 **Time-Based Discounts**
 
@@ -375,7 +375,7 @@ Here's what actually matters:
 
 **When liquidation occurs on Ripe**: A limited shortfall may leave collateral and an active position; severe undercollateralization can consume all eligible collateral without fully clearing the debt.
 
-Even better: you can repay GREEN through the standard repayment path or [deleverage](05-deleverage.md) with eligible sGREEN or stable-side collateral before liquidation, potentially preserving Stock Token collateral without liquidation penalties.
+Even better: you can repay GREEN through the standard repayment path or [deleverage](05-deleverage.md) with eligible sGREEN or stable-side collateral before liquidation, potentially preserving tokenized-stock collateral without liquidation penalties.
 
 The protocol doesn't do this to be nice. It does it because borrowers who survive keep borrowing, keep paying interest, keep the system running. Your success is the protocol's success.
 

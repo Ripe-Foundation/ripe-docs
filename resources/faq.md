@@ -8,11 +8,11 @@ description: Quick answers to what actually matters.
 
 ### What is Ripe Protocol?
 
-Ripe lets you borrow GREEN against supported Stock Tokens and other eligible collateral in one unified position. Stock-market exposure becomes productive collateral instead of sitting idle.
+Ripe lets you borrow GREEN against supported tokenized stocks and other eligible collateral in one unified position. Public equity exposure becomes productive collateral instead of sitting idle.
 
 ### What makes Ripe different from other lending protocols?
 
-**Borrowing against Stock Tokens, one unified position.** Supported Stock Tokens can work alongside other configured collateral to back a single GREEN [borrowing position](../core-protocol/02-borrowing.md). [Collateral Assets](../core-protocol/03-collateral-assets.md) explains the architecture; [RIPE Params](https://params.ripe.finance) shows what each deployment currently supports.
+**Borrowing against stock tokens, one unified position.** Supported tokenized stocks can work alongside other configured collateral to back a single GREEN [borrowing position](../core-protocol/02-borrowing.md). [Collateral Assets](../core-protocol/03-collateral-assets.md) explains the architecture; [RIPE Params](https://params.ripe.finance) shows what each deployment currently supports.
 
 ### What is GREEN?
 
@@ -26,11 +26,13 @@ Eligible collateral in non-Stability vaults backs only your own borrowing positi
 
 ### Can I borrow against Stock Tokens without selling them?
 
-When a Stock Token is supported and configured with borrowing power, you can deposit it and borrow GREEN without selling it at origination. A Robinhood Stock Token is an ERC-20 tokenised debt security issued by Robinhood Assets (Jersey) Limited (RHJ). It provides economic exposure to a referenced equity or ETF, but it is not the underlying share or fund interest and confers no legal or beneficial rights in it.
+When a tokenized stock is supported and configured with borrowing power, you can deposit it and borrow GREEN without selling it at origination. The borrowing mechanism can apply across supported stock tokens, but issuer rights, eligibility, and product risks differ. Coinbase uses the name [Coinbase Tokenized Stocks](https://www.coinbase.com/tokenize), while Robinhood uses [Robinhood Stock Tokens](https://docs.robinhood.com/chain/stock-tokens/).
 
-Ripe is not the Stock Token issuer. Its contracts can custody and transfer supported Stock Tokens through permitted protocol routes, but Ripe support and protocol permissions do not determine investor eligibility. Canonical token identity, Ripe support, and the absence of a protocol whitelist do not establish whether someone may acquire, hold, transfer, or use one. Review RHJ's current [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj).
+A Robinhood Stock Token is an ERC-20 tokenised debt security issued by Robinhood Assets (Jersey) Limited (RHJ). It provides economic exposure to a referenced equity or ETF, but it is not the underlying share or fund interest and confers no legal or beneficial rights in it.
 
-You retain token-level economic exposure while you hold the Stock Token directly or retain a credited, custody-backed vault balance. A successful permitted ordinary withdrawal returns it to the owner; an authorized deleverage, eligible redemption, or liquidation can transfer some or all of it away. See [Collateral Assets](../core-protocol/03-collateral-assets.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current support.
+Ripe is not the issuer of tokenized stocks. Its contracts can custody and transfer supported tokens through permitted protocol routes, but Ripe support and protocol permissions do not determine investor eligibility. Canonical token identity, Ripe support, and the absence of a protocol whitelist do not establish whether someone may acquire, hold, transfer, or use a product. Review the applicable issuer's terms; for Robinhood Stock Tokens, see RHJ's current [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj).
+
+You retain token-level economic exposure while you hold a stock token directly or retain a credited, custody-backed vault balance. A successful permitted ordinary withdrawal returns it to the owner; an authorized deleverage, eligible redemption, or liquidation can transfer some or all of it away. See [Collateral Assets](../core-protocol/03-collateral-assets.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current support.
 
 ### How much can I borrow?
 
@@ -50,9 +52,9 @@ There is no contractual maturity or prepayment penalty. You can submit partial o
 
 ## Managing Risk
 
-### What happens when a Stock Token's reference market is closed?
+### What happens when a tokenized stock's reference market is closed?
 
-The last published Stock Token price can remain usable after the reference market closes while a configured source considers it valid and fresh. A reopening price can gap, so leave room below your borrowing limit. See [Price Oracles](../core-protocol/06-price-oracles.md) and [RIPE Params](https://params.ripe.finance) for more information.
+Its last published price can remain usable after the reference market closes while a configured source considers it valid and fresh. A reopening price can gap, so leave room below your borrowing limit. See [Price Oracles](../core-protocol/06-price-oracles.md) and [RIPE Params](https://params.ripe.finance) for more information.
 
 ### Can I lose my Stock Tokens while borrowing?
 
@@ -238,11 +240,11 @@ Accepted bond and Reserve Engine payments become treasury assets held by Endaome
 * **Liquidation risk**: Collateral value dropping too fast
 * **Oracle risk**: Incorrect or unavailable price feeds; ordered fallback improves availability but is not cross-source consensus
 * **Interest rate risk**: Dynamic rates during market stress
-* **Stock Token issuer and product risk**: Stock Tokens are RHJ debt securities rather than the underlying shares or fund interests; holders bear issuer and product-term risk and can lose some or all of their investment
+* **Tokenized-stock issuer and product risk**: Rights, structures, and issuer exposure vary by product. Robinhood Stock Tokens are RHJ debt securities rather than the underlying shares or fund interests; other tokenized stocks are subject to their applicable product and issuer terms, and holders can lose some or all of their investment
 * **Eligibility risk**: Ripe support and the absence of a protocol whitelist do not establish investor eligibility; issuer terms and applicable law determine eligibility and may restrict offers, sales, or delivery
 * **Transaction-execution risk**: Any token- or protocol-level controls, where applicable, can separately affect deposits, withdrawals, or settlement
 
-Review RHJ's current [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj) for the product terms and restrictions.
+Review the applicable issuer's current materials. For Robinhood Stock Tokens, see RHJ's [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj); for Coinbase Tokenized Stocks, see [Coinbase Tokenize](https://www.coinbase.com/tokenize).
 
 ### Is Ripe audited?
 

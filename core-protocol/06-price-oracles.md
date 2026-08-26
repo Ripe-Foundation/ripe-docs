@@ -33,7 +33,7 @@ When multiple adapters cover an asset, Ripe routes across them in configured ord
 ```
 Asset Price Request Flow:
 
-Your Asset (e.g., a configured Stock Token or ETH)
+Your Asset (e.g., a configured tokenized stock or ETH)
     ↓
 Price Desk (Ordered Router)
     ↓
@@ -141,15 +141,15 @@ Freshness enforcement is adapter-specific. Blue Chip snapshot routes and Undy va
 
 ### Stock-Market Hours and Price Gaps
 
-Ripe does not read an exchange calendar or switch into a separate mode when a stock reference market closes. Price Desk continues to use its ordinary ordered routing and freshness checks, and a Stock Token's last published price may remain usable while the configured source still considers it fresh.
+Ripe does not read an exchange calendar or switch into a separate mode when a stock reference market closes. Price Desk continues to use its ordinary ordered routing and freshness checks, and a tokenized stock's last published price may remain usable while the configured source still considers it fresh.
 
 Robinhood's [oracle guidance](https://docs.robinhood.com/chain/oracles-and-price-feeds/) exposes an advisory `oraclePaused()` flag for corporate-action windows and recommends treating it as temporary price unavailability. Ripe's standard Chainlink adapter does not read that token flag. During pricing it calls `latestRoundData()` and normalizes the result using feed decimals verified and stored when the feed configuration is confirmed, then applies its ordinary answer, round, timestamp, and freshness checks. A still-valid, still-fresh round can therefore remain usable while `oraclePaused()` is true. Once that round is no longer usable, Price Desk tries the next configured source.
 
 If every configured source becomes unusable, Ripe does not substitute an indefinitely cached price.
 
-When a usable source resumes, the next accepted price can revalue the Stock Token in one step. A reference-market reopening gap can therefore change account health abruptly, and subsequent borrowing, withdrawal, redemption, deleverage, and liquidation checks use the recovered price.
+When a usable source resumes, the next accepted price can revalue tokenized-stock collateral in one step. A reference-market reopening gap can therefore change account health abruptly, and subsequent borrowing, withdrawal, redemption, deleverage, and liquidation checks use the recovered price.
 
-A configured Stock Token feed must return the token-level USD price with the applicable corporate-action adjustment already incorporated. Ripe consumes that price once and does not independently read or apply `uiMultiplier()`. See [Stock Tokens as Collateral](03-collateral-assets.md#stock-tokens-as-collateral).
+For a Stock Token that uses `uiMultiplier()`, the configured feed must return the token-level USD price with that corporate-action adjustment already incorporated. Ripe consumes that price once and does not independently read or apply `uiMultiplier()`. See [Stock Tokens as Collateral](03-collateral-assets.md#stock-tokens-as-collateral).
 
 ### What Happens When Prices Go Stale?
 

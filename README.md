@@ -1,12 +1,14 @@
 ---
-description: Borrow GREEN against supported Stock Tokens in one unified position.
+description: Borrow GREEN against supported tokenized stocks and other eligible collateral in one unified position.
 ---
 
-# Ripe Protocol: Borrow Against Stock Tokens and Your Portfolio
+# Ripe Protocol: Borrow Against Tokenized Stocks and Your Portfolio
 
-Stock-market exposure is moving onchain. Ripe makes it useful: deposit supported Stock Tokens, borrow GREEN without selling them at origination, and keep their economic exposure while the tokens remain directly held or credited to a custody-backed vault balance.
+Public equity exposure is moving onchain through a growing category of tokenized stocks, often called stock tokens. Issuers use different product names — including Robinhood Stock Tokens and Coinbase Tokenized Stocks — but Ripe is built to let supported products in that category back GREEN alongside the rest of a portfolio.
 
-Supported Stock Tokens can join other eligible collateral in ONE unified loan. Redemption, deleverage, or liquidation can transfer collateral and reduce or eliminate that exposure, so position health still matters.
+Ripe makes that exposure useful: deposit supported stock tokens, borrow GREEN without selling them at origination, and keep their economic exposure while the tokens remain directly held or credited to a custody-backed vault balance.
+
+Supported stock tokens can join other eligible collateral in ONE unified loan. Redemption, deleverage, or liquidation can transfer collateral and reduce or eliminate that exposure, so position health still matters.
 
 These docs explain how Ripe's components work. Supported assets, parameters, and optional feature availability vary by deployment; use [RIPE Params](https://params.ripe.finance) for current onchain configuration.
 
@@ -48,7 +50,7 @@ USDC sits there. DAI does nothing. GREEN? It's working.
 * **Targets $1** — Six complementary mechanisms can support the peg, but none guarantees GREEN's market price
 * **Burns on repayment** — no infinite supply games
 
-#### 💰 [Borrowing Against Stock Tokens and Your Portfolio](core-protocol/02-borrowing.md)
+#### 💰 [Borrowing Against Tokenized Stocks and Your Portfolio](core-protocol/02-borrowing.md)
 
 Stop juggling vaults. Stop wasting collateral. Just borrow.
 
@@ -56,12 +58,12 @@ Stop juggling vaults. Stop wasting collateral. Just borrow.
 * **Smart rates** — Sustained reference-pool imbalance can add a capped rate adjustment
 * **Targeted liquidations** — Limited shortfalls may produce a partial target; severe shortfalls can produce a full-debt target and exhaust eligible collateral without fully clearing the debt
 
-#### 🏦 [Stock Tokens and Other Collateral](core-protocol/03-collateral-assets.md)
+#### 🏦 [Tokenized Stocks and Other Collateral](core-protocol/03-collateral-assets.md)
 
-Supported Stock Tokens can back GREEN alongside other eligible collateral, all in one position.
+Supported tokenized stocks can back GREEN alongside other eligible collateral, all in one position.
 
-* **Borrowing against Stock Tokens** - Access GREEN without selling supported Stock Tokens at origination
-* **Unified positions** - Supported Stock Tokens and other eligible assets can back one loan
+* **Borrowing against stock tokens** - Access GREEN without selling supported stock tokens at origination
+* **Unified positions** - Supported tokenized stocks and other eligible assets can back one loan
 * **Weighted terms** - Each asset's borrowing power contributes to the position's weighted terms
 * **Extensible vaults** - Support for future asset types
 
@@ -84,7 +86,7 @@ Hold sGREEN for exposure to changes in GREEN backing per share. Outcomes depend 
 * **No fixed lock term** — Withdrawals remain subject to the vault's ordinary controls
 * **Stability-compatible when configured** — Eligible sGREEN can fund liquidation settlement; consumed sGREEN is redeemed to GREEN and burned as the cohort receives collateral custody
 
-#### 🎯 [Stability Pools: Participate in Stock Token and Collateral Settlement](earning-and-rewards/02-stability-pools.md)
+#### 🎯 [Stability Pools: Tokenized Stock and Collateral Settlement](earning-and-rewards/02-stability-pools.md)
 
 Deposit eligible liquidity into a shared vault. When configured Stock Tokens or other collateral settle through a compatible, funded pool, the cohort receives collateral while supplying settlement value at the effective spread. Depositors participate proportionally through vault shares; a positive return is not guaranteed.
 
@@ -189,7 +191,7 @@ Ripe: "Why not both?"
 
 Have questions? Check our comprehensive [**FAQ**](resources/faq.md) for answers to:
 
-* Can I borrow against Stock Tokens without selling them?
+* Can I borrow against tokenized stocks without selling them?
 * What happens to Stock Tokens when their reference markets are closed?
 * Can redemption or liquidation transfer my Stock Tokens?
 * How is GREEN different from DAI or USDC?
@@ -212,7 +214,7 @@ Hold sGREEN for exposure to configured protocol revenue through its backing-per-
 
 ### ⚡ **The Liquidation Settlement Route**: Use a Stability Pool
 
-When configured Stock Token collateral settles through a compatible, funded Stability pool, the cohort receives the tokens while supplying settlement value at the effective spread. Depositors participate proportionally through vault shares, and active collateral claims enter NAV at usable oracle value. The realized outcome depends on asset prices, claim timing, and other pool conditions.\
+When configured tokenized-stock collateral settles through a compatible, funded Stability pool, the cohort receives the tokens while supplying settlement value at the effective spread. Depositors participate proportionally through vault shares, and active collateral claims enter NAV at usable oracle value. The realized outcome depends on asset prices, claim timing, and other pool conditions.\
 **→** [**Join the Pools**](earning-and-rewards/02-stability-pools.md)
 
 ### 🎯 **The Stock Move**: Borrow Without Selling at Origination
@@ -246,9 +248,9 @@ Eligible locks can increase governance-point accrual; how those points translate
 
 ## The Real Vision: Put Tokenized Value to Work
 
-Bringing stock-market exposure onchain is only the first step. Ripe is built so supported Stock Tokens can do more than sit in a wallet: they can back GREEN liquidity alongside other eligible collateral.
+Bringing public equity exposure onchain is only the first step. Ripe is built so supported tokenized stocks can do more than sit in a wallet: they can back GREEN liquidity alongside other eligible collateral.
 
-Stock Tokens are the focus. The same extensible architecture can support other tokenized real-world assets as compatible assets, pricing, and risk controls emerge.
+Tokenized stocks are the focus. The same extensible architecture can support other tokenized real-world assets as compatible assets, pricing, and risk controls emerge.
 
 One position. Supported Stock Tokens and other eligible collateral. Liquidity without an origination sale.
 

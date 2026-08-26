@@ -6,7 +6,7 @@ description: Share in configured protocol revenue through GREEN backing per shar
 
 Your stablecoins are lazy. Sitting there. Doing nothing. Earning nothing.
 
-Meanwhile, Ripe borrowers are paying interest on loans backed by supported Stock Tokens and other eligible collateral. A configured share of that revenue can increase sGREEN backing. Just deposit [GREEN](../core-protocol/01-green-stablecoin.md) into sGREEN. No staking. No claiming. No thinking.
+Meanwhile, Ripe borrowers are paying interest on loans backed by supported tokenized stocks and other eligible collateral. A configured share of that revenue can increase sGREEN backing. Just deposit [GREEN](../core-protocol/01-green-stablecoin.md) into sGREEN. No staking. No claiming. No thinking.
 
 A repayment can record newly accrued interest as pending unrealized yield, but it does not distribute that yield to sGREEN. A later successful borrow performs the flush and routes the configured share.
 
@@ -130,7 +130,7 @@ _Jordan borrows 100,000 GREEN at 5% APR and chooses sGREEN delivery_
 
 **Q: How does sGREEN compare to other yield-bearing stablecoins?** A: The difference isn't just sGREEN — it's the entire Ripe ecosystem:
 
-* **Diverse Revenue**: sGREEN captures yield from a protocol that can accept a broad range of supported collateral, including Stock Tokens, blue-chip crypto, yield positions, NFTs, and other eligible assets
+* **Diverse Revenue**: sGREEN captures yield from a protocol that can accept a broad range of supported collateral, including stock tokens, blue-chip crypto, yield positions, NFTs, and other eligible assets
 * **Unrealized Yield Flush**: Later borrowing can realize previously accrued interest without waiting for the original borrower to repay
 * **Three Potential Return Sources**: Deploy sGREEN to Stability pools for backing growth, liquidation proceeds, and configured RIPE rewards
 * **Real Demand**: Borrowers use Ripe because eligible collateral across their portfolio can back one position — creating sustainable yield sources

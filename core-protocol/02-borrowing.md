@@ -1,10 +1,10 @@
 ---
-description: Borrow GREEN against supported Stock Tokens and eligible portfolio collateral.
+description: Borrow GREEN against supported tokenized stocks and eligible portfolio collateral.
 ---
 
-# Borrowing Against Stock Tokens and Your Portfolio
+# Borrowing Against Tokenized Stocks and Your Portfolio
 
-Stock Tokens can represent meaningful market exposure, but traditional lending often requires selling that exposure or managing a separate position for each asset.
+Tokenized stocks can represent meaningful public equity exposure, but traditional lending often requires selling that exposure or managing a separate position for each asset.
 
 Ripe lets supported [Stock Tokens](03-collateral-assets.md#stock-tokens-as-collateral) with configured borrowing power back a [GREEN](01-green-stablecoin.md) loan without a protocol sale at origination. They can work alongside other eligible non-Stability collateral in one position, with each asset contributing according to its independently configured terms.
 
@@ -360,7 +360,7 @@ When standard repayment exceeds the live debt, the excess is returned to the pay
 
 Forget the old way. No more portfolio fragmentation. No more wasted collateral. No more choosing between earning yield or accessing liquidity.
 
-With Ripe, supported Stock Tokens can provide access to GREEN without a protocol sale at origination, while other eligible assets can join the same position. Each asset keeps its own configured terms, and those terms combine into one account-level borrowing position.
+With Ripe, supported tokenized stocks can provide access to GREEN without a protocol sale at origination, while other eligible assets can join the same position. Each asset keeps its own configured terms, and those terms combine into one account-level borrowing position.
 
 This is borrowing rebuilt from first principles. One position that actually understands what a portfolio is.
 
