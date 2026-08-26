@@ -52,7 +52,7 @@ There is no contractual maturity or prepayment penalty. You can submit partial o
 
 ### What happens when a Stock Token's reference market is closed?
 
-A closed reference market does not by itself quarantine a Stock Token-backed account. The last published price can remain usable while a configured source considers it valid and fresh. If no configured source is usable, valuation quarantine applies only under the nonzero-LTV price and backing conditions described in [Price Oracles](../core-protocol/06-price-oracles.md). A reopening price can gap, so leave room below your borrowing limit. See [RIPE Params](https://params.ripe.finance) for current configuration.
+The last published Stock Token price can remain usable after the reference market closes while a configured source considers it valid and fresh. A reopening price can gap, so leave room below your borrowing limit. See [Price Oracles](../core-protocol/06-price-oracles.md) and [RIPE Params](https://params.ripe.finance) for more information.
 
 ### Can I lose my Stock Tokens while borrowing?
 
@@ -69,10 +69,6 @@ A position becomes eligible for [liquidation](../core-protocol/04-liquidations.m
 **Illustrative example**: With $6,000 debt and an assumed 90% liquidation threshold, the position needs more than approximately $6,667 of collateral ($6,000 ÷ 0.90) to remain outside liquidation eligibility under the example terms. At or below the exact threshold, it is eligible.
 
 Monitor your position and add collateral or repay debt before reaching these zones. For a visual guide showing all risk zones, see [How Thresholds Work Together](../core-protocol/02-borrowing.md#how-thresholds-work-together-a-visual-guide).
-
-### What happens if one of my collateral assets cannot be priced?
-
-If an asset with nonzero LTV has a positive balance with no usable price, or a remaining nominal balance with no usable backing, an account with outstanding debt enters valuation quarantine: new borrowing and debt-supporting withdrawals stop, and new liquidation, redemption, and deleverage passes wait for valuation to recover. Zero-LTV assets do not themselves trigger valuation quarantine. Repayment remains available under its normal controls. Quarantine is not itself a liquidation or insolvency finding; see [Price Oracles](../core-protocol/06-price-oracles.md#staleness-protection).
 
 ### What's the difference between redemption and liquidation?
 
@@ -254,7 +250,7 @@ ChainSecurity reviewed an earlier Ripe Finance smart-contract architecture, and 
 
 ### How does Ripe price assets accurately?
 
-Ripe's [Price Desk](../core-protocol/06-price-oracles.md) checks configured priority sources and then other registered sources, using the first usable price. Source failures are isolated so later sources can answer; if none can, strict valuation fails closed and debt-bearing accounts can enter quarantine.
+Ripe's [Price Desk](../core-protocol/06-price-oracles.md) checks configured priority sources and then other registered sources, using the first usable price. Source failures are isolated so later sources can answer; if none can, the Price Desk returns no usable value.
 
 ### How does Ripe handle bad debt?
 
@@ -268,7 +264,7 @@ During extreme volatility:
 * Stability pools provide liquidation liquidity only while compatible and sufficiently funded
 * Target-based liquidation can limit collateral loss when conditions permit; severe shortfalls can produce a full-debt target and exhaust all eligible collateral without fully clearing the debt
 * Dynamic rates can increase borrowing cost under sustained configured danger conditions
-* Ordered oracle sources provide failover; when none is usable, valuation fails closed and debt-bearing accounts can enter quarantine
+* Ordered oracle sources provide fallback without substituting an indefinitely cached value
 
 ## Getting Help
 

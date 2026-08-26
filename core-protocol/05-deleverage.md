@@ -16,8 +16,6 @@ Even better: configured deleverage routes can consume eligible assets already de
 
 Deleveraging is the voluntary (or protocol-assisted) use of eligible deposited assets to reduce debt. Unlike liquidation, it can happen before you reach the danger zone and carries no liquidation penalties.
 
-If a positive nonzero-LTV balance has no usable price, or a remaining nominal nonzero-LTV position has no usable backing, the indebted account is quarantined and ordinary deleverage routes decline it. Standard GREEN repayment remains the recovery path while pricing or backing is restored, subject to the normal repayment controls.
-
 **Key Differences:**
 
 | Aspect | Deleverage | Liquidation |

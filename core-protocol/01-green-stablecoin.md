@@ -127,7 +127,7 @@ Standard repayment burns the GREEN applied to debt:
 
 Other configured routes can also burn GREEN, including redemption, Stability settlement, and Endaoment operations. Total supply therefore reflects borrowing, realized interest, keeper rewards, reserve and liquidity operations, repayment, and the other authorized mint-and-burn paths described on this page.
 
-Standard repayment returns any payment above the live debt to the payer. A full payoff does not need to traverse or reprice the borrower's collateral, so repayment remains the recovery path when a nonzero-LTV position causes valuation quarantine, subject to the normal repayment controls. If a partial repayment cannot derive eligible replacement terms, the stored debt terms are preserved.
+Standard repayment returns any payment above the live debt to the payer. A full payoff does not need to traverse or reprice the borrower's collateral. If a partial repayment cannot derive eligible replacement terms, the stored debt terms are preserved.
 
 ### Cross-Chain Token Movement
 
@@ -196,7 +196,7 @@ GREEN trading at $0.97? Here's what happens:
 5. A successful redemption can add buying pressure that helps GREEN move toward $1
 ```
 
-**Important Constraint**: Redemptions are only possible when positions exist in the Redemption Zone and the relevant asset, recipient, and route are eligible. During stable markets with healthy collateral ratios, direct redemptions may be unavailable. The protocol also withholds redemption while any nonzero-LTV collateral in the account triggers valuation quarantine because its pricing or backing is unusable.
+**Important Constraint**: Redemptions are only possible when positions exist in the Redemption Zone and the relevant asset, recipient, pricing, backing, and route checks pass. During stable markets with healthy collateral ratios, direct redemptions may be unavailable.
 
 When those conditions hold, the mechanism can provide buying pressure as positions move toward liquidation.
 

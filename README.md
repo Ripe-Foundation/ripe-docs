@@ -152,7 +152,7 @@ Ordered, fail-closed asset pricing with configurable fallback.
 
 * **Configurable source adapters** - External feeds, market pools, and derived-asset pricing
 * **Ordered fallbacks** - Uses the first configured source that returns a valid price
-* **Fail-closed protection** - Risk-increasing actions stop when no usable price exists
+* **Freshness checks** - Adapter-specific validity and freshness rules determine whether a source is usable
 
 #### 🛡️ [Security Audits: Published Assessments](resources/audits.md)
 

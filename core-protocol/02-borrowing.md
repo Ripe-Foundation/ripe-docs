@@ -186,14 +186,6 @@ Unlike LTV which calculates forward (debt as % of collateral), redemption and li
 
 Understanding this inverse relationship helps you monitor the right metrics and take action before it's too late.
 
-## When a Collateral Price or Backing Is Unavailable
-
-If a positive nonzero-LTV balance has no usable price, or a remaining nominal nonzero-LTV position has unusable vault backing, the account is quarantined while debt is outstanding. The affected position contributes no borrowing power; new borrowing, debt-supporting withdrawals, redemption, deleveraging, and new liquidation processing are withheld because the account cannot be valued safely. A zero-LTV asset does not itself trigger quarantine and is not automatically made non-withdrawable by the flag alone, although strict whole-account repricing and other ordinary controls can still make a Teller withdrawal revert.
-
-Standard repayment remains the recovery path, subject to its normal controls. A full payoff does not need collateral repricing or traversal and returns any payment above the live debt to the payer. On a partial repayment, stored debt terms are preserved if no eligible replacement terms can be derived. Once usable pricing and backing return, ordinary health checks resume.
-
-For the distinct behavior of Stock Token prices around reference-market closures and reopening gaps, see [Stock-Market Hours and Price Gaps](06-price-oracles.md#stock-market-hours-and-price-gaps).
-
 ## Dynamic Interest Rates
 
 ### Base Rates vs Dynamic Adjustments
@@ -362,7 +354,7 @@ Ripe Protocol has no contractual maturity schedule or prepayment penalty:
 
 Execution still requires the Teller and CreditEngine repayment route to be available, the account and caller to be permitted, and the payer to have sufficient balance and allowance. A successful payment reduces debt immediately; submitting a transaction does not guarantee execution.
 
-When standard repayment exceeds the live debt, the excess is returned to the payer. Full payoff skips collateral traversal, while a partial repayment preserves stored debt terms if unavailable pricing or backing prevents eligible replacement terms from being calculated.
+When standard repayment exceeds the live debt, the excess is returned to the payer. Full payoff skips collateral traversal.
 
 ## The Future of DeFi Borrowing
 

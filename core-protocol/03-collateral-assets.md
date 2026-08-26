@@ -61,7 +61,7 @@ A nominal vault records token units rather than a rebasing or share-based claim.
 
 * A deposit is credited only when the exact accepted amount reaches the configured destination custody and the vault records that same amount.
 * A withdrawal or settlement must deliver the amount that its accounting credits. If token controls or transfer behavior prevent exact delivery, the operation fails closed rather than completing with a short receipt.
-* A recorded balance whose backing cannot be established provides no usable collateral value or borrowing power. If that asset has nonzero LTV and debt remains, unusable backing can place the account in valuation quarantine until backing recovers or the debt is repaid.
+* A recorded balance whose backing cannot be established provides no usable collateral value or borrowing power.
 
 These checks keep a nominal token balance from becoming borrowing power or paid settlement when the corresponding Stock Tokens are not actually available.
 
@@ -75,7 +75,7 @@ Stock Tokens are not intrinsically permissioned or assigned to a particular liqu
 
 Ripe values a Stock Token through the first usable source in its configured price-source order. A configured Stock Token feed must return the already multiplier-adjusted USD price per token, which Ripe consumes once without independently reading or applying `uiMultiplier()`. The nominal token units credited by Ripe remain unchanged. Separately, `uiMultiplier()` expresses the share-equivalent units represented by those tokens for display purposes; Ripe does not use it in valuation.
 
-Reference-market closures do not create a separate pricing mode inside Ripe. See [Stock-Market Hours and Price Gaps](06-price-oracles.md#stock-market-hours-and-price-gaps) for how freshness, fallback, quarantine, and reopening gaps interact.
+Reference-market closures do not create a separate pricing mode inside Ripe. See [Stock-Market Hours and Price Gaps](06-price-oracles.md#stock-market-hours-and-price-gaps) for how freshness, fallback, and reopening gaps interact.
 
 ## Asset Categories
 
@@ -154,7 +154,7 @@ Each supported asset is assigned to a configured vault whose accounting matches 
 * Compound earnings while deposited
 * Underlying economics can continue when supported, subject to the asset's vault, custody, and market risks
 
-Deposits and withdrawals must deliver the amount the vault accounts for. An underbacked position provides no usable collateral value and, when it has nonzero LTV and debt remains, can quarantine the account until backing recovers or the debt is repaid.
+Deposits and withdrawals must deliver the amount the vault accounts for. An underbacked position provides no usable collateral value or borrowing power.
 
 **Special Purpose Vaults**
 
@@ -202,7 +202,7 @@ Deposit limits bound how much of an asset can be credited to one user and in agg
 
 Governance can update the configured absolute limits and minimum balance without changing this mechanism.
 
-A deposit can still fail when another debt-bearing asset in the account is quarantined. Current limits and eligibility are published through [RIPE Params](https://params.ripe.finance).
+Current limits and eligibility are published through [RIPE Params](https://params.ripe.finance).
 
 ## Making Withdrawals
 
@@ -223,8 +223,6 @@ Your withdrawal capacity depends on:
 * **Asset-specific LTVs** determining borrowing power
 * **Current debt levels** and interest accrued
 * **Overall health factor** maintaining safety
-
-Valuation quarantine removes withdrawal capacity for assets that support the debt. A zero-LTV asset is not automatically blocked by the quarantine flag alone, but strict whole-account repricing, debt health, pauses, custody, token controls, or account controls can still make its withdrawal revert.
 
 Example:
 
@@ -301,7 +299,7 @@ The applicable controls come from the specific token and protocol configuration;
 ### Immediate Benefits
 
 * **Earn RIPE rewards** on eligible configured deposits
-* **No protocol maturity lock** on general deposits, subject to health, pause, custody, token, and quarantine controls
+* **No protocol maturity lock** on general deposits, subject to health, pause, custody, token, and pricing controls
 * **Productive collateral when supported** - eligible yield-bearing assets can retain the economics implemented by their configured vault path
 * **Portfolio borrowing power** - eligible assets can support one position, while every deposited asset remains exposed to account-level settlement risk
 

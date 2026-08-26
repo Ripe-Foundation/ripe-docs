@@ -141,11 +141,11 @@ Freshness enforcement is adapter-specific. Blue Chip snapshot routes and Undy va
 
 ### Stock-Market Hours and Price Gaps
 
-Ripe does not read an exchange calendar or switch into a separate mode when a stock reference market closes. Price Desk continues to use its ordinary ordered routing and freshness checks. A Stock Token's last published price may remain usable while the configured source still considers it fresh, so market closure alone does not quarantine an account.
+Ripe does not read an exchange calendar or switch into a separate mode when a stock reference market closes. Price Desk continues to use its ordinary ordered routing and freshness checks, and a Stock Token's last published price may remain usable while the configured source still considers it fresh.
 
 Robinhood's [oracle guidance](https://docs.robinhood.com/chain/oracles-and-price-feeds/) exposes an advisory `oraclePaused()` flag for corporate-action windows and recommends treating it as temporary price unavailability. Ripe's standard Chainlink adapter does not read that token flag. During pricing it calls `latestRoundData()` and normalizes the result using feed decimals verified and stored when the feed configuration is confirmed, then applies its ordinary answer, round, timestamp, and freshness checks. A still-valid, still-fresh round can therefore remain usable while `oraclePaused()` is true. Once that round is no longer usable, Price Desk tries the next configured source.
 
-If every configured source becomes unusable, Ripe does not substitute an indefinitely cached price. An account with outstanding debt enters valuation quarantine only when the affected Stock Token has nonzero LTV and either a positive balance cannot be priced or a remaining nominal balance lacks usable vault backing.
+If every configured source becomes unusable, Ripe does not substitute an indefinitely cached price.
 
 When a usable source resumes, the next accepted price can revalue the Stock Token in one step. A reference-market reopening gap can therefore change account health abruptly, and subsequent borrowing, withdrawal, redemption, deleverage, and liquidation checks use the recovered price.
 
@@ -156,17 +156,6 @@ A configured Stock Token feed must return the token-level USD price with the app
 1. **Earlier Source Stale**: The query continues to the next configured source
 2. **All Sources Unusable**: A non-strict query reports no price and a strict valuation fails closed; the protocol does not substitute a last-known cached value
 3. **No Feed Available**: New assets without feeds cannot be borrowed against
-
-For an account with outstanding debt, valuation quarantine arises only from an asset with nonzero LTV: either a positive borrowing-power balance has no usable price, or a remaining nominal balance has no usable vault backing.
-
-* The unavailable collateral contributes no borrowing power
-* New borrowing and withdrawals of collateral that supports the debt are blocked
-* New liquidation, redemption, and deleveraging passes are withheld until valuation recovers; an already-created auction remains subject to its own price and settlement checks
-* Standard GREEN repayment remains the dependable public recovery path, subject to its normal controls
-
-Ordinary Teller deposits and withdrawals run strict whole-account debt housekeeping and can revert while a debt-bearing price remains unusable. Adding collateral is therefore not a guaranteed quarantine-recovery path.
-
-Quarantine is not itself a liquidation trigger or a declaration of insolvency. Once pricing or backing becomes usable again, the account returns to the normal health checks using the recovered value.
 
 ## Price Priority System
 

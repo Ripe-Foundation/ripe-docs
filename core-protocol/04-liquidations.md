@@ -160,7 +160,7 @@ Before liquidation becomes possible, the redemption mechanism can provide a prot
 * **Reduces your debt** when an eligible redemption transaction succeeds
 * **May prevent liquidation** by improving your position health
 
-Each redemption is capped by the debt reduction needed to reach the account's target based on its lowest applicable LTV and configured buffer. It does not proceed while the borrower is in liquidation or valuation quarantine, or when the borrower address is registered as an Underscore Earn vault.
+Each redemption is capped by the debt reduction needed to reach the account's target based on its lowest applicable LTV and configured buffer. It requires usable pricing and backing and does not proceed while the borrower is in liquidation or when the borrower address is registered as an Underscore Earn vault.
 
 This mechanism serves dual purposes: protecting borrowers through gradual deleveraging while helping maintain GREEN's $1 peg during market stress.
 
@@ -169,8 +169,6 @@ This mechanism serves dual purposes: protecting borrowers through gradual deleve
 ## The Liquidation Process
 
 When liquidation becomes necessary, Ripe can use up to two configured phases—Stability settlement followed by Dutch auctions—while pursuing the repayment target. Valid asset configuration is auction-only, Stability-then-auction, or neither; Stability settlement cannot be enabled without auction fallback. At runtime, a compatible funded Stability cohort can still complete the target before an auction begins.
-
-If a positive nonzero-LTV balance has no usable price, or a remaining nominal nonzero-LTV position has no usable backing, the indebted account is quarantined and new liquidation processing is declined. Standard GREEN repayment remains the recovery path while pricing or backing is restored, subject to the normal repayment controls.
 
 AuctionHouse liquidation and ordinary credit redemption also skip a borrower address registered as an Underscore Earn vault. This exception follows the borrower address; it does not apply to an ordinary user merely because that user deposited an Earn-vault share as collateral.
 
@@ -182,8 +180,6 @@ A Stock Token does not receive a redemption or liquidation route merely because 
 * **At the liquidation threshold**: Reaching the threshold makes the account eligible; it does not move the Stock Token automatically. An eligible caller must submit a liquidation transaction.
 * **After submission**: Stability settlement applies only when enabled for the Stock Token and a compatible, sufficiently funded Stability cohort can accept it. Auction-only configuration skips that phase; Stability-enabled configuration retains auction fallback for any eligible remainder.
 * **What can be lost**: A limited shortfall may consume only part of the eligible Stock Token collateral. A severe shortfall can exhaust all eligible Stock Tokens and other collateral without fully clearing the debt.
-
-Stock-market closure and feed freshness are separate from route selection. If the account cannot be valued safely, new liquidation processing waits as described in [Price Oracles](06-price-oracles.md); when usable pricing returns, eligibility is recalculated from that price and still requires a submitted transaction.
 
 ### Before Liquidation: Deleverage
 

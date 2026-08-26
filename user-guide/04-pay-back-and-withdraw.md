@@ -15,7 +15,7 @@ description: Repay GREEN and take your collateral back out
 
 For a wallet token, review and approve the requested spender and amount if prompted, then submit Payback. A deposited position generally does not use that wallet-token approval flow. In either case, debt changes only after the applicable transaction succeeds.
 
-**Step 3.** To take collateral out, use the **-** control on the asset's row in the collateral table (the **+** deposits, the **-** withdraws). Ordinary withdrawal is unavailable while the account is in liquidation. Valuation quarantine blocks debt-supporting withdrawal capacity; a zero-LTV asset is not automatically blocked by the quarantine flag alone, but strict whole-account repricing and the normal vault, token, pause, and account controls can still make its withdrawal revert. Repay far enough below the current borrowing limit to satisfy the withdrawal buffer; a full repayment removes the debt-health constraint.
+**Step 3.** To take collateral out, use the **-** control on the asset's row in the collateral table (the **+** deposits, the **-** withdraws). Ordinary withdrawal is unavailable while the account is in liquidation and remains subject to the normal vault, token, pause, debt-health, and account checks. Repay far enough below the current borrowing limit to satisfy the withdrawal buffer; a full repayment removes the debt-health constraint.
 
 **Step 4.** Confirm in your wallet, then check your wallet balance.
 
