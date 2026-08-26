@@ -6,7 +6,7 @@ description: One Loan, Endless Possibilities.
 
 Most lending protocols make you juggle multiple vaults. Different assets, different loans, different liquidation risks. Complexity for no reason.
 
-Ripe simplifies everything. Every asset you own — from ETH to memecoins to that jpeg you overpaid for — backs a single [GREEN](01-green-stablecoin.md) loan. Your entire portfolio determines your borrowing power. One position. One rate. One liquidation threshold.
+Ripe simplifies everything. Eligible collateral with configured borrowing power — from ETH to memecoins to that jpeg you overpaid for — can back a single [GREEN](01-green-stablecoin.md) loan. Your supported non-Stability collateral determines your borrowing power. One position. One rate. One liquidation threshold.
 
 Finally, borrowing that respects how people actually manage money.
 
@@ -14,9 +14,7 @@ Finally, borrowing that respects how people actually manage money.
 
 ### Unified Position Structure
 
-In Ripe Protocol, all your collateral across all vaults backs a single, unified loan position. You don't have separate loans for each asset — instead, your entire collateral portfolio supports one consolidated debt position. This design simplifies management and maximizes capital efficiency.
-
-Positions in a vault classified as a Stability vault are excluded from borrowing collateral terms, even though they can serve other protocol roles.
+In Ripe Protocol, eligible collateral across non-Stability vaults backs a single, unified loan position. You don't have separate loans for each asset — instead, supported collateral with nonzero borrowing terms supports one consolidated debt position. Positions in vaults classified as Stability vaults are excluded from borrowing collateral terms, even though they can serve other protocol roles.
 
 ### The Credit Calculation Engine
 
@@ -80,30 +78,30 @@ The LTV determines your maximum borrowing capacity as a percentage of collateral
 
 When your position becomes eligible for collateral redemption by GREEN holders.
 
-* **What it means**: Other users can pay off your debt and take equivalent collateral
-* **How it's calculated**: Position at risk when collateral < debt ÷ redemption threshold
+* **What it means**: Other users can provide GREEN to reduce your debt and receive oracle-sized eligible collateral
+* **How it's calculated**: Position at risk when collateral ≤ debt ÷ redemption threshold
 * **Threshold varies by asset**: Stablecoins ~85%, ETH/BTC ~77%, volatile assets ~60%
 *   **Example with 85% threshold (stablecoins)**:
 
     ```
     Your debt: $8,000
-    Redemption triggers when collateral < $9,412
+    Redemption eligibility begins when collateral ≤ approximately $9,412
     (Because $8,000 ÷ 0.85 = $9,412)
     ```
 * **Purpose**: Provides market-based deleveraging and early warning before [liquidation](04-liquidations.md)
 
 **3. Liquidation Threshold: The Danger Zone**
 
-The critical point where forced [liquidation](04-liquidations.md) begins to protect the protocol.
+The critical point where the account becomes eligible for forced [liquidation](04-liquidations.md) to protect the protocol.
 
-* **What it means**: Your position will be liquidated
-* **How it's calculated**: Liquidation when collateral < debt ÷ liquidation threshold
+* **What it means**: Your position becomes eligible for liquidation
+* **How it's calculated**: Liquidation when collateral ≤ debt ÷ liquidation threshold
 * **Threshold varies by asset**: Stablecoins ~90%, ETH/BTC ~80%, volatile assets ~65%
 *   **Example with 90% threshold (stablecoins)**:
 
     ```
     Your debt: $8,000
-    Liquidation triggers when collateral < $8,889
+    Liquidation eligibility begins when collateral ≤ approximately $8,889
     (Because $8,000 ÷ 0.90 = $8,889)
     ```
 * **Execution**: An eligible liquidation still requires a submitted transaction, and the borrower can repay debt
@@ -146,25 +144,25 @@ $10,000                    $8,571      $7,792     $7,500      $0
 **🟡 CAUTION ZONE (Between Max LTV and Redemption / Collateral $8,571 - $7,792)**
 
 * **Status**: Over max LTV but still protected
-* **Actions Available**: Cannot borrow more; can repay/add collateral
+* **Actions Available**: Cannot borrow more. At the maximum boundary, borrowing-power collateral has no withdrawal room; once debt exceeds current max-borrow capacity, ordinary withdrawals revert during whole-account debt housekeeping, including withdrawals of zero-LTV assets. Repay or add collateral.
 * **Risk Level**: Medium - approaching danger
 * **What to do**: Consider reducing debt or adding collateral
 
 **🟠 REDEMPTION ZONE (Between Redemption and Liquidation / Collateral $7,792 - $7,500)**
 
 * **Status**: Eligible for [redemption](04-liquidations.md#the-redemption-buffer) and [deleveraging](05-deleverage.md)
-* **Actions Available**: Anyone can pay your debt for collateral, or [deleverage](05-deleverage.md) your position
+* **Actions Available**: An eligible GREEN holder can reduce your debt for oracle-sized collateral when the redemption and recipient checks pass, or an eligible caller can [deleverage](05-deleverage.md) your position
 * **Risk Level**: High - active intervention needed
 * **What to do**: Urgently repay debt, add collateral, or proactively [deleverage](05-deleverage.md)
 
-**🔴 LIQUIDATION ZONE (Above Liquidation Threshold / Collateral < $7,500)**
+**🔴 LIQUIDATION ZONE (At or Above Liquidation Threshold / Collateral ≤ $7,500)**
 
 * **Status**: Eligible for [liquidation](04-liquidations.md); a submitted liquidation begins or continues the episode
 * **Actions Available**: Repayment remains available; liquidation can be retried when no fungible auction remains
-* **Risk Level**: Critical - partial liquidation to restore health
-* **What to do**: Position will be partially liquidated until healthy again
+* **Risk Level**: Critical - liquidation targets safer account health
+* **What to do**: Repay or add collateral urgently; severe shortfalls can produce a full-debt repayment target and exhaust all eligible collateral without fully clearing the debt
 
-**Liquidation episode state**: Once an account is marked `inLiquidation`, a new borrow no longer clears that freeze. A successful repayment clears it after restoring debt within current max-borrow capacity, and another liquidation pass can retry when no fungible auction remains.
+**Liquidation episode state**: Once an account is marked `inLiquidation`, a new borrow no longer clears that freeze. All ordinary withdrawals are blocked, including zero-LTV assets. A successful repayment clears the state when debt is zero or no greater than current max-borrow capacity—not merely when the account moves back outside the liquidation threshold—and another liquidation pass can retry when no fungible auction remains.
 
 ### The Critical Inverse Relationship
 
@@ -202,7 +200,7 @@ Your normal interest rate is the weighted average from your collateral mix (as e
 
 ### When Dynamic Rates Activate
 
-Ripe monitors a configured GREEN reference pool as a health indicator. Under normal conditions, you simply pay your weighted base rate. Dynamic adjustments apply only when the confirmed signal reaches its configured trigger.
+Ripe monitors a configured GREEN reference pool as a health indicator. When the current signal is below the trigger, the next eligible debt-term checkpoint stores the weighted base rate; at or above the trigger, it can store a bounded dynamic adjustment. Between checkpoints, existing debt continues accruing at its previously stored rate.
 
 **Key Point**: The signal is built from confirmed intervals, not one spot reading.
 
@@ -215,7 +213,7 @@ Ripe monitors a configured GREEN reference pool as a health indicator. Under nor
 
 ### Rate Adjustment
 
-When the duration-weighted ratio reaches the configured danger trigger, rates adjust through three mechanisms:
+When an eligible checkpoint observes the duration-weighted ratio at or above the configured danger trigger, the dynamic-rate calculation uses three mechanisms:
 
 1. **Ratio-Based Multiplier**
    * Scales continuously based on pool composition
@@ -234,12 +232,17 @@ When the duration-weighted ratio reaches the configured danger trigger, rates ad
 
 This mechanism uses protocol block intervals. Converting those intervals to wall-clock time is chain-specific, so the documentation does not hard-code a minutes-per-block estimate.
 
+Interest for an elapsed interval accrues at the borrow rate already stored in the debt record. A borrow, qualifying repayment, or Teller debt-housekeeping update then checkpoints current weighted terms for subsequent accrual; a reference-pool signal change alone does not rewrite dormant debt.
+
 ### Underscore Earn Vault Integration
 
 [Underscore Protocol's](https://underscore.finance/) Earn Vaults use two different relationships with Ripe. Core Vault shares can be posted as collateral on Ripe, while Amplified Vaults receive special borrowing terms when they use Ripe inside the vault strategy:
 
 * **Configured discount** on borrowing rates
 * **No origination fee** (Daowry waived)
+* **No ordinary dynamic-rate branch**: A registered Earn-vault borrower receives its discounted weighted rate rather than the ordinary-borrower dynamic adjustment
+
+AuctionHouse liquidation and ordinary credit redemption skip a borrower address registered as an Underscore Earn vault. This exception follows the borrower address; it does not apply to an ordinary user merely because that user deposited an Earn-vault share as collateral.
 
 **How It Works:**
 
@@ -340,7 +343,7 @@ When borrowing, you can choose one of three ways to receive your funds:
 
 A configured one-time fee on new borrows that:
 
-* Flows directly to [sGREEN](../earning-and-rewards/01-sgreen.md) holders
+* Is split between [sGREEN](../earning-and-rewards/01-sgreen.md) backing and governance's configured buyback allocation
 * Creates immediate protocol revenue
 * Aligns borrower and saver incentives
 
@@ -363,12 +366,12 @@ When standard repayment exceeds the live debt, the excess is returned to the pay
 
 Forget the old way. No more portfolio fragmentation. No more wasted collateral. No more choosing between earning yield or accessing liquidity.
 
-With Ripe, your stablecoins get treated like the safe assets they are while even your riskiest positions contribute something. Your yield positions keep earning while backing your loan. Dynamic rates protect the protocol without punishing everyday borrowers. And if things go south? Redemptions give you a buffer before liquidations even start.
+With Ripe, supported stablecoins can receive borrowing terms while eligible yield positions keep earning and backing your loan. Dynamic rates protect the protocol without punishing everyday borrowers. And if things go south? Redemptions give you a buffer before liquidations even start.
 
 This is borrowing rebuilt from first principles. One position that actually understands what a portfolio is.
 
 ***
 
-_Ready to experience unified borrowing? Your entire portfolio is waiting to work harder._
+_Ready to experience unified borrowing? Your eligible collateral is waiting to work harder._
 
 _For technical implementation details, see the_ [_Credit Engine Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/creditengine)_._

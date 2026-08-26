@@ -4,7 +4,7 @@ description: One loan. Every asset. Maximum efficiency.
 
 # Collateral Assets
 
-That's Ripe Protocol. While other lending protocols make you open separate positions for each asset (exhausting) or limit you to "safe" tokens only (boring), Ripe does something radical: it treats your portfolio like a portfolio. Your ETH, your yield-bearing positions, your stablecoins, even your NFTs — they all work together to back a single GREEN loan with weighted terms. No juggling. No wasted capital. Just pure efficiency.
+That's Ripe Protocol. While other lending protocols make you open separate positions for each asset (exhausting) or limit you to "safe" tokens only (boring), Ripe does something radical: it treats your portfolio like a portfolio. When supported and configured with borrowing power, your ETH, yield-bearing positions, stablecoins, and NFTs can work together to back a single GREEN loan with weighted terms. Stability-vault positions remain excluded from those borrowing terms. No juggling. No wasted capital. Just pure efficiency.
 
 ## Why Ripe's Approach is Different
 
@@ -314,7 +314,7 @@ The protocol handles permissions transparently — you'll know if an asset requi
 
 Forget everything you know about DeFi borrowing. No more juggling ten different positions. No more leaving half your assets idle because they're "not supported." No more choosing between earning yield or accessing liquidity.
 
-With Ripe, your Aave positions keep earning. Your NFTs become productive. That random memecoin moonshot? It's collateral now. One loan, weighted terms, every asset working.
+With Ripe, supported Aave positions can keep earning. Eligible NFTs and memecoins can become productive collateral. One loan, weighted terms, supported borrowing assets working together.
 
 This isn't just another lending protocol — it's how DeFi lending should have worked from day one.
 

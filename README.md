@@ -6,7 +6,7 @@ description: One Loan. Every Asset. Maximum Power.
 
 DeFi lending works great — if you're willing to manage five different vaults. But most people aren't. Five vaults for five assets isn't how people think about their wealth. Your tokenized stocks? Worthless as collateral. Your yield-bearing tokens? Just sitting there, unused.
 
-Ripe simplifies everything. Your entire portfolio — crypto, RWAs, jpegs, everything — backs ONE loan. Finally, borrowing that understands what a portfolio actually is.
+Ripe simplifies everything. Eligible collateral configured with borrowing power across your portfolio can back ONE loan. Finally, borrowing that understands what a portfolio actually is.
 
 These docs explain how Ripe's components work. Supported assets, parameters, and optional feature availability vary by deployment; use [RIPE Params](https://params.ripe.finance) for current onchain configuration.
 
@@ -29,8 +29,8 @@ Your Portfolio:              Traditional:           Ripe:
 │ 5 ETH       │ ──────────> │ ETH Loan #1 │       │             │
 │ 2 WBTC      │ ──────────> │ WBTC Loan #2│       │  ONE LOAN   │
 │ 10K USDC    │ ──────────> │ USDC Loan #3│  ───> │  GREEN      │
-│ RWA tokens  │ ──────────> │ Can't use   │       │  All Assets │
-│ T-bills     │ ──────────> │ Can't use   │       │  Working    │
+│ RWA tokens  │ ──────────> │ Can't use   │       │  Eligible   │
+│ T-bills     │ ──────────> │ Can't use   │       │  Assets     │
 └─────────────┘             └─────────────┘       └─────────────┘
                             5 positions to          1 unified
                             manage, limited         position,
@@ -45,7 +45,7 @@ Your Portfolio:              Traditional:           Ripe:
 
 USDC sits there. DAI does nothing. GREEN? It's working.
 
-* **Mint it** by borrowing against literally anything
+* **Mint it** by borrowing against supported collateral configured with borrowing power
 * **Stays at $1** through five mechanisms that actually work
 * **Burns on repayment** — no infinite supply games
 
@@ -53,24 +53,24 @@ USDC sits there. DAI does nothing. GREEN? It's working.
 
 Stop juggling vaults. Stop wasting collateral. Just borrow.
 
-* **Total portfolio power** — Add up everything, borrow once
+* **Eligible portfolio power** — Combine supported non-Stability collateral, borrow once
 * **Smart rates** — Sustained reference-pool imbalance can add a capped rate adjustment
-* **Partial liquidations** — Lose some, not all
+* **Targeted liquidations** — Limited shortfalls may produce a partial target; severe shortfalls can produce a full-debt target and exhaust eligible collateral without fully clearing the debt
 
 #### 🏦 [Collateral Assets: Everything Has Value](core-protocol/03-collateral-assets.md)
 
-From stablecoins to tokenized stocks, from blue-chip crypto to your favorite PFP — if it has value, it can back your loan.
+From stablecoins to tokenized stocks, from blue-chip crypto to your favorite PFP — supported assets with borrowing power can back your loan.
 
-* **Unified positions** - All assets support one loan
+* **Unified positions** - Eligible assets support one loan
 * **Weighted terms** - Each asset contributes its best LTV
 * **Extensible vaults** - Support for future asset types
 
 #### 🛡️ [Liquidations: Protection Through Innovation](core-protocol/04-liquidations.md)
 
-Four layers of defense. Partial liquidations only. You keep most of your collateral.
+Separate deleverage and redemption paths can reduce risk before liquidation. Liquidation itself targets safer account health through configured Stability settlement and auctions, but severe shortfalls can consume all eligible collateral and still leave debt.
 
-* **Redemption buffer** - GREEN holders delever you at $1 (no penalty)
-* **Your assets first** - Uses eligible debt-settlement positions before ordinary collateral auctions
+* **Redemption buffer** - GREEN is treated as a $1 debt-value input when eligible collateral is sized and credited
+* **Separate deleverage route** - Can use eligible debt-settlement positions before liquidation
 * **Stability pools** - Conditional settlement at configured spreads before auction fallback
 * **Dutch auctions** - Time-based pricing for remaining collateral
 
@@ -179,8 +179,8 @@ Other protocols: "Pick one: safe OR efficient."\
 Ripe: "Why not both?"
 
 * **Your collateral, your loan** — No sharing risk with degens
-* **Everything counts** — From ETH to tokenized gold to treasury bills
-* **Any asset works** — If it has value, you can borrow against it
+* **Eligible collateral counts** — From ETH to tokenized gold to treasury bills when supported
+* **Supported assets work together** — Assets with configured borrowing power back one loan
 * **Sleep easy** — Your position doesn't care what others do
 
 ***
@@ -216,7 +216,7 @@ Someone else overleveraged? Their loss, your gain. Stability pools turn liquidat
 
 ### 🎯 **The Power Move**: One Loan to Rule Them All
 
-Your tokenized Tesla shares + ETH + treasury bills + that yield position = One massive loan. Finally.\
+Eligible tokenized shares + ETH + treasury bills + that yield position = One massive loan. Finally.\
 **→** [**Start Borrowing**](core-protocol/02-borrowing.md)
 
 ### 🏗️ **The Long Game**: Lock RIPE, Run the Protocol

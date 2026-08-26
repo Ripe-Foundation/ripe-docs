@@ -66,13 +66,13 @@ If debt-bearing collateral has no usable price or backing, the account enters va
 
 ### How does partial liquidation work?
 
-Ripe targets the debt reduction needed to restore safer account health. A limited shortfall can produce a partial liquidation, while severe undercollateralization can require the full debt and all eligible collateral.
+Ripe targets the debt reduction needed to restore safer account health. A limited shortfall can produce a partial liquidation, while severe undercollateralization can produce a full-debt target and exhaust all eligible collateral without fully clearing the debt.
 
 ## Earning with Ripe
 
 ### What is sGREEN?
 
-[sGREEN](../earning-and-rewards/01-sgreen.md) is yield-bearing GREEN that automatically captures protocol revenues. Your sGREEN balance stays the same while its GREEN value increases over time through:
+[sGREEN](../earning-and-rewards/01-sgreen.md) is yield-bearing GREEN whose backing can increase from the configured share of realized protocol revenue. Your sGREEN balance stays the same while its GREEN value reflects backing per share through:
 
 * Borrower interest payments
 * Origination fees from new loans
@@ -250,7 +250,7 @@ During extreme volatility:
 
 * Redemption and deleverage remain separate paths for reducing eligible debt
 * Stability pools provide liquidation liquidity only while compatible and sufficiently funded
-* Partial liquidation minimizes collateral losses
+* Target-based liquidation can limit collateral loss when conditions permit; severe shortfalls can produce a full-debt target and exhaust all eligible collateral without fully clearing the debt
 * Dynamic rates can increase borrowing cost under sustained configured danger conditions
 * Ordered oracle sources provide failover; when none is usable, valuation fails closed and debt-bearing accounts can enter quarantine
 

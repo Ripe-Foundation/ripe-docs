@@ -277,14 +277,10 @@ Example: $500,000 borrowed (5% of total debt)
 
 ### How Auto-Staking Works
 
-The protocol enforces auto-staking to balance token distribution with long-term alignment:
+Reward claims apply the configured auto-staking settings:
 
-* **Stake Ratio**: 75% must be auto-staked
-  * Only 25% goes to your wallet as liquid RIPE
-  * Prevents market flooding while building committed participants
-* **Duration Ratio**: 33% × 3-year max = ~1-year lock
-  * All auto-staked rewards are locked for approximately 1 year
-  * Ensures reward recipients become long-term stakeholders
+* **Stake Ratio**: The configured portion is auto-staked and the remainder is liquid. A zero ratio permits a fully liquid normal claim; the claimant may still choose to stake the entire claim
+* **Lock Duration**: Derived from configured duration settings and the current core governance-vault lock bounds
 
 **Why This Matters**: Rather than dumping tokens on the market, auto-staking creates a community of invested participants who earn governance power alongside their rewards. You're not just earning tokens — you're earning a voice in the protocol's future.
 
@@ -337,12 +333,12 @@ It's like a buffet where desserts are on one table and mains on another — you 
 
 ### "What happens when I claim?"
 
-The protocol enforces auto-staking parameters to align incentives:
+The protocol applies configured auto-staking parameters:
 
 **Example Settings (Protocol-Controlled):**
 
-* **Auto-stake percentage**: 75% must be auto-staked
-* **Lock duration**: ~1 year (33% of max 3-year duration)
+* **Auto-stake percentage**: Assume a configured 75% ratio for this example
+* **Lock duration**: Assume approximately 1 year for this example
 * **Your choice**: Claim now or wait, and optionally request that the entire claim be staked
 
 **The Full Claim Process:**
@@ -357,7 +353,7 @@ When you claim RIPE rewards, the Lootbox contract:
 **Example Claim:**
 
 * You have 1,000 RIPE rewards to claim
-* Protocol requires 75% auto-stake with ~1-year lock
+* Assume the configured claim terms require 75% auto-stake with an approximately 1-year lock
 * Result: 250 RIPE to your wallet + 750 RIPE locked in governance vault
 
 **Delegation**: Others can claim on your behalf if you've granted `canClaimLoot` permission. This enables automated compounding strategies.

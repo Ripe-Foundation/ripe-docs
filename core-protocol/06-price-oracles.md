@@ -12,13 +12,15 @@ Which adapters are registered, their priority, and their asset coverage vary by 
 
 Your collateral value comes from the first usable source in the configured order.
 
+For ERC-20 valuation, a usable price feed is only one prerequisite: Price Desk must also have the token's scale synchronized. Without it, non-strict conversions report no value and strict conversions revert.
+
 ## Why Pricing Matters in Ripe
 
 Every critical protocol operation depends on accurate pricing:
 
 * **Borrowing Power**: Your collateral value determines how much GREEN you can borrow
 * **Liquidation Safety**: Price movements trigger liquidations when positions become risky
-* **Redemption Values**: Direct redemptions exchange GREEN for exactly $1 of collateral
+* **Redemption Values**: Direct redemptions treat GREEN as a $1 debt-value input while oracle pricing and actual delivery determine collateral and debt credit
 * **Stability Pool Profits**: Liquidation discounts are calculated from current market prices
 * **Interest Rates**: Dynamic rates respond to GREEN's market price
 
@@ -101,18 +103,20 @@ Provides additional redundancy and supports newer assets.
 
 Custom pricing for yield-bearing tokens from major protocols:
 
-* **Coverage**: aTokens (Aave), cTokens (Compound), Morpho and Morpho V2 positions, Euler, etc.
+* **Coverage**: Aave V3 and Compound V3 positions, Morpho and Morpho V2 positions, Euler, Fluid, Moonwell, etc.
 * **Reliability**: Direct integration with protocol contracts
 * **Special Feature**: Handles rebasing and yield accrual correctly
 * **Trust Model**: Based on underlying protocol's accounting
 
-**Two-Layer Pricing**: This oracle combines real-time underlying asset prices (from Chainlink or other primary oracles) with weighted snapshots of the share price/exchange rate. For example, to price a Morpho USDC position:
+Blue Chip Yield Prices supports several adapter models. Aave V3 and Compound V3 positions use the underlying asset price directly and do not use share-rate snapshots. Morpho, Morpho V2, Euler, and Fluid use duration-weighted ERC-4626 share-rate snapshots combined with the underlying price. Moonwell uses a separate exchange-rate route.
+
+For example, a Morpho USDC position uses two-layer pricing:
 
 * **Underlying USDC price**: Fetched in real-time from Chainlink ($1.00)
 * **Morpho share price**: Weighted average over time (e.g., 1.05 USDC per share)
 * **Final position value**: $1.00 × 1.05 = $1.05 per share
 
-**Manipulation Protection**: Only the exchange rate uses weighted snapshots — the underlying asset price remains current. This prevents attackers from manipulating the yield token's exchange rate through flash loans or temporary spikes, while ensuring the collateral responds immediately to market movements in the underlying asset. The snapshots also include upside deviation throttling for the exchange rate, gradually incorporating sudden appreciation rather than accepting it immediately.
+**Manipulation Protection**: Where share or exchange-rate snapshots apply, only that rate uses weighted snapshots — the underlying asset price remains current. This reduces exposure to temporary share-rate spikes while allowing the collateral to respond to movements in the underlying asset. Applicable snapshots also include upside-deviation throttling, gradually incorporating sudden appreciation rather than accepting it immediately.
 
 ## Staleness Protection
 
@@ -121,7 +125,7 @@ Stale prices are dangerous. Here's how we prevent them:
 ### Global Staleness Threshold
 
 * Freshness windows are set through deployment and governance configuration
-* A feed-specific nonzero window can override the global policy; otherwise the feed inherits the global window
+* For adapters that consume the router-supplied window, a feed-specific nonzero window can override the global policy; snapshot adapters may instead use local freshness configuration
 * See [RIPE Params](https://params.ripe.finance) for current onchain settings
 
 ### Per-Oracle Configuration
@@ -131,7 +135,9 @@ Each oracle can have custom staleness limits:
 * Chainlink: Uses round timestamp
 * Pyth/Stork: Uses publish timestamp
 * Curve: Reads pool state directly; confirmed GREEN reference history has its own block-based freshness rules
-* Blue Chip: Snapshot-based with minimum delays
+* Blue Chip: Adapter-specific; share-rate snapshot routes use local delay and freshness settings, while direct-underlying routes do not use those snapshots
+
+Freshness enforcement is adapter-specific. Blue Chip snapshot routes and Undy vault pricing use their locally configured snapshot freshness rather than the forwarded global stale-time setting.
 
 ### What Happens When Prices Go Stale?
 

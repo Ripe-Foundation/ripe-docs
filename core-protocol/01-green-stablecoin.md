@@ -6,7 +6,7 @@ description: The Stablecoin That Works Harder.
 
 Your USDC sits there doing nothing. Your DAI requires a new vault for every asset. Your LUSD only accepts ETH.
 
-GREEN? It's built different. Mint it against your entire portfolio — ETH, stablecoins, NFTs, whatever you've got. Earn yield automatically through [sGREEN](../earning-and-rewards/01-sgreen.md). Score liquidation profits in [stability pools](../earning-and-rewards/02-stability-pools.md). Watch six different mechanisms defend the peg while you sleep.
+GREEN? It's built different. Mint it against eligible borrowing collateral across your portfolio — ETH, stablecoins, NFTs, and other supported assets. Earn yield automatically through [sGREEN](../earning-and-rewards/01-sgreen.md). Score liquidation profits in [stability pools](../earning-and-rewards/02-stability-pools.md). Watch six different mechanisms defend the peg while you sleep.
 
 This is what happens when you stop asking "how do we make another stablecoin?" and start asking "how should stablecoins actually work?"
 
@@ -47,12 +47,12 @@ Traditional:  ETH → DAI Position 1
               WBTC → DAI Position 2
               USDC → Can't use
 
-Ripe:         ETH + WBTC + USDC + stETH + NFTs + Anything
-              ↓ (all combined)
+Ripe:         ETH + WBTC + USDC + stETH + NFTs + Eligible Assets
+              ↓ (eligible collateral combined)
               One GREEN Loan at Weighted Terms
 ```
 
-Your entire portfolio — from blue-chip crypto assets to yield-bearing positions, from stablecoins to tokenized stocks — backs a single GREEN loan. This creates unmatched capital efficiency while keeping your risk isolated from other users.
+Eligible non-Stability collateral across your portfolio — from blue-chip crypto assets to yield-bearing positions, from stablecoins to tokenized stocks — backs a single GREEN loan. This creates unmatched capital efficiency while keeping your risk isolated from other users.
 
 ### Complementary, Not Competitive
 
@@ -184,7 +184,7 @@ Redemptions create an automatic arbitrage loop that restores GREEN's peg wheneve
 **$1 Accounting and Rounding**:
 
 * GREEN is treated as a $1 debt-value input when sizing a redemption; the inverse asset quote rounds down, and debt credit follows the amount actually credited by the vault
-* Targets only positions in the "Redemption Zone" (below redemption threshold)
+* Targets only positions in the "Redemption Zone" (at or below the redemption threshold)
 * No committees, no voting, no delays — instant execution
 * Creates a hard floor for GREEN's market price
 
@@ -393,27 +393,27 @@ When you need to borrow stablecoins, GREEN offers fundamental advantages:
 **vs Centralized Stables (USDC/USDT)**:
 
 * Can't borrow USDC/USDT — you must buy them
-* GREEN: Mint by borrowing against any asset you own
+* GREEN: Mint by borrowing against supported collateral with configured borrowing power
 * Bonus: GREEN earns yield via sGREEN, USDC sits idle
 
 **vs Traditional Crypto Stables (DAI/LUSD)**:
 
 * DAI: Separate vaults for each collateral type
 * LUSD: Only accepts ETH (or similar) as collateral
-* GREEN: One loan backed by your entire portfolio
+* GREEN: One loan backed by eligible collateral across your portfolio
 
 **vs Algorithmic Experiments (UST)**:
 
 * No real backing = inevitable collapse
 * GREEN: Borrowing is limited by configured collateral and debt terms
 
-**The Key Difference**: GREEN is built for borrowers who want to use their entire portfolio efficiently. Whether you hold ETH, stablecoins, NFTs, tokenized stocks or emerging tokens, everything works together to back a single, manageable loan position.
+**The Key Difference**: GREEN is built for borrowers who want to use eligible collateral across their portfolio efficiently. Supported ETH, stablecoins, NFTs, tokenized stocks, and emerging tokens can work together to back a single, manageable loan position.
 
 ## Why This Matters
 
 Every other stablecoin makes you choose: safety or efficiency, yield or liquidity, simplicity or power.
 
-GREEN breaks the tradeoffs. One position backed by everything you own. Automatic yield that compounds while you sleep. Liquidation profits when others get rekt. A peg that defends itself through pure economics, not faith.
+GREEN breaks the tradeoffs. One position backed by eligible collateral across your portfolio. Automatic yield that compounds while you sleep. Liquidation profits when others get rekt. A peg that defends itself through pure economics, not faith.
 
 Stop settling for stablecoins designed for 2020. This is how money works in DeFi now.
 

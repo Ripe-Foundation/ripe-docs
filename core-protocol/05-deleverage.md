@@ -25,17 +25,17 @@ If a debt-bearing collateral balance has no usable price or is nominally present
 | When it happens | Before liquidation threshold | After liquidation threshold |
 | Who triggers it | You, delegated addresses, or third parties (when eligible) | Anyone (keepers) |
 | Penalties | None | Configured liquidation + keeper fees |
-| Your control | You choose which assets | Protocol chooses for you |
+| Your control | Specific-assets route lets an authorized caller choose | Protocol chooses for you |
 | Remaining collateral | Maximized | Minimized by fees |
 
 ## When Can You Be Deleveraged?
 
-### Self-Deleveraging
+### Self-Deleveraging with Specific Assets
 
-You can deleverage your own position when the protocol can value and process the selected assets:
+Through the specific-assets route, an account owner can choose the asset order and target repayment without first entering the redemption zone, when the protocol can value and process the selected assets:
 
 * Choose which assets to sell
-* Specify exactly how much debt to repay
+* Specify the target amount of debt to repay
 * No redemption-zone threshold requirement
 * No permissions needed
 
@@ -43,12 +43,12 @@ You can deleverage your own position when the protocol can value and process the
 
 When your position enters the **redemption zone**, others can help deleverage you:
 
-* Triggered when collateral value falls below redemption threshold
+* Triggered when collateral value is at or below the redemption threshold
 * Third parties can initiate deleverage to restore your position health
 * Limited to the amount needed to return you to a safe LTV
 * Still no liquidation penalties applied
 
-Broad deleverage evaluates authorization separately for each account; authority over one account does not carry over to another account in the same batch.
+Broad deleverage evaluates authorization separately for each account; authority over one account does not carry over to another account in the same batch. The broad route has different authorization from the specific-assets route: an ordinary owner self-call is not automatically trusted, and an untrusted call proceeds only when the account is in the redemption zone and remains capped by the health-restoration calculation.
 
 ## How Deleveraging Works
 
@@ -70,7 +70,7 @@ Unavailable Stability liquidity is skipped instead of blocking the broader delev
 After stability pool assets, remaining collateral is processed:
 
 * Configured stable-side assets—for example, supported stablecoins—transferred to Endaoment at their credited value
-* No liquidation discount — immediate dollar-for-dollar debt reduction
+* No liquidation discount — debt reduction follows the credited oracle value, subject to transfer and rounding behavior
 * Other vault assets processed as needed
 
 ### Choosing Specific Assets
@@ -141,11 +141,11 @@ Healthy Zone → Warning Zone → Redemption Zone → Liquidation Zone
    needed        more         Deleverage active    triggered
 ```
 
-* **Redemption**: GREEN holders can redeem your collateral at $1 (no penalty to you)
-* **Deleverage**: Your assets reduce your debt (no penalties, you choose which assets)
+* **Redemption**: GREEN is treated as a $1 debt-value input when eligible collateral is sized and credited (no liquidation penalty)
+* **Deleverage**: Your assets reduce your debt without liquidation penalties; the specific-assets route lets an authorized caller choose the order
 * **Liquidation**: Forced sale with configured liquidation and keeper fees (last resort)
 
-Self-deleverage does not require entering the redemption zone, but it remains subject to protocol, account, asset, pricing, and route checks. Third parties can help deleverage you once you enter the redemption zone. For the complete picture, see [Liquidations](04-liquidations.md).
+An owner using the specific-assets route can self-deleverage before entering the redemption zone. The broad multi-user route evaluates authority separately for each account; an ordinary owner self-call follows the redemption-zone cap unless the caller is a trusted protocol or registered Underscore address. Immediately before settlement, the protocol re-reads the account's debt; if collateral interaction changed that debt, the entire deleverage transaction reverts. For the complete picture, see [Liquidations](04-liquidations.md).
 
 ## Taking Control of Your Risk
 

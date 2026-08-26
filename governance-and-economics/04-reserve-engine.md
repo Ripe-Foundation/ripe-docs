@@ -82,7 +82,7 @@ The Engine and Vesting contracts have separate pause boundaries:
 * Pausing Vesting stops claims and also makes the Engine reject new acquisitions.
 * RIPE token controls, mint authorization, and the protocol minting circuit breaker can block claim settlement and new acquisitions.
 
-Governance can start, stop, pause, and configure the mechanism through its authorized paths. Exact availability, terms, and control settings are live configuration; see [RIPE Params](https://params.ripe.finance).
+Governance can start, stop, pause, and configure the mechanism through its authorized paths. Exact terms and control settings are deployment configuration; this guide does not establish availability.
 
 ## What to Check Before Acquiring
 

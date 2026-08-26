@@ -64,6 +64,8 @@ This graph illustrates the underlying category schedules; it does not incorporat
 
 The 1 billion-token cap applies across all blockchains. RIPE attributed to bad-debt recovery is tracked separately from ordinary bond-distribution usage but must still count toward that protocol-wide cap.
 
+The cap is maintained through authorized issuance administration. Individual RIPE token contracts enforce who may mint, but they do not independently encode the aggregate numeric ceiling.
+
 On a configured CCIP route, RIPE burns on the source chain and the corresponding amount mints on the destination after validation, moving supply rather than creating a new chain-specific allotment.
 
 [RIPE Rewards](../earning-and-rewards/03-ripe-rewards.md), [Ripe Bonds](03-bonds.md), and the [RIPE Reserve Engine](04-reserve-engine.md) use separate accounting allowances. Those allowances are neither token custody nor independent supply caps.
@@ -87,16 +89,17 @@ Community Incentives stand alone as the only allocation unlocking from day one, 
 
 **Early Backers (Additional One-Year Holder Commitment)**
 
+* **Underlying allocation schedule**: 33% at month 12, then linear vesting over the following 24 months
 * **Additional commitment**: Every investor agreed to an additional one-year lock
 * **Earliest committed release date**: June 26, 2027
-* **Later releases**: Follow the applicable holder schedules
+* **Later releases**: Follow the applicable underlying holder schedule
 
-**Ripe Foundation & Distribution Partner**
+**Ripe Foundation & Distribution Partner (Underlying Schedule)**
 
 * **First Unlock**: 12 months from TGE
 * **Total Length**: 3 years
 * **Release Pattern**: 33% unlocked at month 12, then linear vesting over 24 months
-* **Example**: An early backer with 1M RIPE receives 330K at month 12, then \~931 RIPE per day
+* **Example**: A 1M-token Foundation or Distribution Partner allocation receives 330K at month 12, then approximately 931 RIPE per day
 
 ## Early Backers: Bootstrap to Launch
 
