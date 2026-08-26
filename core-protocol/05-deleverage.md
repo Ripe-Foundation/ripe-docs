@@ -16,7 +16,7 @@ Even better: configured deleverage routes can consume eligible assets already de
 
 Deleveraging is the voluntary (or protocol-assisted) use of eligible deposited assets to reduce debt. Unlike liquidation, it can happen before you reach the danger zone and carries no liquidation penalties.
 
-If a debt-bearing collateral balance has no usable price or is nominally present in a vault with no usable backing, the account is quarantined and ordinary deleverage routes decline it. Standard GREEN repayment remains available while pricing or backing is restored.
+If a positive nonzero-LTV balance has no usable price, or a remaining nominal nonzero-LTV position has no usable backing, the indebted account is quarantined and ordinary deleverage routes decline it. Standard GREEN repayment remains the recovery path while pricing or backing is restored, subject to the normal repayment controls.
 
 **Key Differences:**
 
@@ -96,6 +96,17 @@ Result: $1,000 debt remaining and Stock Token A preserved
 ```
 
 That outcome depends on the selected assets and routes being eligible and the account holding enough of those assets. If you instead repay with GREEN from your wallet, standard repayment can reduce the debt without consuming deposited collateral; that is a separate path.
+
+### Full-Payoff Buffers and Dust
+
+A trusted full-payoff route, including an owner-authorized specific-asset route, can use configured settlement extras when the position owner is not a registered Underscore Earn vault:
+
+* A full-payoff buffer can authorize a bounded amount of collateral value above the live debt. The buffer is capped by both an absolute amount and a debt-relative percentage.
+* Debt credit never exceeds the live debt. If the route consumes collateral above that amount, the overage receives no additional debt credit.
+* If consumed collateral falls just short of the debt, the route can forgive the remainder only when it fits both configured dust caps. That forgiven remainder clears debt without an equivalent GREEN burn.
+* Registered Underscore Earn-vault owners are excluded from these full-payoff extras, and an ordinary untrusted deleverage does not receive them.
+
+These rules apply only when the corresponding configuration is nonzero. They are separate from liquidation fees: deleverage still does not charge a liquidation or keeper fee.
 
 ## Using [Underscore](https://underscore.finance/) Vaults?
 

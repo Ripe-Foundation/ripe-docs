@@ -158,7 +158,7 @@ $10,000                    $8,571      $7,792     $7,500      $0
 **🔴 LIQUIDATION ZONE (At or Above Liquidation Threshold / Collateral ≤ $7,500)**
 
 * **Status**: Eligible for [liquidation](04-liquidations.md); a submitted liquidation begins or continues the episode
-* **Actions Available**: Repayment remains available; liquidation can be retried when no fungible auction remains
+* **Actions Available**: Repayment remains available subject to its normal controls; liquidation can be retried when no fungible auction remains
 * **Risk Level**: Critical - liquidation targets safer account health
 * **What to do**: Repay or add collateral urgently; severe shortfalls can produce a full-debt repayment target and exhaust all eligible collateral without fully clearing the debt
 
@@ -188,9 +188,9 @@ Understanding this inverse relationship helps you monitor the right metrics and 
 
 ## When a Collateral Price or Backing Is Unavailable
 
-If a positive debt-bearing balance has no usable price, or a nominal ERC-20 vault position has unusable backing, the account is quarantined while debt is outstanding. The affected position contributes no borrowing power, and new borrowing, ordinary withdrawal capacity, redemption, deleveraging, and new liquidation processing are withheld because the account cannot be valued safely.
+If a positive nonzero-LTV balance has no usable price, or a remaining nominal nonzero-LTV position has unusable vault backing, the account is quarantined while debt is outstanding. The affected position contributes no borrowing power; new borrowing, debt-supporting withdrawals, redemption, deleveraging, and new liquidation processing are withheld because the account cannot be valued safely. A zero-LTV asset does not itself trigger quarantine and is not automatically made non-withdrawable by the flag alone, although strict whole-account repricing and other ordinary controls can still make a Teller withdrawal revert.
 
-Standard repayment remains the recovery path. A full payoff does not need collateral repricing or traversal and returns any payment above the live debt to the payer. On a partial repayment, stored debt terms are preserved if no eligible replacement terms can be derived. Once usable pricing and backing return, ordinary health checks resume.
+Standard repayment remains the recovery path, subject to its normal controls. A full payoff does not need collateral repricing or traversal and returns any payment above the live debt to the payer. On a partial repayment, stored debt terms are preserved if no eligible replacement terms can be derived. Once usable pricing and backing return, ordinary health checks resume.
 
 For the distinct behavior of Stock Token prices around reference-market closures and reopening gaps, see [Stock-Market Hours and Price Gaps](06-price-oracles.md#stock-market-hours-and-price-gaps).
 
@@ -315,7 +315,7 @@ When borrowing, the most restrictive limit applies. This creates a robust framew
 2. **Calculate Capacity**: System determines your borrowing power
 3. **Choose Amount**: Borrow up to your available limit
 4. **Pay Origination Fee**: A configured one-time fee when enabled
-5. **Choose How to Receive**: Option to receive as GREEN, auto-convert to sGREEN, or deposit directly into Stability Pool
+5. **Choose How to Receive**: Receive GREEN, auto-convert to sGREEN, or convert to sGREEN and deposit it into the configured preferred Stability vault
 
 ### Distribution Options
 
@@ -329,14 +329,14 @@ When borrowing, you can choose one of three ways to receive your funds:
 
 **Option 2: Auto-Convert to** [**sGREEN**](../earning-and-rewards/01-sgreen.md)
 
-* Borrowed GREEN is wrapped into [sGREEN](../earning-and-rewards/01-sgreen.md) when the output exceeds the wrapping floor; a smaller output remains GREEN
+* Borrowed GREEN is wrapped into [sGREEN](../earning-and-rewards/01-sgreen.md) when the output exceeds the wrapping floor; an output that does not exceed it remains GREEN
 * Receive sGREEN at its current exchange rate; future backing growth depends on configured revenue
 * Potential for positive carry (yield > borrow rate)
 * No separate conversion transaction needed
 
 **Option 3: Direct to** [**Stability Pool**](../earning-and-rewards/02-stability-pools.md)
 
-* Borrowed GREEN is converted to sGREEN and deposited into the configured preferred [Stability Pool](../earning-and-rewards/02-stability-pools.md) when the output exceeds the wrapping floor; a smaller output remains GREEN
+* Borrowed GREEN is converted to sGREEN and deposited into the configured preferred [Stability Pool](../earning-and-rewards/02-stability-pools.md) when the output exceeds the wrapping floor; an output that does not exceed it remains GREEN
 * Three potential return sources: sGREEN backing growth, liquidation proceeds, and configured [RIPE rewards](../earning-and-rewards/03-ripe-rewards.md)
 * Compatible liquidations can produce claimable collateral through the configured spread
 * Combines more return sources but is less liquid and carries Stability settlement risk
@@ -353,14 +353,14 @@ Illustrative example assuming a 0.25% fee: Borrow 10,000 GREEN → Pay 25 GREEN 
 
 ## Repayment Flexibility
 
-Ripe Protocol offers complete repayment flexibility:
+Ripe Protocol has no contractual maturity schedule or prepayment penalty:
 
-* **No prepayment penalties** - Repay any amount at any time
-* **No fixed terms** - Keep your loan as long as needed
+* **No prepayment penalties** - Submit a partial or full repayment without an early-payment fee
+* **No scheduled maturity** - Debt remains until repayment or another authorized debt-settlement path reduces it
 * **Partial payments allowed** - Reduce debt incrementally
-* **Instant debt reduction** - Payments immediately lower your risk
+* **Successful debt reduction** - A completed payment immediately reduces the recorded debt
 
-This flexibility lets you manage debt according to your needs without restrictive schedules or penalties.
+Execution still requires the Teller and CreditEngine repayment route to be available, the account and caller to be permitted, and the payer to have sufficient balance and allowance. A successful payment reduces debt immediately; submitting a transaction does not guarantee execution.
 
 When standard repayment exceeds the live debt, the excess is returned to the payer. Full payoff skips collateral traversal, while a partial repayment preserves stored debt terms if unavailable pricing or backing prevents eligible replacement terms from being calculated.
 

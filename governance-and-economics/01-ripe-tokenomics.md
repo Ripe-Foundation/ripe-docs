@@ -159,7 +159,7 @@ Ripe's underlying vesting and Contributor schedules are enforced onchain. The ad
 Vested Amount = Total Allocation × (Time Elapsed / Vesting Duration)
 ```
 
-Tokens vest continuously—every block brings contributors closer to their full allocation.
+Tokens vest continuously as elapsed time advances.
 
 **2. Claiming Tokens**
 

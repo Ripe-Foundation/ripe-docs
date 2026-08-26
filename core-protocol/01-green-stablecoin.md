@@ -95,9 +95,9 @@ GREEN isn't just another stablecoin. It's the cornerstone of Ripe Protocol:
 
 ## How GREEN Works
 
-### Creation Through Borrowing
+### Creation Through Borrowing and Other Authorized Paths
 
-Every GREEN token represents real value locked in Ripe Protocol:
+Borrowing is the main user-facing GREEN creation path:
 
 1. **Deposit Collateral**: Deposit a supported [Stock Token or other eligible asset](03-collateral-assets.md)
 2. **Borrow GREEN**: Mint new GREEN against your collateral
@@ -120,17 +120,19 @@ Single Loan, Single Interest Rate, All Assets Working Together
 
 The assets and values above are illustrative. See [RIPE Params](https://params.ripe.finance) for current asset support and configuration.
 
+Borrowing is not the only mint path. A successful borrow also realizes previously accrued system interest and mints that amount for configured revenue allocation. Separately controlled paths can mint GREEN against PSM reserves or for authorized Endaoment liquidity operations, with their own reserve, debt-ceiling, permission, and interval controls.
+
 ### Destruction Through Repayment
 
-GREEN supply contracts automatically when loans are repaid:
+Standard repayment burns the GREEN applied to debt:
 
 1. **Send GREEN**: Return borrowed amount plus interest
 2. **Burn Forever**: GREEN is permanently destroyed
 3. **Reduce Debt**: Repayment can restore withdrawal capacity; withdrawing collateral is a separate permitted operation
 
-This elegant mechanism ensures GREEN supply expands and contracts with real borrowing demand.
+Other configured routes can also burn GREEN, including redemption, Stability settlement, and Endaoment operations. Total supply therefore reflects borrowing, realized interest, reserve and liquidity operations, repayment, and the other authorized mint-and-burn paths described on this page.
 
-Standard repayment returns any payment above the live debt to the payer. A full payoff does not need to traverse or reprice the borrower's collateral, so repayment remains the recovery path when a debt-bearing asset is quarantined by unavailable pricing or backing. If a partial repayment cannot derive eligible replacement terms, the stored debt terms are preserved.
+Standard repayment returns any payment above the live debt to the payer. A full payoff does not need to traverse or reprice the borrower's collateral, so repayment remains the recovery path when a nonzero-LTV position causes valuation quarantine, subject to the normal repayment controls. If a partial repayment cannot derive eligible replacement terms, the stored debt terms are preserved.
 
 ### Cross-Chain Token Movement
 

@@ -21,16 +21,16 @@ Traditional governance systems treat all tokens equally, allowing whales to buy 
 * **Time-Weighted Power**: Governance points accumulate continuously based on both stake size and duration
 * **Lock Bonuses**: A longer remaining lock can add a configured bonus to new point accrual
 * **Early Advantage**: Each checkpoint adds newly accrued points to stored points; stored points do not compound
-* **Aligned Incentives**: Those willing to lock tokens longest have the most say in protocol direction
+* **Integration-Dependent Influence**: Longer locks can accrue more points, while any downstream voting weight or authority depends on the configured governance integration
 
-### Real Yield Through Staking
+### Configured RIPE Rewards Through Staking
 
-Beyond governance power, RIPE stakers earn substantial rewards:
+Beyond governance points, an eligible governance-vault position can accrue RIPE reward entitlement when the staker category, asset weight, emission rate, and allowance are configured:
 
-* [**Block Rewards**](../earning-and-rewards/03-ripe-rewards.md): Governance vault participants earn rewards from the staker allocation
-* **Enhanced LP Rewards**: RIPE LP tokens earn 50% more points than regular RIPE
-* **Auto-Compounding**: Claim rewards directly into the vault for exponential growth
-* **No Opportunity Cost**: Earn while building governance influence
+* [**Block Rewards**](../earning-and-rewards/03-ripe-rewards.md): Entitlement uses separate Lootbox reward balance points and becomes RIPE only through a successful claim
+* **Reward Asset Weighting**: Each eligible governance asset can have its own configured Lootbox staker weight
+* **Claim-Time Staking**: A configured portion of a successful reward claim can be deposited into the current core governance vault
+* **Separate Risks**: Locking constrains liquidity, and neither reward value nor governance authority is guaranteed
 
 ## How Governance Points Work
 
@@ -85,7 +85,7 @@ Each asset has one share-based position and unlock block per user in a governanc
 Extending locks is the ultimate governance strategy:
 
 * **Future Bonus**: Pending points checkpoint before extension; the new unlock affects later accrual
-* **No Downside**: Can only extend, never reduce lock time
+* **One-Way Extension**: The unlock can move later but not earlier through the extension route, increasing the remaining liquidity commitment
 * **Additive Strategy**: Extensions change the rate for later points rather than multiplying stored points
 * **Flexibility**: Extend partially through lock period to optimize
 
@@ -114,7 +114,7 @@ A later position refresh can clear an existing unlock without a fee if early exi
 
 When your lock expires:
 
-* **Full Access**: Withdraw 100% of tokens with no penalty
+* **Lock Expires**: The time-based lock no longer prevents withdrawal; the separate withdrawal transaction still follows vault, pause, custody, and account controls
 * **Continued Earning When Enabled**: Points keep accumulating at base rate
 * **Re-lock Option**: Establish new lock for bonus multiplier
 * **Flexible Timing**: No rush — unlocked tokens remain productive
@@ -123,11 +123,11 @@ When your lock expires:
 
 A Switchboard can irreversibly disable point accrual for an entire RipeGov vault or one user. Later updates then calculate neither pending nor future accrual for that scope; this does not unlock or withdraw assets.
 
-## Stacking Rewards: The Triple Play
+## Governance Points and RIPE Rewards
 
-RIPE governance participants benefit from three distinct reward streams:
+Governance-vault positions can combine two separate accounting systems:
 
-### 1. Governance Points (Future Voting Power)
+### 1. Governance Points
 
 * Accumulate continuously based on stake and time
 * Lock bonuses multiply accumulation rate
@@ -136,21 +136,14 @@ RIPE governance participants benefit from three distinct reward streams:
 
 ### 2. [RIPE Block Rewards](../earning-and-rewards/03-ripe-rewards.md) (Staker Allocation)
 
-* Governance vault receives rewards from the staker emission category
-* Distribution based on share of total staked RIPE/LP
-* Auto-stake option compounds returns
-* No additional action required — just hold
+* Eligible positions accrue Lootbox reward balance points while the relevant reward paths are configured; these are separate from RipeGov governance points
+* A successful claim is required before RIPE is minted or deposited into the governance vault
+* Distribution combines the asset's staker points relative to global staker points with the user's reward balance points relative to that asset's balance-point total
+* Claim settings determine the liquid and auto-staked portions; the claimant can also request that the full claim be staked
 
-### 3. Strategic Positioning
+## How Governance Integrations Can Use Points
 
-* Early participants gain disproportionate influence
-* Time adds points linearly while accrual remains enabled
-* First movers shape initial parameters
-* Network effects benefit early believers
-
-## What You'll Control (Coming Soon)
-
-When onchain governance activates, RIPE holders will wield comprehensive protocol control:
+RipeGov supplies time-weighted points to the configured Boardroom hook. A governance integration can use those points in its voting or proposal logic, but holding RIPE or accumulating points does not itself grant contract authority. The contracts and roles installed for a deployment determine which decisions are governable, which can include:
 
 ### Core Protocol Parameters
 

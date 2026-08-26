@@ -10,7 +10,7 @@ Ripe bonds exchange a configured payment asset for newly minted RIPE and route t
 
 The longer everyone else waits, the more you accumulate.
 
-You're not funding an exit. You're funding a machine that prints money for the protocol—and getting a piece of the action.
+Accepted payment funds protocol treasury custody, while the purchaser receives the computed RIPE allocation.
 
 > **Examples, not live terms:** All assets, rates, capacities, durations, percentages, tables, and scenarios on this page are illustrative. See [RIPE Params](https://params.ripe.finance) for current onchain configuration.
 
@@ -20,14 +20,14 @@ The [RIPE Reserve Engine](04-reserve-engine.md) is a separate acquisition path: 
 
 ### Why Bonds Matter
 
-Bonds solve a critical challenge in DeFi: how to bootstrap protocol-owned liquidity without relying on mercenary capital or unsustainable incentives. Through bonds, Ripe Protocol:
+Bonds provide a configured route for exchanging a payment asset for RIPE while building treasury custody. Through bonds, Ripe Protocol:
 
-* **Accumulates permanent treasury assets** that generate yield forever
-* **Creates deep liquidity** for GREEN trading without renting it
+* **Accumulates treasury assets** in EndaomentFunds
+* **Makes treasury assets available** for later authorized yield, liquidity, market, or reserve operations
 * **Distributes RIPE fairly** based on actual capital contribution
 * **Aligns incentives** between token holders and protocol health
 
-Every bond purchase directly strengthens the protocol while rewarding participants with discounted RIPE tokens.
+Every successful purchase transfers the accepted payment to EndaomentFunds and mints the calculated RIPE payout. What the treasury does with that payment afterward requires separate authorization.
 
 ## Bond Mechanics: How It Works
 
@@ -181,7 +181,7 @@ When protocol liquidations create bad debt, bonds serve as a recovery mechanism:
 
 * Bond purchasers receive **100% of calculated RIPE allocation**
 * The accepted payment's USD value can reduce recorded bad debt before the payment asset moves to EndaomentFunds
-* Protocol health improves with each bond sale
+* Recorded bad debt falls only when the accepted payment has a usable nonzero oracle value, and only up to the outstanding bad debt
 
 **Supply-Cap Treatment:**
 
@@ -202,22 +202,23 @@ This mechanism ensures bonds function as both a treasury building tool and an em
 
 Accepted bond payment assets flow directly to [EndaomentFunds](../core-protocol/07-endaoment.md), where later use follows treasury operations:
 
-**Treasury Deployment Strategy:**
+**Potential Authorized Treasury Uses:**
 
-* **Yield Farming**: Earns returns across DeFi via [Underscore](https://underscore.finance/) integrations
-* **GREEN Liquidity**: Provides permanent trading depth for the stablecoin
-* **Market Operations**: Defends GREEN's $1 peg during volatility
-* **Strategic Reserves**: Backstops the protocol during extreme events
+* **Yield Integrations**: Deposit into a registered integration through a separately authorized action
+* **GREEN Liquidity**: Add or remove liquidity through configured, authorized operations
+* **Market Operations**: Run bounded GREEN stabilizer actions when authorized
+* **Treasury Reserves**: Retain assets in EndaomentFunds until another permitted action uses them
 
-**The Flywheel Effect:**
+**The Conditional Treasury Path:**
 
 ```
-Your Bonds → Treasury Growth → More Yield → Stronger Protocol
-     ↑                                              ↓
-     └────── Higher RIPE Value ← Better GREEN ←────┘
+Accepted Payment → EndaomentFunds Custody → Separately Authorized Operations
+                                                   ↓
+                                      Results Depend on Execution
+                                        and Market Conditions
 ```
 
-Unlike protocols that waste treasury on temporary incentives, every bond dollar becomes permanent productive capital working 24/7 for protocol sustainability.
+BondRoom itself does not invest the payment asset, guarantee yield, provide permanent liquidity, or make it backing for GREEN. It transfers accepted payment into treasury custody; later results depend on separately authorized operations and market conditions.
 
 ## Time to Choose: Mercenary or Builder?
 
@@ -227,7 +228,7 @@ Choose a qualifying lock? Its configured bonus adds to the base allocation. Have
 
 Wait for exchanges? Pay market price. No bonuses. No multipliers. Just hoping someone sells.
 
-But this isn't really about the discount. It's about what happens to your money. Every dollar bonded becomes permanent protocol capital. Not exit liquidity for VCs. Not marketing budgets. Actual yield-generating assets backing actual stablecoins.
+But this isn't only about the discount. Accepted payment becomes protocol treasury custody, available for the authorized operations described above.
 
 The protocol needs capital. You want tokens. Bonds make it happen.
 

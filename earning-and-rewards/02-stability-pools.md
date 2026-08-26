@@ -1,8 +1,8 @@
 ---
-description: Acquire configured Stock Tokens and other collateral through Stability settlement
+description: Participate in configured Stock Token and other collateral liquidation settlement
 ---
 
-# Stability Pools: Acquire Stock Tokens and Other Collateral at a Configured Spread
+# Stability Pools: Participate in Stock Token and Collateral Settlement
 
 Stability pools let deposited liquidity participate in configured liquidation settlement for eligible Stock Tokens and other collateral before auction fallback. Participation is passive after deposit, but routing, capacity, pricing, realized results, and any rewards remain conditional.
 
@@ -12,7 +12,7 @@ This is wholesale DeFi liquidations, democratized.
 
 ## The Core Proposition
 
-### Configured Collateral Acquisition Opportunities
+### Configured Liquidation Settlement Opportunities
 
 After depositing, participants can share in eligible liquidation settlement without bidding on each event:
 

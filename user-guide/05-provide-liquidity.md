@@ -29,7 +29,7 @@ Once deposited, the card shows your position, yield, and any configured RIPE rew
 
 ![The GREEN/USDG Stability Pool card](../.gitbook/assets/user-guide-13-lp-stability-card.png)
 
-A shortcut worth knowing: if you're borrowing anyway, the borrow dialog can send your GREEN straight to the Stability Pool, skipping the wallet round-trip.
+A shortcut worth knowing: the borrow dialog can wrap a qualifying Savings GREEN output into sGREEN and deposit it into the configured preferred Stability vault, skipping the wallet round-trip. Plain GREEN is not deposited through that route.
 
 If that deposit box shows "Your balance: -", it means you don't hold the token yet. Go back and do Step 3 first.
 

@@ -14,14 +14,14 @@ A supported Robinhood Stock Token — called a **Stock Token** below — can bac
 
 **Step 3.** Enter the amount. Borrow comfortably less than the maximum. Prices move, and borrowing less keeps your position healthier when they do. The bar shows your debt against the Max Borrow and Liquidation markers as you type.
 
-**A closed stock market does not automatically quarantine Stock Token collateral.** The last published price may remain usable while it satisfies the configured freshness rules. If every configured source becomes unusable, an indebted account enters valuation quarantine only when the affected Stock Token has nonzero LTV and either a positive balance cannot be priced or a remaining nominal balance lacks usable backing. In that case, risk-increasing actions and new liquidation, redemption, and deleveraging processing wait until the account can be valued safely, while ordinary repayment remains available subject to its usual controls. A fresh reopening price can gap from the prior close, so borrow comfortably below the maximum. See [Stock-Market Hours and Price Gaps](../core-protocol/06-price-oracles.md#stock-market-hours-and-price-gaps) for the canonical explanation.
+**A closed stock market does not automatically quarantine Stock Token collateral.** The last published price may remain usable while it satisfies the configured freshness rules. If every configured source becomes unusable, an indebted account enters valuation quarantine only when the affected Stock Token has nonzero LTV and either a positive balance cannot be priced or a remaining nominal balance lacks usable backing. In that case, new borrowing, debt-supporting withdrawals, and new liquidation, redemption, and deleveraging processing wait until the account can be valued safely. Ordinary Teller deposits and withdrawals can also revert when their whole-account housekeeping cannot reprice debt-bearing collateral. Standard repayment remains available subject to its normal controls. A fresh reopening price can gap from the prior close, so borrow comfortably below the maximum. See [Stock-Market Hours and Price Gaps](../core-protocol/06-price-oracles.md#stock-market-hours-and-price-gaps) for the canonical explanation.
 
 **Step 4.** Choose what you receive and where it goes. This is easy to miss and it matters:
 
 * **Receive Token:** **GREEN** (the plain stablecoin) or **Savings GREEN** ([sGREEN](../earning-and-rewards/01-sgreen.md), whose backing per share can increase through configured protocol revenue).
-* **Destination:** **Wallet** (it lands in your wallet, ready to spend or move) or **Stability Pool** (it enters a configured [liquidation-settlement pool](../earning-and-rewards/02-stability-pools.md), with current estimates and terms shown in the app).
+* **Destination:** **Wallet** or **Stability Pool**. The Stability choice applies only to Savings GREEN: the borrow flow first wraps GREEN into sGREEN, then deposits that sGREEN into the configured preferred [Stability vault](../earning-and-rewards/02-stability-pools.md).
 
-If you're borrowing to spend the money, choose GREEN and Wallet. If you're borrowing to put the money to work, sending it straight to the Stability Pool saves you a separate deposit.
+If you choose plain GREEN, it goes to your wallet even if the Stability flag is set. If you choose Savings GREEN and Stability, only an amount above the wrapping floor is wrapped and deposited; an amount at or below that floor remains GREEN in your wallet.
 
 **Step 5.** Press **Borrow** and confirm in your wallet.
 

@@ -53,7 +53,7 @@ Ripe is a separate lending protocol and is not the issuer. Its contracts can cus
 
 RHJ describes Stock Tokens as high-risk products that are not appropriate for every investor and warns that an investor can lose some or all of the investment. Ripe support does not remove issuer, product-term, market, liquidity, oracle, transfer, or collateral-liquidation risk.
 
-When a compatible Stock Token is supported, it can use Ripe's configured nominal ERC-20 vault path. Depositing transfers the token into protocol custody and credits the user's vault balance. Borrowing GREEN does not sell that token at origination. You retain token-level economic exposure while you hold the Stock Token directly or retain a credited vault balance. A successful permitted ordinary withdrawal returns the token to the owner; an authorized deleverage, eligible redemption, or liquidation can reduce the credited balance and transfer some or all of the token away.
+When a compatible Stock Token is supported, it can use Ripe's configured nominal ERC-20 vault path. Depositing transfers the token into protocol custody and credits the user's vault balance. Borrowing GREEN does not sell that token at origination. You retain token-level economic exposure while you hold the Stock Token directly or retain a credited, custody-backed vault balance. A successful permitted ordinary withdrawal returns the token to the owner; an authorized deleverage, eligible redemption, or liquidation can reduce the credited balance and transfer some or all of the token away.
 
 ### Nominal Custody and Backing
 
@@ -73,7 +73,7 @@ Stock Tokens are not intrinsically permissioned or assigned to a particular liqu
 
 ### Pricing and Corporate Actions
 
-Ripe values a Stock Token through the first usable source in its configured price-source order. A configured Stock Token feed must return the token-level USD price with the applicable corporate-action adjustment already incorporated. Ripe consumes that price once and does not independently read or apply `uiMultiplier()`.
+Ripe values a Stock Token through the first usable source in its configured price-source order. A configured Stock Token feed must return the token-level USD price with the applicable corporate-action adjustment already incorporated. Ripe consumes that price once and does not independently read or apply `uiMultiplier()`. The nominal token units credited by Ripe do not change when that multiplier changes; the adjusted feed price changes the value and share-equivalent exposure represented by those units.
 
 Reference-market closures do not create a separate pricing mode inside Ripe. See [Stock-Market Hours and Price Gaps](06-price-oracles.md#stock-market-hours-and-price-gaps) for how freshness, fallback, quarantine, and reopening gaps interact.
 
@@ -154,7 +154,7 @@ Each supported asset is assigned to a configured vault whose accounting matches 
 * Compound earnings while deposited
 * No opportunity cost from collateralization
 
-Deposits and withdrawals must deliver the amount the vault accounts for. An underbacked position provides no usable collateral value and, while debt remains, can quarantine the account until backing recovers or the debt is repaid.
+Deposits and withdrawals must deliver the amount the vault accounts for. An underbacked position provides no usable collateral value and, when it has nonzero LTV and debt remains, can quarantine the account until backing recovers or the debt is repaid.
 
 **Special Purpose Vaults**
 
@@ -212,7 +212,7 @@ Withdrawals respect your overall position health:
 
 1. **Free Collateral**: Withdraw assets above borrowing needs
 2. **Health Check**: Ensure position remains safe
-3. **Instant Processing**: No waiting periods or queues
+3. **Transaction Processing**: General deposits have no contractual maturity queue, but withdrawals still require a successful transaction and all applicable controls
 4. **Partial or Full**: Take what you need, leave the rest
 
 ### Understanding Available Withdrawals
@@ -224,7 +224,7 @@ Your withdrawal capacity depends on:
 * **Current debt levels** and interest accrued
 * **Overall health factor** maintaining safety
 
-Withdrawals have no available capacity while another debt-bearing asset is quarantined.
+Valuation quarantine removes withdrawal capacity for assets that support the debt. A zero-LTV asset is not automatically blocked by the quarantine flag alone, but strict whole-account repricing, debt health, pauses, custody, token controls, or account controls can still make its withdrawal revert.
 
 Example:
 
@@ -301,9 +301,9 @@ The applicable controls come from the specific token and protocol configuration;
 ### Immediate Benefits
 
 * **Earn RIPE rewards** on eligible configured deposits
-* **No lock-ups** on general deposits, subject to health, pause, custody, and quarantine controls
-* **Productive collateral** - yields continue accumulating
-* **Portfolio approach** reduces liquidation risk
+* **No protocol maturity lock** on general deposits, subject to health, pause, custody, token, and quarantine controls
+* **Productive collateral when supported** - eligible yield-bearing assets can retain the economics implemented by their configured vault path
+* **Portfolio borrowing power** - eligible assets can support one position, while every deposited asset remains exposed to account-level settlement risk
 
 ### Long-term Value
 

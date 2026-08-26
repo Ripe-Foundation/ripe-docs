@@ -30,7 +30,7 @@ When a Stock Token is supported and configured with borrowing power, you can dep
 
 Ripe is not the Stock Token issuer. Its contracts can custody and transfer supported Stock Tokens through permitted protocol routes, but Ripe support and protocol permissions do not determine investor eligibility. Canonical token identity, Ripe support, and the absence of a protocol whitelist do not establish whether someone may acquire, hold, transfer, or use one. Review RHJ's current [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj).
 
-You retain token-level economic exposure while you hold the Stock Token directly or retain a credited vault balance. A successful permitted ordinary withdrawal returns it to the owner; an authorized deleverage, eligible redemption, or liquidation can transfer some or all of it away. See [Collateral Assets](../core-protocol/03-collateral-assets.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current support.
+You retain token-level economic exposure while you hold the Stock Token directly or retain a credited, custody-backed vault balance. A successful permitted ordinary withdrawal returns it to the owner; an authorized deleverage, eligible redemption, or liquidation can transfer some or all of it away. See [Collateral Assets](../core-protocol/03-collateral-assets.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current support.
 
 ### How much can I borrow?
 
@@ -46,13 +46,13 @@ Dynamic rates can add a capped adjustment when corroborated reference-pool obser
 
 ### Can I repay anytime?
 
-Yes! There are no prepayment penalties, fixed terms, or lockups. Repay any amount at any time to reduce your debt and improve your position health.
+There is no contractual maturity or prepayment penalty. You can submit partial or full standard repayment when the repayment route is available and the account, caller, token balance, and allowance pass their normal controls. A successful payment reduces debt immediately.
 
 ## Managing Risk
 
 ### What happens when a Stock Token's reference market is closed?
 
-A closed reference market does not automatically make a Stock Token's price unusable. Ripe's standard Chainlink adapter does not read RHJ's advisory `oraclePaused()` flag, so a last published round can remain usable while it passes the configured validity and freshness checks. If that round becomes unusable, Price Desk tries the next configured source. If none is usable, an account with outstanding debt enters quarantine only when the affected Stock Token has nonzero LTV and either a positive balance cannot be priced or a remaining nominal balance lacks usable vault backing. A reference-market reopening can also produce a sudden price gap, so leave room below your borrowing limit. See [Price Oracles](../core-protocol/06-price-oracles.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current configuration.
+A closed reference market does not by itself quarantine a Stock Token-backed account. The last published price can remain usable while a configured source considers it valid and fresh. If no configured source is usable, valuation quarantine applies only under the nonzero-LTV price and backing conditions described in [Price Oracles](../core-protocol/06-price-oracles.md). A reopening price can gap, so leave room below your borrowing limit. See [RIPE Params](https://params.ripe.finance) for current configuration.
 
 ### Can I lose my Stock Tokens while borrowing?
 
@@ -146,7 +146,7 @@ Ripe has component-level pause and availability controls, not one switch that ha
 
 ### Can I use yield-bearing tokens as collateral?
 
-Yes! Tokens like stETH, aTokens, and LP positions continue earning their underlying yields while serving as collateral. The protocol uses share-based accounting to capture all rewards, rebases, and fee accruals.
+Supported yield-bearing assets can retain the economics implemented by their configured token and vault path while serving as collateral. Accounting is asset-specific: some adapters use nominal units, some use shares, and Stability positions are excluded from borrowing power. Confirm the supported asset, vault, and terms rather than assuming every yield source or reward is preserved.
 
 ### What's the delegation system?
 

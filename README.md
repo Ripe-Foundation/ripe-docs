@@ -4,7 +4,7 @@ description: Borrow GREEN against supported Stock Tokens in one unified position
 
 # Ripe Protocol: Borrow Against Stock Tokens and Your Portfolio
 
-Stock-market exposure is moving onchain. Ripe makes it useful: deposit supported Stock Tokens, borrow GREEN without selling them at origination, and keep their economic exposure while the tokens remain directly held or credited to your vault balance.
+Stock-market exposure is moving onchain. Ripe makes it useful: deposit supported Stock Tokens, borrow GREEN without selling them at origination, and keep their economic exposure while the tokens remain directly held or credited to a custody-backed vault balance.
 
 Supported Stock Tokens can join other eligible collateral in ONE unified loan. Redemption, deleverage, or liquidation can transfer collateral and reduce or eliminate that exposure, so position health still matters.
 
@@ -84,7 +84,7 @@ Hold sGREEN for exposure to changes in GREEN backing per share. Outcomes depend 
 * **No fixed lock term** — Withdrawals remain subject to the vault's ordinary controls
 * **Stability-compatible when configured** — Eligible sGREEN can fund liquidation settlement; consumed sGREEN is redeemed to GREEN and burned as the cohort receives collateral custody
 
-#### 🎯 [Stability Pools: Acquire Stock Tokens and Other Collateral](earning-and-rewards/02-stability-pools.md)
+#### 🎯 [Stability Pools: Participate in Stock Token and Collateral Settlement](earning-and-rewards/02-stability-pools.md)
 
 Deposit eligible liquidity into a shared vault. When configured Stock Tokens or other collateral settle through a compatible, funded pool, the cohort receives collateral while supplying settlement value at the effective spread. Depositors participate proportionally through vault shares; a positive return is not guaranteed.
 
@@ -126,7 +126,7 @@ Exchange a configured payment asset for RIPE at an epoch price, supporting proto
 
 * **Unlocked or locked** - A qualifying governance-vault lock can add a configured bonus
 * **Bond Boosters** - Bonus rewards for ecosystem contributors
-* **Permanent funding** - Builds the Endaoment treasury
+* **Treasury funding** - Routes accepted payment assets to EndaomentFunds for later authorized use
 
 #### 🏦 [RIPE Reserve Engine: Acquire RIPE with Vesting](governance-and-economics/04-reserve-engine.md)
 
@@ -210,19 +210,19 @@ Four ways to put supported assets to work, each with its own conditions and risk
 Hold sGREEN for exposure to configured protocol revenue through its backing-per-share accounting. Returns depend on protocol activity and are not guaranteed.\
 **→** [**Get sGREEN Now**](earning-and-rewards/01-sgreen.md)
 
-### ⚡ **The Stock Acquisition Route**: Use a Stability Pool
+### ⚡ **The Liquidation Settlement Route**: Use a Stability Pool
 
 When configured Stock Token collateral settles through a compatible, funded Stability pool, the cohort receives the tokens while supplying settlement value at the effective spread. Depositors participate proportionally through vault shares, and active collateral claims enter NAV at usable oracle value. The realized outcome depends on asset prices, claim timing, and other pool conditions.\
 **→** [**Join the Pools**](earning-and-rewards/02-stability-pools.md)
 
 ### 🎯 **The Stock Move**: Borrow Without Selling at Origination
 
-Supported Stock Tokens + other eligible collateral = one unified GREEN loan. You retain the tokens' economic exposure while they remain directly held or credited to your vault balance; redemption, deleverage, or liquidation can transfer collateral.\
+Supported Stock Tokens + other eligible collateral = one unified GREEN loan. You retain the tokens' economic exposure while they remain directly held or credited to a custody-backed vault balance; redemption, deleverage, or liquidation can transfer collateral.\
 **→** [**Start Borrowing**](core-protocol/02-borrowing.md)
 
 ### 🏗️ **The Long Game**: Lock RIPE, Run the Protocol
 
-Governance power grows with time. Lock today, control tomorrow.\
+Eligible locks can increase governance-point accrual; how those points translate into authority depends on the configured governance integration.\
 **→** [**Lock and Lead**](governance-and-economics/02-governance.md)
 
 ***

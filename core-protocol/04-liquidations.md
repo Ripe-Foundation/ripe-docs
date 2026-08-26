@@ -14,9 +14,9 @@ Multiple protection paths. Targeted liquidation. Proactive deleveraging availabl
 
 * 🛡️ **Separate protection paths**: Proactive deleverage and redemption are separate entry points; once liquidation is submitted, configured collateral can settle through Stability pools and/or Dutch auctions
 * 📊 **Target-based**: Limited shortfalls may produce a partial target; severe shortfalls can produce a full-debt target and exhaust eligible collateral without fully clearing the debt
-* 💰 **Fair pricing**: Configured liquidation fees on volatile assets
+* 💰 **Configured economics**: An account-level liquidation-fee term is derived from the borrowing-power-weighted terms of eligible non-Stability collateral
 * ⚡ **Permissionless execution**: Eligible callers may submit liquidation transactions and receive configured keeper compensation
-* 🎯 **Proactive options**: [Deleverage](05-deleverage.md) your position before liquidation with zero penalties
+* 🎯 **Proactive options**: [Deleverage](05-deleverage.md) your position before liquidation without liquidation or keeper fees
 
 **Quick Visual: The Liquidation Flow**
 
@@ -64,7 +64,7 @@ At or below the liquidation threshold
 
 ### Protecting Protocol Solvency
 
-Liquidations serve as the critical mechanism ensuring that [GREEN](01-green-stablecoin.md) remains fully backed. When [borrowing positions](02-borrowing.md) become undercollateralized due to collateral value drops or accumulated interest, the protocol must act to prevent bad debt accumulation. Without effective liquidations, GREEN could lose its peg, affecting GREEN and sGREEN holders.
+Liquidations are designed to defend protocol solvency and reduce bad-debt risk. When [borrowing positions](02-borrowing.md) become undercollateralized due to collateral value drops or accumulated interest, eligible liquidation routes can reduce debt and transfer collateral. They cannot guarantee complete backing in every market state: severe shortfalls can exhaust eligible collateral and leave residual debt, which the protocol records as bad debt.
 
 ### The Borrower-Friendly Approach
 
@@ -170,7 +170,7 @@ This mechanism serves dual purposes: protecting borrowers through gradual deleve
 
 When liquidation becomes necessary, Ripe can use up to two configured phases—Stability settlement followed by Dutch auctions—while pursuing the repayment target. Valid asset configuration is auction-only, Stability-then-auction, or neither; Stability settlement cannot be enabled without auction fallback. At runtime, a compatible funded Stability cohort can still complete the target before an auction begins.
 
-If a debt-bearing collateral balance has no usable price or is nominally present in a vault with no usable backing, the account is quarantined and liquidation is declined. Ordinary GREEN repayment remains available while pricing or backing is restored.
+If a positive nonzero-LTV balance has no usable price, or a remaining nominal nonzero-LTV position has no usable backing, the indebted account is quarantined and new liquidation processing is declined. Standard GREEN repayment remains the recovery path while pricing or backing is restored, subject to the normal repayment controls.
 
 AuctionHouse liquidation and ordinary credit redemption also skip a borrower address registered as an Underscore Earn vault. This exception follows the borrower address; it does not apply to an ordinary user merely because that user deposited an Earn-vault share as collateral.
 
@@ -206,13 +206,13 @@ When an eligible liquidation call is submitted after your position reaches or cr
    * You are blocked from taking new borrows
    * All ordinary withdrawals are blocked, including zero-LTV assets
    * You can still repay debt to exit liquidation
-   * Your volatile collateral becomes eligible for processing
+   * Collateral enabled for a configured liquidation route becomes eligible for processing
 
 2. **Liquidation fees are calculated once per episode**
    * The configured base liquidation fee and bounded keeper fee are assessed only when the account first enters liquidation
    * The combined base and keeper fees are capped by available collateral surplus; the keeper fee is reduced first, and both fees can fall to zero when surplus is insufficient
    * Stability-pool spread can cover at most the nominal base fee. Any unpaid base fee and the keeper fee are added to debt before repayment settlement; a productive keeper receives the keeper reward in GREEN or, optionally, sGREEN
-   * A first pass that repays nothing and starts no auction is economically inert and earns no keeper fee
+   * A first pass that repays nothing and starts no auction is fee- and settlement-inert and earns no keeper fee, but it still places the account in `inLiquidation`
 
 3. **Configured asset processing begins**
    * Eligible collateral is processed toward the calculated repayment target

@@ -33,15 +33,15 @@ Three contracts. One treasury system. Here's how they work together:
 │  │  (Treasury)   │◄──│ (Orchestrator)│──►│    (PSM)      │  │
 │  └───────────────┘   └───────────────┘   └───────────────┘  │
 │                                                             │
-│    Holds all           Swaps, LP,          GREEN/reserve    │
-│    protocol            yield, peg          conversions      │
+│    Holds routed        Swaps, LP,          GREEN/reserve    │
+│    treasury            yield, peg          conversions      │
 │    assets              stabilization       + optional yield │
 │                                                             │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 **EndaomentFunds** — The Vault
-Where the money lives. Holds all protocol-owned assets. Only Endaoment can withdraw — nobody else touches these funds.
+Holds treasury assets routed to this contract, including accepted bond and Reserve Engine payments. Other protocol-owned or protocol-controlled assets can remain in the PSM, sGREEN, governance, or other component-specific custody. Only Endaoment can withdraw from EndaomentFunds.
 
 **Endaoment** — The Operator
 The brains of the operation. Swaps tokens, provides liquidity, deploys yield strategies, runs the GREEN stabilizer. This is where treasury management actually happens.
