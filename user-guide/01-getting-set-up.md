@@ -1,27 +1,26 @@
 ---
-description: Wallet, gas and verified Robinhood Stock Tokens — what to have ready before your first deposit
+description: Wallet, gas, and stock tokens — what to have ready before your first deposit
 ---
 
 # Getting Set Up
 
 Simple tutorials for using Ripe. The [protocol docs](../README.md) explain how Ripe works under the hood; these explain what to click. Each guide stands alone.
 
-These walkthroughs follow Ripe on **Robinhood Chain** and begin with Robinhood Stock Tokens, called **Stock Tokens** below. The core concepts — deposit, borrow, repay, earn — are shared across deployments, while supported assets, routes, controls, destinations, and interface details can vary.
+The flows — deposit, borrow, repay, earn — are the same on every network Ripe runs on. The screenshots come from one deployment, so the exact token names, pairs, and terms you see will depend on the network you pick in the app. The app's tables and [Params](https://params.ripe.finance) are always the live answer.
 
-You need three things: a wallet connected to Robinhood Chain, a little native ETH to pay transaction gas, and a supported Stock Token or other collateral asset shown in the Ripe app.
+You need three things: a wallet connected to a network Ripe is deployed on, a little of the network's gas token (ETH on current deployments), and something to deposit — ideally a stock token.
 
-**Step 1.** Add Robinhood Chain to your wallet using the [official network guide](https://docs.robinhood.com/chain/add-network-to-wallet/). Never use a network config from a search result or a DM.
+**Step 1.** Add the network to your wallet using that network's official documentation. Never use a network config from a search result or a DM.
 
-**Step 2.** Fund the wallet with enough native ETH to pay gas using a route identified in the [official Robinhood Chain bridging documentation](https://docs.robinhood.com/chain/bridging/). Network and bridge entry points can change, so verify the route there before signing.
+**Step 2.** Bridge in a little gas using the network's canonical bridge. Keep some in reserve — every deposit, borrow, and claim is a transaction.
 
-**Step 3.** Before acquiring or depositing a Stock Token, verify its contract address in the [official Robinhood Stock Token registry](https://docs.robinhood.com/chain/contracts/). Then confirm that the same asset appears as supported in the [Ripe app](https://app.ripe.finance/robinhood) and [RIPE Params](https://params.ripe.finance). The official registry is the live authority for token identity; the Ripe app and RIPE Params show current protocol support and terms. Do not infer any of those facts from an example or token name in these docs.
+**Step 3.** Get the stock tokens you want to deposit. Two rules:
 
-Acquiring a Stock Token is separate from depositing it into Ripe. Use a current acquisition route that you independently verify, then consult the [official Robinhood Stock Token documentation](https://docs.robinhood.com/chain/stock-tokens/) for product and issuer information; these docs do not prescribe a venue. Ripe is not the issuer. A Ripe interface or permitted protocol route may facilitate a transfer, but that does not establish issuance authority or investor eligibility. Before signing, verify the exact token identity, current Ripe support, the route provider, and your eligibility under RHJ's current [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj).
+* **Verify the contract address** against the issuer's official token registry (Robinhood, for example, publishes its Stock Token registry at [docs.robinhood.com/chain/contracts](https://docs.robinhood.com/chain/contracts/)) and confirm the same token appears in the Ripe app's Borrow table. Lookalike tokens with the same name and symbol exist. If you found an address anywhere else, don't use it.
+* **Check the issuer's terms.** Ripe isn't the issuer, and issuers set their own rules on who may hold their tokens. [Stock Tokens on Ripe](../core-protocol/08-stock-tokens.md) explains what a stock token is inside Ripe and where to read the issuer's product terms.
 
-Already holding a token with the right name is not enough. Confirm the exact contract and current Ripe support before trying to deposit, and keep enough ETH in the wallet to pay for each transaction.
+If you already hold stock tokens in your wallet, you're ready. You still need gas.
 
-**One safety rule for everything below:** reconcile the official Robinhood registry with the Ripe app and RIPE Params before using a token address. Lookalike tokens can share a name or symbol.
+![The Ripe dashboard](../.gitbook/assets/user-guide-01-dashboard.png)
 
-![The Ripe dashboard on Robinhood Chain](../.gitbook/assets/user-guide-01-dashboard.png)
-
-Next: [Deposit collateral](02-deposit-collateral.md).
+Next: [Deposit stock tokens](02-deposit-collateral.md).

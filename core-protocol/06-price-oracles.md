@@ -6,13 +6,11 @@ description: The Truth About Your Money
 
 One bad price feed can destroy a protocol. Positions liquidated on fake spikes. Exploits draining millions. Users losing everything to a malicious update.
 
-Ripe routes across registered price-source adapters in configured priority order and returns the first usable price. If an earlier source reverts, returns malformed data, or cannot provide a usable price, the Price Desk isolates that result and continues to later sources. An asset's available sources depend on deployment configuration, so a particular asset may have only one usable source.
+Ripe checks its price sources in priority order and uses the first good answer. If one fails, the next one gets asked. If nothing can price an asset, Ripe stops rather than guesses.
 
-Which adapters are registered, their priority, and their asset coverage vary by deployment and governance configuration. See [RIPE Params](https://params.ripe.finance) for current onchain settings.
+Not every asset has a backup. A stock token usually has exactly one source — a single Chainlink feed — so when that feed goes quiet, the token has no price until it comes back.
 
-Your collateral value comes from the first usable source in the configured order.
-
-For ERC-20 valuation, a usable price feed is only one prerequisite: Price Desk must also have the token's scale synchronized. Without it, non-strict conversions report no value and strict conversions revert.
+> **Live terms live onchain.** Which price sources are live, their priority, each feed's freshness window, and which assets they cover vary by deployment and change over time. Every number on this page is an example. [Params](https://params.ripe.finance) is the source of truth.
 
 ## Why Pricing Matters in Ripe
 
@@ -20,189 +18,112 @@ Every critical protocol operation depends on accurate pricing:
 
 * **Borrowing Power**: Your collateral value determines how much GREEN you can borrow
 * **Liquidation Safety**: Price movements trigger liquidations when positions become risky
-* **Redemption Values**: Direct redemptions treat GREEN as a $1 debt-value input while oracle pricing and actual delivery determine collateral and debt credit
-* **Stability Settlement**: Configured liquidation spreads are calculated from usable oracle prices
-* **Interest Rates**: Dynamic rates can respond to a duration-weighted signal built from recorded GREEN reference-pool balance ratios
+* **Redemption Values**: Redeemers pay GREEN at $1 and receive collateral at oracle price
+* **Stability Pool Profits**: Liquidation spreads are measured against oracle prices
+* **Interest Rates**: Dynamic rates respond to GREEN's share of its reference pool
 
-With so much at stake, we've built a pricing system that's both robust and transparent.
-
-## Ordered Oracle Routing
-
-When multiple adapters cover an asset, Ripe routes across them in configured order:
+## How Ripe Finds a Price
 
 ```
 Asset Price Request Flow:
 
-Your Asset (e.g., a configured tokenized stock or ETH)
+Your Asset (e.g., a stock token or ETH)
     ↓
-Price Desk (Ordered Router)
+Ripe's price router
     ↓
-1. Check configured priority source IDs
-2. If no usable price, check the remaining registered source IDs
-3. Return the first usable nonzero price
+1. Ask the priority sources, in order
+2. No price yet? Ask the remaining sources
+3. Use the first good price
     ↓
-First Usable USD Value
+USD Value
 ```
 
-This design provides several benefits:
-
-* **Failure Isolation**: A failed source does not prevent a later configured usable source from answering
-* **Asset Flexibility**: Different oracles support different assets
-* **Cost Optimization**: Use expensive oracles only for critical assets
-* **Future-Proof**: New oracle providers can be added seamlessly
+A source that reverts or returns garbage doesn't block the ones behind it, and different sources cover different assets.
 
 ## Our Oracle Providers
 
-The adapters below describe mechanisms the protocol can support; the live set is deployment configuration rather than a fixed inventory in these docs.
+These are the adapters Ripe can run. Which are live is on [Params](https://params.ripe.finance).
 
-### 1. Chainlink
+### Chainlink
 
-The industry standard for decentralized price feeds:
+The industry standard. Decentralized node operators publish crypto and equity feeds; Ripe reads the latest round and checks that it's complete and fresh.
 
-* **Coverage**: Major crypto assets and equity-reference feeds when configured
-* **Reliability**: Battle-tested across DeFi with billions secured
-* **Update Frequency**: Varies by asset based on volatility
-* **Trust Model**: Decentralized node operators with reputation
+### Curve Pools
 
-The Chainlink adapter can provide prices for configured mainstream assets. Its live role, asset coverage, and priority vary by deployment.
+Prices stablecoins, Curve LP tokens, and GREEN straight from onchain pool state — real, tradeable liquidity, read live. It also records the GREEN reference-pool snapshots that drive [dynamic interest rates](02-borrowing.md#dynamic-interest-rates). Snapshots are taken as people use the protocol, so the rate signal reflects sustained conditions, not a single block.
 
-### 2. Curve Pools (Specialized)
+### Pyth Network
 
-Direct pricing from the largest stablecoin liquidity pools:
+Institutional publishers, sub-second updates, broad coverage. Every Pyth price comes with a confidence band; Ripe uses the price minus that band and rejects the price if the band is too wide.
 
-* **Coverage**: Stablecoins, Curve LP tokens, GREEN pairs
-* **Reliability**: Based on actual tradeable liquidity
-* **Special Feature**: Records GREEN reference-pool balance-ratio snapshots during qualifying protocol housekeeping
-* **Trust Model**: On-chain AMM state with adapter-specific validation and pool-liquidity risk
+### Stork Network
 
-**Critical for GREEN Stability**: The Curve price feed maintains the configured Green Reference Pool data that directly impacts [dynamic interest rates](02-borrowing.md#dynamic-interest-rates). Each qualifying interval uses the lower GREEN ratio from two consecutive observations and weights that interval by duration. Excessive gaps are excluded, while a stale latest observation produces no dynamic signal. This makes the rate input depend on sustained recorded conditions rather than one isolated observation.
+Signed price attestations from decentralized publishers, checked against their publish time.
 
-### 3. Pyth Network (High-Frequency)
+### RedStone
 
-Sub-second price updates from institutional providers:
+A Chainlink-style adapter: same round and freshness checks, different data network.
 
-* **Coverage**: Wide range including stocks, forex, commodities, and crypto
-* **Reliability**: Professional market makers provide data
-* **Update Frequency**: Can update every slot if needed
-* **Trust Model**: Aggregated from multiple institutional sources
+### Blue Chip Yield Prices
 
-Useful for assets requiring frequent updates or those not covered by Chainlink.
+Pricing for yield-bearing tokens from major lending protocols. The underlying asset's price comes from the router; the adapter handles the exchange rate on top:
 
-### 4. Stork Network (Emerging)
+* **Aave v3, Compound v3**: rebasing tokens — priced at the underlying's price, no snapshots needed
+* **Morpho, Morpho v2, Euler, Fluid**: ERC-4626 shares — duration-weighted snapshots of the share rate
+* **Moonwell**: its exchange rate, snapshotted the same way
 
-Next-generation oracle with unique features:
+Example: a Morpho USDC position. USDC is $1.00 from the router. The share rate is a weighted average over recent snapshots — say 1.05 USDC per share. The position is worth $1.05 per share.
 
-* **Coverage**: Growing selection of DeFi assets
-* **Reliability**: Novel cryptographic attestation model
-* **Update Frequency**: On-demand with nanosecond precision
-* **Trust Model**: Decentralized publishers with stakes
+Only the share rate is smoothed — a flash-loan spike barely moves the weighted average, and a sudden jump is throttled in gradually.
 
-Provides additional redundancy and supports newer assets.
+### Underscore Vault Pricing
 
-### 5. Blue Chip Yield Prices (Specialized)
-
-Custom pricing for yield-bearing tokens from major protocols:
-
-* **Coverage**: Aave V3 and Compound V3 positions, Morpho and Morpho V2 positions, Euler, Fluid, Moonwell, etc.
-* **Reliability**: Direct integration with protocol contracts
-* **Special Feature**: Handles rebasing and yield accrual correctly
-* **Trust Model**: Based on underlying protocol's accounting
-
-Blue Chip Yield Prices supports several adapter models. Aave V3 and Compound V3 positions use the underlying asset price directly and do not use share-rate snapshots. Morpho, Morpho V2, Euler, and Fluid use duration-weighted ERC-4626 share-rate snapshots combined with the underlying price. Moonwell uses a separate exchange-rate route.
-
-For example, a Morpho USDC position uses two-layer pricing:
-
-* **Underlying USDC price**: Fetched in real-time from Chainlink ($1.00)
-* **Morpho share price**: Weighted average over time (e.g., 1.05 USDC per share)
-* **Final position value**: $1.00 × 1.05 = $1.05 per share
-
-**Manipulation Protection**: Where share or exchange-rate snapshots apply, only that rate uses weighted snapshots — the underlying asset price remains current. This reduces exposure to temporary share-rate spikes while allowing the collateral to respond to movements in the underlying asset. Applicable snapshots also include upside-deviation throttling, gradually incorporating sudden appreciation rather than accepting it immediately.
+ERC-4626 vault shares from Underscore, priced the same way: underlying price from the router, share rate from snapshots with their own freshness rules.
 
 ## Staleness Protection
 
-Stale prices are dangerous. Here's how we prevent them:
+Every feed has a freshness window set by governance, and each adapter checks it against its own clock:
 
-### Global Staleness Threshold
-
-* Freshness windows are set through deployment and governance configuration
-* For adapters that consume the router-supplied window, a feed-specific nonzero window can override the global policy; snapshot adapters may instead use local freshness configuration
-* See [RIPE Params](https://params.ripe.finance) for current onchain settings
-
-### Per-Oracle Configuration
-
-Each oracle can have custom staleness limits:
-
-* Chainlink: Uses round timestamp
-* Pyth/Stork: Uses publish timestamp
-* Curve: Reads pool state directly; confirmed GREEN reference history has its own block-based freshness rules
-* Blue Chip: Adapter-specific; share-rate snapshot routes use local delay and freshness settings, while direct-underlying routes do not use those snapshots
-
-Freshness enforcement is adapter-specific. Blue Chip snapshot routes and Undy vault pricing use their locally configured snapshot freshness rather than the forwarded global stale-time setting.
+* **Chainlink, RedStone**: the round's update time
+* **Pyth, Stork**: the publish time
+* **Curve**: always current — it reads pool state live
+* **Blue Chip, Underscore**: snapshot age, using each feed's own delay and freshness settings
 
 ### Stock-Market Hours and Price Gaps
 
-Ripe does not read an exchange calendar or switch into a separate mode when a stock reference market closes. Price Desk continues to use its ordinary ordered routing and freshness checks, and a tokenized stock's last published price may remain usable while the configured source still considers it fresh.
-
-Robinhood's [oracle guidance](https://docs.robinhood.com/chain/oracles-and-price-feeds/) exposes an advisory `oraclePaused()` flag for corporate-action windows and recommends treating it as temporary price unavailability. Ripe's standard Chainlink adapter does not read that token flag. During pricing it calls `latestRoundData()` and normalizes the result using feed decimals verified and stored when the feed configuration is confirmed, then applies its ordinary answer, round, timestamp, and freshness checks. A still-valid, still-fresh round can therefore remain usable while `oraclePaused()` is true. Once that round is no longer usable, Price Desk tries the next configured source.
-
-If every configured source becomes unusable, Ripe does not substitute an indefinitely cached price.
-
-When a usable source resumes, the next accepted price can revalue tokenized-stock collateral in one step. A reference-market reopening gap can therefore change account health abruptly, and subsequent borrowing, withdrawal, redemption, deleverage, and liquidation checks use the recovered price.
-
-For a Stock Token that uses `uiMultiplier()`, the configured feed must return the token-level USD price with that corporate-action adjustment already incorporated. Ripe consumes that price once and does not independently read or apply `uiMultiplier()`. See [Stock Tokens as Collateral](03-collateral-assets.md#stock-tokens-as-collateral).
+Stock feeds follow market hours. When the exchange closes, the last published price holds for as long as it's inside the feed's freshness window; when the market reopens, the new price lands in one step. Ripe doesn't read the issuer's "oracle paused" flag or a market calendar — it reads the token-level feed price, corporate-action multiplier already applied. Full treatment: [Stock Tokens on Ripe](08-stock-tokens.md#market-hours-and-weekend-gaps).
 
 ### What Happens When Prices Go Stale?
 
-1. **Earlier Source Stale**: The query continues to the next configured source
-2. **All Sources Unusable**: A non-strict query reports no price and a strict valuation fails closed; the protocol does not substitute a last-known cached value
-3. **No Feed Available**: New assets without feeds cannot be borrowed against
+1. **A source goes stale**: Ripe moves to the next one
+2. **Every source is unusable**: Ripe fails closed. It never substitutes an old cached price
 
 ### When an Account Cannot Be Valued
 
-If a non-Stability collateral position with nonzero LTV has a positive balance but no usable value, or still records a balance while its vault resolves no usable backing, Ripe treats the account's current borrow terms as being in **valuation quarantine**. Zero-LTV assets do not cause this condition, and it applies to the affected account rather than every holder of the asset.
+If one of your collateral assets loses its price, Ripe stops guessing about your whole position. While any borrowing collateral you hold is unpriced:
 
-While valuation quarantine applies, unavailable collateral contributes no borrowing power, the account cannot borrow more, and new liquidation, redemption, and deleverage processing is withheld. While debt remains, withdrawals of borrowing-power collateral are blocked, and other Teller deposits or withdrawals that revalue the whole account can fail. Adding collateral is therefore not a guaranteed workaround.
+* That collateral counts for zero, and you can't borrow more.
+* You can't deposit or withdraw anything else — every deposit and withdrawal re-values your whole account, debt or no debt. The one move that still works is withdrawing the unpriced asset itself, in full.
+* You can't be liquidated or redeemed, and third-party deleverage pauses.
+* You can still repay GREEN.
 
-Valuation quarantine is not itself liquidation or a declaration of insolvency. Standard GREEN repayment remains available under its normal controls: a partial repayment can preserve stored debt terms when replacement terms cannot be derived, while a full standard payoff skips collateral traversal. Valuation-dependent actions can resume, subject to their other controls, when usable pricing or backing returns.
+How each action stops depends on why the price is missing. If a source is set up for the asset but can't return a usable number — a feed past its freshness window, a broken round — the strict actions revert: borrowing, liquidating, deleveraging, and any deposit or withdrawal that re-values the account. A batch liquidation reverts for every account in it if one of them holds an unpriced asset. If no source claims the asset at all, or its vault is unbacked, Ripe quarantines your borrowing terms instead: borrowing and withdrawing are refused, and liquidation, redemption, and deleverage skip your account.
 
-## Price Priority System
+Either way, everything resumes the moment a good price returns, using the new price. Zero-LTV assets never trigger any of this — they don't back your loan, so they don't need a price.
 
-Not all oracles are created equal. The priority system selects the first usable source in the configured order:
+## Governance and Safeguards
 
-```
-Priority Order (Configurable):
-1. Check configured priority source IDs
-2. Check the remaining registered source IDs
-3. Return the first usable nonzero price
-```
-
-Governance can adjust priorities based on:
-
-* Oracle reliability track record
-* Gas costs for updates
-* Asset-specific considerations
-* Market conditions
-
-## Security Measures
-
-### Time-Locked Changes
-
-Oracle additions, priority changes, feed updates, and emergency controls follow their configured governance and permission paths. Exact delays and permissions vary by deployment; see [RIPE Params](https://params.ripe.finance) for current onchain settings.
-
-### Fail-Safe Mechanisms
-
-* Ordered fallback across configured sources
-* Isolated source calls so one failure does not mask a later healthy source
-* Strict valuation fails closed when no source establishes a usable value
-* Governance-controlled feed and adapter disable or replacement paths
-* Fund recovery for stuck update fees
-* Governance override capabilities
+Adding a price source, changing priority, and adding or changing a feed all go through timelocked governance. Adapters can be disabled or replaced the same way, and stuck oracle update fees can be recovered.
 
 ## Trust Through Verification
 
 Here's what your lending protocol won't tell you: they probably use one oracle. Maybe two if they're fancy.
 
-Ripe can connect to multiple independent price sources. Price Desk checks them in configured order and continues past an unusable source. If no source returns a usable price, non-strict queries report no price and strict valuation fails closed; fallback improves resilience but does not guarantee uninterrupted pricing.
+Ripe checks every source governance turns on, in order. Primary source down? The next one is already answering. No delays. No manual intervention.
+
+And when nothing can price an asset — a single-feed stock token over a long holiday, say — Ripe stops rather than guesses. Your position freezes, repay-only, until the truth comes back.
+
+That's not a feature. That's survival.
 
 ***
 

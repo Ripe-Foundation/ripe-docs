@@ -1,97 +1,90 @@
 ---
-description: Acquire RIPE through configurable vesting
+description: Pay now. Vest over time. Get more for waiting.
 ---
 
-# RIPE Reserve Engine: Acquire RIPE with Vesting
+# RIPE Reserve Engine: RIPE That Vests
 
-The RIPE Reserve Engine accepts a configured payment token and creates a vesting position for newly issued RIPE. Payment is collected when the position is created, while RIPE is minted only as vested amounts are claimed.
+The Reserve Engine is the second way to buy RIPE straight from the protocol. Pay up front, pick how long you'll vest, and get a position that unlocks RIPE over time — with a bigger allocation the longer you wait. Your payment goes to the [treasury](../core-protocol/07-endaoment.md) the moment you buy; the RIPE is minted only as you claim it.
 
-This is a separate distribution mechanism from [Ripe Bonds](03-bonds.md). A bond uses BondRoom epoch pricing, can add lock and activity-booster bonuses, and can credit its payment against bad debt. A Reserve Engine acquisition uses its own epoch controller, vesting-duration bonus, and allocation budget; its payment goes to EndaomentFunds as a treasury asset and does not use BondRoom's bad-debt accounting.
+[Bonds](03-bonds.md) settle instantly and can clear bad debt. The Reserve Engine does neither; it has its own pricing, bonus, and budget.
 
-All payment assets, rates, capacities, durations, and availability controls described here are configurable. Examples explain the mechanism rather than asserting that it is deployed or enabled on a particular network. Use [RIPE Params](https://params.ripe.finance) for the current network configuration it exposes; do not infer availability from this guide.
+> **Live terms live onchain.** The Reserve Engine is not deployed everywhere. Where it is, the payment token, epoch size, rate, vesting range, bonus, and budget vary by deployment and change over time. Every number on this page is an example. [Params](https://params.ripe.finance) is the source of truth.
 
-## Acquisition Flow
+## How a Purchase Works
 
-A user first previews an acquisition using a payment amount and requested vesting length. The quote identifies:
+1. **Preview.** Enter a payment amount and a vesting length. You get a quote: base RIPE, duration bonus, total, the current epoch's rate, and when your position starts claiming and matures.
+2. **Buy.** Your transaction carries the quoted epoch, vesting length, a minimum RIPE out, and a deadline. If the epoch has rolled, the total fell below your minimum, or the deadline passed, it reverts — no partial fills.
+3. **Position created.** Your payment goes to the treasury, your full allocation (base plus bonus) is reserved from the budget, and a vesting position is recorded in your name. No RIPE exists yet.
 
-* The payment amount and selected vesting length
-* Base RIPE and any vesting-duration bonus
-* The current epoch and payout-rate information
-* The position's creation, first-claim, and maturity blocks
+Positions belong to the buyer. You can't buy for someone else, and positions can't be transferred.
 
-Execution binds the requested vesting length and epoch, a minimum RIPE output, and a deadline. The actual schedule is anchored to the transaction's inclusion block, so previewed schedule blocks move if execution is delayed.
+## Pricing: Epochs and the Controller
 
-Acquisitions are full-fill only. The Engine verifies exact payment-token receipt before creating the allocation; invalid payment, stale quote, or insufficient capacity reverts instead of creating a partial position.
+Time is sliced into epochs of a fixed number of blocks. Each epoch has one base rate (RIPE per payment token), a payment capacity, a minimum purchase, and a vesting range. Those terms are locked in by the **first purchase** in the epoch: a config change before that first purchase applies to the epoch; one after it waits for the next.
 
-On success:
+Between epochs a controller adjusts the base rate from the previous epoch's demand, within bounds governance sets:
 
-1. The payment is sent to EndaomentFunds.
-2. The full base-plus-bonus allocation is reserved from the Vesting contract's remaining allocation budget.
-3. A position with a stable identifier and vesting schedule is recorded for the beneficiary.
-4. No RIPE is minted yet.
+* **High utilization** (the epoch mostly sold) → fewer RIPE per token next epoch. The earlier in the epoch the demand came, the bigger the move.
+* **Low utilization** → more RIPE per token.
+* **Idle epochs** with no purchases → the rate steps back up each idle epoch, up to a limit.
 
-## Epoch Pricing and Capacity
+Governance can also pin an exact base rate for an upcoming epoch, overriding the controller for that epoch only. And there's a ceiling: base rate plus the maximum duration bonus can never exceed the all-in rate governance sets.
 
-Each committed epoch snapshots the terms used for acquisitions in that epoch, including its payment capacity, minimum payment, vesting range, and base payout rate. Later configuration changes do not rewrite an already committed epoch.
+## The Duration Bonus
 
-The controller can adjust the next epoch's base rate from the preceding committed epoch's utilization and timing data, subject to configured bounds and idle-decay rules. The rate therefore stays fixed within a committed epoch while the controller can respond between epochs.
+Pick any vesting length between the epoch's minimum and maximum. Ask for more and it's capped at the maximum; ask for less, or nothing, and you get the minimum. The bonus is linear — zero at the minimum, the full bonus at the maximum — computed on your base RIPE and added to it.
 
-The vesting-duration bonus is separate from the base rate. A longer selected duration can increase the total RIPE allocation according to the configured bonus curve. Governance also sets an all-in payout-rate ceiling so the base rate plus the maximum duration bonus remains bounded.
+```
+Example: 4 RIPE per USDC, 3-month minimum, 12-month maximum, 50% max bonus
 
-## Allocation Budget
-
-The Vesting contract tracks a dedicated `remainingAllocationBudget`. A new position must fit its full base-plus-bonus allocation, and creating the position reduces that budget immediately.
-
-Claims do not replenish the allocation budget. This separates three ideas:
-
-* **Epoch payment capacity** limits accepted payment within an epoch.
-* **Vesting allocation budget** limits the total RIPE that new Reserve Engine positions can reserve.
-* **Claimable amount** is the vested portion of an already reserved position.
-
-The budget is an onchain accounting allowance, not pre-minted RIPE held in escrow. Claiming still depends on the Engine's RIPE mint authorization and the protocol minting circuit breaker.
-
-## Catch-Up Cliff and Linear Vesting
-
-Every position stores a creation block, claim-start block, and maturity block. The epoch's snapshotted minimum vesting length establishes the claim cliff:
-
-```text
-claim start = creation block + minimum vesting length
-maturity    = creation block + selected vesting length
+10,000 USDC, 3-month vest  → 40,000 base + 0      = 40,000 RIPE
+10,000 USDC, 12-month vest → 40,000 base + 20,000 = 60,000 RIPE
 ```
 
-Nothing is claimable before the claim-start block. At that block, all RIPE that has vested linearly since creation becomes claimable at once. Vesting then continues linearly from creation until maturity. This is a **catch-up cliff**, not a schedule that begins vesting only after the cliff.
+## Two Limits
 
-**Illustrative example:** Assume a position has a 12-month selected duration and a 3-month minimum duration. Nothing can be claimed during the first 3 months. At the claim start, approximately one quarter of the allocation has accrued under the linear schedule and becomes claimable; the remainder continues vesting through month 12. These durations are example inputs, not live terms.
+* **Epoch capacity** caps how much payment an epoch accepts.
+* **Allocation budget** caps how much RIPE all Reserve Engine positions can reserve in total. Every purchase must fit its full allocation in the budget; claims don't refill it.
 
-If the selected and minimum durations are equal, the entire allocation becomes claimable at the cliff, which is also the maturity block.
+Neither is escrowed RIPE. They're accounting limits, and everything minted through them counts toward the protocol-wide [1 billion cap](01-ripe-tokenomics.md#supply-cap-one-billion-everywhere).
 
-## Claims and Optional Governance Deposit
+## Vesting: The Catch-Up Cliff
 
-A beneficiary can claim vested RIPE from a position. RIPE is minted only after the Vesting contract records a valid, nonzero claim.
+Every position records three blocks:
 
-* **Direct claim:** RIPE is minted to the beneficiary.
-* **Auto-deposit claim:** RIPE is minted through the Engine and deposited for the beneficiary into the core RipeGov vault currently selected in Mission Control.
+```
+creation    = the block you bought
+claim start = creation + the epoch's minimum vesting length
+maturity    = creation + your chosen vesting length
+```
 
-For auto-deposit, the submitted lock duration is a request. The current core RipeGov vault applies its configured minimum, maximum, and whole-position lock mechanics; a separate position in a historical governance vault is not merged automatically.
+RIPE vests linearly from creation to maturity, but nothing can be claimed before claim start. At claim start, everything that has vested so far becomes claimable at once — a catch-up, not a delayed start. If you chose the minimum length, claim start and maturity are the same block and the whole allocation lands then.
 
-## Lifecycle and Governance Controls
+**Example:** 12-month vest with a 3-month minimum. Nothing for 3 months; then about a quarter of the allocation is claimable immediately, with the rest vesting through month 12.
 
-The Engine and Vesting contracts have separate pause boundaries:
+## Claiming
 
-* Pausing the Engine stops new acquisitions but does not stop claims.
-* Pausing Vesting stops claims and also makes the Engine reject new acquisitions.
-* RIPE token controls, mint authorization, and the protocol minting circuit breaker can block claim settlement and new acquisitions.
+Claim from any position once it has vested RIPE. Two options:
 
-Governance can start, stop, pause, and configure the mechanism through its authorized paths. Exact terms and control settings are deployment configuration; this guide does not establish availability.
+* **Direct** — RIPE is minted to your wallet.
+* **Auto-deposit** — RIPE is minted and locked in the [governance vault](02-governance.md) in one step, with the lock you request (the vault applies its own minimum and maximum).
 
-## What to Check Before Acquiring
+Positions live in the vesting contract, and claims go through whichever engine is currently registered with the protocol — not necessarily the one you bought from.
 
-The preview is a quote, not a guarantee that a later transaction will succeed. Before execution, verify:
+## Pauses
 
-* The configured payment token and your allowance
-* The quoted epoch, vesting duration, RIPE output, and deadline
-* Remaining epoch capacity and Vesting allocation budget
-* The claim-start and maturity schedule
-* Whether you want direct RIPE delivery or an optional RipeGov deposit when claiming
+The engine and the vesting contract pause separately:
 
-The accepted payment becomes a protocol treasury asset immediately, while RIPE arrives only as the position vests and claims succeed. Treat the vesting schedule, token controls, mint authorization, and smart-contract risk as part of the acquisition.
+* **Engine paused** (or purchases switched off): no new purchases; claims keep working.
+* **Vesting paused**: no claims, and no new purchases either.
+
+Mint permissions and the RIPE token's own pause sit above both: if RIPE can't mint, nothing settles.
+
+## Before You Buy
+
+* The preview is a quote, not a reservation. It's re-checked at execution.
+* Pick a vesting length you're happy to wait out. There's no early exit.
+
+***
+
+_For technical implementation details, see the_ [_Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers)_._
