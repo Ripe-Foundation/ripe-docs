@@ -90,7 +90,7 @@ Put your sGREEN to work in a Stability Pool and you stack three income sources:
 
 **Q: Can sGREEN be used as collateral?** A: Not for borrowing. sGREEN sitting in a Stability Pool adds nothing to your borrowing power. It is, however, the first thing [deleverage](../core-protocol/05-deleverage.md) spends to pay down your debt: your own sGREEN pool position is redeemed for GREEN and burned against what you owe. Think of it as a debt buffer, not collateral.
 
-**Q: What happens during market crashes?** A: The exchange rate holds. Nothing takes GREEN out of the vault except holders redeeming their own shares, so falling prices don't touch it. Volatile markets often bring more borrowing and more liquidations, which means more fees flowing in.
+**Q: What happens during market crashes?** A: The exchange rate holds. Nothing takes GREEN out of the vault except holders redeeming their own shares, so falling prices don't touch it. Volatile markets often bring more borrowing, which means more interest and fees flowing in.
 
 **Q: How often does the exchange rate update?** A: The moment revenue arrives. Origination fees land on every borrow; booked interest lands on the next borrow after it.
 

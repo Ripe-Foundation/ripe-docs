@@ -1,10 +1,10 @@
 ---
-description: Keep the shares. Borrow the dollars.
+description: Keep the tokens. Borrow the dollars.
 ---
 
 # Stock Tokens on Ripe
 
-A stock token is an ERC-20 that tracks the price of a public stock. Deposit it into Ripe and you can borrow GREEN against it — in the same loan as your ETH, your stablecoins, and everything else you hold — without selling a single share.
+A stock token is an ERC-20 that tracks the price of a public stock. Deposit it into Ripe and you can borrow GREEN against it — in the same loan as your ETH, your stablecoins, and everything else you hold — without selling a single token.
 
 This page is the one place that explains how a stock token behaves inside Ripe: how it's held, how it's priced when the market is closed, what a dividend or split does, and exactly which events can move your tokens.
 
@@ -40,11 +40,10 @@ Borrow with enough room that a weekend gap doesn't decide anything for you.
 
 ### When the Price Goes Missing
 
-If the feed's freshness window runs out — a long holiday, a corporate action that pauses the feed longer than expected, an outage — the token has no usable price. Ripe fails closed rather than guessing. While any of your borrowing collateral is unpriced:
+If the feed's freshness window runs out — a long holiday, a corporate action that pauses the feed longer than expected, an outage — the token has no usable price. Ripe fails closed rather than guessing. While the feed is down:
 
-* You can't borrow more.
-* You can't deposit or withdraw anything else, debt or no debt — every deposit and withdrawal re-values your whole account. The one move that still works is withdrawing the unpriced token itself, in full.
-* You can't be liquidated or redeemed, and third-party deleverage is paused too.
+* You can't borrow.
+* Every action that re-values your account waits — deposits, withdrawals, liquidations, redemptions, deleverage — whether or not you have debt.
 * You can still repay GREEN.
 
 Everything resumes the moment a good price is back — and the first check after it returns uses the new price, gap and all.
@@ -63,8 +62,8 @@ Your stock tokens leave Ripe in three ordinary ways:
 
 A stock token is issued by a regulated entity that keeps control over the token contract. Two things can happen at the token level that Ripe can't prevent:
 
-* **A transfer freeze** (pause, blocklist). Your tokens stay recorded in Ripe; they just can't move until the issuer lifts it. Withdrawals fail closed in the meantime.
-* **A forced burn or transfer** out of the vault. If the vault holds fewer tokens than it has credited, Ripe treats the whole asset as unbacked: it contributes zero collateral value, and any account that holds it is frozen the same way an unpriced asset freezes it — no new borrows, no deposits or withdrawals of other assets, no liquidations, repay only — until the backing is restored.
+* **A transfer freeze** (pause, blocklist). Your tokens stay recorded in Ripe and can't be delivered out until the issuer lifts it, so withdrawals fail closed. Ripe's own bookkeeping keeps working in the meantime: a redemption or liquidation can still reassign the tokens to someone else inside the vault, and they're stuck there until the freeze ends.
+* **A forced burn or transfer** out of the vault. If the vault holds fewer tokens than it has credited, Ripe treats the whole asset as unbacked: it contributes zero collateral value, and Ripe quarantines every account that holds it: no borrowing, no withdrawals while you have debt, no liquidation or redemption. You can still repay and add collateral, and if you have no debt you can still pull your other assets. The unbacked token itself can't leave until the backing is restored.
 
 These are issuer risks, not Ripe risks, but they land on your position. Read the issuer's terms before you deposit.
 
@@ -74,7 +73,7 @@ Ripe is not the issuer of any stock token. Issuers structure their products diff
 
 ## The Short Version
 
-* Deposit stock tokens; borrow GREEN; keep every share.
+* Deposit stock tokens; borrow GREEN; keep every token.
 * Priced by feed, per token, corporate actions included.
 * Weekend prices hold; the reopen gap lands at once — leave room.
 * No price means no borrowing, no withdrawing, no liquidating. Repay still works.

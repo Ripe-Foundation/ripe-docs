@@ -45,9 +45,9 @@ Your Portfolio:             Traditional:           Ripe:
 
 The whole point. What a stock token is inside Ripe, how it's priced when markets are closed, what corporate actions do, and exactly which events can move your tokens.
 
-* **Keep the upside** — Borrowing never sells your shares
+* **Keep the upside** — Borrowing never sells your tokens
 * **Market hours, explained** — The last price holds through the weekend; the reopen gap lands in one step
-* **Your tokens leave only three ways** — You withdraw, a redemption, or a liquidation
+* **Your tokens leave three ordinary ways** — You withdraw, a redemption, or a liquidation
 
 #### 🟢 [GREEN: The Stablecoin That Actually Does Something](core-protocol/01-green-stablecoin.md)
 
@@ -114,7 +114,7 @@ Borrow, stake, or deposit and you accrue RIPE every block.
 * **1 billion RIPE, total, across every chain** — Bad-debt recovery counts against it, not on top of it
 * **Community first** — 25% for users; the only bucket unlocking from day one
 * **Team and investors locked longer** — An extra year on top of vesting
-* **Bootstrapped** — $1.87M raised, total
+* **Bootstrapped** — $1.87M put to work, only $550K of it outside capital
 
 #### 🏛️ [Governance: Power Through Time](governance-and-economics/02-governance.md)
 

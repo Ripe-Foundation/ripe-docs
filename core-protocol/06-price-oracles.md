@@ -100,14 +100,11 @@ Stock feeds follow market hours. When the exchange closes, the last published pr
 
 ### When an Account Cannot Be Valued
 
-If one of your collateral assets loses its price, Ripe stops guessing about your whole position. While any borrowing collateral you hold is unpriced:
+If one of your collateral assets loses its price, Ripe stops guessing about your whole position. Two things can be wrong, and they freeze you differently:
 
-* That collateral counts for zero, and you can't borrow more.
-* You can't deposit or withdraw anything else — every deposit and withdrawal re-values your whole account, debt or no debt. The one move that still works is withdrawing the unpriced asset itself, in full.
-* You can't be liquidated or redeemed, and third-party deleverage pauses.
-* You can still repay GREEN.
+**The feed is stale or broken** — the usual case: a stock feed past its freshness window, a bad round. Every action that re-values your account reverts until a good price is back: borrowing, deposits, withdrawals, liquidation, redemption, deleverage — whether or not you have debt. A batch liquidation reverts for every account in it if one of them holds a stale asset. Repaying GREEN still works.
 
-How each action stops depends on why the price is missing. If a source is set up for the asset but can't return a usable number — a feed past its freshness window, a broken round — the strict actions revert: borrowing, liquidating, deleveraging, and any deposit or withdrawal that re-values the account. A batch liquidation reverts for every account in it if one of them holds an unpriced asset. If no source claims the asset at all, or its vault is unbacked, Ripe quarantines your borrowing terms instead: borrowing and withdrawing are refused, and liquidation, redemption, and deleverage skip your account.
+**The asset has no price source at all, or its vault is unbacked** — an issuer burned tokens out of the vault, say. Ripe quarantines your borrowing terms: the asset counts for zero, you can't borrow, and while you have debt you can't withdraw anything. You can still repay and add collateral, and liquidation, redemption, and third-party deleverage skip your account. With no debt you can still withdraw your other assets; an unbacked token can't leave until it's backed again.
 
 Either way, everything resumes the moment a good price returns, using the new price. Zero-LTV assets never trigger any of this — they don't back your loan, so they don't need a price.
 

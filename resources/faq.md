@@ -54,7 +54,7 @@ Stock price feeds follow market hours, so over a weekend your stock collateral h
 
 ### What happens if Ripe can't price one of my assets?
 
-Ripe fails closed rather than guessing. While any of your borrowing collateral has no usable price you can't borrow more, can't deposit or withdraw other assets, and can't be liquidated or redeemed. Repaying still works, and everything resumes when a good price returns. See [When an Account Cannot Be Valued](../core-protocol/06-price-oracles.md#when-an-account-cannot-be-valued).
+Ripe fails closed rather than guessing. While any of your borrowing collateral has no usable price you can't borrow, and every action that re-values your account — deposits, withdrawals, liquidations, redemptions — waits for a price. Repaying still works, and everything resumes when a good price returns. See [When an Account Cannot Be Valued](../core-protocol/06-price-oracles.md#when-an-account-cannot-be-valued).
 
 ### Can I lose my stock tokens while borrowing?
 
@@ -115,7 +115,7 @@ Arbitrageurs buy cheap GREEN and redeem it — through the PSM, against position
 
 ### Can GREEN lose its peg permanently?
 
-No mechanism can guarantee a market price. What Ripe guarantees is the incentive: the further GREEN trades from $1, the bigger the arbitrage for whoever fixes it, and every GREEN is backed by more collateral than debt.
+No mechanism can guarantee a market price. What Ripe guarantees is the incentive: the further GREEN trades from $1, the bigger the arbitrage for whoever fixes it, and every GREEN loan starts overcollateralized.
 
 ### What is the PSM and how do I use it?
 
@@ -242,7 +242,8 @@ Layers: conservative LTVs, redemption and deleverage before liquidation, [liquid
 
 ### How do I report bugs or issues?
 
-Security issues: Please report privately to ripefinance@proton.me General bugs: Open an issue on GitHub or report in Discord
+* **Security issues**: report privately to ripefinance@proton.me
+* **General bugs**: open an issue on GitHub or report in Discord
 
 ***
 

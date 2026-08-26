@@ -125,7 +125,7 @@ Vested Amount = Total Allocation × (Time Elapsed / Vesting Duration)
 
 * **Vesting is linear from the start date.** Every block moves the number up.
 * **Cash any time.** Vested RIPE can be cashed at any point. It's minted straight into a locked position in the [governance vault](02-governance.md), where it earns governance points like any other locked RIPE. A governance freeze on the contract stops cashing, and so does a protocol-wide pause on RIPE minting.
-* **The cliff only matters if the contract is cancelled.** Cancel before the cliff and the whole allocation is forfeited — the vault position included, which is burned. Cancel after it and vested RIPE is cashed out first; only the unvested remainder returns to the contributor allowance.
+* **The cliff only matters if the contract is cancelled.** Cancel before the cliff and the whole allocation is forfeited — the vault position included, which is burned. Cancel after it and vested RIPE is cashed out first; only the unvested remainder returns to the contributor allowance. (A frozen contract can't cash, so cancelling while frozen forfeits whatever hasn't been cashed.)
 * **Transfer is a separate unlock.** Once the contract's unlock date passes, moving the vault position from the contract to the owner's own address is a two-step process: initiate, wait, confirm. The RIPE stays in the governance vault on the contract's lock terms.
 
 Every contract is public: total allocation, schedule, claimed versus remaining, and the unlock date are all readable onchain. Governance can freeze or cancel a contract; cancellation follows the cliff rule above.
