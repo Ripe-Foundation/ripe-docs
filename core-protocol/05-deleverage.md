@@ -6,7 +6,7 @@ description: Proactive Debt Reduction Without Liquidation Penalties
 
 Getting liquidated sucks. The fees, the forced selling, the stress.
 
-But what if you could reduce your debt before things get ugly? That's what deleveraging does. Sell some collateral, pay down debt, stay in control. No liquidation penalties. No keeper fees. Just a rational way to manage risk.
+But what if you could reduce your debt before things get ugly? That's what deleveraging does. Use eligible deposited assets, pay down debt, stay in control. No liquidation penalties. No keeper fees. Just a rational way to manage risk.
 
 Even better: configured deleverage routes can consume eligible assets already deposited in Ripe. An eligible sGREEN Stability position can be redeemed to GREEN and burned, while supported stable-side collateral can be transferred for debt credit. Paying GREEN from a wallet is standard repayment instead; GREEN is not an ordinary Stability deposit.
 
@@ -22,22 +22,21 @@ If a debt-bearing collateral balance has no usable price or is nominally present
 
 | Aspect | Deleverage | Liquidation |
 |--------|------------|-------------|
-| When it happens | Before liquidation threshold | After liquidation threshold |
+| When it happens | When authorized and eligible; untrusted broad deleverage requires the redemption zone | At or below the liquidation threshold after an eligible submitted call |
 | Who triggers it | You, delegated addresses, or third parties (when eligible) | Anyone (keepers) |
 | Penalties | None | Configured liquidation + keeper fees |
-| Your control | Specific-assets route lets an authorized caller choose | Protocol chooses for you |
-| Remaining collateral | Maximized | Minimized by fees |
+| Your control | Specific-assets route lets an authorized caller choose | Protocol-controlled settlement through configured Stability and/or auction routes |
 
 ## When Can You Be Deleveraged?
 
 ### Self-Deleveraging with Specific Assets
 
-Through the specific-assets route, an account owner can choose the asset order and target repayment without first entering the redemption zone, when the protocol can value and process the selected assets:
+Through the specific-assets route, an account owner can choose the eligible configured asset order and target repayment without first entering the redemption zone. An approved protocol caller or a `canBorrow` delegate can use the same route for the owner when authorized. In each case, the protocol must be able to value and process the selected assets:
 
-* Choose which assets to sell
+* Choose which eligible configured assets to use and in what order
 * Specify the target amount of debt to repay
 * No redemption-zone threshold requirement
-* No permissions needed
+* The owner needs no delegated permission; other callers need the route's authorization
 
 ### Third-Party Deleveraging (Redemption Zone)
 
@@ -64,13 +63,13 @@ Eligible positions in Stability vaults are considered first when their configure
 
 Unavailable Stability liquidity is skipped instead of blocking the broader deleverage route.
 
-**Phase 2: Stablecoins and Other Collateral**
+**Later Phases: Other Configured Payment Assets**
 
-After stability pool assets, remaining collateral is processed:
+After eligible Stability positions, the broad route considers configured priority assets and then the user's remaining vaults. An asset reduces debt only when its configuration supplies a burn-as-payment or transfer-to-Endaoment route:
 
 * Configured stable-side assets—for example, supported stablecoins—transferred to Endaoment at their credited value
 * No liquidation discount — debt reduction follows the credited oracle value, subject to transfer and rounding behavior
-* Other vault assets processed as needed
+* Assets without either ordinary deleverage route are skipped; arbitrary volatile collateral requires a separately authorized volatile-asset route
 
 ### Choosing Specific Assets
 
@@ -100,7 +99,7 @@ That outcome depends on the selected assets and routes being eligible and the ac
 
 ## Using [Underscore](https://underscore.finance/) Vaults?
 
-If you're depositing into Underscore's AI-powered vaults, you don't need to worry about deleveraging. The vault manages its own Ripe position — borrowing, collateral, deleveraging — all handled automatically. When you withdraw, the vault adjusts its position behind the scenes.
+An Underscore vault can manage its own Ripe position through authorized strategy calls. Its borrowing, deleverage, and withdrawal-adjustment behavior depends on that vault's implementation and configuration; using one does not eliminate the need to understand those mechanics.
 
 For details on how Underscore vaults interact with Ripe, see [Underscore Protocol Integration](02-borrowing.md#underscore-earn-vault-integration).
 
@@ -119,7 +118,7 @@ You can authorize others to manage your position:
 Delegated addresses can:
 
 * Initiate deleverage when your position is at risk
-* Choose which assets to sell and in what order
+* Choose which eligible configured assets to use and in what order
 * Maintain your position health automatically
 
 ## When to Deleverage
@@ -136,10 +135,9 @@ Don't wait for liquidation. Consider deleveraging when:
 Deleverage is one of several protective mechanisms, each activating at different risk levels:
 
 ```
-Healthy Zone → Warning Zone → Redemption Zone → Liquidation Zone
-     |              |               |                  |
-  No action    Can't borrow    Redemption +       Liquidation
-   needed        more         Deleverage active    triggered
+Healthy / Warning: Owner or authorized caller may use the specific-assets route
+Redemption Zone:   Specific-assets route + eligible broad deleverage or redemption
+Liquidation Zone:  Eligible liquidation; each configured route keeps its own checks
 ```
 
 * **Redemption**: GREEN is treated as a $1 debt-value input when eligible collateral is sized and credited (no liquidation penalty)
@@ -159,7 +157,7 @@ Smart borrowers:
 3. Keep eligible sGREEN or stable-side collateral available for configured debt-reduction routes
 4. Deleverage proactively rather than reactively
 
-The protocol doesn't penalize you for managing your risk. It rewards it with zero-fee debt reduction using your own assets.
+Deleverage does not apply liquidation or keeper fees. Debt credit, full-payoff buffers, asset-transfer behavior, and transaction costs still depend on the route and its configuration.
 
 Stay ahead of the liquidation threshold. Stay in control.
 

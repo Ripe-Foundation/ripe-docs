@@ -2,9 +2,9 @@
 description: Borrow GREEN against supported Stock Tokens in one unified position.
 ---
 
-# Ripe Protocol: Borrow Against Stock Tokens
+# Ripe Protocol: Borrow Against Stock Tokens and Your Portfolio
 
-Stock-market exposure is moving onchain. Ripe makes it useful: deposit supported Stock Tokens, borrow GREEN without selling them at origination, and keep their economic exposure while your position remains healthy.
+Stock-market exposure is moving onchain. Ripe makes it useful: deposit supported Stock Tokens, borrow GREEN without selling them at origination, and keep their economic exposure while the tokens remain directly held or credited to your vault balance.
 
 Supported Stock Tokens can join other eligible collateral in ONE unified loan. Redemption, deleverage, or liquidation can transfer collateral and reduce or eliminate that exposure, so position health still matters.
 
@@ -56,7 +56,7 @@ Stop juggling vaults. Stop wasting collateral. Just borrow.
 * **Smart rates** — Sustained reference-pool imbalance can add a capped rate adjustment
 * **Targeted liquidations** — Limited shortfalls may produce a partial target; severe shortfalls can produce a full-debt target and exhaust eligible collateral without fully clearing the debt
 
-#### 🏦 [Collateral Assets: Stock Tokens and More](core-protocol/03-collateral-assets.md)
+#### 🏦 [Stock Tokens and Other Collateral](core-protocol/03-collateral-assets.md)
 
 Supported Stock Tokens can back GREEN alongside other eligible collateral, all in one position.
 
@@ -76,25 +76,25 @@ Separate deleverage and redemption paths can reduce risk before liquidation. Liq
 
 ## Earning & Rewards
 
-#### 💎 [sGREEN: Set It and Forget It Yield](earning-and-rewards/01-sgreen.md)
+#### 💎 [sGREEN: Share in Configured Protocol Revenue](earning-and-rewards/01-sgreen.md)
 
-GREEN that grows while you sleep. No strategies. No management. Just yield.
+Hold sGREEN for exposure to changes in GREEN backing per share. Outcomes depend on configured revenue flows and protocol conditions.
 
 * **Configured revenue share** — Borrower interest and origination fees can increase GREEN backing per share
-* **Zero lockup** — Your money, your timeline
-* **Still liquid** — Use in stability pools while earning
+* **No fixed lock term** — Withdrawals remain subject to the vault's ordinary controls
+* **Stability-compatible when configured** — Eligible sGREEN can fund liquidation settlement; consumed sGREEN is redeemed to GREEN and burned as the cohort receives collateral custody
 
-#### 🎯 [Stability Pools: Buy the Dip Automatically](earning-and-rewards/02-stability-pools.md)
+#### 🎯 [Stability Pools: Acquire Stock Tokens and Other Collateral](earning-and-rewards/02-stability-pools.md)
 
-Forget MEV bots. Deposit, wait, profit from liquidations.
+Deposit eligible liquidity into a shared vault. When configured Stock Tokens or other collateral settle through a compatible, funded pool, the cohort receives collateral while supplying settlement value at the effective spread. Depositors participate proportionally through vault shares; a positive return is not guaranteed.
 
 * **Configured liquidation spread** on eligible collateral routed through the pool
-* **Multiple return sources** — underlying yield, liquidation results, and configured RIPE rewards
-* **Zero effort** — Smart contracts do the work
+* **Potential return sources** — deposited-asset economics, liquidation results, and configured RIPE rewards
+* **Protocol-directed settlement participation** — An eligible submitted liquidation can route through the pool when its configuration and capacity checks pass
 
-#### 🪙 [RIPE Rewards: Earn by Using the Protocol](earning-and-rewards/03-ripe-rewards.md)
+#### 🪙 [RIPE Rewards: Configured Rewards for Protocol Use](earning-and-rewards/03-ripe-rewards.md)
 
-Earn RIPE by using the protocol. Time-weighted rewards ensure fair distribution.
+Eligible activity can accrue RIPE when its reward category, rate, and allowance are configured.
 
 * **Allowance-capped distribution** — RIPE is minted when accrued rewards are claimed
 * **Configurable categories** - Borrower, staker, depositor, and voter allocations
@@ -114,10 +114,10 @@ Understanding RIPE's 1 billion-token protocol-wide supply cap and the schedules 
 
 #### 🏛️ [Governance: Power Through Time](governance-and-economics/02-governance.md)
 
-Lock RIPE tokens to accumulate voting power and earn protocol rewards.
+Lock RIPE tokens to accumulate voting power and become eligible for configured protocol rewards.
 
 * **Time multipliers** - Configured lock terms can raise the governance-point rate
-* **Staker rewards** - Earn from protocol emissions
+* **Staker rewards** - Can accrue from configured protocol emissions
 * **Future control** - Guide protocol evolution
 
 #### 🎟️ [Bonds: Fund the Future](governance-and-economics/03-bonds.md)
@@ -140,7 +140,7 @@ Exchange a configured payment token for a RIPE allocation that vests over time.
 
 Protocol-owned treasury for configured yield, liquidity, and peg-support operations.
 
-* **Multi-strategy yields** - Optimized across DeFi
+* **Configured strategies** - Authorized treasury operations can deploy assets for potential yield
 * **Peg defense** - Authorized market operations
 * **Partner programs** - Collaborative liquidity
 
@@ -203,21 +203,21 @@ Have questions? Check our comprehensive [**FAQ**](resources/faq.md) for answers 
 
 ## Pick Your Play
 
-Four ways to win. All of them better than watching your assets do nothing.
+Four ways to put supported assets to work, each with its own conditions and risks.
 
-### 🟢 **The Easy Button**: Buy sGREEN, Earn Forever
+### 🟢 **The Savings Route**: Hold sGREEN
 
-Swap to sGREEN. Close laptop. Come back richer. That's it.\
+Hold sGREEN for exposure to configured protocol revenue through its backing-per-share accounting. Returns depend on protocol activity and are not guaranteed.\
 **→** [**Get sGREEN Now**](earning-and-rewards/01-sgreen.md)
 
-### ⚡ **The Liquidation Game**: Buy ETH at 90 Cents on the Dollar
+### ⚡ **The Stock Acquisition Route**: Use a Stability Pool
 
-Someone else overleveraged? Their loss, your gain. Stability pools turn liquidations into profit.\
+When configured Stock Token collateral settles through a compatible, funded Stability pool, the cohort receives the tokens while supplying settlement value at the effective spread. Depositors participate proportionally through vault shares, and active collateral claims enter NAV at usable oracle value. The realized outcome depends on asset prices, claim timing, and other pool conditions.\
 **→** [**Join the Pools**](earning-and-rewards/02-stability-pools.md)
 
 ### 🎯 **The Stock Move**: Borrow Without Selling at Origination
 
-Supported Stock Tokens + other eligible collateral = one unified GREEN loan. Keep the tokens' economic exposure while they remain in a healthy position.\
+Supported Stock Tokens + other eligible collateral = one unified GREEN loan. You retain the tokens' economic exposure while they remain directly held or credited to your vault balance; redemption, deleverage, or liquidation can transfer collateral.\
 **→** [**Start Borrowing**](core-protocol/02-borrowing.md)
 
 ### 🏗️ **The Long Game**: Lock RIPE, Run the Protocol

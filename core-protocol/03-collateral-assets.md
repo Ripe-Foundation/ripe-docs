@@ -47,9 +47,13 @@ This architecture combines eligible collateral without flattening its risks or c
 
 ## Stock Tokens as Collateral
 
-Robinhood Stock Tokens are ERC-20 products that provide economic exposure to a referenced equity or ETF. Robinhood's [Stock Token documentation](https://docs.robinhood.com/chain/stock-tokens/) explains that they are not the underlying company shares or fund interests and do not confer legal or beneficial ownership rights in them. Other security-linked products can have different issuer terms and rights.
+Robinhood Stock Tokens are standard ERC-20 tokenised debt securities issued by Robinhood Assets (Jersey) Limited (RHJ). They provide economic exposure to a referenced equity or ETF, but they are not the underlying shares or fund interests and do not confer legal or beneficial rights in them. See Robinhood's [Stock Token documentation](https://docs.robinhood.com/chain/stock-tokens/) for the product description.
 
-When a compatible Stock Token is supported, it can use Ripe's configured nominal ERC-20 vault path. Depositing transfers the token into protocol custody and credits the user's vault balance. Borrowing GREEN does not sell that token at origination: while the credited balance remains, the position continues to respond to changes in the token's value. A later withdrawal, authorized deleverage, redemption, or liquidation can reduce or transfer that balance when the applicable route and recipient are eligible.
+Ripe is a separate lending protocol and is not the issuer. Its contracts can custody and transfer supported Stock Tokens through permitted protocol routes, but Ripe support and protocol permissions do not determine who is eligible under RHJ's terms to acquire, hold, transfer, or use them. Canonical token identity, Ripe support, and the absence of a protocol whitelist do not establish investor eligibility. Review RHJ's current [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj) before interacting with a Stock Token. Other security-linked products can have different issuer terms and rights.
+
+RHJ describes Stock Tokens as high-risk products that are not appropriate for every investor and warns that an investor can lose some or all of the investment. Ripe support does not remove issuer, product-term, market, liquidity, oracle, transfer, or collateral-liquidation risk.
+
+When a compatible Stock Token is supported, it can use Ripe's configured nominal ERC-20 vault path. Depositing transfers the token into protocol custody and credits the user's vault balance. Borrowing GREEN does not sell that token at origination. You retain token-level economic exposure while you hold the Stock Token directly or retain a credited vault balance. A successful permitted ordinary withdrawal returns the token to the owner; an authorized deleverage, eligible redemption, or liquidation can reduce the credited balance and transfer some or all of the token away.
 
 ### Nominal Custody and Backing
 
@@ -57,7 +61,7 @@ A nominal vault records token units rather than a rebasing or share-based claim.
 
 * A deposit is credited only when the exact accepted amount reaches the configured destination custody and the vault records that same amount.
 * A withdrawal or settlement must deliver the amount that its accounting credits. If token controls or transfer behavior prevent exact delivery, the operation fails closed rather than completing with a short receipt.
-* A recorded balance whose backing cannot be established provides no usable collateral value or borrowing power. While debt remains, unusable backing can place the account in valuation quarantine until backing recovers or the debt is repaid.
+* A recorded balance whose backing cannot be established provides no usable collateral value or borrowing power. If that asset has nonzero LTV and debt remains, unusable backing can place the account in valuation quarantine until backing recovers or the debt is repaid.
 
 These checks keep a nominal token balance from becoming borrowing power or paid settlement when the corresponding Stock Tokens are not actually available.
 
@@ -69,7 +73,7 @@ Stock Tokens are not intrinsically permissioned or assigned to a particular liqu
 
 ### Pricing and Corporate Actions
 
-Ripe values a Stock Token through the first usable source in its configured price-source order. Where a configured Stock Token feed already incorporates an issuer multiplier or corporate-action adjustment, Price Desk consumes that adjusted token price and does not apply the same adjustment again.
+Ripe values a Stock Token through the first usable source in its configured price-source order. A configured Stock Token feed must return the token-level USD price with the applicable corporate-action adjustment already incorporated. Ripe consumes that price once and does not independently read or apply `uiMultiplier()`.
 
 Reference-market closures do not create a separate pricing mode inside Ripe. See [Stock-Market Hours and Price Gaps](06-price-oracles.md#stock-market-hours-and-price-gaps) for how freshness, fallback, quarantine, and reopening gaps interact.
 
@@ -175,34 +179,28 @@ The asset's protocol configuration determines which vault handles a deposit.
 
 ### Deposit Limits and Controls
 
-Each asset has configurable parameters that protect the stability of GREEN, our stablecoin:
+Each asset has configured absolute token-balance limits for ordinary deposits. These limits can indirectly bound concentration, but they do not dynamically control an asset's percentage of GREEN backing.
 
 **Why Limits Matter**
 
-Since deposited assets serve as collateral backing GREEN loans, the protocol must prevent any single asset from becoming too dominant. If 90% of GREEN were backed by one volatile asset, its price swings could destabilize the entire system. Limits ensure diversified, resilient backing.
+Deposit limits bound how much of an asset can be credited to one user and in aggregate. They are expressed in token units rather than as percentages of portfolio value or GREEN backing.
 
 **Per-User Limits**
 
-* Maximum deposit per user per asset
-* Prevents whale dominance in specific assets
-* Ensures broad distribution of risk
-* Maintains fair access for all participants
+* An absolute maximum credited token balance for one user in the target vault
+* The available amount is the configured limit minus that user's existing balance
 
 **Global Limits**
 
-* Protocol-wide caps per asset type
-* Controls each asset's percentage of total GREEN backing
-* Gradual increases as assets prove stability and liquidity
-* Protects stablecoin integrity during market stress
+* An absolute maximum aggregate token balance for the asset in the target vault
+* The available amount is the configured limit minus the vault's existing total balance
 
 **Minimum Balances**
 
-* Small position requirements
-* Prevents dust accumulation
-* Ensures meaningful participation
-* Reduces computational overhead
+* A configured minimum balance can apply when opening or leaving a position
+* Deposits and withdrawals must leave the position at zero or at least that minimum, subject to the applicable path
 
-These limits adapt over time through governance, balancing growth opportunities with prudent risk management. As assets demonstrate stability and liquidity deepens, limits can expand while maintaining GREEN's robust backing.
+Governance can update the configured absolute limits and minimum balance without changing this mechanism.
 
 A deposit can still fail when another debt-bearing asset in the account is quarantined. Current limits and eligibility are published through [RIPE Params](https://params.ripe.finance).
 
@@ -239,9 +237,9 @@ Available to withdraw: $3,750 worth of ETH
 
 ## Earning While Deposited
 
-### Automatic Reward Accumulation
+### Conditional Reward Accumulation
 
-Configured deposits earn RIPE rewards through the protocol's points system:
+Eligible deposits can accrue RIPE rewards through the protocol's points system only while points, the applicable asset and category allocations, emissions, and the rewards allowance are active:
 
 ```
 Points = Deposit Value × Blocks Held
@@ -249,27 +247,24 @@ Share = Your Points / Total Points
 Rewards = Your Share × Emissions
 ```
 
-Time matters as much as size — smaller deposits held longer can out-earn whale positions.
+Time and size both affect points, but points do not guarantee a reward payout.
 
 ### Reward Categories
 
-**General Depositors** - Eligible configured deposits earn base rewards
+**General Depositors** - Eligible configured deposits can receive general-depositor rewards
 
-* USD-weighted fair distribution
-* No special requirements
-* Passive income on all assets
+* USD-weighted points when the asset uses the general-depositor category
+* Rewards remain conditional on the category allocation, emissions, allowance, usable valuation, and custody-backed balance
 
 **Vote Depositors** - Community-selected bonus rewards
 
-* Higher allocations for chosen assets
-* Governance participation benefits
-* Strategic deposit opportunities
+* Configured voter points for selected assets
+* Rewards remain conditional on the applicable voter allocation and global reward availability
 
 **Special Rewards** - Enhanced earnings in specific vaults
 
-* [Stability pool](../earning-and-rewards/02-stability-pools.md) deposits earning dual yields
-* [Governance Vault](../governance-and-economics/02-governance.md) staking with multipliers
-* Future special purpose incentives
+* [Stability pool](../earning-and-rewards/02-stability-pools.md) positions can combine deposited-asset economics, liquidation settlement, and RIPE rewards when each path is configured
+* [Governance Vault](../governance-and-economics/02-governance.md) positions can receive configured point multipliers and rewards
 
 For a detailed exploration of the RIPE rewards system, including emission schedules, point calculations, and maximization strategies, see [RIPE Block Rewards](../earning-and-rewards/03-ripe-rewards.md).
 

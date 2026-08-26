@@ -21,7 +21,7 @@ Every critical protocol operation depends on accurate pricing:
 * **Borrowing Power**: Your collateral value determines how much GREEN you can borrow
 * **Liquidation Safety**: Price movements trigger liquidations when positions become risky
 * **Redemption Values**: Direct redemptions treat GREEN as a $1 debt-value input while oracle pricing and actual delivery determine collateral and debt credit
-* **Stability Pool Profits**: Liquidation discounts are calculated from current market prices
+* **Stability Settlement**: Configured liquidation spreads are calculated from usable oracle prices
 * **Interest Rates**: Dynamic rates respond to GREEN's market price
 
 With so much at stake, we've built a pricing system that's both robust and transparent.
@@ -143,11 +143,13 @@ Freshness enforcement is adapter-specific. Blue Chip snapshot routes and Undy va
 
 Ripe does not read an exchange calendar or switch into a separate mode when a stock reference market closes. Price Desk continues to use its ordinary ordered routing and freshness checks. A Stock Token's last published price may remain usable while the configured source still considers it fresh, so market closure alone does not quarantine an account.
 
-If every configured source becomes unusable, Ripe does not substitute an indefinitely cached price. A debt-bearing account whose Stock Token collateral can no longer be valued is handled by the same fail-closed quarantine rules as any other unpriced collateral.
+Robinhood's [oracle guidance](https://docs.robinhood.com/chain/oracles-and-price-feeds/) exposes an advisory `oraclePaused()` flag for corporate-action windows and recommends treating it as temporary price unavailability. Ripe's standard Chainlink adapter does not read that token flag. During pricing it calls `latestRoundData()` and normalizes the result using feed decimals verified and stored when the feed configuration is confirmed, then applies its ordinary answer, round, timestamp, and freshness checks. A still-valid, still-fresh round can therefore remain usable while `oraclePaused()` is true. Once that round is no longer usable, Price Desk tries the next configured source.
+
+If every configured source becomes unusable, Ripe does not substitute an indefinitely cached price. An account with outstanding debt enters valuation quarantine only when the affected Stock Token has nonzero LTV and either a positive balance cannot be priced or a remaining nominal balance lacks usable vault backing.
 
 When a usable source resumes, the next accepted price can revalue the Stock Token in one step. A reference-market reopening gap can therefore change account health abruptly, and subsequent borrowing, withdrawal, redemption, deleverage, and liquidation checks use the recovered price.
 
-Where a Stock Token's configured feed already incorporates an issuer multiplier or corporate-action adjustment, Ripe consumes that adjusted token-level price once; Price Desk does not independently apply the adjustment again. See [Stock Tokens as Collateral](03-collateral-assets.md#stock-tokens-as-collateral).
+A configured Stock Token feed must return the token-level USD price with the applicable corporate-action adjustment already incorporated. Ripe consumes that price once and does not independently read or apply `uiMultiplier()`. See [Stock Tokens as Collateral](03-collateral-assets.md#stock-tokens-as-collateral).
 
 ### What Happens When Prices Go Stale?
 
@@ -155,7 +157,7 @@ Where a Stock Token's configured feed already incorporates an issuer multiplier 
 2. **All Sources Unusable**: A non-strict query reports no price and a strict valuation fails closed; the protocol does not substitute a last-known cached value
 3. **No Feed Available**: New assets without feeds cannot be borrowed against
 
-For an account with outstanding debt, a positive balance of borrowing-power collateral with no usable price — or a recorded balance with no usable vault backing — creates a valuation quarantine:
+For an account with outstanding debt, valuation quarantine arises only from an asset with nonzero LTV: either a positive borrowing-power balance has no usable price, or a remaining nominal balance has no usable vault backing.
 
 * The unavailable collateral contributes no borrowing power
 * New borrowing and withdrawals of collateral that supports the debt are blocked

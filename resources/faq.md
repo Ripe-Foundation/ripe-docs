@@ -26,7 +26,11 @@ Eligible collateral in non-Stability vaults backs only your own borrowing positi
 
 ### Can I borrow against Stock Tokens without selling them?
 
-When a Stock Token is supported and configured with borrowing power, you can deposit it and borrow GREEN without selling it at origination. The collateral is the Stock Token—not an underlying share or fund interest—and Ripe does not create or expand the legal rights attached to it; those rights come from the token's issuer and terms. You retain its economic exposure while you still hold the Stock Token or have a credited vault balance for it. An ordinary withdrawal returns the token, while redemption, deleverage, or liquidation can transfer it away. See [Collateral Assets](../core-protocol/03-collateral-assets.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current support.
+When a Stock Token is supported and configured with borrowing power, you can deposit it and borrow GREEN without selling it at origination. A Robinhood Stock Token is an ERC-20 tokenised debt security issued by Robinhood Assets (Jersey) Limited (RHJ). It provides economic exposure to a referenced equity or ETF, but it is not the underlying share or fund interest and confers no legal or beneficial rights in it.
+
+Ripe is not the Stock Token issuer. Its contracts can custody and transfer supported Stock Tokens through permitted protocol routes, but Ripe support and protocol permissions do not determine investor eligibility. Canonical token identity, Ripe support, and the absence of a protocol whitelist do not establish whether someone may acquire, hold, transfer, or use one. Review RHJ's current [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj).
+
+You retain token-level economic exposure while you hold the Stock Token directly or retain a credited vault balance. A successful permitted ordinary withdrawal returns it to the owner; an authorized deleverage, eligible redemption, or liquidation can transfer some or all of it away. See [Collateral Assets](../core-protocol/03-collateral-assets.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current support.
 
 ### How much can I borrow?
 
@@ -48,11 +52,11 @@ Yes! There are no prepayment penalties, fixed terms, or lockups. Repay any amoun
 
 ### What happens when a Stock Token's reference market is closed?
 
-A closed reference market does not automatically make a Stock Token's price unusable. A source's last published price can remain usable while it satisfies the configured freshness rules. If every configured source becomes unusable, valuation fails closed and a debt-bearing account can enter quarantine until pricing recovers. A reference-market reopening can also produce a sudden price gap, so leave room below your borrowing limit. See [Price Oracles](../core-protocol/06-price-oracles.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current configuration.
+A closed reference market does not automatically make a Stock Token's price unusable. Ripe's standard Chainlink adapter does not read RHJ's advisory `oraclePaused()` flag, so a last published round can remain usable while it passes the configured validity and freshness checks. If that round becomes unusable, Price Desk tries the next configured source. If none is usable, an account with outstanding debt enters quarantine only when the affected Stock Token has nonzero LTV and either a positive balance cannot be priced or a remaining nominal balance lacks usable vault backing. A reference-market reopening can also produce a sudden price gap, so leave room below your borrowing limit. See [Price Oracles](../core-protocol/06-price-oracles.md) for the mechanism and [RIPE Params](https://params.ripe.finance) for current configuration.
 
 ### Can I lose my Stock Tokens while borrowing?
 
-Yes. Borrowing does not sell your Stock Tokens at origination, but an eligible redemption, deleverage, or liquidation can transfer some or all of that collateral away. A severe shortfall can exhaust eligible collateral and still leave debt. Monitor position health, add collateral, or repay before intervention becomes available; see [Liquidations](../core-protocol/04-liquidations.md) and [Deleverage](../core-protocol/05-deleverage.md).
+Yes. Borrowing does not sell your Stock Tokens at origination. Authorized deleverage or eligible redemption can transfer some or all of that collateral before permissionless liquidation eligibility, and an eligible liquidation can also transfer collateral through configured Stability or auction routes. A severe shortfall can exhaust eligible collateral and still leave debt. Monitor position health, add collateral, or repay; see [Liquidations](../core-protocol/04-liquidations.md) and [Deleverage](../core-protocol/05-deleverage.md).
 
 ### When do I get liquidated?
 
@@ -68,7 +72,7 @@ Monitor your position and add collateral or repay debt before reaching these zon
 
 ### What happens if one of my collateral assets cannot be priced?
 
-If debt-bearing collateral has no usable price or backing, the account enters valuation quarantine: new borrowing and debt-supporting withdrawals stop, and new liquidation, redemption, and deleverage passes wait for valuation to recover. Repayment remains available under its normal controls. Quarantine is not itself a liquidation or insolvency finding; see [Price Oracles](../core-protocol/06-price-oracles.md#staleness-protection).
+If an asset with nonzero LTV has a positive balance with no usable price, or a remaining nominal balance with no usable backing, an account with outstanding debt enters valuation quarantine: new borrowing and debt-supporting withdrawals stop, and new liquidation, redemption, and deleverage passes wait for valuation to recover. Zero-LTV assets do not themselves trigger valuation quarantine. Repayment remains available under its normal controls. Quarantine is not itself a liquidation or insolvency finding; see [Price Oracles](../core-protocol/06-price-oracles.md#staleness-protection).
 
 ### What's the difference between redemption and liquidation?
 
@@ -86,11 +90,10 @@ Ripe targets the debt reduction needed to restore safer account health. A limite
 
 [sGREEN](../earning-and-rewards/01-sgreen.md) is yield-bearing GREEN whose backing can increase from the configured share of realized protocol revenue. Your sGREEN balance stays the same while its GREEN value reflects backing per share through:
 
-* Borrower interest payments
-* Origination fees from new loans
-* Protocol revenue distributions
+* Previously accrued borrower interest when a later successful borrow triggers its realization
+* The configured sGREEN share of daowry from successful borrows
 
-No staking or claiming needed — just hold and earn.
+No separate reward claim is needed; when configured revenue is transferred to the vault, it appears in GREEN backing per share.
 
 ### How do stability pools work?
 
@@ -239,6 +242,11 @@ Accepted bond and Reserve Engine payments become treasury assets held by Endaome
 * **Liquidation risk**: Collateral value dropping too fast
 * **Oracle risk**: Incorrect or unavailable price feeds; ordered fallback improves availability but is not cross-source consensus
 * **Interest rate risk**: Dynamic rates during market stress
+* **Stock Token issuer and product risk**: Stock Tokens are RHJ debt securities rather than the underlying shares or fund interests; holders bear issuer and product-term risk and can lose some or all of their investment
+* **Eligibility risk**: Ripe support and the absence of a protocol whitelist do not establish investor eligibility; issuer terms and applicable law determine eligibility and may restrict offers, sales, or delivery
+* **Transaction-execution risk**: Any token- or protocol-level controls, where applicable, can separately affect deposits, withdrawals, or settlement
+
+Review RHJ's current [Base Prospectus, supplements, and applicable Final Terms](https://docs.robinhood.com/rhj) for the product terms and restrictions.
 
 ### Is Ripe audited?
 

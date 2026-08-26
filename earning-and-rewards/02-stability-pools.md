@@ -1,12 +1,10 @@
 ---
-description: Buy liquidated collateral at a configured spread
+description: Acquire configured Stock Tokens and other collateral through Stability settlement
 ---
 
-# Stability Pools: Buy the Dip at a Configured Spread
+# Stability Pools: Acquire Stock Tokens and Other Collateral at a Configured Spread
 
-Forget hunting for dips. Forget timing the market. Forget competing with MEV bots.
-
-Stability pools let deposited liquidity participate in configured liquidation settlement before auction fallback. Participation is passive after deposit, but routing, capacity, pricing, and any rewards remain conditional.
+Stability pools let deposited liquidity participate in configured liquidation settlement for eligible Stock Tokens and other collateral before auction fallback. Participation is passive after deposit, but routing, capacity, pricing, realized results, and any rewards remain conditional.
 
 This is wholesale DeFi liquidations, democratized.
 
@@ -14,24 +12,24 @@ This is wholesale DeFi liquidations, democratized.
 
 ## The Core Proposition
 
-### Instant Arbitrage Opportunities
+### Configured Collateral Acquisition Opportunities
 
-Unlike traditional liquidation systems that require active monitoring and complex bot infrastructure, stability pools democratize liquidation profits:
+After depositing, participants can share in eligible liquidation settlement without bidding on each event:
 
-* **Passive Participation**: Deposit once and automatically participate in liquidations
-* **Fair Distribution**: Profits shared proportionally among all depositors
-* **No Technical Barriers**: No bots, no gas wars, no timing games
-* **Configured Discounts**: Liquidation terms can quote collateral below its oracle value without guaranteeing profit
+* **Passive Participation**: A deposit participates when the asset route, cohort compatibility, and capacity checks pass
+* **Proportional Accounting**: Depositors hold shares in the cohort's valued custody and claims
+* **Separate Transactions**: Deposits, claims, and withdrawals still require their own onchain transactions
+* **Effective Settlement Spread**: The episode's effective spread can make the cohort supply less settlement value than the collateral's oracle value without guaranteeing profit
 
-When a liquidation settles through the vault, settlement custody is consumed and the cohort receives a collateral claim. The realized result depends on the configured spread and subsequent asset prices.
+When a liquidation settles through the vault, settlement custody is consumed and the cohort receives collateral. Depositors continue to hold vault shares; active collateral claims enter cohort NAV through the configured oracle path. The realized result depends on the effective spread and subsequent asset prices.
 
-### Multiple Revenue Streams
+### Multiple Potential Return Sources
 
 Depending on configuration, stability pool participants can combine three distinct sources:
 
-1. **Base Asset Yield**: [sGREEN](01-sgreen.md) continues earning protocol revenue while in the pool
-2. **Liquidation Premiums**: Settle collateral at a configured spread to oracle value
-3. [**RIPE Rewards**](03-ripe-rewards.md): Earn protocol tokens when the position is configured for rewards
+1. **Deposited-Asset Economics**: [sGREEN](01-sgreen.md) remaining in cohort custody retains exposure to changes in GREEN backing per share; settlement redeems and consumes the portion used
+2. **Liquidation Settlement**: The cohort can receive collateral while supplying settlement value at the episode's effective spread
+3. [**RIPE Rewards**](03-ripe-rewards.md): Can accrue protocol tokens only when the position and reward terms are configured
 
 These sources have separate accounting and risks; none guarantees a positive return.
 
@@ -43,13 +41,13 @@ Ripe can configure different Stability-vault settlement assets. Common designs i
 
 **GREEN-pair LP Tokens**
 
-* Earn trading fees while waiting for liquidations
+* Retain exposure to any trading fees accrued under the LP's own pool mechanics
 * Become eligible for RIPE rewards only after deposit when that reward path is configured
 * Transfer to [Endaoment](../core-protocol/07-endaoment.md) treasury when consumed in ordinary Stability settlement
 
 [**sGREEN**](01-sgreen.md) (Savings GREEN)
 
-* Continues earning base yield in the pool
+* Retains exposure to changes in GREEN backing per share while in the pool
 * Redeemed and burned during liquidations
 
 Your deposits are converted to shares representing your proportional claim on the pool's total value — including both deposited assets and accumulated liquidated collateral.
@@ -66,7 +64,7 @@ When a borrower's position needs liquidation:
 4. **Debt receives scaled credit**: Only the settlement value actually supplied, subject to rounding, reduces the liquidation target
 5. **Auction fallback remains**: Any configured auction-eligible remainder can proceed to a Dutch auction
 
-Example: If ETH is worth $2,000 and the configured spread is 10%, the pool supplies $1,800 of settlement value for 1 ETH. The $200 difference is an initial valuation spread, not guaranteed realized profit.
+Example: If hypothetical Stock Token A has an oracle value of $100 and the configured spread is 10%, the pool supplies $90 of settlement value for one token. The $10 difference is an initial valuation spread, not guaranteed realized profit; later price movement, fees, and claim timing can change the outcome.
 
 ### USD Value-Based Accounting
 
@@ -80,25 +78,25 @@ This ensures fair distribution regardless of which assets the pool holds at any 
 
 Reserved claim custody cannot be spent as settlement liquidity. A small claim can remain dormant and directly claimable without entering active NAV until it meets the activation rules.
 
-## The Economics of Liquidation Profits
+## The Economics of Liquidation Settlement
 
-### How Liquidation Fees Become Your Profit
+### How Configured Spreads Affect Pool Value
 
-The protocol's liquidation fee structure directly determines your returns. When a position liquidates:
+The episode's effective Stability spread determines the initial difference between collateral oracle value and the settlement value supplied by the pool. Per-asset liquidation-fee terms first contribute to the account's borrowing-power-weighted fee term; AuctionHouse then derives and can cap the effective spread for that liquidation episode. For example:
 
-* **5% liquidation fee** = You buy collateral at 95% of market value
-* **10% liquidation fee** = You buy collateral at 90% of market value
-* **15% liquidation fee** = You buy collateral at 85% of market value
+* **5% configured spread** = The pool supplies 95% of the collateral's oracle value
+* **10% configured spread** = The pool supplies 90% of the collateral's oracle value
+* **15% configured spread** = The pool supplies 85% of the collateral's oracle value
 
-Actual spreads are configurable by collateral. Oracle behavior, market movement, and claim timing mean a quoted discount does not ensure profitability.
+The percentages above are hypothetical effective spreads, not per-asset live terms. Oracle behavior, market movement, fees, and claim timing mean an initial valuation difference does not ensure profitability.
 
 ### Real-World Scenarios
 
-**During Market Volatility**: Liquidations increase as prices swing, generating more profit opportunities. Your passive position captures value from market stress without active trading.
+**During Market Volatility**: Price swings may produce more eligible liquidations and settlement opportunities. The pool participates when its route and capacity checks pass, but the realized result remains market-dependent.
 
 **In Stable Markets**: Fewer liquidations occur. Underlying asset economics and RIPE rewards continue only when their separate mechanisms and configurations provide them.
 
-**Portfolio Effect**: As liquidations occur across different collateral types, you build a diversified basket of assets acquired at discount — essentially dollar-cost averaging into multiple positions at below-market prices.
+**Portfolio Effect**: As eligible liquidations settle across different collateral types, a cohort can build claims on several configured assets. That basket is not necessarily diversified, and settlement at a configured spread does not guarantee a below-market exit or positive return.
 
 ## Advanced Features
 
@@ -154,7 +152,7 @@ Your shares maintain exposure to the cohort's valued basket until claims or rede
 ### For Yield Seekers
 
 * **Multiple potential return sources** from the deposited asset, liquidation settlement, and configured rewards
-* **Passive income** requiring no active management
+* **Passive participation** after deposit, with realized outcomes dependent on settlement and market conditions
 * **Configured liquidation spreads** whose realized outcome remains market-dependent
 
 ### For Risk-Conscious Users
@@ -166,8 +164,8 @@ Your shares maintain exposure to the cohort's valued basket until claims or rede
 ### For GREEN Ecosystem Supporters
 
 * **Strengthen the protocol** by providing liquidation liquidity
-* **Earn while protecting** the system from bad debt
-* **Accumulate governance power** through RIPE rewards
+* **Potentially earn while supporting** liquidation settlement, without a guaranteed return
+* **Accumulate governance power** only when RIPE rewards are configured, earned, claimed, and deposited into governance
 
 ## The Liquidation Game, Simplified
 

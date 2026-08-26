@@ -14,10 +14,10 @@ This is what happens when you design a treasury to grow wealth, not just hold it
 
 Traditional DeFi protocols face a critical challenge: they must choose between maintaining large idle treasuries for stability or deploying capital for growth. The Endaoment solves this dilemma by creating a dynamic treasury that:
 
-1. **Actively grows protocol wealth** through sophisticated yield strategies
-2. **Defends GREEN's stability** with algorithmic market operations
+1. **Can deploy treasury assets for potential yield** through configured strategy integrations
+2. **Can support GREEN's stability** through authorized market operations
 3. **Executes through Switchboard-authorized actions** rather than an autonomous scheduler
-4. **Creates sustainable revenue** that benefits all protocol participants
+4. **Retains proceeds as treasury assets** for future authorized operations
 
 ## The Three-Contract Architecture
 
@@ -54,7 +54,7 @@ When enabled, it provides conversions between GREEN and its configured six-decim
 ### The Treasury Flywheel
 
 ```
-Bond / Reserve Payments → Treasury Growth → Yield Generation → Protocol Strength
+Bond / Reserve Payments → Treasury Custody → Authorized Operations → Protocol Resources
              ↑                                                      ↓
              └──────────── More User Confidence ←───────────────────┘
 ```
@@ -80,14 +80,14 @@ The Endaoment supports GREEN's peg through Switchboard-authorized market operati
 * Detects when the normalized GREEN balance exceeds the paired-asset balance
 * Removes a bounded amount of GREEN liquidity
 * Burns recovered GREEN up to the pool's recorded debt
-* Market forces push price back to $1
+* The resulting balance change can help move the market price toward $1
 
 **When GREEN Strengthens** (trades above $1):
 
 * Detects when the normalized paired-asset balance exceeds the GREEN balance
 * Adds a bounded amount of GREEN liquidity, using treasury GREEN first
 * May mint new GREEN, tracked as pool debt and limited by the configured ceiling
-* Market forces bring price back to $1
+* The resulting liquidity can help move the market price toward $1
 
 Each adjustment requires a Switchboard-authorized transaction and must pass the configured pool and debt controls; the contracts do not schedule or execute these actions autonomously.
 
@@ -102,7 +102,7 @@ Want to swap GREEN for its configured six-decimal reserve stablecoin around $1? 
 
 **How It Can Defend the Peg**:
 
-These illustrative flows assume the relevant direction is enabled and the applicable reserve, interval, allowlist, and pricing checks pass.
+These illustrative flows assume the relevant direction is enabled, reserve-token pricing is usable, ordinary interval and sender-allowlist checks pass, and the recipient is valid. Redemption also requires sufficient reserve liquidity.
 
 ```
 GREEN below $1?
@@ -112,13 +112,13 @@ GREEN below $1?
 
 GREEN above $1?
 → Arbitrageurs mint GREEN for the configured reserve quote
-→ Sell on market for profit
+→ Sell on market for a potential gross spread before fees and execution costs
 → Selling pressure can help restore the peg
 ```
 
 **Guardrails**:
 
-* Rate limits prevent manipulation
+* Interval limits bound ordinary conversion volume
 * Optional fees on mint/redeem
 * Allowlisting available for controlled rollouts
 * A recognized Underscore-vault recipient bypasses the ordinary allowlist, fee, and interval controls, but minting remains bounded by submitted input and redemption by available reserves
@@ -127,33 +127,13 @@ GREEN above $1?
 
 When a compatible yield position and automatic deposits are configured, the PSM can deposit excess reserves into that vault and pull them back for redemptions. Without that configuration, it simply holds the reserve asset.
 
-Self-sustaining peg defense. That's the idea.
+A bounded peg-support path. That's the idea.
 
-### 3. Multi-Strategy Yield Engine
+### 3. Registered Strategy Integrations
 
-The Endaoment leverages **[Underscore Protocol](https://underscore.finance/)** — an advanced infrastructure that provides standardized integrations (called "Legos") with DeFi protocols. This partnership enables both programmatic treasury management today and AI-driven optimization in the future.
+The Endaoment resolves configured integration adapters, called **Legos**, through the [Underscore Protocol](https://underscore.finance/) registry. A separately authorized action can use a registered adapter to deposit into or withdraw from a yield position, swap tokens, add or remove liquidity, or claim incentives.
 
-**How Underscore Powers the Endaoment:**
-
-* **Unified Interface**: Every yield strategy uses the same standardized commands, whether deploying to Aave or Uniswap
-* **Registry-Based Discovery**: Configured integrations can be resolved without an Endaoment contract upgrade; using them still requires an authorized action
-* **AI-Ready Architecture**: Designed from day one to enable AI agents to analyze and execute complex treasury strategies
-
-**Active Strategies Include:**
-
-* **Lending Protocols**: Earning interest on Aave, Morpho, Euler, Fluid, Compound
-* **Automated Market Makers**: Providing liquidity on Aerodrome, Uniswap, Curve
-* **Liquid Staking**: Capturing ETH staking rewards
-* **Concentrated Liquidity**: Maximizing capital efficiency
-
-**Strategy Allocation**: Authorized allocation decisions can consider:
-
-* Real-time yield comparisons
-* Risk-adjusted returns
-* Liquidity needs
-* Market conditions
-
-**Future AI Integration**: While currently operating through programmatic rules, the Endaoment's architecture is built to support AI treasury managers that could dynamically rebalance across integrated protocols, finding optimal yield opportunities 24/7.
+Registry availability alone does not deploy treasury assets. Each operation requires its own authorized transaction and must pass the Endaoment's adapter access, custody, amount, and transaction-specific minimum checks. Outcomes remain subject to the selected integration and market risk.
 
 ### 4. Strategic Partnership Programs
 
@@ -181,42 +161,35 @@ Every fee the protocol earns? It goes somewhere useful.
 
 ### The Revenue Split
 
-Borrowing fees and interest get split two ways:
+Configured daowry and borrowing-triggered flushed interest are split two ways:
 
-* **RIPE Buybacks**: A portion buys RIPE off the market (good for RIPE holders)
-* **sGREEN Yield**: The rest flows to [sGREEN](../earning-and-rewards/01-sgreen.md) holders
+* **Governance Allocation**: A portion is transferred in GREEN to governance for potential separately authorized buyback use
+* **sGREEN Backing**: The remainder is transferred to [sGREEN](../earning-and-rewards/01-sgreen.md)
 
-The split ratio is adjustable by governance. More borrowing = more revenue = both tokens benefit. See [RIPE Value Accrual](../governance-and-economics/01-ripe-tokenomics.md#ripe-value-accrual-real-revenue-real-buybacks) for the full breakdown.
+The split ratio is adjustable by governance. CreditEngine performs the GREEN transfers but does not purchase RIPE; any later buyback requires a separate authorized action. See [RIPE Value Accrual](../governance-and-economics/01-ripe-tokenomics.md#ripe-value-accrual-revenue-allocation-and-potential-buybacks) for the full breakdown.
 
-### Treasury Yields (Future)
+### Treasury Yields
 
-Right now, all Endaoment earnings stay in the treasury — compounding, growing the war chest.
-
-But governance can change that. Future options include directing treasury yields to:
-
-* **RIPE stakers** — reward the long-term believers
-* **sGREEN holders** — boost returns beyond stability pool earnings
-
-Real yield from real operations. Not inflation. That's the difference.
+Endaoment earnings remain treasury assets unless governance separately authorizes another transfer or use. They are not part of CreditEngine's sGREEN distribution or governance buyback allocation.
 
 ## What Sets The Endaoment Apart
 
 Unlike a passive protocol treasury, the Endaoment combines contract-enforced mechanisms with Switchboard-authorized execution. Authorized actions can:
 
-1. **Generate sustainable yield** without taking excessive risks
-2. **Defend GREEN's stability** through market-based mechanisms
-3. **Grow protocol wealth** in both bull and bear markets
+1. **Deploy assets for potential yield** through configured strategies, subject to strategy risk
+2. **Support GREEN's peg** through authorized market-based mechanisms
+3. **Manage treasury assets** across changing market conditions
 4. **Operate transparently** with all actions verifiable onchain
 
 ## The Compound Effect
 
 Here's what most people miss about treasuries: they're not just backstops. They're growth engines.
 
-Every bond sold adds fuel. Every yield harvest compounds. Every market intervention strengthens the peg. The Endaoment doesn't just protect the protocol—it makes it unstoppable.
+Bond payments, realized yield, and successful market operations can expand the resources available to the treasury and support future authorized actions.
 
 While other treasuries measure success in dollars held, the Endaoment measures it in dollars earned. That's the difference between surviving and thriving.
 
-The treasury is working. The yields are compounding. The protocol is growing.
+Outcomes depend on market performance and authorized execution; no strategy guarantees yield or a fixed GREEN market price.
 
 Are you in?
 

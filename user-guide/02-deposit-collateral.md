@@ -1,12 +1,12 @@
 ---
-description: Deposit a Robinhood Stock Token on the Borrow page to back one unified loan
+description: Deposit Stock Tokens and other supported collateral to back one unified loan
 ---
 
-# Deposit a Robinhood Stock Token as Collateral
+# Deposit Stock Tokens and Other Collateral
 
 A supported Robinhood Stock Token — called a **Stock Token** below — can join other eligible [collateral](../core-protocol/03-collateral-assets.md) in one GREEN loan. Each asset follows its configured terms; only deposits with nonzero borrowing terms add borrowing power.
 
-**Step 1.** Go to app.ripe.finance/robinhood and press **Connect Wallet** (top right).
+**Step 1.** Go to [app.ripe.finance/robinhood](https://app.ripe.finance/robinhood) and press **Connect Wallet** (top right).
 
 **Step 2.** Open the **Borrow** page from the left menu. It lists the collateral assets configured for that network and shows each asset's terms in the table.
 

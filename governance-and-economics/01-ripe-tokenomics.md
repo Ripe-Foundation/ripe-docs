@@ -188,39 +188,36 @@ The protocol can freeze contracts in emergencies but cannot steal vested tokens.
 
 _For deep technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/contributor)_._
 
-## RIPE Value Accrual: Real Revenue, Real Buybacks
+## RIPE Value Accrual: Revenue Allocation and Potential Buybacks
 
 Most governance tokens are worthless. Vote on stuff, hope number goes up.
 
-RIPE actually captures protocol revenue. Every loan fee, every interest payment — a portion goes straight to buying RIPE off the market.
+Successful borrowing can generate configured daowry and can flush accrued borrower interest. CreditEngine splits that GREEN revenue between sGREEN backing and a governance allocation for potential separately authorized buyback use.
 
 ### How the Buyback Split Works
 
 ```
-Protocol Revenue (Fees + Interest)
+CreditEngine Revenue
+(Daowry + Borrow-Triggered Interest Flush)
               ↓
     ┌─────────┴─────────┐
     ↓                   ↓
-RIPE Buybacks     sGREEN Yield
+Governance GREEN   sGREEN Backing
+Allocation
 ```
 
-Governance sets the split. More protocol usage = more revenue = more buybacks. Simple math.
+Governance sets the split. CreditEngine transfers the configured allocation in GREEN to governance; it does not purchase RIPE.
 
-**What happens to bought RIPE?** Can be distributed to stakers or burned. Either way, it's value flowing to holders instead of sitting in a treasury doing nothing.
-
-### Underscore Adds More
-
-All performance fees from [Underscore](https://underscore.finance/) vaults? 100% goes to RIPE buybacks. The AI-powered yield strategies generate fees, those fees buy RIPE. More money working for token holders.
+Any later RIPE purchase, burn, or distribution is a separate authorized action outside this revenue-split transaction.
 
 ### The Full Picture
 
 | Revenue Source | Where It Goes |
 |----------------|---------------|
-| Borrowing fees (Daowry) | Split: buybacks + sGREEN |
-| Interest payments | Split: buybacks + sGREEN |
-| Underscore performance fees | 100% RIPE buybacks |
+| Configured borrowing fee (Daowry) | Split between sGREEN backing and a GREEN transfer to governance |
+| Borrow-triggered flushed accrued interest | Split between sGREEN backing and a GREEN transfer to governance |
 
-Three revenue streams. All flowing to token holders. That's how you build sustainable tokenomics.
+The governance allocation can support a later buyback only through a separate authorized action.
 
 ## The Bottom Line: Own the Future, Not the Hype
 
