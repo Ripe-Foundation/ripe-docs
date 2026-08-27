@@ -1,147 +1,154 @@
 ---
-description: One Loan. Every Asset. Maximum Power.
+description: Don't sell your stocks. Borrow against them.
 ---
 
-# Ripe Protocol: One Loan. Every Asset. Maximum Power.
+# Ripe Protocol: Don't Sell Your Stocks. Borrow Against Them.
 
-DeFi lending works great — if you're willing to manage five different vaults. But most people aren't. Five vaults for five assets isn't how people think about their wealth. Your tokenized stocks? Worthless as collateral. Your yield-bearing tokens? Just sitting there, unused.
+Deposit tokenized stocks — and the rest of your portfolio — and borrow GREEN, a dollar stablecoin, against all of it in one loan. No bank. No credit check. No selling. Your shares stay yours, and so does the upside.
 
-Ripe simplifies everything. Your entire portfolio — crypto, RWAs, jpegs, everything — backs ONE loan. Finally, borrowing that understands what a portfolio actually is.
+Wealthy families have borrowed against their portfolios for a century instead of selling. Ripe puts the same move onchain, for anyone holding a stock token.
+
+> **Live terms live onchain.** Which assets are supported, their LTVs, rates, fees, and which optional features are switched on vary by deployment and change over time. Every number in these docs is an example. [Params](https://params.ripe.finance) is the source of truth.
 
 ***
 
 ## The Problem: DeFi Thinks Your Assets Live in Silos
 
-**Isolated Vaults** (MakerDAO, Liquity) ETH in one vault. WBTC in another. Five assets? Five loans. Five liquidation risks. It's 2025 and we're still pretending portfolios don't exist.
+**Isolated Vaults** (MakerDAO, Liquity) One asset, one vault. Five assets? Five loans. Five liquidation risks. We're still pretending portfolios don't exist.
 
 **Shared Risk Pools** (Aave, Compound)\
-Your ETH backs someone else's degen trade. Their bad debt? Your problem. Oh, and forget about using tokenized stocks or treasury bills.
+Your collateral backs someone else's degen trade. Their bad debt? Your problem. And forget about using stock tokens at all.
 
-**"Innovation" That Isn't** (Morpho, Euler) Slightly better rates. Same old isolation. Each market fragments liquidity further. The future looks exactly like the past.
+**"Innovation" That Isn't** (Morpho, Euler) Slightly better rates. Same old isolation. Each market fragments liquidity further.
 
-## The Ripe Solution: Unified Multi-Collateral Lending
+## The Ripe Solution: One Loan, Every Asset
 
 ```
-Your Portfolio:              Traditional:           Ripe:
-┌─────────────┐             ┌─────────────┐       ┌─────────────┐
-│ 5 ETH       │ ──────────> │ ETH Loan #1 │       │             │
-│ 2 WBTC      │ ──────────> │ WBTC Loan #2│       │  ONE LOAN   │
-│ 10K USDC    │ ──────────> │ USDC Loan #3│  ───> │  GREEN      │
-│ RWA tokens  │ ──────────> │ Can't use   │       │  All Assets │
-│ T-bills     │ ──────────> │ Can't use   │       │  Working    │
-└─────────────┘             └─────────────┘       └─────────────┘
-                            5 positions to          1 unified
-                            manage, limited         position,
-                            assets                  everything works
+Your Portfolio:             Traditional:           Ripe:
+┌──────────────┐            ┌──────────────┐      ┌─────────────┐
+│ Stock tokens │ ─────────> │ Stock loan   │      │             │
+│ ETH          │ ─────────> │ ETH loan     │      │  ONE LOAN   │
+│ Stablecoins  │ ─────────> │ Stable loan  │ ───> │  GREEN      │
+│ Yield tokens │ ─────────> │ Yield loan   │      │  Everything │
+│ Other assets │ ─────────> │ Other loan   │      │  working    │
+└──────────────┘            └──────────────┘      └─────────────┘
+                            Five positions         One position,
+                            to babysit             one rate, one
+                                                   number to watch
 ```
 
 ***
 
 ## Core Protocol
 
+#### 📈 [Stock Tokens on Ripe](core-protocol/00-stock-tokens.md)
+
+The whole point. What a stock token is inside Ripe, how it's priced when markets are closed, what corporate actions do, and exactly which events can move your tokens.
+
+* **Keep the upside** — Borrowing never sells your tokens
+* **Market hours, explained** — The last price holds while the feed is fresh; the reopen gap lands in one step
+* **Your tokens leave three ordinary ways** — You withdraw, a redemption, or a liquidation
+
 #### 🟢 [GREEN: The Stablecoin That Actually Does Something](core-protocol/01-green-stablecoin.md)
 
 USDC sits there. DAI does nothing. GREEN? It's working.
 
-* **Mint it** by borrowing against literally anything
-* **Stays at $1** through five mechanisms that actually work
-* **Burns on repayment** — no infinite supply games
+* **Minted, not lent** — Borrowing creates GREEN against your collateral; there's no lender on the other side
+* **Targets $1** — Six mechanisms pull it back toward the peg, from arbitrage to treasury operations
+* **Burns on repayment** — No infinite supply games
 
-#### 💰 [Borrowing: Your Whole Portfolio, One Loan](core-protocol/02-borrowing.md)
+#### 💰 [Borrowing: One Loan, Your Whole Portfolio](core-protocol/02-borrowing.md)
 
-Stop juggling vaults. Stop wasting collateral. Just borrow.
+Stop juggling vaults. Deposit, borrow, done.
 
-* **Total portfolio power** — Add up everything, borrow once
-* **Smart rates** — Emergency rates only when GREEN needs defending
-* **Partial liquidations** — Lose some, not all
+* **One position** — Every asset with borrowing power backs the same loan, at one blended rate
+* **Smart rates** — Your rate only rises when GREEN needs defending, and it's capped
+* **Repay on your schedule** — No term, no prepayment penalty
 
-#### 🏦 [Collateral Assets: Everything Has Value](core-protocol/03-collateral-assets.md)
+#### 🏦 [Collateral: Everything Has a Job](core-protocol/03-collateral-assets.md)
 
-From stablecoins to tokenized stocks, from blue-chip crypto to your favorite PFP — if it has value, it can back your loan.
+Stock tokens, blue-chip crypto, stablecoins, yield-bearing positions. Each contributes its own terms to one loan.
 
-* **Unified positions** - All assets support one loan
-* **Weighted terms** - Each asset contributes its best LTV
-* **Extensible vaults** - Support for future asset types
+* **Weighted terms** — Safer assets pull your rate and thresholds toward their numbers
+* **Collateral that keeps earning** — Staked ETH keeps staking while it backs your loan
+* **Your risk is only yours** — Your collateral backs your loan and nobody else's
 
-#### 🛡️ [Liquidations: Protection Through Innovation](core-protocol/04-liquidations.md)
+#### 🛡️ [Liquidations: A Slice, Not the Plate](core-protocol/04-liquidations.md)
 
-Four layers of defense. Partial liquidations only. You keep most of your collateral.
+If a position goes underwater, Ripe takes what it needs to make it healthy again. You keep the rest.
 
-* **Redemption buffer** - GREEN holders delever you at $1 (no penalty)
-* **Your assets first** - Burns your sGREEN/stables before touching collateral
-* **Stability pools** - Instant liquidity at fixed 5-15% discounts
-* **Dutch auctions** - Time-based pricing for remaining collateral
+* **Two warning zones first** — Redemption and deleverage give you room before liquidation
+* **Stability Pools, then auctions** — Orderly settlement, no market dumps
+* **Honest limit** — A severe shortfall can take all liquidation-eligible collateral and still leave debt
+
+#### 🧯 [Deleverage: Reduce Risk Before It's Too Late](core-protocol/05-deleverage.md)
+
+Spend the sGREEN and stablecoins you already hold in Ripe to pay debt down, before anyone can force the issue.
+
+* **No fee** — No liquidation fee, no keeper fee
+* **Your stock tokens stay put** — Deleverage protects the position; it doesn't spend it
+* **Any time** — With specific assets, there's no threshold to wait for
 
 ## Earning & Rewards
 
-#### 💎 [sGREEN: Set It and Forget It Yield](earning-and-rewards/01-sgreen.md)
+#### 💎 [sGREEN: Set It and Forget It](earning-and-rewards/01-sgreen.md)
 
-GREEN that grows while you sleep. No strategies. No management. Just yield.
+Hold sGREEN and your balance's GREEN value rises as borrowers pay fees and interest.
 
-* **All fees flow here** — Borrowing fees, liquidation fees, everything
-* **Zero lockup** — Your money, your timeline
-* **Still liquid** — Use in stability pools while earning
+* **Protocol revenue** — Origination fees and borrower interest flow to sGREEN
+* **No lockup** — Redeem for GREEN whenever you like
+* **Stackable** — Deposit sGREEN into a Stability Pool for liquidation proceeds on top
 
-#### 🎯 [Stability Pools: Buy the Dip Automatically](earning-and-rewards/02-stability-pools.md)
+#### 🎯 [Stability Pools: Buy Liquidated Stock Tokens Below Market](earning-and-rewards/02-stability-pools.md)
 
-Forget MEV bots. Deposit, wait, profit from liquidations.
+Deposit once. When a position is liquidated, the pool buys the collateral at the liquidation spread and you own your share of it.
 
-* **5-15% discount** on ETH, BTC, whatever gets liquidated
-* **Triple income** — sGREEN yield + liquidation profits + RIPE rewards
-* **Zero effort** — Smart contracts do the work
+* **Liquidation spread** on every asset routed through the pool
+* **Three income sources** — sGREEN yield, liquidation proceeds, RIPE rewards
+* **No bots, no gas wars** — Deposit, wait, claim
 
-#### 🪙 [RIPE Rewards: Earn by Using the Protocol](earning-and-rewards/03-ripe-rewards.md)
+#### 🪙 [RIPE Rewards: Get Paid to Use the Protocol](earning-and-rewards/03-ripe-rewards.md)
 
-Earn RIPE by using the protocol. Time-weighted rewards ensure fair distribution.
+Borrow, stake, or deposit and you accrue RIPE every block.
 
-* **250M RIPE** community incentives distributed over 10 years (shared with bonding)
-* **Four ways to earn** - Borrow, stake, deposit, vote
-* **Auto-staking** - Compound directly to governance
+* **Time-weighted** — Size × time, so a smaller position held longer can out-earn a whale's quick visit
+* **Four categories** — Stakers, borrowers, depositors, voters
+* **Auto-staking** — Part of every claim goes straight into governance
 
 ## Governance & Economics
 
 #### 📊 [RIPE Tokenomics: Aligned Incentives](governance-and-economics/01-ripe-tokenomics.md)
 
-Understanding the 1 billion RIPE token distribution and vesting schedules that power the protocol.
-
-* **Fixed supply** - 1B cap with bad debt exception
-* **Community first** - 25% for rewards, largest unlocking allocation
-* **Transparent vesting** - All schedules enforced onchain
-* **Strategic funding** - Bootstrapped with only $1.87M raised
+* **1 billion RIPE, total, across every chain** — One cap for the whole protocol, with one deliberate exception for bad-debt recovery
+* **Community first** — 25% for users; the only bucket unlocking from day one
+* **Team and investors locked longer** — An extra year on top of vesting
+* **Bootstrapped** — $1.87M put to work, only $550K of it outside capital
 
 #### 🏛️ [Governance: Power Through Time](governance-and-economics/02-governance.md)
 
-Lock RIPE tokens to accumulate voting power and earn protocol rewards.
+Lock RIPE, stack governance points every block, and earn from the staker allocation while you wait.
 
-* **Time multipliers** - Up to 3x power for 3-year locks
-* **Staker rewards** - Earn from protocol emissions
-* **Future control** - Guide protocol evolution
+* **Time multipliers** — Longer locks earn points faster
+* **Staker rewards** — Locked RIPE earns from protocol emissions
+* **Future control** — Points become voting weight when onchain voting ships
 
 #### 🎟️ [Bonds: Fund the Future](governance-and-economics/03-bonds.md)
 
-Exchange stablecoins for discounted RIPE, supporting protocol growth.
+Trade stablecoins for RIPE at the epoch price. Lock it for a bonus. Your payment becomes treasury capital.
 
-* **Instant or locked** - Up to 3x tokens for commitment
-* **Bond Boosters** - Bonus rewards for ecosystem contributors
-* **Permanent funding** - Builds the Endaoment treasury
+#### 🏦 [RIPE Reserve Engine: RIPE That Vests](governance-and-economics/04-reserve-engine.md)
 
-#### 🏰 [The Endaoment: Autonomous Treasury](core-protocol/07-endaoment.md)
+A second way to acquire RIPE: pay up front, choose a vesting length, get a bigger allocation for a longer wait.
 
-Self-sustaining treasury that works 24/7 defending GREEN and generating yield.
+#### 🏰 [The Endaoment: A Treasury That Works](core-protocol/07-endaoment.md)
 
-* **Multi-strategy yields** - Optimized across DeFi
-* **Peg defense** - Automated market operations
-* **Partner programs** - Collaborative liquidity
+Bond and Reserve Engine payments become protocol-owned capital that governance can deploy for yield, liquidity, and peg defense.
 
 ## Resources
 
-#### 🔮 [Price Oracles: Accurate Asset Valuation](core-protocol/06-price-oracles.md)
+#### 🔮 [Price Oracles: The Truth About Your Money](core-protocol/06-price-oracles.md)
 
-Multi-oracle system ensuring fair and manipulation-resistant pricing.
-
-* **Five oracle providers** - Chainlink, Curve, Pyth, Stork, and yield-token pricing
-* **Automatic fallbacks** - No single point of failure
-* **Staleness protection** - Always current prices
+Ripe checks its price sources in priority order and uses the first good answer. No good answer? It fails closed rather than guessing.
 
 #### 🛡️ [Security Audits: Published Assessments](resources/audits.md)
 
@@ -167,10 +174,9 @@ Explore Ripe's evolution from early conception through years of refinement to pr
 Other protocols: "Pick one: safe OR efficient."\
 Ripe: "Why not both?"
 
-* **Your collateral, your loan** — No sharing risk with degens
-* **Everything counts** — From ETH to tokenized gold to treasury bills
-* **Any asset works** — If it has value, you can borrow against it
-* **Sleep easy** — Your position doesn't care what others do
+* **Your collateral, your loan** — Nobody else's blowup touches your position
+* **Everything counts** — Stock tokens, ETH, stablecoins, yield positions, all in one loan
+* **Sleep easy** — One number to watch, and two warning zones before anything is forced
 
 ***
 
@@ -178,11 +184,12 @@ Ripe: "Why not both?"
 
 Have questions? Check our comprehensive [**FAQ**](resources/faq.md) for answers to:
 
-* How is GREEN different from DAI or USDC?
-* What happens during liquidations?
-* How are RIPE rewards calculated?
-* What makes Ripe's multi-collateral system unique?
-* How does sGREEN generate yield?
+* Can I borrow against tokenized stocks without selling them?
+* What happens to my stock tokens when the market is closed?
+* Can I lose my stock tokens while borrowing?
+* What happens if Ripe can't price one of my assets?
+* When do I get liquidated?
+* What is sGREEN?
 * And much more...
 
 **→** [**Read the FAQ**](resources/faq.md)
@@ -191,26 +198,26 @@ Have questions? Check our comprehensive [**FAQ**](resources/faq.md) for answers 
 
 ## Pick Your Play
 
-Four ways to win. All of them better than watching your assets do nothing.
+Four ways to put your assets to work. All of them better than watching them do nothing.
 
-### 🟢 **The Easy Button**: Buy sGREEN, Earn Forever
+### 🎯 **The Stock Move**: Borrow Without Selling
 
-Swap to sGREEN. Close laptop. Come back richer. That's it.\
-**→** [**Get sGREEN Now**](earning-and-rewards/01-sgreen.md)
-
-### ⚡ **The Liquidation Game**: Buy ETH at 90 Cents on the Dollar
-
-Someone else overleveraged? Their loss, your gain. Stability pools turn liquidations into profit.\
-**→** [**Join the Pools**](earning-and-rewards/02-stability-pools.md)
-
-### 🎯 **The Power Move**: One Loan to Rule Them All
-
-Your tokenized Tesla shares + ETH + treasury bills + that yield position = One massive loan. Finally.\
+Your stock tokens + your ETH + your stablecoins = one GREEN loan. Keep the upside, get the liquidity.\
 **→** [**Start Borrowing**](core-protocol/02-borrowing.md)
+
+### 🟢 **The Easy Button**: Hold sGREEN
+
+Swap to sGREEN. Close laptop. Your balance's GREEN value climbs with protocol revenue.\
+**→** [**Get sGREEN**](earning-and-rewards/01-sgreen.md)
+
+### ⚡ **The Liquidation Game**: Buy the Dip Automatically
+
+Someone overleveraged their stock position? The Stability Pool buys the collateral below market, and you own your share of it.\
+**→** [**Join the Pools**](earning-and-rewards/02-stability-pools.md)
 
 ### 🏗️ **The Long Game**: Lock RIPE, Run the Protocol
 
-Governance power grows with time. Lock today, control tomorrow.\
+Governance power grows with time. Lock today, steer tomorrow.\
 **→** [**Lock and Lead**](governance-and-economics/02-governance.md)
 
 ***
@@ -220,7 +227,7 @@ Governance power grows with time. Lock today, control tomorrow.\
 ### Connect & Learn
 
 * **Discord**: [Join our community](https://discord.gg/hightop) — Get help, share strategies, and connect with other users
-* **Twitter/X**: [@RipeProtocol](https://x.com/ripe_dao) — Latest updates and announcements
+* **Twitter/X**: [@ripe_dao](https://x.com/ripe_dao) — Latest updates and announcements
 * **Blog**: [Medium](https://medium.com/ripe-finance) — Deep dives and protocol insights
 * **GitHub**: [ripe-foundation](https://github.com/Ripe-Foundation/ripe-protocol) — Open source code and development
 
@@ -232,19 +239,13 @@ Governance power grows with time. Lock today, control tomorrow.\
 
 ***
 
-## The Real Vision: Unlocking $16 Trillion
+## The Real Vision
 
-Here's what matters: By 2030, $16 trillion in real-world assets will be tokenized. Stocks. Real estate. Gold. Treasury bills.
+Public equities are moving onchain. Stocks first; bonds, funds, and other real-world assets behind them. Every other lending protocol was built for crypto-native collateral and treats a tokenized share as an afterthought.
 
-Traditional DeFi can't handle them. Too risky. Too different. Too complicated.
+Ripe was built for this moment: a tokenized stock is as easy to borrow against as ETH, in the same loan, with the same rules. As more of the world's assets get tokenized, the same architecture takes them in.
 
-Ripe was built for this moment. When your tokenized Tesla shares are as easy to borrow against as your ETH. When that tokenized apartment in São Paulo unlocks liquidity for its owner. When a farmer in Guatemala can finally access capital using tokenized land.
-
-Every other protocol is fighting over the same $500B in crypto. We're building for the $16 trillion that's coming.
-
-One loan. Every asset. The future of finance.
-
-Welcome to lending that actually makes sense.
+Don't sell. Borrow. Even the ones you bought at the top. Especially those.
 
 ***
 

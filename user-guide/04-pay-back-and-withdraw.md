@@ -8,13 +8,14 @@ description: Repay GREEN and take your collateral back out
 
 ![The payback dialog, showing Approve on first use](../.gitbook/assets/user-guide-10-payback-modal.png)
 
-**Step 2.** Enter how much GREEN to pay back, part or all. The MAX button fills in the full balance of whatever you're paying with.
+**Step 2.** Choose where the money comes from and how much. Two sources, and they work differently:
 
-You don't have to pay from your wallet, and you don't have to pay in GREEN. The dropdown in the dialog also accepts [sGREEN](../earning-and-rewards/01-sgreen.md) and GREEN/USDG LP, and the **Source** toggle lets you pay straight from what you have deposited in the [Stability Pool](../earning-and-rewards/02-stability-pools.md) instead of your wallet. If you built up Earn positions in [Get GREEN and provide liquidity](05-provide-liquidity.md), this is a way to clear debt without touching your wallet at all.
+* **From your wallet:** GREEN or [sGREEN](../earning-and-rewards/01-sgreen.md). sGREEN is converted to GREEN and applied to your debt. The button reads **Approve** the first time — that's the token permission; approve it and the button becomes Payback. The MAX button pays everything you owe and refunds any excess (as sGREEN).
+* **From your Stability Pool deposits:** flip the **Source** toggle to pay straight from sGREEN or LP tokens you've already deposited on Earn. This runs [deleverage](../core-protocol/05-deleverage.md) rather than a normal repayment: your pool position is spent to pay down the debt, no approval needed. It's the way to clear debt without touching your wallet — and it never touches your stock tokens.
 
-The button reads **Approve** the first time, not Payback. That's the one-time permission for the token you're paying with; approve it in your wallet and the button becomes Payback. Your debt ratio improves as soon as the payment lands.
+Your debt ratio improves as soon as the payment lands.
 
-**Step 3.** To take collateral out, use the **-** control on the asset's row in the collateral table (the **+** deposits, the **-** withdraws). You can withdraw anything not needed to cover your remaining debt. Repaid everything? Then you can withdraw everything.
+**Step 3.** To take collateral out, use the **-** control on the asset's row in the collateral table (the **+** deposits, the **-** withdraws). You can withdraw anything not needed to cover your remaining debt, with a small buffer: Ripe keeps your debt just under your borrowing limit, so you can't withdraw right up to the edge. Repaid everything? Then you can withdraw everything. Withdrawals are blocked while a position is in liquidation — repay or add collateral to get out of it first.
 
 **Step 4.** Confirm in your wallet, then check your wallet balance.
 

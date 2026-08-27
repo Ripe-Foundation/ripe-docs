@@ -1,5 +1,5 @@
 ---
-description: Borrow GREEN against your deposits, and keep the position healthy
+description: Borrow GREEN against your stock tokens, and keep the position healthy
 ---
 
 # Borrow GREEN
@@ -16,10 +16,10 @@ description: Borrow GREEN against your deposits, and keep the position healthy
 
 **Step 4.** Choose what you receive and where it goes. This is easy to miss and it matters:
 
-* **Receive Token:** **GREEN** (the plain stablecoin) or **Savings GREEN** ([sGREEN](../earning-and-rewards/01-sgreen.md), which earns yield automatically).
-* **Destination:** **Wallet** (it lands in your wallet, ready to spend or move) or **Stability Pool** (it goes straight to work [earning](../earning-and-rewards/02-stability-pools.md), with the APY shown right there).
+* **Receive Token:** **GREEN** (the plain stablecoin) or **Savings GREEN** ([sGREEN](../earning-and-rewards/01-sgreen.md), whose GREEN value rises with protocol revenue).
+* **Destination:** **Wallet**, or **Stability Pool** to put it straight to work [earning](../earning-and-rewards/02-stability-pools.md). The Stability Pool option only applies to Savings GREEN: the borrow wraps your GREEN into sGREEN and deposits it in one go. Plain GREEN always lands in your wallet.
 
-If you're borrowing to spend the money, choose GREEN and Wallet. If you're borrowing to put the money to work, sending it straight to the Stability Pool saves you a separate deposit.
+If you're borrowing to spend, choose GREEN and Wallet. If you're borrowing to earn, Savings GREEN into the Stability Pool saves you a separate deposit.
 
 **Step 5.** Press **Borrow** and confirm in your wallet.
 
@@ -27,12 +27,12 @@ If you're borrowing to spend the money, choose GREEN and Wallet. If you're borro
 
 **What to watch afterward:** your Debt Status on the Borrow page (and Debt Ratio on the Dashboard). It reads **No Debt** before you borrow and **Healthy** while you have comfortable room, with your debt shown against the Max Borrow and Liquidation markers. If your collateral loses enough value, your position can be [liquidated](../core-protocol/04-liquidations.md).
 
-The Dashboard shows the same position as a **Debt Ratio** card, which spells out how the number is calculated and the ratio at which liquidation happens. Same information, two vocabularies: the Borrow page gives you a word, the Dashboard gives you the percentage behind it.
+The Dashboard shows the same position as a **Debt Ratio** card, which spells out how the number is calculated and the ratio at which liquidation happens. Same information, two vocabularies.
 
 ![The Dashboard's view of an active loan, with the Debt Ratio explained](../.gitbook/assets/user-guide-16-dashboard-debt.png)
 
-**Stock collateral behaves differently on weekends.** The [price feeds](../core-protocol/06-price-oracles.md) for stocks pause when markets close, so inside the protocol your stock collateral holds its last price for roughly two days. That does not make you safe during the pause. You can still be liquidated in that window in two ways: if your position was already at the liquidation point when the feed froze, or if other collateral that keeps moving, WETH for instance, falls far enough to push you there on its own.
+**Stock collateral behaves differently on weekends.** Stock price feeds follow market hours, so when the market closes your stock collateral holds its last price inside Ripe for as long as the feed's freshness window allows (if the window runs out first, the token has no price until reopening and your account waits, repay-only). Holding Friday's price does not make you safe during the pause. You can still be liquidated in that window in two ways: if your position was already at the liquidation point when the feed stopped, or if other collateral that keeps moving — WETH, for instance — falls far enough to push you there on its own.
 
-And when feeds resume, the stock price updates in one step rather than drifting. If the stock fell while markets were closed, your position absorbs the whole move at once instead of giving you time to react. Borrow with enough room that a weekend gap doesn't decide anything for you.
+And when the market reopens, the stock price updates in one step rather than drifting. If the stock fell while markets were closed, your position absorbs the whole move at once. Borrow with enough room that a weekend gap doesn't decide anything for you. [Stock Tokens on Ripe](../core-protocol/00-stock-tokens.md#market-hours-and-weekend-gaps) has the full picture, including what happens if a price goes missing entirely.
 
 Next: [Pay back and withdraw](04-pay-back-and-withdraw.md).

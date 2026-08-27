@@ -1,313 +1,136 @@
 ---
-description: One loan. Every asset. Maximum efficiency.
+description: Stock tokens, blue-chip crypto, stablecoins, yield positions — all backing one loan.
 ---
 
 # Collateral Assets
 
-That's Ripe Protocol. While other lending protocols make you open separate positions for each asset (exhausting) or limit you to "safe" tokens only (boring), Ripe does something radical: it treats your portfolio like a portfolio. Your ETH, your yield-bearing positions, your stablecoins, even your NFTs — they all work together to back a single GREEN loan with weighted terms. No juggling. No wasted capital. Just pure efficiency.
+Start with your stock tokens. Add your WETH, your stablecoins, your staked ETH. Ripe treats the lot as one portfolio backing one GREEN loan, with each asset contributing its own terms. No vault per asset. No idle capital. Your collateral backs your loan and nobody else's.
 
-## Why Ripe's Approach is Different
+> **Live terms live onchain.** Which assets are supported, their LTVs, deposit caps, and which optional features are switched on vary by deployment and change over time. Every number on this page is an example. [Params](https://params.ripe.finance) is the source of truth.
 
-### The Problem with Traditional Lending
+## One Portfolio, One Loan
 
-Most DeFi protocols force you into one of two suboptimal models:
+Most DeFi lending forces a choice. Isolated markets give you one loan per asset — five assets, five positions, five liquidation risks. Pooled lending makes your deposits back everyone else's loans, so it only accepts a short list of "safe" tokens.
 
-**Isolated Markets**: Each asset creates a separate loan position
-
-* Deposit ETH → Manage one position
-* Deposit cbBTC → Manage another position
-* One liquidation doesn't help the others
-* Complex management across multiple positions
-
-**Pooled Lending**: Shared risk limits asset acceptance
-
-* Only blue-chip assets allowed
-* Your deposits back everyone's loans
-* Bad actors affect all depositors
-* Innovation stifled by conservative parameters
-
-### Ripe's Solution: Best of Both Worlds
-
-Ripe combines portfolio efficiency with individual risk isolation:
+Ripe does neither:
 
 ```
-Your Multi-Asset Portfolio = One GREEN Loan
-┌───────────────────────────────────────────┐
-│  ETH    USDC    WBTC    PEPE    stETH     │
-│  $10k   $5k     $15k    $100    $50k      │
-│  80%    90%     80%     50%     85%       │ <- Individual LTVs
-│  ↓      ↓       ↓       ↓       ↓         │
-│  ═══════════════════════════════════════  │
-│           COMBINED COLLATERAL             │
-│           Total Value: $80,100            │
-│           Borrowing Power: $67,585        │
-│                     ↓                     │
-│         SINGLE GREEN LOAN POSITION        │
-│         Up to $67,585 GREEN               │
-│                                           │
-│  • One loan, one interest rate            │
-│  • One health factor to monitor           │
-│  • All assets contribute to backing       │
-│  • Your risk isolated from others         │
-└───────────────────────────────────────────┘
+Your portfolio                         Ripe
+┌──────────────────────────┐    ┌──────────────────────────┐
+│ Stock tokens    60% LTV  │    │ One GREEN loan           │
+│ WETH            70% LTV  │ ─> │ Weighted rate & limits   │
+│ Stablecoin      80% LTV  │    │ One health number        │
+│ Staked ETH      70% LTV  │    │ Your risk, only yours    │
+└──────────────────────────┘    └──────────────────────────┘
 ```
 
-This architecture enables support for virtually any asset while maintaining protocol safety — your collateral backs only your loans, not a shared pool.
+Each asset keeps its own LTV, rate, and thresholds; they blend into one position by borrowing power. See [Weighted Debt Terms](02-borrowing.md#weighted-debt-terms-explained).
 
-## The Universe of Supported Assets
+## Stock Tokens as Collateral
 
-Ripe's extensible architecture can support a vast and growing universe of tokenized value:
+Ripe holds stock tokens one-for-one: deposit 10 tokens and your position records 10 tokens. Borrowing GREEN against them never sells them, lends them out, or touches them — if the stock rises, your collateral rises with it. Each token is priced by its feed, corporate actions included; when the market is closed, the last price holds for as long as the feed's freshness window allows.
 
-**1. Stablecoins** - The foundation of stability
+Everything stock-specific — custody, pricing, market hours, corporate actions, issuer terms, and exactly which events can move your tokens — is on [Stock Tokens on Ripe](00-stock-tokens.md).
 
-* **USDC, USDT**: Major centralized stablecoins with deep liquidity
-* **USDS**: Decentralized stablecoin from Sky Protocol
-* **Yield-bearing stables**: Interest-earning stable assets
-* Typically offer 80-90% LTV ratios due to price stability
+## Asset Categories
 
-**2. Blue-Chip Crypto** - Established digital assets
+Ripe can support any ERC-20 with a reliable price feed, once governance adds it. Terms are set per asset — a stablecoin gets a higher LTV than a volatile token — and every category below is a tier, not a list of what's live.
 
-* **WETH**: Wrapped Ethereum, the DeFi standard
-* **WBTC/cbBTC**: Bitcoin representations on Ethereum
-* **Major DeFi tokens**: AAVE, UNI, CRV, and other protocol tokens
-* **Layer 1 tokens**: SOL, AVAX, XRP, HYPE (when bridged)
-* Provide strong borrowing power with proven track records
+**1. Tokenized stocks and other real-world assets.** Stock tokens today; bonds, funds, and commodities as they come onchain. Some carry issuer-level transfer rules that Ripe respects.
 
-**3. Yield-Bearing Assets** - Earn while you borrow
+**2. Stablecoins.** USDC and other dollar tokens, plus yield-bearing stables. The highest LTVs, because the price barely moves.
 
-* **Liquid staking**: stETH, rETH, cbETH continue earning staking rewards
-* **LP tokens**: Uniswap, Curve, Balancer positions keep earning fees
-* **Vault tokens**: Yield-generating vault positions
-* Share-based accounting preserves all accumulated yields
+**3. Blue-chip crypto.** WETH, WBTC, and other established tokens with deep liquidity and reliable price feeds.
 
-**[Underscore](https://underscore.finance/) Vaults** - The premier yield-bearing collateral
+**4. Yield-bearing assets.** Staked ETH (stETH-type tokens), LP tokens, and vault shares. They keep earning while they back your loan — Ripe's share accounting credits the yield to you.
 
-Underscore's AI-powered vaults (ERC4626) are the recommended way to earn yield while using assets as collateral:
+Supported [Underscore](https://underscore.finance/) vault shares are one example: they keep earning inside the vault while deposited on Ripe. The [Earn-vault rate discount](02-borrowing.md#underscore-earn-vault-integration) applies to the vault when it borrows, not to you for depositing its shares.
 
-* **Always optimizing**: AI agents continuously rebalance strategies even while your vault tokens are locked as collateral on Ripe
-* **Multiple asset types**: USD, ETH, BTC, and other strategies available
-* **Continuous yield**: Vaults keep earning while serving as your collateral
-* **Preferential borrowing**: Underscore vaults receive [discounted rates](02-borrowing.md#underscore-earn-vault-integration) when borrowing GREEN
-
-Deposit into Underscore vaults, then use those vault tokens as collateral in Ripe — the AI keeps working to maximize your yield while you borrow against it.
-
-**4. Tokenized Real-World Assets** - Bridging traditional finance
-
-* **Securities**: Tokenized stocks, bonds, ETFs
-* **Commodities**: Gold, silver, oil representations
-* **Real estate**: Property-backed tokens
-* **Carbon credits**: Environmental assets
-* Special handling for regulatory compliance
-
-**5. NFTs & Unique Assets** - Beyond fungible tokens
-
-* **Blue-chip collections**: Punks, Apes, Penguins as collateral
-* **Art NFTs**: Generative and 1/1 pieces
-* **Gaming items**: Weapons, land, characters
-* **Music/Media**: Royalty-bearing NFTs
-* Lower LTVs (30-50%) but still productive capital
-
-**6. Emerging Digital Assets** - The new frontier
-
-* **Prediction shares**: Tokenized prediction market positions
-* **Meme coins**: PEPE, SHIB, and community tokens
-* **Social tokens**: Creator coins and DAO tokens
-* **AI tokens**: Emerging AI protocol tokens
-* Conservative parameters reflect higher volatility
+**5. Emerging assets.** Newer tokens with less history get conservative terms — a low LTV, or none at all.
 
 ## How Deposits Work
 
-### Vault Types Explained
+### Vault Types
 
-Ripe automatically routes your deposits to specialized vaults:
+Each asset is assigned to a vault whose accounting fits how the token behaves. You just deposit; Ripe picks the vault.
 
-**Simple Erc20 Vaults** - Standard tokens (ETH, USDC, most assets)
+**Simple ERC-20 vaults** — plain tokens, including stock tokens. Your balance is the exact token count you deposited. These vaults are strict: a deposit only counts once the exact amount has arrived, and a withdrawal only completes if the exact amount can leave. If the token refuses a transfer, the transaction fails rather than half-completing.
 
-* Direct 1:1 balance tracking
-* Simple deposit/withdraw mechanics
-* Most common vault type
+**Rebase and share vaults** — yield-bearing tokens whose balances grow. You hold shares of the vault's balance, so yield accrues to you. Withdrawals from these vaults tolerate rounding dust and credit what actually leaves.
 
-**Rebase Erc20 Vaults** - Yield-bearing assets (stETH, aTokens)
+**Governance vault** — lock RIPE for [governance](../governance-and-economics/02-governance.md) power. Not collateral.
 
-* Share-based accounting preserves yields
-* Compound earnings while deposited
-* No opportunity cost from collateralization
+**Stability Pools** — deposit sGREEN or an LP token to [buy liquidated collateral](../earning-and-rewards/02-stability-pools.md) below market. Never collateral.
 
-**Special Purpose Vaults**
+**Future vault types** — NFTs and other assets that need their own custody or accounting. No NFT vault exists yet; new vault types plug in without touching existing ones.
 
-* [**Ripe Gov Vault**](../governance-and-economics/02-governance.md): Lock RIPE tokens for governance power
-* [**Stability Pools**](../earning-and-rewards/02-stability-pools.md): Earn from liquidations with sGREEN/LP tokens
-* **Future Vaults**: NFTs, RWAs, and emerging asset types
+### Deposit Limits
 
-### The Power of Extensibility
+Deposit limits are set per asset, in token units:
 
-Ripe's vault system is designed to be infinitely extensible. As new asset types emerge or special requirements arise, the protocol can deploy new vault implementations without disrupting existing operations:
+* **Per-user cap** — the most one account can hold of an asset in its vault. You can deposit up to the cap minus your current balance.
+* **Global cap** — the most the vault can hold of that asset in total. Caps let an asset earn trust before it becomes a big share of GREEN's backing.
+* **Minimum balance** — a floor so dust positions don't exist. A deposit or withdrawal has to leave you at zero or at least the minimum.
+* **Max vaults and assets** — a ceiling on how many vaults one account can use and how many assets per vault.
 
-* **Custom Logic**: Each vault type can implement specific behaviors for its assets
-* **Future-Proof**: Support for assets that don't exist yet
-* **Seamless Integration**: New vaults plug into the existing ecosystem
-* **Innovation Ready**: From NFT fractionalization to real-world asset settlements
-
-This extensibility ensures Ripe can adapt to any tokenized value the future brings — whether it's gaming assets requiring special metadata, regulated securities needing compliance hooks, or entirely new token standards we haven't imagined yet.
-
-The protocol automatically selects the right vault — you just deposit.
-
-### Deposit Limits and Controls
-
-Each asset has configurable parameters that protect the stability of GREEN, our stablecoin:
-
-**Why Limits Matter**
-
-Since deposited assets serve as collateral backing GREEN loans, the protocol must prevent any single asset from becoming too dominant. If 90% of GREEN were backed by one volatile asset, its price swings could destabilize the entire system. Limits ensure diversified, resilient backing.
-
-**Per-User Limits**
-
-* Maximum deposit per user per asset
-* Prevents whale dominance in specific assets
-* Ensures broad distribution of risk
-* Maintains fair access for all participants
-
-**Global Limits**
-
-* Protocol-wide caps per asset type
-* Controls each asset's percentage of total GREEN backing
-* Gradual increases as assets prove stability and liquidity
-* Protects stablecoin integrity during market stress
-
-**Minimum Balances**
-
-* Small position requirements
-* Prevents dust accumulation
-* Ensures meaningful participation
-* Reduces computational overhead
-
-These limits adapt over time through governance, balancing growth opportunities with prudent risk management. As assets demonstrate stability and liquidity deepens, limits can expand while maintaining GREEN's robust backing.
+Governance raises or lowers these over time.
 
 ## Making Withdrawals
 
-### Withdrawal Mechanics
+Withdraw any time your position stays healthy. No queue, no waiting period, partial or full.
 
-Withdrawals respect your overall position health:
+How much you can take out depends on the asset's LTV, your current debt with interest, and what your other collateral covers. Ripe keeps a 1% buffer: after the withdrawal, your debt has to sit at or under about 99% of your max borrow capacity.
 
-1. **Free Collateral**: Withdraw assets above borrowing needs
-2. **Health Check**: Ensure position remains safe
-3. **Instant Processing**: No waiting periods or queues
-4. **Partial or Full**: Take what you need, leave the rest
-
-### Understanding Available Withdrawals
-
-Your withdrawal capacity depends on:
-
-* **Unused collateral** not backing loans
-* **Asset-specific LTVs** determining borrowing power
-* **Current debt levels** and interest accrued
-* **Overall health factor** maintaining safety
-
-Example:
+**Example:**
 
 ```
-Deposited: $10,000 ETH
-Borrowed: $5,000 GREEN (at 80% LTV)
-Required: $6,250 collateral
-Available to withdraw: $3,750 worth of ETH
+Deposited:    $10,000 ETH at 70% LTV
+Borrowed:     $5,000 GREEN
+
+Required collateral = $5,000 × 1.01 ÷ 0.70 = $7,214.29  (1% buffer)
+Available to withdraw ≈ $2,785.71 of ETH
 ```
+
+Once you're over max LTV, no withdrawals go through — not even assets with a 0% LTV — until you repay or add collateral. Your tokens can also leave through redemption (in the redemption zone) or liquidation (past the liquidation threshold). See [Key Safety Thresholds](02-borrowing.md#how-thresholds-work-together-a-visual-guide).
 
 ## Earning While Deposited
 
-### Automatic Reward Accumulation
-
-Every deposit earns RIPE rewards through the protocol's points system:
+Deposits can earn RIPE through the points system while rewards are switched on:
 
 ```
-Points = Deposit Value × Blocks Held
-Share = Your Points / Total Points
-Rewards = Your Share × Emissions
+Points  = Deposit value × Blocks held
+Share   = Your points / Total points
+Rewards = Your share × Emissions
 ```
 
-Time matters as much as size — smaller deposits held longer can out-earn whale positions.
+Time counts as much as size. Deposit categories, vote-selected bonuses, and Stability Pool and governance-vault rewards are all covered on [RIPE Rewards](../earning-and-rewards/03-ripe-rewards.md).
 
-### Reward Categories
+## Delegation
 
-**General Depositors** - All deposits earn base rewards
+You can let another address act on your position. Two kinds of permission:
 
-* USD-weighted fair distribution
-* No special requirements
-* Passive income on all assets
+* **Account-wide, off by default:** `canAnyoneDeposit`, `canAnyoneRepayDebt`, `canAnyoneBondForUser`. Anyone can add collateral, repay, or bond for you — none of these can move value out.
+* **Per delegate:** `canWithdraw`, `canBorrow`, `canClaimFromStabPool`, `canClaimLoot`. Grant them to a specific address; revoke any time.
 
-**Vote Depositors** - Community-selected bonus rewards
+Withdrawals always land in your wallet, even when a delegate triggers them. But a delegate with borrow or withdraw rights can still hurt your position — borrowing to your limit, or withdrawing the collateral that keeps you healthy. Delegate to addresses you control or trust.
 
-* Higher allocations for chosen assets
-* Governance participation benefits
-* Strategic deposit opportunities
+Useful for team treasuries, automated strategies, and smart-wallet setups.
 
-**Special Rewards** - Enhanced earnings in specific vaults
+## Asset-Specific Permissions
 
-* [Stability pool](../earning-and-rewards/02-stability-pools.md) deposits earning dual yields
-* [Governance Vault](../governance-and-economics/02-governance.md) staking with multipliers
-* Future special purpose incentives
-
-For a detailed exploration of the RIPE rewards system, including emission schedules, point calculations, and maximization strategies, see [RIPE Block Rewards](../earning-and-rewards/03-ripe-rewards.md).
-
-## Advanced Features
-
-### Delegation System
-
-Grant specific permissions to other addresses:
-
-* **Deposit Rights**: Allow others to add collateral
-* **Withdrawal Rights**: Delegate withdrawal capabilities
-* **Full Flexibility**: Revoke permissions anytime
-* **Smart Wallet Compatible**: Works with Underscore smart wallets, including those used by Hightop for agent-managed accounts
-
-Use cases:
-
-* Team treasury management
-* Automated strategy execution
-* Family account structures
-* Protocol integrations
-
-### Whitelisted Assets
-
-Some assets require special access:
-
-* **Tokenized Securities**: KYC/AML verification
-* **Institutional Assets**: Accredited investor status
-* **Beta Features**: Early access programs
-* **Regulated Tokens**: Compliance requirements
-
-The protocol handles permissions transparently — you'll know if an asset requires approval.
+* Some tokens carry issuer-level rules — allowlists, blocklists, pauses — that Ripe can't override.
+* Governance can put an asset behind a whitelist; the app tells you if you need approval.
+* Which exit paths an asset uses — redemption, Stability Pool, auction — is set per asset.
 
 ## Why Deposit in Ripe?
 
-### Immediate Benefits
+* **Every asset works.** Stock tokens, crypto, stablecoins, yield positions — one loan.
+* **Collateral that keeps earning.** Staked and vault positions keep compounding while they back your debt.
+* **Your risk is only yours.** Your collateral backs your loan, not a shared pool.
+* **RIPE rewards** on deposits, no lock-up on ordinary collateral.
 
-* **Earn RIPE rewards** on all deposits automatically
-* **No lock-ups** on general deposits (withdraw anytime)
-* **Productive collateral** - yields continue accumulating
-* **Portfolio approach** reduces liquidation risk
-
-### Long-term Value
-
-* **Early participant advantages** in growing protocol
-* **Governance participation** shapes the future
-* **Network effects** as more assets join
-* **Innovation pipeline** supporting new asset types
-
-### Capital Efficiency
-
-* **One position** instead of many to manage
-* **Cross-collateralization** maximizes borrowing power
-* **Lower liquidation risk** through diversification
-* **Optimized parameters** for each asset type
-
-## The Power of True Portfolio Lending
-
-Forget everything you know about DeFi borrowing. No more juggling ten different positions. No more leaving half your assets idle because they're "not supported." No more choosing between earning yield or accessing liquidity.
-
-With Ripe, your Aave positions keep earning. Your NFTs become productive. That random memecoin moonshot? It's collateral now. One loan, weighted terms, every asset working.
-
-This isn't just another lending protocol — it's how DeFi lending should have worked from day one.
+Don't sell your stocks. Put them to work.
 
 ***
 
-_For technical implementation details, see the_ [_Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/teller)
+_For technical implementation details, see the_ [_Teller Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core/teller)_._

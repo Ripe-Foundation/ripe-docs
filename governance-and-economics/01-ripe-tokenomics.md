@@ -6,35 +6,36 @@ description: Where Early Believers Win
 
 Every DeFi token promises "fair distribution." Then VCs dump on retail.
 
-RIPE flips the script. Community gets tokens first. Team waits a year. Early backers paid 2 cents while builders self-funded development. Now 250 million RIPE flows to users who actually use the protocol.
+RIPE flips the script. Community gets tokens first. Team and investors wait — and then wait a year longer than their vesting says. Early backers paid 2 cents while builders self-funded development. Now 250 million RIPE flows to the people who actually use the protocol.
 
 One small seed round at $0.02 after 2+ years of building. Just builders who bet their own money and users who show up early.
 
-> **📊 Tokenomics at a Glance**
->
-> * **Fixed supply**: 1B RIPE (mint beyond cap only if RIPE Bonds are triggered to cover bad debt)
-> * **Community first**: 25% of supply goes to user incentives; this is the only bucket that begins unlocking at TGE via block rewards & bonding
-> * **All unlocks onchain**: Immutable vesting contracts you can audit today
+> **Live terms live onchain.** Reward rates, bond terms, lock settings, and the revenue split vary by deployment and change over time. Allocations, dates, and the supply cap on this page are stated policy; every other number is an example. [Params](https://params.ripe.finance) is the source of truth.
 
-For a deep dive into how RIPE powers the protocol—including [staking rewards](../earning-and-rewards/03-ripe-rewards.md), protocol fees via [sGREEN](../earning-and-rewards/01-sgreen.md), [governance participation](02-governance.md), and treasury building through [bond sales](03-bonds.md)—explore these detailed guides. Full onchain governance will launch post-TGE once the community owns sufficient supply.
+**Tokenomics at a glance**
+
+* **1 billion RIPE, total, across every chain** — one cap for the whole protocol, with one deliberate exception for bad-debt recovery
+* **Community first** — 25% of supply goes to user incentives, the only bucket unlocking from day one
+* **Team and investors locked longer** — an extra year on top of vesting
+* **All vesting onchain** — contributor contracts you can audit today
 
 ## Token Allocation: Community-First Distribution
 
-The 1 billion RIPE supply is allocated across five key stakeholder groups, with the largest portion dedicated to community incentives:
+The 1 billion RIPE supply is split across five groups, with the largest share going to the community:
 
 ![RIPE Token Allocation](https://miro.medium.com/v2/format:webp/1*2OWDZIl3gjqJl_B6JXyyaw.png)
 
 ### Community Incentives (25% - 250M RIPE)
 
-Block rewards, bonding discounts, and LP rewards that directly incentivize protocol usage and growth. This is the only allocation that begins distributing at TGE.
+Block rewards, bonding discounts, and LP rewards that pay people for using the protocol. The only allocation distributing from TGE.
 
 ### Ripe Foundation Treasury (22.2% - 222M RIPE)
 
-Long-term liquidity provisions, strategic partnerships, ecosystem grants, and marketing initiatives to ensure protocol sustainability.
+Long-term liquidity, strategic partnerships, ecosystem grants, and marketing.
 
 ### Core Contributors (20.6% - 206M RIPE)
 
-Compensation for 2.5 years of full-time protocol development already completed, plus ongoing development through the 4-year vesting period, ensuring the team remains committed to building and improving the protocol.
+Compensation for 2.5 years of full-time development already done, plus ongoing work through a 4-year vesting period.
 
 ### Distribution Partner - Hightop (15% - 150M RIPE)
 
@@ -42,64 +43,63 @@ Strategic distribution partner behind Hightop, a digital banking product for AI 
 
 ### Early Backers (17.2% - 172M RIPE)
 
-Seed investors who provided capital and strategic guidance during testnet development, helping accelerate the path to mainnet launch.
+Seed investors who provided capital and strategic guidance during testnet development.
+
+## Supply Cap: One Billion, Everywhere
+
+RIPE is capped at 1 billion tokens, total, across every chain it lives on. One cap for the whole protocol — not one per chain. It holds in every case but one.
+
+* **Bad debt.** If liquidations ever leave the protocol with bad debt, [bonds](03-bonds.md) can clear it, and the RIPE paid to those bond buyers can be issued beyond the 1 billion. This is the single exception, and it is deliberate: the alternative is leaving GREEN under-backed, so the shortfall is socialized across RIPE holders instead. It's tracked separately from ordinary bond distribution, so anyone can see how much was issued this way and when.
+* **Bridging.** Cross-chain transfers are designed as burn-and-mint: RIPE is burned on one side and minted on the other. Supply moves; it doesn't grow.
+
+No single token contract encodes the aggregate number. Governance administers the cap across chains, and each chain's token only mints for contracts governance has approved. [Rewards](../earning-and-rewards/03-ripe-rewards.md), [bonds](03-bonds.md), the [Reserve Engine](04-reserve-engine.md), and contributor pay each draw on their own accounting allowance rather than a pile of pre-minted tokens.
 
 ## Emission Schedule: Sustainable Token Release
 
-The graph below shows the RIPE Token emission schedule by category for years 1 to 10 following TGE.
+The graph below shows RIPE emissions by category for years 1 to 10 after TGE. It shows the underlying category schedules; the extra one-year lock described below sits on top.
 
 ![RIPE Emission Schedule](https://miro.medium.com/v2/format:webp/1*HQcm7_N9ZD6hbEn3-OUp9Q.png)
 
-### Hard Cap with Emergency Provision
-
-The RIPE supply is strictly capped at 1 billion tokens with one carefully designed exception: if the protocol ever needs to cover bad debt that exceeds treasury reserves, it can auction [RIPE Bonds](03-bonds.md) to raise funds. These emergency tokens would be minted beyond the cap, transparently diluting all holders to socialize losses fairly.
-
 ### Vesting Schedules by Category
-
-Community Incentives stand alone as the only allocation unlocking from day one, ensuring immediate protocol activity:
 
 **Community Incentives (Unlocking Now)**
 
-* **First Unlock**: Immediate at TGE
-* **Release Length**: 10+ years
-* **Pattern**: Dynamic distribution via block rewards, bonding discounts, and governance
+* **First unlock**: Immediate at TGE
+* **Release length**: 10+ years
+* **Pattern**: Dynamic — block rewards, bonds, and governance set the pace
 
-**Core Contributors (Locked First Year)**
+**Core Contributors**
 
-* **First Unlock**: 12 months from TGE
-* **Total Length**: 4 years
-* **Release Pattern**: 25% unlocked at month 12, then linear vesting over 36 months
-* **Example**: A contributor with 1M RIPE allocation receives 250K at month 12, then \~694 RIPE per day
+* **Vesting**: Linear from each contributor's start date over 4 years
+* **Where it goes**: Vested RIPE is cashed into a governance-vault position (details below)
 
-**Ripe Foundation, Distribution Partner & Early Backers (Aligned Schedules)**
+**Ripe Foundation, Distribution Partner & Early Backers**
 
-* **First Unlock**: 12 months from TGE
-* **Total Length**: 3 years
-* **Release Pattern**: 33% unlocked at month 12, then linear vesting over 24 months
-* **Example**: An early backer with 1M RIPE receives 330K at month 12, then \~931 RIPE per day
+* **Agreed schedule**: 33% releasable at month 12, then linear over the following 24 months
+* **Example**: A 1M RIPE allocation releases 330K at month 12, then the remaining 670K over 730 days — about 918 RIPE a day
+
+## Release Schedule: The Extra Year
+
+Every investor and every employee agreed to a one-year lock on top of their vesting schedule. TGE was June 26, 2025. The earliest date any investor allocation releases or any employee position transfers is **June 26, 2027**. Vesting keeps running in the meantime — contributors can cash vested RIPE into the governance vault throughout — but nothing leaves those hands before that date.
 
 ## Early Backers: Bootstrap to Launch
 
 ### Capital Efficiency Through Self-Funding
 
-Ripe Protocol represents a new model for DeFi development—bootstrapped primarily by its builders. Since committing [full-time](https://medium.com/hightop/hightop-sunset-ripe-sunrise-b2559ff9a7e4) to the protocol, the team has deployed $1.87M in capital:
+Ripe was bootstrapped mostly by its builders. Since committing [full-time](https://medium.com/hightop/hightop-sunset-ripe-sunrise-b2559ff9a7e4) to the protocol, the team has put $1.87M to work:
 
 **Core Contributor Funding**: $1.32M
 
 * Self-funded by the founding team
-* Covered operational expenses, legal structure, and security audits
-* Demonstrates deep personal commitment to the protocol's success
+* Covered operations, legal structure, and security audits
 
 **Seed Round**: $550K (February 2025)
 
 * Raised via Ripe Foundation at $0.02 per RIPE
 * Implied fully diluted valuation: $20M
-* First external capital after 2+ years of development
-* Funds ongoing operational expenses and launch preparation
+* First outside capital after 2+ years of development
 
 ### Strategic Seed Investors
-
-The seed round brought together a carefully selected group of strategic partners who share the vision for sustainable DeFi:
 
 **Institutional Partners**
 
@@ -115,95 +115,53 @@ The seed round brought together a carefully selected group of strategic partners
 * **Doug Leonard**: Founder of [HiFi Finance](https://hifi.finance/)
 * **AJ Taylor**: Founder of [Etherfuse](https://www.etherfuse.com/)
 
-These early supporters bring diverse perspectives from across DeFi, helping guide the protocol's development while sharing in its long-term success through aligned vesting schedules.
+## How Vesting Works: Onchain Contracts
 
-## How Vesting Works: Immutable Smart Contracts
-
-### Smart Contract Automation
-
-Unlike traditional vesting that relies on lawyers and spreadsheets, Ripe Protocol enforces all token distributions entirely onchain. Each contributor, foundation member, and investor receives a personalized smart contract that:
-
-* **Automatically calculates** vested tokens using linear formulas
-* **Enables claiming** anytime after cliff periods pass
-* **Locks tokens** in governance vault for continued participation
-* **Enforces terms** immutably without any manual intervention
-
-### The Vesting Process
-
-**1. Token Release**
+Each contributor, foundation member, and investor gets a personal vesting contract. No lawyers, no spreadsheets:
 
 ```
 Vested Amount = Total Allocation × (Time Elapsed / Vesting Duration)
 ```
 
-Tokens vest continuously—every block brings contributors closer to their full allocation.
+* **Vesting is linear from the start date.** Every block moves the number up.
+* **Cash any time.** Vested RIPE can be cashed at any point. It's minted straight into a locked position in the [governance vault](02-governance.md), where it earns governance points like any other locked RIPE. A governance freeze on the contract stops cashing, and so does a protocol-wide pause on RIPE minting.
+* **The cliff only matters if the contract is cancelled.** Cancel before the cliff and the whole allocation is forfeited — the vault position included, which is burned. Cancel after it and vested RIPE is cashed out first; only the unvested remainder returns to the contributor allowance. (A frozen contract can't cash, so cancelling while frozen forfeits whatever hasn't been cashed.)
+* **Transfer is a separate unlock.** Once the contract's unlock date passes, moving the vault position from the contract to the owner's own address is a two-step process: initiate, wait, confirm. The RIPE stays in the governance vault on the contract's lock terms.
 
-**2. Claiming Tokens**
+Every contract is public: total allocation, schedule, claimed versus remaining, and the unlock date are all readable onchain. Governance can freeze or cancel a contract; cancellation follows the cliff rule above.
 
-* Contributors can claim vested RIPE anytime (daily, monthly, or in bulk)
-* Claimed tokens are minted and deposited into the [Governance Vault](02-governance.md)
-* Tokens remain locked but gain full voting power immediately
+_For technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury/contributor)_._
 
-**3. Unlocking for Transfer**
-
-* After the unlock period (varies by group), tokens become transferable
-* Two-phase security process: initiate → wait → confirm
-* Protects against compromised accounts and hasty decisions
-
-### Transparency & Security
-
-Every vesting contract is visible onchain, allowing anyone to verify:
-
-* Total allocation and vesting schedule
-* Tokens claimed vs. remaining
-* Exact unlock dates
-* No hidden terms or backdoors
-
-The protocol can freeze contracts in emergencies but cannot steal vested tokens. If someone leaves early, unvested tokens return to treasury while vested amounts remain claimable—ensuring fairness for all parties.
-
-_For deep technical details on the vesting system, see the_ [_Contributor contract documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury-and-rewards/contributor)_._
-
-## RIPE Value Accrual: Real Revenue, Real Buybacks
+## RIPE Value Accrual
 
 Most governance tokens are worthless. Vote on stuff, hope number goes up.
 
-RIPE actually captures protocol revenue. Every loan fee, every interest payment — a portion goes straight to buying RIPE off the market.
-
-### How the Buyback Split Works
+RIPE sits behind real revenue. Every origination fee and every dollar of realized interest is GREEN, and governance decides how to split it:
 
 ```
-Protocol Revenue (Fees + Interest)
+Protocol Revenue (Origination Fees + Realized Interest)
               ↓
     ┌─────────┴─────────┐
     ↓                   ↓
-RIPE Buybacks     sGREEN Yield
+sGREEN Yield     Governance Allocation
 ```
 
-Governance sets the split. More protocol usage = more revenue = more buybacks. Simple math.
-
-**What happens to bought RIPE?** Can be distributed to stakers or burned. Either way, it's value flowing to holders instead of sitting in a treasury doing nothing.
-
-### Underscore Adds More
-
-All performance fees from [Underscore](https://underscore.finance/) vaults? 100% goes to RIPE buybacks. The AI-powered yield strategies generate fees, those fees buy RIPE. More money working for token holders.
-
-### The Full Picture
+Today the split is 100% to [sGREEN](../earning-and-rewards/01-sgreen.md). Governance can move a share to its own allocation. The protocol sends that GREEN to governance; whether to buy RIPE with it is a separate governance action, made in the open.
 
 | Revenue Source | Where It Goes |
 |----------------|---------------|
-| Borrowing fees (Daowry) | Split: buybacks + sGREEN |
-| Interest payments | Split: buybacks + sGREEN |
-| Underscore performance fees | 100% RIPE buybacks |
+| Origination fees (daowry) | Split between sGREEN and governance — all to sGREEN today |
+| Realized interest | Same split |
 
-Three revenue streams. All flowing to token holders. That's how you build sustainable tokenomics.
+More usage, more revenue, more flowing to holders. Simple math.
 
 ## The Bottom Line: Own the Future, Not the Hype
 
 RIPE isn't another VC exit scam dressed up as "community ownership."
 
-Founders self-funded for 2.5 years. Locked for another year after launch. Early backers paid real money at a fair price. Every token unlock happens onchain where you can audit it.
+Founders self-funded for 2.5 years. Early backers paid real money at a fair price. Both agreed to an extra year on top of vesting — nothing of theirs releases before June 26, 2027. Every vesting contract is onchain where you can audit it.
 
-But here's what matters: 250 million RIPE goes to users. Not eventually. Now. Through [block rewards](../earning-and-rewards/03-ripe-rewards.md) that started at TGE. Through [bonds](03-bonds.md) that let you buy at discounts. Through actual usage, not Twitter campaigns.
+But here's what matters: 250 million RIPE goes to users. Not eventually. Now. Through [rewards](../earning-and-rewards/03-ripe-rewards.md) that started at TGE. Through [bonds](03-bonds.md) and the [Reserve Engine](04-reserve-engine.md) that trade capital and patience for RIPE. Through actual usage, not Twitter campaigns.
 
 The protocol that wins is the one that survives. The one that survives is the one people own.
 

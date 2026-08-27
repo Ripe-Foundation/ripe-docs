@@ -5,7 +5,7 @@
 ## User Guide
 
 * [Getting Set Up](user-guide/01-getting-set-up.md)
-* [Deposit Collateral](user-guide/02-deposit-collateral.md)
+* [Deposit Stock Tokens](user-guide/02-deposit-collateral.md)
 * [Borrow GREEN](user-guide/03-borrow-green.md)
 * [Pay Back and Withdraw](user-guide/04-pay-back-and-withdraw.md)
 * [Get GREEN and Provide Liquidity](user-guide/05-provide-liquidity.md)
@@ -14,6 +14,7 @@
 
 ## Core Protocol
 
+* [Stock Tokens on Ripe](core-protocol/00-stock-tokens.md)
 * [GREEN Stablecoin](core-protocol/01-green-stablecoin.md)
 * [Borrowing](core-protocol/02-borrowing.md)
 * [Collateral Assets](core-protocol/03-collateral-assets.md)
@@ -33,6 +34,7 @@
 * [RIPE Tokenomics](governance-and-economics/01-ripe-tokenomics.md)
 * [Governance](governance-and-economics/02-governance.md)
 * [Ripe Bonds](governance-and-economics/03-bonds.md)
+* [RIPE Reserve Engine](governance-and-economics/04-reserve-engine.md)
 
 ## Resources
 
@@ -44,4 +46,5 @@
 
 * [Technical Documentation](https://ripe-finance.gitbook.io/ripe-developers)
 * [Deployed Contracts](https://ripe-finance.gitbook.io/ripe-developers/deployments)
+* [Live Parameters](https://params.ripe.finance)
 * [GitHub](https://github.com/Ripe-Foundation/ripe-protocol)

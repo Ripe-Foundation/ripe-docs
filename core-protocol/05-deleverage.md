@@ -1,159 +1,135 @@
 ---
-description: Proactive Debt Reduction Without Liquidation Penalties
+description: Pay down debt with your own assets. No fee.
 ---
 
 # Deleverage: Reduce Risk Before It's Too Late
 
 Getting liquidated sucks. The fees, the forced selling, the stress.
 
-But what if you could reduce your debt before things get ugly? That's what deleveraging does. Sell some collateral, pay down debt, stay in control. No liquidation penalties. No keeper fees. Just a rational way to manage risk.
+Deleveraging is the alternative: use the sGREEN and stablecoin positions you already hold in Ripe to pay down debt. No liquidation fee. No keeper fee. Your own assets protecting your own position, and your stock tokens stay out of it.
 
-Even better: if you're using Ripe's stability pools, the protocol can automatically burn your GREEN or sGREEN to reduce your debt. Your own assets, used to protect your own position.
+> **Live terms live onchain.** Which assets can be used for deleverage, and the buffers and limits around it, vary by deployment and change over time. Every number on this page is an example. [Params](https://params.ripe.finance) is the source of truth.
 
 ## Quick Overview
 
-**What is Deleverage?**
-
-Deleveraging is the voluntary (or protocol-assisted) sale of collateral to reduce debt. Unlike liquidation, it happens before you reach the danger zone and carries no penalties.
+Two ways: **specific assets** (you choose what to use and how much to repay) and **broad** (others deleverage you once you're in the redemption zone).
 
 **Key Differences:**
 
 | Aspect | Deleverage | Liquidation |
 |--------|------------|-------------|
-| When it happens | Before liquidation threshold | After liquidation threshold |
-| Who triggers it | You, delegated addresses, or third parties (when eligible) | Anyone (keepers) |
-| Penalties | None | 5-15% + keeper fees |
-| Your control | You choose which assets | Protocol chooses for you |
-| Remaining collateral | Maximized | Minimized by fees |
+| When | Specific assets: any time, even during liquidation. Broad: once you're in the redemption zone | At or past the liquidation threshold |
+| Who triggers it | Specific assets: you, a `canBorrow` delegate, or a trusted protocol. Broad: anyone | Anyone (keepers) |
+| What's used | Your sGREEN and stablecoin positions | Stock tokens, WETH, other volatile collateral |
+| Fees | None | Liquidation fee + keeper fee |
+| Your control | You pick the assets and the amount | The protocol picks |
+
+Paying GREEN from your wallet is ordinary repayment, not deleverage.
 
 ## When Can You Be Deleveraged?
 
-### Self-Deleveraging (Always Available)
+### Self-Deleveraging with Specific Assets
 
-You can always deleverage your own position:
-
-* Choose which assets to sell
-* Specify exactly how much debt to repay
-* No threshold requirements
-* No permissions needed
+You choose which of your sGREEN or stablecoin positions to use, in what order, and how much debt to repay. It works any time: no threshold, no permission needed, even while you're in liquidation. A delegate you've given `canBorrow`, or a trusted protocol, can do the same for you.
 
 ### Third-Party Deleveraging (Redemption Zone)
 
-When your position enters the **redemption zone**, others can help deleverage you:
+Once your collateral value is at or below your redemption threshold, anyone can deleverage you through the broad path:
 
-* Triggered when collateral value falls below redemption threshold
-* Third parties can initiate deleverage to restore your position health
-* Limited to the amount needed to return you to a safe LTV
-* Still no liquidation penalties applied
+* Capped at the debt reduction that restores your health; nobody can take more
+* Still no fee
+* Not available while you're in liquidation
+
+If you call the broad path on your own account, you're treated like a third party: same zone requirement, same cap. Use specific assets instead.
 
 ## How Deleveraging Works
 
-When deleveraging occurs, assets are processed in priority order:
+Assets are used in a fixed order:
 
-**Phase 1: Stability Pool Assets**
+**Phase 1: Your Stability Pool Positions**
 
-Your assets in stability pools are used first:
+* **sGREEN** is redeemed to GREEN and burned
+* **LP tokens** are transferred to the treasury at oracle value
+* Each dollar cancels a dollar of debt
 
-* **GREEN deposits**: Burned directly to reduce your debt
-* **sGREEN deposits**: Redeemed to GREEN, then burned
-* No slippage, no fees, no market impact
-* Most efficient form of debt repayment
+**Phase 2: Stablecoin Collateral**
 
-**Phase 2: Stablecoins and Other Collateral**
+* USDC and other stablecoins are transferred to the treasury at oracle value
+* No discount
 
-After stability pool assets, remaining collateral is processed:
+Assets without a deleverage path are skipped. Stock tokens and other volatile collateral aren't used, so deleverage protects your stock position; it doesn't spend it. (Governance holds two emergency tools that can move volatile collateral at oracle value — a volatile-asset deleverage and a collateral swap — and only governance can run them.)
 
-* USDC, USDT, and other stablecoins transferred to Endaoment at 1:1 value
-* No liquidation discount — immediate dollar-for-dollar debt reduction
-* Other vault assets processed as needed
+Just before settlement, Ripe re-reads your debt; if anything changed it mid-transaction, the whole thing reverts.
 
 ### Choosing Specific Assets
 
-You can specify exactly which assets to deleverage:
-
 ```
-Example: Deleverage with Specific Assets
+Example: keep the stock token
 
-You have:
+You hold:
+- A stock token ($15,000)
 - 10,000 USDC ($10,000)
-- 5 ETH ($15,000)
-- 1,000 sGREEN ($1,000)
+- 1,000 sGREEN in a Stability Pool ($1,000)
 
 Debt: $12,000
 
-You choose to deleverage with:
-1. sGREEN first ($1,000 debt reduction)
-2. USDC second ($10,000 debt reduction)
-3. Keep all ETH
+You deleverage with:
+1. sGREEN first   → debt $11,000
+2. USDC second    → debt $1,000
+3. Stock token    → untouched
 
-Result: $1,000 debt remaining, all ETH preserved
+Result: $1,000 debt, stock token intact
 ```
+
+### Full-Payoff Buffers and Dust
+
+When you or a trusted caller pay off the whole debt, Ripe can take a sliver of collateral above the debt so the payoff lands exactly; the extra is capped both by a fixed amount and by a share of the debt, and in practice it is rounding dust. The contracts also carry a dust-forgiveness path for a payoff that lands a hair short, but its caps ship at zero, so nothing is forgiven unless governance turns it on. Neither applies when the position belongs to an Underscore Earn vault.
 
 ## Using [Underscore](https://underscore.finance/) Vaults?
 
-If you're depositing into Underscore's AI-powered vaults, you don't need to worry about deleveraging. The vault manages its own Ripe position — borrowing, collateral, deleveraging — all handled automatically. When you withdraw, the vault adjusts its position behind the scenes.
-
-For details on how Underscore vaults interact with Ripe, see [Underscore Protocol Integration](02-borrowing.md#underscore-earn-vault-integration).
+An Underscore vault manages its own Ripe position, deleveraging included; how it borrows, deleverages, and adjusts when you withdraw depends on that vault. See [Underscore Protocol Integration](02-borrowing.md#underscore-earn-vault-integration).
 
 ## Delegation for Deleveraging
 
-You can authorize others to manage your position:
-
-### Available Permissions
-
-* **canBorrow**: Allows delegate to deleverage on your behalf (uses same permission as borrowing)
-* Trusted addresses can specify asset order and amounts
-* Protocol contracts (like Underscore) can deleverage for operational needs
-
-### Setting Up Delegation
-
-Delegated addresses can:
-
-* Initiate deleverage when your position is at risk
-* Choose which assets to sell and in what order
-* Maintain your position health automatically
+* **`canBorrow`** lets a delegate deleverage for you with specific assets; it's the same flag that lets them borrow
+* Delegates pick the assets, the order, and the amount
+* In a batch that covers several accounts, each account's permission is checked on its own
 
 ## When to Deleverage
 
-Don't wait for liquidation. Consider deleveraging when:
+Don't wait for liquidation. Deleverage when:
 
-* Market volatility increases
-* Your LTV approaches the warning zone
-* You want to reduce exposure to specific assets
-* You're rotating into different collateral
+* Volatility picks up
+* Your LTV nears the warning zone
+* You want less exposure to one asset
+* You're rotating collateral
 
 ## How Deleverage Fits In
 
-Deleverage is one of several protective mechanisms, each activating at different risk levels:
-
 ```
-Healthy Zone → Warning Zone → Redemption Zone → Liquidation Zone
-     |              |               |                  |
-  No action    Can't borrow    Redemption +       Liquidation
-   needed        more         Deleverage active    triggered
+Healthy → Warning → Redemption Zone → Liquidation Zone
+   |         |            |                  |
+Deleverage  Deleverage   + redemption      Liquidation, and you
+any time    any time     + broad deleverage  can still deleverage
 ```
 
-* **Redemption**: GREEN holders can redeem your collateral at $1 (no penalty to you)
-* **Deleverage**: Your assets reduce your debt (no penalties, you choose which assets)
-* **Liquidation**: Forced sale with 5-15% fees (last resort)
+* **Redemption**: GREEN holders pay your debt at $1 and take collateral at oracle price
+* **Deleverage**: your sGREEN and stablecoins pay your debt, no fee, your choice of assets
+* **Liquidation**: forced sale with fees, the last resort
 
-Deleverage is always available for yourself. Third parties can help deleverage you once you enter the redemption zone. For the complete picture, see [Liquidations](04-liquidations.md).
+For the full picture, see [Liquidations](04-liquidations.md).
 
 ## Taking Control of Your Risk
 
-Liquidation is a worst-case scenario. Deleverage is a tool.
+Liquidation is a worst case. Deleverage is a tool.
 
-Smart borrowers:
-
-1. Monitor their position health
-2. Set up delegation for automated protection
-3. Use stability pools for instant debt reduction
-4. Deleverage proactively rather than reactively
-
-The protocol doesn't penalize you for managing your risk. It rewards it with zero-fee debt reduction using your own assets.
+1. Watch your position
+2. Keep some sGREEN in a Stability Pool or stablecoins in your position; that's your deleverage fuel
+3. Set up delegation if you want someone else able to act
+4. Deleverage early, not late
 
 Stay ahead of the liquidation threshold. Stay in control.
 
 ***
 
-_For technical implementation details, see the_ [_Deleverage Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core-lending/deleverage)_._
+_For technical implementation details, see the_ [_Deleverage Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core/deleverage)_._

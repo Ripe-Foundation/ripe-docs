@@ -4,118 +4,97 @@ description: Quick answers to what actually matters.
 
 # Frequently Asked Questions
 
+> **Live terms live onchain.** Which assets are supported, their LTVs, rates, fees, and which optional features are switched on vary by deployment and change over time. Numbers below are examples. [Params](https://params.ripe.finance) is the source of truth.
+
 ## Getting Started
 
 ### What is Ripe Protocol?
 
-One loan backed by everything you own. While other protocols make you juggle five vaults for five assets, Ripe combines your entire portfolio — crypto, tokenized stocks, blue-chip NFTs, everything — into ONE position. Borrow GREEN stablecoins against it all.
+Borrow against your stocks without selling them. Deposit tokenized stocks — plus your ETH, stablecoins, and other supported assets — and borrow GREEN, a dollar stablecoin, against all of it in ONE loan.
 
 ### What makes Ripe different from other lending protocols?
 
-**One loan, many assets.** While other protocols force you to manage separate positions for each collateral type, Ripe lets you deposit multiple different assets that all work together to back a single GREEN loan. This means you can use your USDC, ETH, tokenized stocks, treasury bills, and even NFTs all in one [borrowing position](../core-protocol/02-borrowing.md).
+**One loan, many assets.** Other protocols make you manage a separate position for every collateral type, and most won't take a tokenized stock at all. On Ripe, your stock tokens, ETH, stablecoins, and yield positions all back a single GREEN [borrowing position](../core-protocol/02-borrowing.md) at one blended rate, with one number to watch.
 
 ### What is GREEN?
 
-[GREEN](../core-protocol/01-green-stablecoin.md) is Ripe's overcollateralized stablecoin, always worth $1. Every GREEN is backed by at least 110% in collateral value (often much more). You create GREEN by borrowing against your deposited assets and destroy it by repaying your loan.
+[GREEN](../core-protocol/01-green-stablecoin.md) is Ripe's overcollateralized stablecoin, targeting $1. You mint it by borrowing against your deposits and burn it by repaying. There's no lender on the other side.
 
 ### Is my money safe?
 
-Your [deposits](../core-protocol/03-collateral-assets.md) back only your own loans — not a shared lending pool. If someone else's risky position fails, it doesn't affect you. The protocol uses multiple safety mechanisms including redemptions before [liquidations](../core-protocol/04-liquidations.md), partial liquidations (not full), and a four-phase liquidation system designed to minimize losses.
+Your collateral backs your loan and nobody else's. If someone else's position blows up, nothing happens to yours. Stability Pool deposits are different by design: that liquidity is what buys liquidated collateral, so it's spent on other people's liquidations in exchange for their collateral at a discount. See [Collateral Assets](../core-protocol/03-collateral-assets.md), [Stability Pools](../earning-and-rewards/02-stability-pools.md), and the risks list at the bottom of this page.
 
 ## Borrowing Basics
 
+### Can I borrow against tokenized stocks without selling them?
+
+Yes. That's the whole point. Deposit a supported stock token and borrow GREEN against it; the tokens sit in Ripe one-for-one and keep their full upside. Ripe isn't the issuer of any stock token, and issuers set their own rules on who can hold them — [Stock Tokens on Ripe](../core-protocol/00-stock-tokens.md) explains how they're held, priced, and where to read the issuer's terms.
+
 ### How much can I borrow?
 
-Each asset has its own Loan-to-Value (LTV) ratio:
-
-* **Stablecoins**: Up to 80% of value
-* **ETH/WBTC**: Up to 70% of value
-* **Volatile assets**: 40-50% of value
-
-Your total [borrowing power](../core-protocol/02-borrowing.md) combines all assets weighted by their individual LTVs.
+Each asset has its own Loan-to-Value ratio; safer assets get higher LTVs. Your total [borrowing power](../core-protocol/02-borrowing.md) is the sum of each deposit's value × its LTV. The Borrow table in the app and [Params](https://params.ripe.finance) show the live numbers.
 
 ### How do interest rates work?
 
-You pay a single weighted-average rate based on your [collateral mix](../core-protocol/03-collateral-assets.md). If you deposit mostly stablecoins (lower rates) with some ETH (medium rates), your rate will be closer to the stablecoin rate. Rates only change when you interact with your loan — existing borrowers aren't affected by market fluctuations unless they choose to update.
+You pay a single weighted-average rate based on your [collateral mix](../core-protocol/03-collateral-assets.md). Mostly stablecoins with a little ETH? Your rate sits close to the stablecoin rate. Your rate is stored on your loan and refreshes when you borrow, repay, or your position is re-checked.
 
 ### What are dynamic rates?
 
-Dynamic rates are an emergency mechanism that activates only when GREEN trades significantly below $1. Under normal conditions, you simply pay your weighted base rate. If GREEN exceeds 60% in liquidity pools (indicating oversupply), rates may temporarily increase to incentivize repayment and restore balance.
+A defense mechanism for GREEN's peg. If GREEN sits oversupplied in its reference pool for a sustained stretch, borrowing rates rise (with a hard cap) to encourage repayment. One bad reading doesn't trigger it, and rates fall back once the pool has been healthy for a while. See [Dynamic Interest Rates](../core-protocol/02-borrowing.md#dynamic-interest-rates).
 
 ### Can I repay anytime?
 
-Yes! There are no prepayment penalties, fixed terms, or lockups. Repay any amount at any time to reduce your debt and improve your position health.
+Yes. No term, no prepayment penalty, partial payments welcome. Pay with GREEN or sGREEN from your wallet, or use your Stability Pool deposits through [deleverage](../core-protocol/05-deleverage.md).
 
 ## Managing Risk
 
+### What happens to my stock tokens when the market is closed?
+
+Stock price feeds follow market hours, so over a weekend your stock collateral holds Friday's last price for as long as the feed's freshness window allows — and if the window is shorter than the closure, the token has no price until Monday and your account waits, repay-only. You can still be liquidated in that window if you were already past the threshold or your other collateral keeps falling. When the market reopens, the new price lands in one step. Borrow with room. Full explanation: [Stock Tokens on Ripe](../core-protocol/00-stock-tokens.md#market-hours-and-weekend-gaps).
+
+### What happens if Ripe can't price one of my assets?
+
+Ripe fails closed rather than guessing. While any of your borrowing collateral has no usable price you can't borrow, and every action that re-values your account — deposits, withdrawals, liquidations, deleverage — reverts until a price is back. Redemption is the exception: it doesn't revert, it just skips your account. Repaying still works, and everything resumes when a good price returns. See [When an Account Cannot Be Valued](../core-protocol/06-price-oracles.md#when-an-account-cannot-be-valued).
+
+### Can I lose my stock tokens while borrowing?
+
+Borrowing never sells them. In the ordinary course your tokens leave Ripe in exactly three ways: you withdraw them, a GREEN holder redeems against your position (only once you're in the redemption zone, at fair value), or you're liquidated (only past the liquidation threshold). Ordinary deleverage doesn't touch them. Governance also holds two emergency tools that can move any collateral at oracle value; nobody else can trigger those. Keep your position healthy and they stay yours. See [Which Events Can Move Your Tokens](../core-protocol/00-stock-tokens.md#which-events-can-move-your-tokens).
+
 ### When do I get liquidated?
 
-[Liquidation](../core-protocol/04-liquidations.md) happens when your collateral value drops below the required minimum for your debt. There are three key thresholds to monitor (values vary by asset risk):
+When your collateral value falls to the liquidation threshold for your debt, anyone can trigger a [liquidation](../core-protocol/04-liquidations.md). Three thresholds to know, from safest to worst:
 
-1. **Max LTV**: Your borrowing limit - cannot borrow more beyond this (70-80% depending on asset)
-2. **Redemption threshold**: Early warning - GREEN holders can redeem against your position (77-85% depending on asset)
-3. **Liquidation threshold**: Danger zone - automatic liquidation begins (80-90% depending on asset)
+1. **Max LTV**: your borrowing limit — you can't borrow past it
+2. **Redemption threshold**: GREEN holders can redeem against your position at fair value
+3. **Liquidation threshold**: a liquidation can start
 
-**Quick Example**: With $6,000 debt in stablecoins (90% liquidation threshold), you need at least $6,667 collateral ($6,000 ÷ 0.90). If collateral drops below this, liquidation starts.
+**Example:** $6,000 of debt against collateral with an 80% liquidation threshold needs more than $7,500 ($6,000 ÷ 0.80). At or below that, you're liquidatable.
 
-Monitor your position and add collateral or repay debt before reaching these zones. For a visual guide showing all risk zones, see [How Thresholds Work Together](../core-protocol/02-borrowing.md#how-thresholds-work-together-a-visual-guide).
+Watch your position and add collateral or repay before you get there. [How Thresholds Work Together](../core-protocol/02-borrowing.md#how-thresholds-work-together-a-visual-guide) has the visual.
 
 ### What's the difference between redemption and liquidation?
 
-**Redemption** (happens first):
+**Redemption** comes first and costs you nothing extra: a GREEN holder pays down your debt at $1 per GREEN and takes collateral at oracle price. No discount, no fee — it deleverages you at fair value.
 
-* No penalty or discount
-* GREEN holders pay off your debt at exactly $1 value
-* Helps you deleverage automatically
-* Better outcome than liquidation
-
-**Liquidation** (last resort):
-
-* Incurs liquidation fees (5-15% depending on asset risk tier)
-* Multi-phase process: Stability pools → Dutch auctions
-* Only liquidates enough to restore health (partial, not full)
+**Liquidation** is the last resort: liquidation and keeper fees apply, and your collateral is sold through [Stability Pools and Dutch auctions](../core-protocol/04-liquidations.md) at a discount.
 
 ### How does partial liquidation work?
 
-Ripe only liquidates the minimum amount needed to make your position healthy again — not your entire position. If you need 20% debt reduction to be safe, that's all that gets liquidated. You keep the rest of your collateral.
+Ripe only liquidates enough to make your position healthy again, not the whole thing. If you need a 20% debt reduction to be safe, that's what gets liquidated and you keep the rest. The one exception: if you're deeply underwater, the target becomes your full debt and all liquidation-eligible collateral can go and still leave debt.
 
 ## Earning with Ripe
 
 ### What is sGREEN?
 
-[sGREEN](../earning-and-rewards/01-sgreen.md) is yield-bearing GREEN that automatically captures protocol revenues. Your sGREEN balance stays the same while its GREEN value increases over time through:
+[sGREEN](../earning-and-rewards/01-sgreen.md) is yield-bearing GREEN. Your sGREEN balance stays the same while its GREEN value rises from origination fees and borrower interest. No staking, no claiming — hold it and it grows.
 
-* Borrower interest payments
-* Origination fees from new loans
-* Protocol revenue distributions
+### How do Stability Pools work?
 
-No staking or claiming needed — just hold and earn.
-
-### How do stability pools work?
-
-[Stability pools](../earning-and-rewards/02-stability-pools.md) hold sGREEN and GREEN LP tokens that get swapped for liquidated collateral at discount. As a depositor, you:
-
-* Continue earning sGREEN yield
-* Get liquidated collateral at 5-15% discount
-* Earn RIPE rewards
-* Can withdraw anytime
-
-It's like being a liquidator without running any bots.
+[Stability Pools](../earning-and-rewards/02-stability-pools.md) hold sGREEN and GREEN LP tokens. When a position is liquidated, the pool buys the collateral below oracle price and you own your share of it. Depositors keep earning on the deposited asset, receive liquidated collateral at a spread, and earn RIPE rewards — like being a liquidator without running any bots.
 
 ### How do I earn RIPE rewards?
 
-[RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) currently flow to two groups (90% stakers, 10% borrowers):
-
-1. **Stakers (90%)**:
-   * RIPE LP: 45% of staker rewards (best returns!)
-   * GREEN LP: 25% of staker rewards
-   * sGREEN: 15% of staker rewards
-   * RIPE: 15% of staker rewards
-2. **Borrowers (10%)**: Based on debt size and duration
-
-Future categories (not active yet): General depositors and vote-selected assets.
-
-**Important**: Current emissions are ramping up. When claiming rewards, 75% auto-stakes with a ~1-year lock.
+Borrow GREEN, lock RIPE, or deposit into a Stability Pool. [RIPE rewards](../earning-and-rewards/03-ripe-rewards.md) accrue every block, weighted by size × time, and mint when you claim. Part of every claim is auto-staked into the governance vault with a lock.
 
 ## GREEN Stability
 
@@ -123,179 +102,113 @@ Future categories (not active yet): General depositors and vote-selected assets.
 
 Six mechanisms work together:
 
-1. **Overcollateralization**: Every GREEN backed by 110%+ collateral
-2. **Dynamic rates**: Borrowing costs increase if GREEN weakens
-3. **Direct redemption**: Arbitrageurs can redeem GREEN for $1 of collateral (when positions in redemption zone)
-4. **Stability pool redemption**: Additional redemption path through liquidated collateral
-5. [**Endaoment**](../core-protocol/07-endaoment.md) **operations**: Treasury automatically rebalances liquidity pools
-6. **Peg Stability Module (PSM)**: Direct GREEN/USDC conversion at 1:1 — the most accessible arbitrage path
+1. **Overcollateralization**: every GREEN is minted against more collateral than debt
+2. **Dynamic rates**: borrowing gets pricier when GREEN is oversupplied
+3. **Direct redemption**: GREEN redeems for $1 of collateral from positions in the redemption zone
+4. **Stability Pool redemption**: GREEN redeems for $1 of liquidated collateral held by the pools
+5. [**Endaoment**](../core-protocol/07-endaoment.md) **operations**: the treasury adds or removes GREEN liquidity to push the pool back toward balance
+6. **Peg Stability Module (PSM)**: swap GREEN and a reserve stablecoin around $1, when enabled
 
 ### What happens if GREEN trades below $1?
 
-Arbitrageurs immediately profit by:
-
-1. Buying GREEN cheap on a DEX (e.g., $0.97)
-2. Redeeming via PSM for exactly $1 USDC (or via direct redemption for $1 of collateral)
-3. Pocketing the difference
-
-This creates instant buying pressure that pushes GREEN back to $1. The PSM provides the most direct path — no need to wait for positions in redemption zones.
+Arbitrageurs buy cheap GREEN and redeem it — through the PSM, against positions in the redemption zone, or against Stability Pool collateral — for $1 of value. That buying pressure pushes GREEN back toward $1. Each path depends on there being something to redeem against, which is why there are several.
 
 ### Can GREEN lose its peg permanently?
 
-The protocol's design makes this extremely unlikely. As long as loans remain overcollateralized, arbitrage mechanisms ensure GREEN returns to $1. The worse the depeg, the bigger the profit opportunity for arbitrageurs to fix it.
+No mechanism can guarantee a market price. What Ripe guarantees is the incentive: the further GREEN trades from $1, the bigger the arbitrage for whoever fixes it, and every GREEN loan starts overcollateralized.
 
 ### What is the PSM and how do I use it?
 
-The Peg Stability Module (PSM) lets you convert between GREEN and USDC at a 1:1 ratio:
-
-* **Mint GREEN**: Send USDC to the PSM, receive GREEN (can auto-wrap to sGREEN)
-* **Redeem GREEN**: Send GREEN to the PSM, receive USDC (accepts sGREEN too)
-
-**Why use it?**
-
-* Arbitrage when GREEN trades off-peg
-* Get GREEN without borrowing (just swap USDC)
-* Exit GREEN to USDC without DEX slippage
-
-**Limitations**: The PSM may have rate limits per interval, optional fees, and requires sufficient USDC reserves for redemptions. Check the UI for current availability and terms.
+The [Peg Stability Module](../core-protocol/01-green-stablecoin.md#6-peg-stability-module-psm) swaps GREEN and its reserve stablecoin around $1 in either direction, with optional fees, per-interval limits, and — for redemptions — whatever reserves it holds. Each direction is switched on separately by governance; the app and [Params](https://params.ripe.finance) show whether it's live on your network.
 
 ## Technical Details
 
 ### Why did my transaction fail?
 
-The protocol limits users to **one action per block** (approximately 2 seconds on Base). If you submit multiple transactions too quickly, subsequent ones will fail. Simply wait a few seconds and retry.
-
-This rate limiting:
-* Prevents front-running attacks
-* Ensures fair ordering of operations
-* Protects protocol state consistency
+Most likely you did two things in one block. Withdrawals, borrows, Stability Pool claims, and releasing a governance lock early are limited to one per block per account — and any earlier action in that block, a deposit or a repayment included, uses up the slot. Wait a moment and retry. If it keeps failing, check whether one of your collateral assets has lost its price (see "What happens if Ripe can't price one of my assets?").
 
 ### What is account locking?
 
-Account locking is an emergency security feature that restricts all protocol actions for a specific wallet address. If your account is locked:
-
-* You cannot deposit, withdraw, borrow, or repay
-* This is typically activated for security reasons (suspected compromise, unusual activity)
-* Contact the team via Discord or email to resolve
-
-Account locking protects both users and the protocol from potential exploits or hacked wallets.
+An emergency control that blocks deposits, withdrawals, borrows, and repayments for a specific wallet — used when an account looks compromised. It covers the main app actions, not every contract (the PSM and Reserve Engine have their own controls). Contact the team on Discord to resolve it.
 
 ### Can the protocol be paused?
 
-Yes. In emergency situations, individual components or the entire protocol can be paused:
-
-* **Per-contract pausing**: Specific functions (deposits, borrows, liquidations) can be paused independently
-* **Global pause**: All protocol operations can be halted
-* **Purpose**: Allows response to discovered vulnerabilities or market emergencies
-* **Controlled by**: Governance through RipeHq
-
-Pauses are temporary measures used only in genuine emergencies to protect user funds.
+Yes, component by component. Deposits, borrowing, liquidations, claims, the PSM, price sources, and minting each have their own switch, so an emergency pause on one doesn't necessarily stop the others. Pauses are for genuine emergencies.
 
 ## Advanced Features
 
 ### Can I use yield-bearing tokens as collateral?
 
-Yes! Tokens like stETH, aTokens, and LP positions continue earning their underlying yields while serving as collateral. The protocol uses share-based accounting to capture all rewards, rebases, and fee accruals.
-
-### Can I use tokenized real-world assets?
-
-Yes! Ripe is built for the $16 trillion in real-world assets being tokenized by 2030. Tokenized stocks, real estate, treasury bills, gold — if it has value, you can borrow against it. This is the core vision: unlocking liquidity for assets that traditional DeFi ignores.
+Yes. Supported yield-bearing assets — liquid staking tokens, lending positions, vault shares — keep earning while they back your loan. Which ones are supported, and in which vault, is on the Borrow table and [Params](https://params.ripe.finance).
 
 ### What's the delegation system?
 
-You can grant granular permissions to other addresses for automated position management:
+You can grant specific permissions to other addresses:
 
-**Per-Address Delegations:**
-* **canWithdraw**: Allow delegate to withdraw collateral on your behalf
-* **canBorrow**: Enable borrowing and [deleveraging](../core-protocol/05-deleverage.md) operations
-* **canClaimFromStabPool**: Allow claiming liquidated collateral from stability pools
-* **canClaimLoot**: Allow claiming RIPE rewards on your behalf
+**Per-address delegations:**
+* `canWithdraw`: withdraw collateral on your behalf (it always lands in your wallet)
+* `canBorrow`: borrow and [deleverage](../core-protocol/05-deleverage.md) on your behalf
+* `canClaimFromStabPool`: claim liquidated collateral from Stability Pools for you
+* `canClaimLoot`: claim RIPE rewards for you
 
-**Global User Settings:**
-* **canAnyoneDeposit**: Let any address add collateral for you
-* **canAnyoneRepayDebt**: Allow anyone to repay your debt (useful for rescue scenarios)
-* **canAnyoneBondForUser**: Let others purchase bonds on your behalf
+**Account-wide settings:**
+* `canAnyoneDeposit`: let any address add collateral for you
+* `canAnyoneRepayDebt`: let anyone repay your debt (handy for rescues)
+* `canAnyoneBondForUser`: let others buy bonds for you
 
-**Security Guarantees:**
-* Delegates can never steal funds — withdrawals always go to the original owner
-* Each permission is independent — granting one doesn't grant others
-* Permissions can be revoked at any time
-
-**Use Cases:**
-* Automated yield strategies via third-party protocols
-* Team-managed treasury positions
-* Bot-assisted position management
-* Emergency rescue by trusted parties
+Each permission is independent and you can change them any time. Withdrawals always go to you — but a delegate with borrow or withdraw rights can still change your risk, so grant them carefully.
 
 ### Can I use my borrowed GREEN to earn yield?
 
-Absolutely! When borrowing, you can:
-
-* Receive GREEN directly for any use
-* Auto-convert to sGREEN to start earning immediately
-* Deposit straight to stability pools for maximum yield
-
-Many users borrow at 5% to earn 8%+ in sGREEN.
+Absolutely. When borrowing you can receive plain GREEN, convert it to sGREEN, or send sGREEN straight into a Stability Pool. If sGREEN's yield beats your borrow rate you're earning positive carry — but neither side of that spread is fixed.
 
 ## Governance & RIPE Token
 
 ### What is RIPE?
 
-RIPE is the protocol's [governance](../governance-and-economics/02-governance.md) token. Lock it in the governance vault to:
-
-* Accumulate voting power for future governance
-* Earn rewards from the staker allocation
-* Get up to 3x rewards with longer lock periods
+RIPE is the protocol's [governance](../governance-and-economics/02-governance.md) token. Lock it in the governance vault to build governance points (your future voting weight), earn from the staker rewards allocation, and boost your rate with longer locks.
 
 ### When does governance go live?
 
-Governance points are accumulating now, but onchain voting hasn't launched yet. Governance will activate once sufficient RIPE tokens have been distributed through block rewards and the holder base has grown to ensure decentralized decision-making. Early participants who lock RIPE are building voting power that will control the protocol when governance activates.
+Governance points are accumulating now; onchain voting isn't live yet. When it ships, the points you've built become your voting weight. See [Governance](../governance-and-economics/02-governance.md).
 
 ### What's the RIPE token distribution?
 
-1 billion RIPE total supply:
+1 billion RIPE, total, across every chain Ripe runs on — one cap, not one per network:
 
-* **25%** Community incentives (only allocation unlocking at TGE)
+* **25%** Community incentives (the only allocation unlocking at TGE)
 * **22.2%** Ripe Foundation treasury
-* **20.6%** Core contributors (locked 1 year, then 4-year vest)
+* **20.6%** Core contributors (4-year linear vesting)
 * **17.2%** Early backers ($550k seed at $0.02)
 * **15%** Distribution partner (Hightop)
 
-All vesting happens onchain with transparent contracts. See full details in [RIPE Tokenomics](../governance-and-economics/01-ripe-tokenomics.md).
+Investors and employees have agreed to an extra year of lock on top of their vesting. Details in [RIPE Tokenomics](../governance-and-economics/01-ripe-tokenomics.md).
 
 ### What are Ripe Bonds?
 
-[Bonds](../governance-and-economics/03-bonds.md) let you exchange stablecoins (like USDC) for RIPE tokens at dynamic prices. Lock your bonded RIPE for up to 3 years to get up to 3x more tokens. All proceeds build the [Endaoment](../core-protocol/07-endaoment.md) treasury that backs GREEN and generates protocol revenue.
+[Bonds](../governance-and-economics/03-bonds.md) let you swap a stablecoin for RIPE at the current epoch price. Lock the RIPE for a bonus; add a Bond Booster if you've earned one. Your payment goes to the [Endaoment](../core-protocol/07-endaoment.md) treasury.
+
+### What is the RIPE Reserve Engine?
+
+A second way to acquire RIPE: pay up front, choose a vesting length, and get a larger allocation for a longer wait. RIPE is minted as it vests and you claim it. See [RIPE Reserve Engine](../governance-and-economics/04-reserve-engine.md).
 
 ### What are Bond Boosters?
 
-Bond Boosters multiply your bond allocation based on ecosystem contributions (like testnet participation). They work through a unit system:
-
-* 1 unit = 1 USDC of boost capacity
-* Units are consumed permanently when bonding
-* Example: 1,000 units + 200% booster = first 1,000 USDC bonded gets 3x RIPE
-
-Combined with lock bonuses, top contributors can get up to 5x multipliers.
+Bonus RIPE on bond purchases for ecosystem contributors (testnet participants, for example), up to a set number of units per person and for a limited time. See [Ripe Bonds](../governance-and-economics/03-bonds.md).
 
 ### What's the Endaoment?
 
-The [Endaoment](../core-protocol/07-endaoment.md) is Ripe's treasury system that combines automated mechanisms with strategic oversight. It:
-
-* Manages protocol-owned liquidity from bond sales
-* Generates yield across DeFi via [Underscore](https://underscore.finance/)
-* Defends GREEN's peg through market operations
-* Funds operations without token inflation
-
-All bond proceeds become permanent productive capital working 24/7.
+The [Endaoment](../core-protocol/07-endaoment.md) is Ripe's treasury. Bond and Reserve Engine payments land there, and governance can deploy it for yield through [Underscore](https://underscore.finance/) integrations, provide GREEN liquidity, and run peg-defense operations.
 
 ## Safety & Security
 
 ### What are the main risks?
 
-* **Smart contract risk**: Bugs could affect funds
-* **Liquidation risk**: Collateral value dropping too fast
-* **Oracle risk**: Incorrect price feeds (mitigated by multiple sources)
-* **Interest rate risk**: Dynamic rates during market stress
+* **Smart contract risk**: bugs could affect funds
+* **Liquidation risk**: collateral value dropping too fast — including a weekend gap in a stock price
+* **Oracle risk**: a wrong or missing price; stock tokens usually have a single feed
+* **Interest rate risk**: dynamic rates during market stress
+* **Issuer risk**: a stock token is issued by a third party whose product terms, rights, and eligibility rules apply, and who can pause or freeze the token — see [Stock Tokens on Ripe](../core-protocol/00-stock-tokens.md)
 
 ### Is Ripe audited?
 
@@ -303,29 +216,19 @@ ChainSecurity reviewed an earlier Ripe Finance smart-contract architecture, and 
 
 ### How does Ripe price assets accurately?
 
-Ripe uses a [multi-oracle system](../core-protocol/06-price-oracles.md) with automatic fallback. We check Chainlink, Pyth, Stork, and Curve in priority order, taking the first valid price. If one oracle fails, we instantly switch to the next — no manual intervention needed. This prevents single points of failure that have destroyed other protocols.
+Ripe checks its [price sources](../core-protocol/06-price-oracles.md) in priority order and uses the first good answer. A failing source doesn't block the next one. If nothing can price an asset, Ripe stops rather than guesses.
 
 ### How does Ripe handle bad debt?
 
-The protocol has multiple defenses:
-
-1. Conservative collateral ratios
-2. Redemption mechanism before [liquidation](../core-protocol/04-liquidations.md)
-3. [Stability pools](../earning-and-rewards/02-stability-pools.md) absorb liquidations
-4. Keeper network ensures fast execution
-5. [Endaoment](../core-protocol/07-endaoment.md) treasury as final backstop
-
-If bad debt does occur, the protocol can sell [bonds](../governance-and-economics/03-bonds.md) to raise funds. This creates RIPE tokens beyond the 1 billion cap (e.g., if 1M RIPE covers bad debt, total supply becomes 1.001 billion). The extra minting dilutes all RIPE holders proportionally, distributing the cost fairly while ensuring the protocol remains solvent.
+Layers: conservative LTVs, redemption and deleverage before liquidation, [liquidation](../core-protocol/04-liquidations.md) through funded [Stability Pools](../earning-and-rewards/02-stability-pools.md), then auctions. If bad debt still happens and governance records it, [bond](../governance-and-economics/03-bonds.md) purchases clear it — and that recovery RIPE is the one case where issuance can go beyond the 1 billion cap, socializing the shortfall across holders.
 
 ### What happens in a market crash?
 
-During extreme volatility:
-
-* Redemptions help positions deleverage automatically
-* Stability pools provide instant liquidation liquidity
-* Partial liquidations minimize user losses
-* Dynamic rates incentivize debt repayment
-* Multiple oracle sources prevent manipulation
+* Redemptions and deleverage give positions two ways to shed debt before liquidation
+* Stability Pools absorb liquidations as long as they're funded
+* Liquidations take only what's needed — unless a position is deeply underwater
+* Dynamic rates push borrowers to repay if GREEN weakens
+* Prices come from the first working source; if none works, Ripe stops rather than guesses
 
 ## Getting Help
 
@@ -339,7 +242,8 @@ During extreme volatility:
 
 ### How do I report bugs or issues?
 
-Security issues: Please report privately to ripefinance@proton.me General bugs: Open an issue on GitHub or report in Discord
+* **Security issues**: report privately to ripefinance@proton.me
+* **General bugs**: open an issue on GitHub or report in Discord
 
 ***
 
