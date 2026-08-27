@@ -191,7 +191,7 @@ Governance submits each stabilizer move; it isn't on a timer. Each move applies 
 
 Forget complex arbitrage strategies. The PSM swaps GREEN for its reserve stablecoin (one stablecoin, fixed at deployment) at $1, in one transaction, in whichever direction governance has turned on.
 
-* **Mint GREEN**: Deposit the reserve stablecoin, receive GREEN 1:1 (minus a fee, if one is set). Ask for sGREEN and anything over 1 GREEN is wrapped for you
+* **Mint GREEN**: Deposit the reserve stablecoin, receive GREEN 1:1 (minus a fee, if one is set). If you ask for sGREEN and the minted amount exceeds 1 GREEN, the whole amount is wrapped into sGREEN
 * **Redeem GREEN**: Burn GREEN or sGREEN, receive the reserve stablecoin 1:1 (minus a fee, if set)
 * **No zone required**: Unlike redemptions, the PSM doesn't need positions in the redemption zone or collateral in a pool — just reserves
 
