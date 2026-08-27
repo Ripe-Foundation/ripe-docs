@@ -78,7 +78,7 @@ Governance submits each move; nothing runs on a timer. And a move only goes thro
 
 No slippage, no DEX drama: the PSM is a direct swap between GREEN and its reserve stablecoin (one stablecoin, fixed at deployment) at $1, in whichever direction governance has turned on.
 
-* **Mint GREEN**: Deposit the reserve stablecoin, receive GREEN 1:1 (ask for sGREEN and anything over 1 GREEN is wrapped for you)
+* **Mint GREEN**: Deposit the reserve stablecoin, receive GREEN 1:1 (if you ask for sGREEN and the minted amount exceeds 1 GREEN, the whole amount is wrapped into sGREEN)
 * **Redeem GREEN**: Burn GREEN or sGREEN, receive the reserve stablecoin 1:1
 
 ```
