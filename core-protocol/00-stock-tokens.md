@@ -22,9 +22,9 @@ Borrowing against them works like any other collateral: the token's LTV sets how
 
 Ripe values a stock token through its price sources in priority order and uses the first good answer, like any other asset. In practice a stock token usually has a single source: a Chainlink feed for that token. There is no second feed to fall back to, so if that feed goes stale the token has no price (see below).
 
-**The feed prices the token, not the share.** Stock tokens carry an onchain multiplier that changes when a corporate action happens — a 2-for-1 split turns one token into two shares' worth, a cash dividend nudges the multiplier up. The feed already bakes that in: it reports the dollar value of one token. Ripe reads that number once and uses it. Your token count never changes; the price of each token does.
+**The feed prices the token, not the share.** Stock tokens carry an onchain multiplier that changes when a corporate action happens — a 2-for-1 split turns one token into two shares' worth, a cash dividend nudges the multiplier up. The feeds Ripe uses report the dollar value of one token with that multiplier already applied; Ripe reads that number once and uses it, and never applies a multiplier of its own. Your token count never changes; the price of each token does.
 
-Ripe doesn't read the issuer's "oracle paused" flag or a market calendar. It just asks the feed for the latest price, checks that the round is valid and fresh enough, and uses it. That has a concrete consequence:
+Ripe doesn't read the issuer's "oracle paused" flag or a market calendar. It just asks the feed for the latest price, checks that the round is valid and fresh enough, and uses it. Two things follow from that.
 
 ### Market Hours and Weekend Gaps
 
@@ -43,8 +43,8 @@ Borrow with enough room that a weekend gap doesn't decide anything for you.
 If the feed's freshness window runs out — a long holiday, a corporate action that pauses the feed longer than expected, an outage — the token has no usable price. Ripe fails closed rather than guessing. While the feed is down:
 
 * You can't borrow.
-* Every action that re-values your account waits — deposits, withdrawals, liquidations, redemptions, deleverage — whether or not you have debt.
-* You can still repay GREEN.
+* Every action that re-values your account reverts — deposits, withdrawals, liquidations, deleverage — whether or not you have debt. Redemption is the exception: it doesn't revert, it just skips your account.
+* You can still repay GREEN, and with no debt you can still withdraw the unpriced token itself in full.
 
 Everything resumes the moment a good price is back — and the first check after it returns uses the new price, gap and all.
 
@@ -62,7 +62,7 @@ Your stock tokens leave Ripe in three ordinary ways:
 
 A stock token is issued by a regulated entity that keeps control over the token contract. Two things can happen at the token level that Ripe can't prevent:
 
-* **A transfer freeze** (pause, blocklist). Your tokens stay recorded in Ripe and can't be delivered out until the issuer lifts it, so withdrawals fail closed. Ripe's own bookkeeping keeps working in the meantime: a redemption or liquidation can still reassign the tokens to someone else inside the vault, and they're stuck there until the freeze ends.
+* **A transfer freeze** (pause, blocklist). Your tokens stay recorded in Ripe and can't be delivered out until the issuer lifts it, so withdrawals fail closed. Settlement that only moves the balance inside the vault still works: a redemption or an auction purchase can reassign your tokens to someone else, and they're stuck in the vault until the freeze ends. Anything that needs the token to physically leave the vault fails while the freeze is on — including the Stability Pool leg of a liquidation, which makes the whole liquidation revert rather than settle.
 * **A forced burn or transfer** out of the vault. If the vault holds fewer tokens than it has credited, Ripe treats the whole asset as unbacked: it contributes zero collateral value, and Ripe quarantines every account that holds it: no borrowing, no withdrawals while you have debt, no liquidation or redemption. You can still repay and add collateral, and if you have no debt you can still pull your other assets. The unbacked token itself can't leave until the backing is restored.
 
 These are issuer risks, not Ripe risks, but they land on your position. Read the issuer's terms before you deposit.

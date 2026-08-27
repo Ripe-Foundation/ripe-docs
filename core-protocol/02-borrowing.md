@@ -20,7 +20,7 @@ Borrowing power = Σ (asset value × asset LTV)
 
 Two things don't count: positions in [Stability Pools](../earning-and-rewards/02-stability-pools.md), which are never collateral, and assets with a 0% LTV (locked RIPE, for example), which sit in your account but add no borrowing power.
 
-Ripe prices every asset through its oracle layer. If any of your borrowing collateral has no usable price, you can't borrow or withdraw until it does — see [When the Price Goes Missing](08-stock-tokens.md#when-the-price-goes-missing).
+Ripe prices every asset through its oracle layer. If any of your borrowing collateral has no usable price, you can't borrow or withdraw until it does — see [When the Price Goes Missing](00-stock-tokens.md#when-the-price-goes-missing).
 
 ## Weighted Debt Terms Explained
 
@@ -94,13 +94,15 @@ $10,000                    $8,571      $7,792     $7,500      $0
 
 ### Two Ways to Read the Same Numbers
 
-LTV looks forward (debt as a share of collateral). Redemption and liquidation look backward: the minimum collateral a given debt needs.
+LTV looks forward (debt as a share of collateral). Redemption and liquidation look backward: the collateral level a given debt has to stay above. Same numbers, read from the other end.
 
-| Threshold       | Forward view                   | Minimum coverage | For $6,000 debt |
-| --------------- | ------------------------------ | ---------------- | --------------- |
-| **Max borrow**  | Borrow up to 70% of collateral | 143%             | $8,571+         |
-| **Redemption**  | Collateral ≤ debt ÷ 0.77       | 130%             | $7,792+         |
-| **Liquidation** | Collateral ≤ debt ÷ 0.80       | 125%             | $7,500+         |
+| Threshold       | Where the line sits                                    | Coverage at the line | Collateral at the line |
+| --------------- | ------------------------------------------------------ | -------------------- | ---------------------- |
+| **Max borrow**  | No new borrowing once collateral ≤ debt ÷ 0.70         | 143%                 | $8,571                 |
+| **Redemption**  | GREEN holders can redeem once collateral ≤ debt ÷ 0.77 | 130%                 | $7,792                 |
+| **Liquidation** | Anyone can liquidate once collateral ≤ debt ÷ 0.80     | 125%                 | $7,500                 |
+
+Collateral figures are for the $6,000 debt used throughout this section; stay above the line, not on it.
 
 Interest grows your debt; a falling market shrinks your collateral. Both move you toward the thresholds. Watch coverage, not just price.
 
@@ -152,7 +154,7 @@ Every borrow has to clear each of these, and the amount is capped by the tightes
 * **Interval limit** — caps how much you can borrow per window of blocks, so no one can drain capacity in a burst
 * **Minimum debt** — a floor on new or increased loans, so tiny positions don't exist
 
-If governance has turned on the one-action-per-block guard, the higher-risk actions — withdrawals, borrows, and Stability Pool claims — are limited to one per block per account.
+If governance has turned on the one-action-per-block guard, the higher-risk actions — withdrawals, borrows, Stability Pool claims, and releasing a governance lock early — are limited to one per block per account. Every action you take stamps that slot, not just those four, so a deposit or a repayment earlier in the same block will also make a withdrawal or a borrow bounce.
 
 ## The Borrowing Experience
 

@@ -17,7 +17,7 @@ You need three things: a wallet connected to a network Ripe is deployed on, a li
 **Step 3.** Get the stock tokens you want to deposit. Two rules:
 
 * **Verify the contract address** against the issuer's official token registry (Robinhood, for example, publishes its Stock Token registry at [docs.robinhood.com/chain/contracts](https://docs.robinhood.com/chain/contracts/)) and confirm the same token appears in the Ripe app's Borrow table. Lookalike tokens with the same name and symbol exist. If you found an address anywhere else, don't use it.
-* **Check the issuer's terms.** Ripe isn't the issuer, and issuers set their own rules on who may hold their tokens. [Stock Tokens on Ripe](../core-protocol/08-stock-tokens.md) explains what a stock token is inside Ripe and where to read the issuer's product terms.
+* **Check the issuer's terms.** Ripe isn't the issuer, and issuers set their own rules on who may hold their tokens. [Stock Tokens on Ripe](../core-protocol/00-stock-tokens.md) explains what a stock token is inside Ripe and where to read the issuer's product terms.
 
 If you already hold stock tokens in your wallet, you're ready. You still need gas.
 

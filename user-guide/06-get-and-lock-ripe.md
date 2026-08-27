@@ -53,6 +53,6 @@ So claiming is never a neutral act. Every claim that stakes something re-locks y
 
 If early exit is enabled on your network, leaving a lock before it ends costs a large share of your balance — the protocol setting, not a sliding scale (80% in the example on the governance page). Releasing the lock and withdrawing are two separate steps, and a bad-debt freeze can block both. The [governance guide](../governance-and-economics/02-governance.md#early-exit-the-nuclear-option) explains the full mechanism.
 
-That number is the whole reason to take the lock duration seriously at deposit, and to check the Weighted Lock Duration before every claim. RIPE you deposit here is money set aside. If there's a chance you'll want it sooner, the honest move is to hold RIPE in your wallet unlocked and skip the boost.
+That cost is the whole reason to take the lock duration seriously at deposit, and to check the Weighted Lock Duration before every claim. RIPE you deposit here is money set aside. If there's a chance you'll want it sooner, the honest move is to hold RIPE in your wallet unlocked and skip the boost.
 
 Next: [See everything you can deposit on Earn](07-what-you-can-deposit-on-earn.md).

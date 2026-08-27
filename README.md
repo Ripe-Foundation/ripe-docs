@@ -41,7 +41,7 @@ Your Portfolio:             Traditional:           Ripe:
 
 ## Core Protocol
 
-#### 📈 [Stock Tokens on Ripe](core-protocol/08-stock-tokens.md)
+#### 📈 [Stock Tokens on Ripe](core-protocol/00-stock-tokens.md)
 
 The whole point. What a stock token is inside Ripe, how it's priced when markets are closed, what corporate actions do, and exactly which events can move your tokens.
 
@@ -81,6 +81,14 @@ If a position goes underwater, Ripe takes what it needs to make it healthy again
 * **Stability Pools, then auctions** — Orderly settlement, no market dumps
 * **Honest limit** — A severe shortfall can take all liquidation-eligible collateral and still leave debt
 
+#### 🧯 [Deleverage: Reduce Risk Before It's Too Late](core-protocol/05-deleverage.md)
+
+Spend the sGREEN and stablecoins you already hold in Ripe to pay debt down, before anyone can force the issue.
+
+* **No fee** — No liquidation fee, no keeper fee
+* **Your stock tokens stay put** — Deleverage protects the position; it doesn't spend it
+* **Any time** — With specific assets, there's no threshold to wait for
+
 ## Earning & Rewards
 
 #### 💎 [sGREEN: Set It and Forget It](earning-and-rewards/01-sgreen.md)
@@ -111,7 +119,7 @@ Borrow, stake, or deposit and you accrue RIPE every block.
 
 #### 📊 [RIPE Tokenomics: Aligned Incentives](governance-and-economics/01-ripe-tokenomics.md)
 
-* **1 billion RIPE, total, across every chain** — Bad-debt recovery counts against it, not on top of it
+* **1 billion RIPE, total, across every chain** — One cap for the whole protocol, with one deliberate exception for bad-debt recovery
 * **Community first** — 25% for users; the only bucket unlocking from day one
 * **Team and investors locked longer** — An extra year on top of vesting
 * **Bootstrapped** — $1.87M put to work, only $550K of it outside capital
@@ -179,9 +187,9 @@ Have questions? Check our comprehensive [**FAQ**](resources/faq.md) for answers 
 * Can I borrow against tokenized stocks without selling them?
 * What happens to my stock tokens when the market is closed?
 * Can I lose my stock tokens while borrowing?
-* How is GREEN different from DAI or USDC?
-* What happens during liquidations?
-* How does sGREEN earn?
+* What happens if Ripe can't price one of my assets?
+* When do I get liquidated?
+* What is sGREEN?
 * And much more...
 
 **→** [**Read the FAQ**](resources/faq.md)
@@ -219,7 +227,7 @@ Governance power grows with time. Lock today, steer tomorrow.\
 ### Connect & Learn
 
 * **Discord**: [Join our community](https://discord.gg/hightop) — Get help, share strategies, and connect with other users
-* **Twitter/X**: [@RipeProtocol](https://x.com/ripe_dao) — Latest updates and announcements
+* **Twitter/X**: [@ripe_dao](https://x.com/ripe_dao) — Latest updates and announcements
 * **Blog**: [Medium](https://medium.com/ripe-finance) — Deep dives and protocol insights
 * **GitHub**: [ripe-foundation](https://github.com/Ripe-Foundation/ripe-protocol) — Open source code and development
 

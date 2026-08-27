@@ -10,7 +10,7 @@ Anything you deposit on the Borrow page becomes [collateral](../core-protocol/03
 
 **Step 2.** Open the **Borrow** page from the left menu. It lists every asset you can deposit on that network, with each one's terms in the table.
 
-![The Borrow page with the collateral table](../.gitbook/assets/user-guide-02-borrow-page.png)
+![The Borrow page with the collateral table, captured on one deployment — the assets on your network will differ](../.gitbook/assets/user-guide-02-borrow-page.png)
 
 **Step 3.** Find the asset you hold and press **+** on its row. Your wallet balance shows in the **Available in Wallet** column.
 
@@ -24,6 +24,6 @@ One thing you'll notice: **Your Total Deposits** and **Your Total Collateral** c
 
 ![Your position after depositing](../.gitbook/assets/user-guide-06-position-dashboard.png)
 
-Deposit as many supported assets as you like. Each one with borrowing power adds to a [single loan](../core-protocol/02-borrowing.md), and stock tokens keep their full upside while they sit there — see [Stock Tokens on Ripe](../core-protocol/08-stock-tokens.md).
+Deposit as many supported assets as you like. Each one with borrowing power adds to a [single loan](../core-protocol/02-borrowing.md), and stock tokens keep their full upside while they sit there — see [Stock Tokens on Ripe](../core-protocol/00-stock-tokens.md).
 
 Next: [Borrow GREEN](03-borrow-green.md).

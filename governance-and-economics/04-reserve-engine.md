@@ -78,7 +78,7 @@ The engine and the vesting contract pause separately:
 * **Engine paused** (or purchases switched off): no new purchases; claims keep working.
 * **Vesting paused**: no claims, and no new purchases either.
 
-Mint permissions and the RIPE token's own pause sit above both: if RIPE can't mint, nothing settles.
+Mint permissions and the RIPE token's own pause sit above both: if RIPE can't mint, nothing settles. A beneficiary blocked at the token level can't claim either.
 
 ## Before You Buy
 

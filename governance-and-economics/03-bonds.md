@@ -53,7 +53,7 @@ You can bond for another address only if that address has turned on `canAnyoneBo
 
 ### Token Allocation
 
-Bonds draw on their own RIPE allowance, separate from rewards and the Reserve Engine. It's an accounting limit, not a pile of escrowed tokens, and everything minted through it counts toward the protocol-wide [1 billion cap](01-ripe-tokenomics.md#supply-cap-one-billion-everywhere).
+Bonds draw on their own RIPE allowance, separate from rewards and the Reserve Engine. It's an accounting limit, not a pile of escrowed tokens, and ordinary bond distribution counts toward the protocol-wide [1 billion cap](01-ripe-tokenomics.md#supply-cap-one-billion-everywhere). Bad-debt recovery is the one exception — see [Bonds and Bad Debt](#bonds-and-bad-debt).
 
 ## Getting More RIPE Per Dollar
 
@@ -62,12 +62,12 @@ Bonds draw on their own RIPE allowance, separate from rewards and the Reserve En
 Lock your RIPE in the [governance vault](02-governance.md) and the bond pays a bonus on top of the base amount. The bonus is linear between the vault's minimum and maximum lock:
 
 ```
-Example: no minimum lock, 3-year max lock, 200% max bonus
+Example: 1-day minimum lock, 3-year maximum, 200% max bonus
 
-No lock   →   0% bonus → 1x base
-1 year    →  ~67%      → 1.67x
-2 years   → ~133%      → 2.33x
-3 years   →  200%      → 3x
+Below the minimum →   0% bonus → 1x base
+1 year            →  ~67%      → 1.67x
+2 years           → ~133%      → 2.33x
+3 years (maximum) →  200%      → 3x
 ```
 
 * Pick any lock up to the maximum; ask for longer and it's capped there
@@ -110,7 +110,7 @@ Example program: **Ripe Radness** rewarded testnet participants with 10%–200% 
 
 If governance has recorded bad debt — liquidations that didn't fully cover what was owed — bonds double as the recovery tool. Nothing changes for you: you get the full payout, bonuses included. Behind the scenes, the oracle value of your payment is credited against the recorded bad debt, up to the amount outstanding; the payment itself still goes to the treasury in full.
 
-The RIPE that clears bad debt is tracked separately from ordinary bond distribution so anyone can see it, and it does not shrink the bond allowance. It still has to fit the allowance at purchase time, and it still counts toward the protocol-wide 1 billion cap. Bad debt costs every RIPE holder a little; governance has every reason to keep it at zero.
+The RIPE that clears bad debt is tracked separately from ordinary bond distribution so anyone can see it, and it doesn't shrink the bond allowance: each purchase still has to fit the allowance at the moment it's made, but clearing bad debt doesn't consume it. That's the mechanism behind the one exception to RIPE's [1 billion cap](01-ripe-tokenomics.md#supply-cap-one-billion-everywhere) — recovery RIPE can be issued beyond it. Bad debt costs every RIPE holder a little; governance has every reason to keep it at zero.
 
 ## Where the Money Goes
 

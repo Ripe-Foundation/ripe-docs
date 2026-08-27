@@ -14,7 +14,7 @@ One small seed round at $0.02 after 2+ years of building. Just builders who bet 
 
 **Tokenomics at a glance**
 
-* **1 billion RIPE, total, across every chain** — bad-debt recovery counts against the cap, not on top of it
+* **1 billion RIPE, total, across every chain** — one cap for the whole protocol, with one deliberate exception for bad-debt recovery
 * **Community first** — 25% of supply goes to user incentives, the only bucket unlocking from day one
 * **Team and investors locked longer** — an extra year on top of vesting
 * **All vesting onchain** — contributor contracts you can audit today
@@ -47,9 +47,9 @@ Seed investors who provided capital and strategic guidance during testnet develo
 
 ## Supply Cap: One Billion, Everywhere
 
-RIPE is capped at 1 billion tokens, total, across every chain it lives on. One cap for the whole protocol — not one per chain.
+RIPE is capped at 1 billion tokens, total, across every chain it lives on. One cap for the whole protocol — not one per chain. It holds in every case but one.
 
-* **Bad debt.** If liquidations ever leave the protocol with bad debt, [bonds](03-bonds.md) can clear it. The RIPE paid to those bond buyers comes out of the same 1 billion. It's tracked separately so anyone can see it, but it is not extra supply on top of the cap.
+* **Bad debt.** If liquidations ever leave the protocol with bad debt, [bonds](03-bonds.md) can clear it, and the RIPE paid to those bond buyers can be issued beyond the 1 billion. This is the single exception, and it is deliberate: the alternative is leaving GREEN under-backed, so the shortfall is socialized across RIPE holders instead. It's tracked separately from ordinary bond distribution, so anyone can see how much was issued this way and when.
 * **Bridging.** Cross-chain transfers are designed as burn-and-mint: RIPE is burned on one side and minted on the other. Supply moves; it doesn't grow.
 
 No single token contract encodes the aggregate number. Governance administers the cap across chains, and each chain's token only mints for contracts governance has approved. [Rewards](../earning-and-rewards/03-ripe-rewards.md), [bonds](03-bonds.md), the [Reserve Engine](04-reserve-engine.md), and contributor pay each draw on their own accounting allowance rather than a pile of pre-minted tokens.

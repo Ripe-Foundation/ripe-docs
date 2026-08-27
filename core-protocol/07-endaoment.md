@@ -139,4 +139,4 @@ The treasury is working. Are you in?
 
 ***
 
-_For technical implementation details, see the_ [_Endaoment Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/treasury/endaoment)_._
+_For technical implementation details, see the_ [_Endaoment_](https://ripe-finance.gitbook.io/ripe-developers/treasury/endaoment) _and_ [_Endaoment PSM_](https://ripe-finance.gitbook.io/ripe-developers/treasury/endaomentpsm) _documentation._

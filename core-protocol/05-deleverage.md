@@ -57,7 +57,7 @@ Assets are used in a fixed order:
 * USDC and other stablecoins are transferred to the treasury at oracle value
 * No discount
 
-Assets without a deleverage path are skipped. Stock tokens and other volatile collateral aren't used, so deleverage protects your stock position; it doesn't spend it. (Governance holds a separate emergency tool that can deleverage volatile collateral at oracle value; only governance can run it.)
+Assets without a deleverage path are skipped. Stock tokens and other volatile collateral aren't used, so deleverage protects your stock position; it doesn't spend it. (Governance holds two emergency tools that can move volatile collateral at oracle value — a volatile-asset deleverage and a collateral swap — and only governance can run them.)
 
 Just before settlement, Ripe re-reads your debt; if anything changed it mid-transaction, the whole thing reverts.
 
@@ -83,7 +83,7 @@ Result: $1,000 debt, stock token intact
 
 ### Full-Payoff Buffers and Dust
 
-When you or a trusted caller pay off the whole debt, Ripe can use a small amount of collateral above the debt to make sure the payoff lands; the extra is capped by a fixed amount and by a share of the debt. If what's collected comes up a hair short, the remainder can be forgiven within small dust caps. Neither applies when the position belongs to an Underscore Earn vault.
+When you or a trusted caller pay off the whole debt, Ripe can take a sliver of collateral above the debt so the payoff lands exactly; the extra is capped both by a fixed amount and by a share of the debt, and in practice it is rounding dust. The contracts also carry a dust-forgiveness path for a payoff that lands a hair short, but its caps ship at zero, so nothing is forgiven unless governance turns it on. Neither applies when the position belongs to an Underscore Earn vault.
 
 ## Using [Underscore](https://underscore.finance/) Vaults?
 

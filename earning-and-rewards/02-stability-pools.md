@@ -6,7 +6,7 @@ description: Buy Liquidated Stock Tokens Below Market
 
 Forget hunting for dips. Forget timing the market. Forget competing with bots.
 
-When a stock-token position gets liquidated, the Stability Pool buys the tokens at the liquidation spread and you own your share. Deposit once, and every liquidation routed through the pool is a purchase made on your behalf: a [stock token](../core-protocol/08-stock-tokens.md) at 90 cents on the dollar, WETH at 90 cents on the dollar, while your deposit keeps earning on the side.
+When a stock-token position gets liquidated, the Stability Pool buys the tokens at the liquidation spread and you own your share. Deposit once, and every liquidation routed through the pool is a purchase made on your behalf: a [stock token](../core-protocol/00-stock-tokens.md) at 90 cents on the dollar, WETH at 90 cents on the dollar, while your deposit keeps earning on the side.
 
 This is wholesale liquidations, democratized.
 
@@ -63,7 +63,7 @@ When a position crosses its liquidation threshold:
 
 ### What the Pool Pays
 
-The pool pays oracle value minus the liquidation spread, and the spread is never more than the base liquidation fee:
+The pool pays oracle value minus the liquidation spread, and that spread rate is never more than the asset's blended liquidation fee:
 
 * **5% spread**: the pool pays $95 for $100 of collateral
 * **10% spread**: the pool pays $90
@@ -97,7 +97,7 @@ Claim your share of any collateral the pool holds:
 
 You withdraw the deposit asset (sGREEN or LP) from what the pool hasn't spent. If most of the pool's value is sitting in liquidated collateral, claim the collateral instead of waiting for deposit-asset liquidity to return.
 
-One rule to know: if any of the pool's claimable assets loses its price, deposits, withdrawals, and claims pause until it's priced again. Ripe fails closed rather than guessing.
+One rule to know: if any of the collateral the pool counts toward its value loses its price, deposits, withdrawals, and claims pause until it's priced again. Dormant balances aren't counted, so they can't freeze the pool. Ripe fails closed rather than guessing.
 
 ### GREEN Redemption
 

@@ -14,7 +14,7 @@
 
 ## Core Protocol
 
-* [Stock Tokens on Ripe](core-protocol/08-stock-tokens.md)
+* [Stock Tokens on Ripe](core-protocol/00-stock-tokens.md)
 * [GREEN Stablecoin](core-protocol/01-green-stablecoin.md)
 * [Borrowing](core-protocol/02-borrowing.md)
 * [Collateral Assets](core-protocol/03-collateral-assets.md)

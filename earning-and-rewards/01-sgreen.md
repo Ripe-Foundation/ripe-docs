@@ -60,7 +60,7 @@ Put your sGREEN to work in a Stability Pool and you stack three income sources:
 ## Getting Out
 
 * **Redeem any time.** Convert sGREEN back to GREEN in one transaction at the current rate. No delay, no penalty, no cooldown.
-* **The only blockers** are token-level pauses or blocklists on GREEN or sGREEN.
+* **The blockers** are token-level pauses or blocklists on GREEN or sGREEN, plus the edge case of a vault left holding shares against no GREEN at all.
 * **Transferable.** sGREEN is a standard ERC-20: send it, trade it, use it elsewhere.
 
 ## Three Scenarios

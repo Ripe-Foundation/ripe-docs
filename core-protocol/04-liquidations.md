@@ -58,21 +58,21 @@ LIQUIDATION THRESHOLD — anyone can trigger
 
 **Understanding the Basics:**
 
-* [Why Liquidations Matter](04-liquidations.md#why-liquidations-matter) - Protocol safety and borrower protection
-* [Risk Zones](04-liquidations.md#understanding-the-risk-zones) - Three thresholds and visual guide
+* [Why Liquidations Matter](#why-liquidations-matter) - Protocol safety and borrower protection
+* [Risk Zones](#understanding-the-risk-zones) - Three thresholds and visual guide
 * [Deleverage First](05-deleverage.md) - Proactive debt reduction (separate page)
-* [Redemption Buffer](04-liquidations.md#the-redemption-buffer) - Your first line of defense
+* [Redemption Buffer](#the-redemption-buffer) - Your first line of defense
 
 **The Liquidation Process:**
 
-* [Phase 1: Stability Pools](04-liquidations.md#phase-1-stability-pool-swaps) - Pools buy at the liquidation spread
-* [Phase 2: Dutch Auctions](04-liquidations.md#phase-2-dutch-auctions) - Time-based discounts
+* [Phase 1: Stability Pools](#phase-1-stability-pool-swaps) - Pools buy at the liquidation spread
+* [Phase 2: Dutch Auctions](#phase-2-dutch-auctions) - Time-based discounts
 
 **Advanced Topics:**
 
-* [Liquidation Economics](04-liquidations.md#liquidation-economics) - Fees and calculations
-* [Keeper Network](04-liquidations.md#the-keeper-network) - Open execution
-* [Bad Debt Handling](04-liquidations.md#what-if-bad-debt-occurs) - Last resort measures
+* [Liquidation Economics](#liquidation-economics) - Fees and calculations
+* [Keeper Network](#the-keeper-network) - Open execution
+* [Bad Debt Handling](#what-if-bad-debt-occurs) - Last resort measures
 
 ***
 
@@ -163,7 +163,7 @@ Once you're in the redemption zone, and if governance has turned redemption on f
 * It's capped at what brings you back to target, so nobody can redeem more than your position needs
 * It may pull you out of the zone before a liquidation ever becomes possible
 
-A few rules: the redeemer can't be you; assets with recipient checks only go to addresses that pass them; and redemption is off while you're in liquidation. Registered Underscore Earn vaults are skipped by both redemption and liquidation.
+A few rules: the collateral can't be sent back to you, the position's owner; assets with recipient checks only go to addresses that pass them; and redemption is off while you're in liquidation. Registered Underscore Earn vaults are skipped by both redemption and liquidation.
 
 Redemptions also help hold GREEN at $1 during stress. **Want to move first?** [Deleverage](05-deleverage.md#self-deleveraging-with-specific-assets) with your sGREEN or stablecoin positions at any time.
 
@@ -209,7 +209,7 @@ On a retry pass the base fee is zero, so the pool settles at par: no spread. [St
 Whatever the pools didn't take goes to auction:
 
 * The discount starts small and grows to the maximum over the auction window, after an optional start delay
-* Anyone with GREEN can buy any amount at the current discount, settled on the spot
+* Anyone with GREEN — except you, the position's owner — can buy any amount at the current discount, settled on the spot
 * Their GREEN is burned and your debt drops by that much
 * Each purchase is capped by your remaining debt and remaining collateral
 * The auction ends when the collateral is gone or your position is healthy again; unsold collateral stays in your vault
@@ -218,7 +218,7 @@ Example: a 1% starting discount rising to 50% by the end of the window.
 
 ### Stock Tokens
 
-Stock tokens are liquidated like any other volatile collateral: through a pool first, if that path is on, then auction for the rest. A limited shortfall takes part of them; a severe one can take all of them. See [Which Events Can Move Your Tokens](08-stock-tokens.md#which-events-can-move-your-tokens).
+Stock tokens are liquidated like any other volatile collateral: through a pool first, if that path is on, then auction for the rest. A limited shortfall takes part of them; a severe one can take all of them. See [Which Events Can Move Your Tokens](00-stock-tokens.md#which-events-can-move-your-tokens).
 
 ## Liquidation Economics
 
@@ -232,9 +232,9 @@ Two fees, charged once per liquidation episode:
   * Higher-volatility assets: 15%
 * **Keeper fee** — a small cut of debt, with a floor and a ceiling. Example: 1%
 
-**The caps.** Together the fees can't exceed your collateral surplus (collateral value minus debt) or 99% of your debt. If they would, the keeper fee is cut first, then the base fee.
+**The caps.** Together the fees can't exceed your collateral surplus (collateral value minus debt) or 99% of your debt. If they would, the keeper fee is cut first, then the base fee. And if your collateral is already worth less than your debt there is no surplus at all, so both fees are zero.
 
-**How they're paid.** The Stability Pool's spread covers the base fee, and at most the base fee. Whatever the spread didn't cover, plus the keeper fee, is added to your debt. A retry pass charges no fees, and neither does a first pass that repays nothing and starts no auction.
+**How they're paid.** The Stability Pool buys at a discount rate that never exceeds your blended base fee, and the value that discount hands the pool is credited against your base fee — up to the base fee, never more than it. Whatever it didn't cover, plus the keeper fee, is added to your debt. A retry pass charges no fees, and neither does a first pass that repays nothing and starts no auction.
 
 **Where the value goes**
 
@@ -260,7 +260,8 @@ Target repayment = (debt + fee − collateral × 50%) ÷ (1 − 50%)
 
 The pool pays $950 and takes $1,055.56 of collateral (10% below oracle price).
 Debt falls to $50. Collateral left: $194.44 — back well inside the safe zone.
-The $105.56 spread is the pool depositors' return.
+The $105.56 spread is the pool depositors' return. It settles the
+$100 base fee in full, so nothing is added to your debt.
 
 Other protocols: take all $1,250. You get $0.
 ```
@@ -291,7 +292,7 @@ Keepers are independent operators who watch positions and trigger liquidations w
 
 ## What If Bad Debt Occurs?
 
-Debt left on a liquidated position isn't automatically protocol bad debt; governance records bad debt separately. Once recorded, [bond](../governance-and-economics/03-bonds.md) purchases can clear it, and the RIPE paid out for that counts toward the protocol-wide 1 billion cap rather than on top of it.
+Debt left on a liquidated position isn't automatically protocol bad debt; governance records bad debt separately. Once recorded, [bond](../governance-and-economics/03-bonds.md) purchases can clear it, and the RIPE paid out for that is the one case where issuance can go beyond the protocol-wide 1 billion cap — the shortfall is socialized across holders rather than left under GREEN.
 
 ## Liquidations That Don't Ruin Lives
 
@@ -301,4 +302,4 @@ That $194.44 in the example is the difference between a setback and a catastroph
 
 ***
 
-_For technical implementation details, see the_ [_AuctionHouse Technical Documentation_](https://ripe-finance.gitbook.io/ripe-developers/core/auctionhouse)_._
+_For technical implementation details, see the_ [_AuctionHouse_](https://ripe-finance.gitbook.io/ripe-developers/core/auctionhouse) _and_ [_CreditRedeem_](https://ripe-finance.gitbook.io/ripe-developers/core/creditredeem) _documentation._

@@ -72,7 +72,7 @@ Other protocols are great at yield, and Ripe turns their yield-bearing tokens in
 
 Borrowing is the main way GREEN comes into existence:
 
-1. **Deposit Collateral**: Any [supported asset](03-collateral-assets.md) — [stock tokens](08-stock-tokens.md), WETH, stablecoins, yield positions
+1. **Deposit Collateral**: Any [supported asset](03-collateral-assets.md) — [stock tokens](00-stock-tokens.md), WETH, stablecoins, yield positions
 2. **Borrow GREEN**: New GREEN is minted against your collateral, up to each asset's LTV
 3. **Pay Interest**: At your position's weighted rate, plus a [dynamic boost](02-borrowing.md#dynamic-interest-rates) if GREEN needs defending
 4. **Origination Fee (Daowry)**: A one-time fee taken from the borrow. It goes to sGREEN holders; governance can split part of it toward a RIPE buyback allocation, and the default sends all of it to sGREEN
@@ -219,7 +219,7 @@ Bottom line: when GREEN trades off-peg, the PSM is the shortest path to closing 
 
 ### Bad Debt Resolution
 
-If extreme conditions leave bad debt on the books, [bond](../governance-and-economics/03-bonds.md) payments clear it, and the RIPE for that portion is accounted separately from the bond allocation. Governance administers RIPE's 1 billion cap as protocol-wide policy across all chains, and bad-debt-recovery RIPE counts toward it. Detail: [RIPE Tokenomics](../governance-and-economics/01-ripe-tokenomics.md).
+If extreme conditions leave bad debt on the books, [bond](../governance-and-economics/03-bonds.md) payments clear it, and the RIPE for that portion is accounted separately from the bond allocation. Governance administers RIPE's 1 billion cap as protocol-wide policy across all chains, and bad-debt recovery is the one case where RIPE can be issued beyond it — the shortfall is socialized across holders rather than left sitting under GREEN. Detail: [RIPE Tokenomics](../governance-and-economics/01-ripe-tokenomics.md).
 
 ### Protocol-Wide Integration
 

@@ -28,7 +28,7 @@ Your collateral backs your loan and nobody else's. If someone else's position bl
 
 ### Can I borrow against tokenized stocks without selling them?
 
-Yes. That's the whole point. Deposit a supported stock token and borrow GREEN against it; the tokens sit in Ripe one-for-one and keep their full upside. Ripe isn't the issuer of any stock token, and issuers set their own rules on who can hold them — [Stock Tokens on Ripe](../core-protocol/08-stock-tokens.md) explains how they're held, priced, and where to read the issuer's terms.
+Yes. That's the whole point. Deposit a supported stock token and borrow GREEN against it; the tokens sit in Ripe one-for-one and keep their full upside. Ripe isn't the issuer of any stock token, and issuers set their own rules on who can hold them — [Stock Tokens on Ripe](../core-protocol/00-stock-tokens.md) explains how they're held, priced, and where to read the issuer's terms.
 
 ### How much can I borrow?
 
@@ -50,15 +50,15 @@ Yes. No term, no prepayment penalty, partial payments welcome. Pay with GREEN or
 
 ### What happens to my stock tokens when the market is closed?
 
-Stock price feeds follow market hours, so over a weekend your stock collateral holds Friday's last price for as long as the feed's freshness window allows — and if the window is shorter than the closure, the token has no price until Monday and your account waits, repay-only. You can still be liquidated in that window if you were already past the threshold or your other collateral keeps falling. When the market reopens, the new price lands in one step. Borrow with room. Full explanation: [Stock Tokens on Ripe](../core-protocol/08-stock-tokens.md#market-hours-and-weekend-gaps).
+Stock price feeds follow market hours, so over a weekend your stock collateral holds Friday's last price for as long as the feed's freshness window allows — and if the window is shorter than the closure, the token has no price until Monday and your account waits, repay-only. You can still be liquidated in that window if you were already past the threshold or your other collateral keeps falling. When the market reopens, the new price lands in one step. Borrow with room. Full explanation: [Stock Tokens on Ripe](../core-protocol/00-stock-tokens.md#market-hours-and-weekend-gaps).
 
 ### What happens if Ripe can't price one of my assets?
 
-Ripe fails closed rather than guessing. While any of your borrowing collateral has no usable price you can't borrow, and every action that re-values your account — deposits, withdrawals, liquidations, redemptions — waits for a price. Repaying still works, and everything resumes when a good price returns. See [When an Account Cannot Be Valued](../core-protocol/06-price-oracles.md#when-an-account-cannot-be-valued).
+Ripe fails closed rather than guessing. While any of your borrowing collateral has no usable price you can't borrow, and every action that re-values your account — deposits, withdrawals, liquidations, deleverage — reverts until a price is back. Redemption is the exception: it doesn't revert, it just skips your account. Repaying still works, and everything resumes when a good price returns. See [When an Account Cannot Be Valued](../core-protocol/06-price-oracles.md#when-an-account-cannot-be-valued).
 
 ### Can I lose my stock tokens while borrowing?
 
-Borrowing never sells them. Your tokens only leave Ripe when you withdraw them, when a GREEN holder redeems against your position (only once you're in the redemption zone, at fair value), or when you're liquidated (only past the liquidation threshold). Deleverage doesn't touch them. Keep your position healthy and they stay yours. See [Which Events Can Move Your Tokens](../core-protocol/08-stock-tokens.md#which-events-can-move-your-tokens).
+Borrowing never sells them. In the ordinary course your tokens leave Ripe in exactly three ways: you withdraw them, a GREEN holder redeems against your position (only once you're in the redemption zone, at fair value), or you're liquidated (only past the liquidation threshold). Ordinary deleverage doesn't touch them. Governance also holds two emergency tools that can move any collateral at oracle value; nobody else can trigger those. Keep your position healthy and they stay yours. See [Which Events Can Move Your Tokens](../core-protocol/00-stock-tokens.md#which-events-can-move-your-tokens).
 
 ### When do I get liquidated?
 
@@ -68,7 +68,7 @@ When your collateral value falls to the liquidation threshold for your debt, any
 2. **Redemption threshold**: GREEN holders can redeem against your position at fair value
 3. **Liquidation threshold**: a liquidation can start
 
-**Example:** $6,000 of debt with a 90% liquidation threshold needs more than $6,667 of collateral ($6,000 ÷ 0.90). At or below that, you're liquidatable.
+**Example:** $6,000 of debt against collateral with an 80% liquidation threshold needs more than $7,500 ($6,000 ÷ 0.80). At or below that, you're liquidatable.
 
 Watch your position and add collateral or repay before you get there. [How Thresholds Work Together](../core-protocol/02-borrowing.md#how-thresholds-work-together-a-visual-guide) has the visual.
 
@@ -125,7 +125,7 @@ The [Peg Stability Module](../core-protocol/01-green-stablecoin.md#6-peg-stabili
 
 ### Why did my transaction fail?
 
-Most likely you did two things in one block. Higher-risk actions — withdrawals, borrows, Stability Pool claims — are limited to one per block per account. Wait a moment and retry. If it keeps failing, check whether one of your collateral assets has lost its price (see "What happens if Ripe can't price one of my assets?").
+Most likely you did two things in one block. Withdrawals, borrows, Stability Pool claims, and releasing a governance lock early are limited to one per block per account — and any earlier action in that block, a deposit or a repayment included, uses up the slot. Wait a moment and retry. If it keeps failing, check whether one of your collateral assets has lost its price (see "What happens if Ripe can't price one of my assets?").
 
 ### What is account locking?
 
@@ -208,7 +208,7 @@ The [Endaoment](../core-protocol/07-endaoment.md) is Ripe's treasury. Bond and R
 * **Liquidation risk**: collateral value dropping too fast — including a weekend gap in a stock price
 * **Oracle risk**: a wrong or missing price; stock tokens usually have a single feed
 * **Interest rate risk**: dynamic rates during market stress
-* **Issuer risk**: a stock token is issued by a third party whose product terms, rights, and eligibility rules apply, and who can pause or freeze the token — see [Stock Tokens on Ripe](../core-protocol/08-stock-tokens.md)
+* **Issuer risk**: a stock token is issued by a third party whose product terms, rights, and eligibility rules apply, and who can pause or freeze the token — see [Stock Tokens on Ripe](../core-protocol/00-stock-tokens.md)
 
 ### Is Ripe audited?
 
@@ -220,7 +220,7 @@ Ripe checks its [price sources](../core-protocol/06-price-oracles.md) in priorit
 
 ### How does Ripe handle bad debt?
 
-Layers: conservative LTVs, redemption and deleverage before liquidation, [liquidation](../core-protocol/04-liquidations.md) through funded [Stability Pools](../earning-and-rewards/02-stability-pools.md), then auctions. If bad debt still happens and governance records it, [bond](../governance-and-economics/03-bonds.md) purchases clear it — and the RIPE involved counts toward the 1 billion cap, not on top of it.
+Layers: conservative LTVs, redemption and deleverage before liquidation, [liquidation](../core-protocol/04-liquidations.md) through funded [Stability Pools](../earning-and-rewards/02-stability-pools.md), then auctions. If bad debt still happens and governance records it, [bond](../governance-and-economics/03-bonds.md) purchases clear it — and that recovery RIPE is the one case where issuance can go beyond the 1 billion cap, socializing the shortfall across holders.
 
 ### What happens in a market crash?
 

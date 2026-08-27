@@ -91,7 +91,7 @@ Every feed has a freshness window set by governance, and each adapter checks it 
 
 ### Stock-Market Hours and Price Gaps
 
-Stock feeds follow market hours. When the exchange closes, the last published price holds for as long as it's inside the feed's freshness window; when the market reopens, the new price lands in one step. Ripe doesn't read the issuer's "oracle paused" flag or a market calendar — it reads the token-level feed price, corporate-action multiplier already applied. Full treatment: [Stock Tokens on Ripe](08-stock-tokens.md#market-hours-and-weekend-gaps).
+Stock feeds follow market hours. When the exchange closes, the last published price holds for as long as it's inside the feed's freshness window; when the market reopens, the new price lands in one step. Ripe doesn't read the issuer's "oracle paused" flag or a market calendar — it reads the token-level feed price, corporate-action multiplier already applied. Full treatment: [Stock Tokens on Ripe](00-stock-tokens.md#market-hours-and-weekend-gaps).
 
 ### What Happens When Prices Go Stale?
 
@@ -132,3 +132,5 @@ _For technical implementation details, see:_
 * [_Pyth Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/pythprices) _- High-frequency oracle updates_
 * [_Stork Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/storkprices) _- Decentralized price attestations_
 * [_Blue Chip Yield Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/bluechipyieldprices) _- Yield token valuations_
+* [_RedStone Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/redstone) _- Chainlink-style adapter, different data network_
+* [_Underscore Vault Prices_](https://ripe-finance.gitbook.io/ripe-developers/pricing/undyvaultprices) _- ERC-4626 vault share pricing_
